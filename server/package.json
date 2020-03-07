@@ -1,0 +1,68 @@
+{
+  "name": "traderu-server",
+  "version": "0.1.0",
+  "description": "Stock and cryptocurrency trading simulator",
+  "private": true,
+  "main": "./index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "dev": "nodemon ./index.js",
+    "build": "parcel build ./index.js",
+    "serve": "parcel ./index.js",
+    "ts": "tsc --noEmit",
+    "jsdoc": "./node_modules/.bin/jsdoc . -c ./conf.json -R ./README.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bryce-mcmath/traderu.git"
+  },
+  "keywords": [
+    "stock",
+    "stocks",
+    "trading",
+    "trade",
+    "trader",
+    "finance",
+    "financial",
+    "crypto",
+    "cryptocurrency",
+    "simulator",
+    "simulated",
+    "simulate",
+    "bogus",
+    "fake",
+    "fugazi",
+    "please",
+    "give",
+    "us",
+    "jobs"
+  ],
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-history-api-fallback": "^1.6.0",
+    "cookie-session": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "pg": "^7.18.1",
+    "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.0",
+    "@types/parcel-env": "0.0.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "jsdoc": "^3.6.3",
+    "nodemon": "^2.0.2",
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.8.3"
+  },
+  "author": "Jonathan Langlois, Wilson Wong, Bryce McMath",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bryce-mcmath/traderu/issues"
+  },
+  "homepage": "https://traderu.io"
+}
