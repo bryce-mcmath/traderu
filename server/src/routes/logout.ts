@@ -1,8 +1,10 @@
 /** Express router providing logout related routes
  * @module server/routes/logout
  * @memberof server
+ * @requires express
  */
 
+import express from 'express';
 const logout = express.Router();
 
 /**

@@ -1,0 +1,10 @@
+{
+  "source": {
+    "exclude": ["./src", "./node_modules"]
+  },
+  "opts": {
+    "encoding": "utf8",
+    "recurse": true,
+    "destination": "../docs/jsdoc/server"
+  }
+}

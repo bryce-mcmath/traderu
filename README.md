@@ -46,16 +46,52 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-If you don't have Nodejs and npm installed, install them from [here.](https://nodejs.org/en/)
+If you don't have Nodejs and npm installed, install them from [here.](https://nodejs.org/en/). You'll also want the Vue CLI tool, which you can install like this:
+
+```sh
+npm i -g @vue/cli
+```
 
 ### Installing and Running
 
-Clone this repository to your local machine, and in both the client and server directories:
+Clone this repository to your local machine and then:
 
 #### Install Dependencies
 
+In the root directory:
+
 ```sh
-npm install
+npm i
+```
+
+```sh
+npm run lerna-install
+```
+
+### Available Root Commands
+
+#### Compiles and minifies both server and client for production
+
+```sh
+npm run build
+```
+
+#### Start the server
+
+```sh
+npm run start
+```
+
+#### Run unit and integration tests
+
+```sh
+npm run test
+```
+
+#### Generate new docs
+
+```sh
+npm run jsdoc
 ```
 
 ### Available Client Commands
@@ -102,21 +138,23 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 npm run dev
 ```
 
+#### Build the server
+
+```sh
+npm run build
+```
+
 #### Start the server
 
 ```sh
 npm run start
 ```
 
-## Deployment
-
-After forking the project and setting up the cloud database and .env file as per the above steps, add your forked repo to Travis CI [here.](https://travis-ci.com/getting_started) After that, setup a Heroku instance following the guide [here,](https://devcenter.heroku.com/articles/getting-started-with-nodejs) add your environment variables with the Heroku dashboard, and add your api-key and app name to the .travis.yml file.
-
-Congrats! Now everytime you push to master, you'll automatically check that installing and building works and then deploy if it does.
-
 ## Built with
 
 - [Vue](https://vuejs.org/) - Front-end framework
+- [D3.js]()
+- [Lerna](https://www.lerna.js.org) - Tool for managing multiple packages
 - [TypeScript](https://typescriptlang.org) - Javascript superset to add type checking
 - [axios](https://github.com/axios/axios) - Promise-based HTTP client
 - [Sass](https://sass-lang.com/) - CSS pre-compiler to make styling easier
@@ -125,7 +163,6 @@ Congrats! Now everytime you push to master, you'll automatically check that inst
 - [PostgreSQL](https://www.postgresql.org/) - Open source object-relational database
 - [Jest]()
 - [Cypress]()
-- [D3.js]()
 - []()
 
 ## Contributing
@@ -148,7 +185,7 @@ Bryce McMath – [bryce-mcmath](https://github.com/bryce-mcmath) – bryce.j.mcm
 
 - Bugs? What bugs?
 
-_To add an issue, start a new one [here.](https://github.com/bryce-mcmath/foodzebra/issues)_
+_To add an issue, start a new one [here.](https://github.com/bryce-mcmath/traderu/issues)_
 
 ## Feature roadmap
 

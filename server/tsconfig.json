@@ -1,19 +1,15 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs",
     "importHelpers": true,
-    "strict": true,
+    "strict": false,
     "moduleResolution": "node",
-    "sourceMap": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "removeComments": false,
-    "noImplicitAny": false,
     "esModuleInterop": true,
-    "baseUrl": ".",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "lib": ["esnext", "dom"],
-    "types": ["parcel-env", "node"]
+    "types": ["express", "node"]
   },
   "exclude": ["node_modules", ".npm"]
 }

@@ -1,0 +1,29 @@
+{
+  "name": "traderu",
+  "version": "0.1.0",
+  "description": "Stock and cryptocurrency trading simulator",
+  "main": "./server/dist/index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "lerna-install": "npx lerna bootstrap",
+    "build": "npx lerna run build",
+    "start": "node ./server/dist/index.js",
+    "test": "npx lerna run test",
+    "jsdoc": "npx lerna run jsdoc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bryce-mcmath/traderu.git"
+  },
+  "author": "Jonathan Langlois, Wilson Wong, Bryce McMath",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bryce-mcmath/traderu/issues"
+  },
+  "homepage": "https://traderu.io",
+  "devDependencies": {
+    "lerna": "^3.20.2"
+  }
+}

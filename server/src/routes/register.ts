@@ -4,6 +4,7 @@
  * @requires express
  */
 
+import express from 'express';
 const register = express.Router();
 
 /**

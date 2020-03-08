@@ -4,6 +4,7 @@
  * @requires express
  */
 
+import express, { Request, Response } from 'express';
 const login = express.Router();
 
 /**
@@ -13,6 +14,6 @@ const login = express.Router();
  * @param {String} path - Express path
  * @param {Function} middleware - Callback function used as middleware
  */
-login.post('/', (req, res) => {});
+login.post('/', (req: Request, res: Response) => {});
 
 module.exports = login;
