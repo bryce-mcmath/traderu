@@ -82,6 +82,12 @@ npm run build
 npm run start
 ```
 
+#### Hot server reload for development
+
+```sh
+npm run dev
+```
+
 #### Run unit and integration tests
 
 ```sh
@@ -100,12 +106,6 @@ npm run jsdoc
 
 ```sh
 npm run serve
-```
-
-#### Compiles and minifies for production
-
-```sh
-npm run build
 ```
 
 #### Run your unit tests
@@ -129,26 +129,6 @@ npm run lint
 #### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-### Available Server Commands
-
-#### Hot reload for development
-
-```sh
-npm run dev
-```
-
-#### Build the server
-
-```sh
-npm run build
-```
-
-#### Start the server
-
-```sh
-npm run start
-```
 
 ## Built with
 

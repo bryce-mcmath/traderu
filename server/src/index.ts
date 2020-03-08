@@ -16,7 +16,7 @@ console.log('Running environment:', ENV);
 app.use(hist());
 app.use(helmet());
 app.use(xss());
-app.use(express.static('dist'));
+app.use(express.static('./server/static'));
 app.use(express.json({ limit: '10kb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
  * @param {Function} middleware Callback function used as middleware
  */
 app.get('/', (_: Request, res: Response) => {
-	res.render('../dist/index.html');
+	res.render('./server/static/index.html');
 });
 
 // Routers
@@ -43,8 +43,8 @@ app.use('/logout', require('./routes/logout'));
  * @param {String} path Express path
  * @param {Function} middleware Callback function used as middleware
  */
-app.get('/*', (_: Request, res: Response) => {
-	res.redirect('/');
-});
+// app.get('/*', (_: Request, res: Response) => {
+// 	res.redirect('/');
+// });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

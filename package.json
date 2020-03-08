@@ -10,6 +10,7 @@
     "lerna-install": "npx lerna bootstrap",
     "build": "npx lerna run build",
     "start": "node ./server/dist/index.js",
+    "dev": "nodemon ./server/dist/index.js",
     "test": "npx lerna run test",
     "jsdoc": "npx lerna run jsdoc"
   },
@@ -24,6 +25,7 @@
   },
   "homepage": "https://traderu.io",
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "lerna": "^3.20.2",
+    "nodemon": "^2.0.2"
   }
 }

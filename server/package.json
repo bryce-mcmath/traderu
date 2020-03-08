@@ -5,8 +5,6 @@
   "private": true,
   "main": "./index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts",
     "build": "tsc -p .",
     "jsdoc": "./node_modules/.bin/jsdoc . -c ./jsdocs.json -R ../README.md"
   },
