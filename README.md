@@ -205,6 +205,6 @@ _If you'd like to add a feature yourself, please see the [Contributing](#contrib
 
 - We only had two weeks to do this and we used some tools we were interested in but not yet familiar with
 - It was probably a blast
-- I'm probably very tired again
+- We're probably very tired again
 
-## ![TraderU](https://github.com/bryce-mcmath/traderu/blob/master/docs/traderu.png?raw=true)
+## ![TraderU](https://github.com/bryce-mcmath/traderu/blob/master/docs/logo.png?raw=true)
