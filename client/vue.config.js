@@ -1,4 +1,9 @@
-const path = require('path');
 module.exports = {
-	outputDir: path.resolve(__dirname, '../server/static')
+	outputDir: 'C:\\Users\\bryce\\Documents\\repos\\traderu\\server\\static',
+	transpileDependencies: ['vuetify'],
+	configureWebpack: {
+		devServer: {
+			open: true
+		}
+	}
 };

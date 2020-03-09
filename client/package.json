@@ -1,43 +1,20 @@
 {
   "name": "traderu-client",
   "version": "0.1.0",
-  "description": "Stock and cryptocurrency trading simulator",
   "private": true,
+  "description": "Stock and cryptocurrency trading simulator",
+  "author": "Jonathan Langlois, Wilson Wong, Bryce McMath",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "test": "npm run test:unit",
     "lint": "vue-cli-service lint",
-    "jsdoc": "./node_modules/.bin/jsdoc . -c ./jsdocs.json -R ../README.md"
+    "jsdoc": "./node_modules/.bin/jsdoc . -c ./jsdocs.json -R ../README.md",
+    "test": "npm run test:unit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bryce-mcmath/traderu.git"
-  },
-  "keywords": [
-    "stock",
-    "stocks",
-    "trading",
-    "trade",
-    "trader",
-    "finance",
-    "financial",
-    "crypto",
-    "cryptocurrency",
-    "simulator",
-    "simulated",
-    "simulate",
-    "bogus",
-    "fake",
-    "fugazi",
-    "please",
-    "give",
-    "us",
-    "jobs"
-  ],
   "dependencies": {
+    "@types/d3": "^5.7.2",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "d3": "^5.15.0",
@@ -46,6 +23,7 @@
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
+    "vuetify": "^2.2.11",
     "vuex": "^3.1.2"
   },
   "devDependencies": {
@@ -67,17 +45,44 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^6.1.2",
+    "jsdoc": "^3.6.3",
     "node-sass": "^4.12.0",
     "prettier": "^1.19.1",
+    "sass": "^1.19.0",
     "sass-loader": "^8.0.2",
     "typescript": "~3.7.5",
+    "vue-cli-plugin-vuetify": "~2.0.5",
     "vue-template-compiler": "^2.6.11",
-    "jsdoc": "^3.6.3"
+    "vuetify-loader": "^1.3.0"
   },
-  "author": "Jonathan Langlois, Wilson Wong, Bryce McMath",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/bryce-mcmath/traderu/issues"
   },
-  "homepage": "https://traderu.io"
+  "homepage": "https://traderu.io",
+  "keywords": [
+    "stock",
+    "stocks",
+    "trading",
+    "trade",
+    "trader",
+    "finance",
+    "financial",
+    "crypto",
+    "cryptocurrency",
+    "simulator",
+    "simulated",
+    "simulate",
+    "bogus",
+    "fake",
+    "fugazi",
+    "please",
+    "give",
+    "us",
+    "jobs"
+  ],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bryce-mcmath/traderu.git"
+  }
 }
