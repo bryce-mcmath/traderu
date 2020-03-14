@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { Pool } = require('pg');
 const { BUILD_ENV } = process.env;
 import express, { Application, Request, Response } from 'express';
 import helmet from 'helmet';
@@ -11,6 +12,11 @@ const app: Application = express();
 const PORT = process.env.PORT || 8080;
 const ENV = BUILD_ENV || 'production';
 console.log('Running environment:', ENV);
+
+//connect DB
+const dbParams = {connectionString: process.env.DATABASE_URL};
+const db = new Pool(dbParams);
+db.connect();
 
 // Initialize middleware
 app.use(hist());
