@@ -4,6 +4,7 @@ dist
 static
 /tests/e2e/videos/
 /tests/e2e/screenshots/
+*.zip
 
 # local env files
 .env.local

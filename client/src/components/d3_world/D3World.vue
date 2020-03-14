@@ -59,7 +59,7 @@ export default Vue.extend({
 			axios
 				.get(
 					`https://api.github.com/search/issues?q=repo:${this.repository}+is:issue+is:open+created:>=${this.startDate}`,
-					{ params: { "per_page": 100 } }
+					{ params: { per_page: 100 } }
 				)
 				.then(response => {
 					const payload = this.getDateRange();
@@ -72,7 +72,7 @@ export default Vue.extend({
 
 					this.issues = payload;
 				})
-				.finally(() => this.loading = false);
+				.finally(() => (this.loading = false));
 		}
 	}
 });
