@@ -1,0 +1,21 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - npm i
+    finally:
+      - npm run lerna-install
+  build:
+    commands:
+      - npm run build
+  test:
+    commands:
+      - npm run test
+artifacts:
+  files:
+    - '**/*'
+cache:
+  paths:
+    - ./node_modules
+    - ./client/node_modules
+    - ./server/node_modules
