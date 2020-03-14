@@ -8,9 +8,9 @@ phases:
   build:
     commands:
       - npm run build
-  test:
-    commands:
-      - npm run test
+  # test:
+  #   commands:
+  #     - npm run test
 artifacts:
   files:
     - '**/*'
