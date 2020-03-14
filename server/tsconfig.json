@@ -3,13 +3,13 @@
     "target": "esnext",
     "module": "commonjs",
     "importHelpers": true,
-    "strict": false,
+    "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "outDir": "./dist",
     "rootDir": "./src",
     "lib": ["esnext", "dom"],
-    "types": ["express", "node"]
+    "types": ["express", "node", "connect-history-api-fallback", "helmet"]
   },
   "exclude": ["node_modules", ".npm"]
 }
