@@ -57,51 +57,51 @@ export default Vue.extend({
 			this.chart
 				.append('g')
 				.attr('transform', `translate(0, ${chartHeight})`)
-        .call(d3.axisBottom(xScale));
+				.call(d3.axisBottom(xScale));
 
-      const barGroups = this.chart
-        .selectAll("rect")
-        .data(issuesVal)
-        .enter();
+			const barGroups = this.chart
+				.selectAll('rect')
+				.data(issuesVal)
+				.enter();
 
-      barGroups
-        .append("rect")
-        .attr("class", "bar")
-        .attr("x", (g: any) => xScale(g.day))
-        .attr("y", (g: any) => yScale(g.issues))
-        .attr("height", (g: any) => chartHeight - yScale(g.issues))
-        .attr("width", xScale.bandwidth())
-        .on("mouseenter", function(actual, i) {
-          d3.select(this)
-            .transition()
-            .duration(300)
-            .attr("opacity", 0.6)
-            .attr("x", (a: any) => xScale(a.day) - 5)
-            .attr("width", xScale.bandwidth() + 10);
-          barGroups
-            .append("text")
-            .attr("class", "value")
-            .attr("x", (a: any) => xScale(a.day) + xScale.bandwidth() / 2)
-            .attr("y", (a: any )=> yScale(a.issues) - 20)
-            .attr("text-anchor", "middle")
-            .text((a: any, idx) => {
-              return idx !== i ? "" : `${a.issues} issues`;
-            });
-        })
-        .on("mouseleave", function() {
-          d3.selectAll(".issues").attr("opacity", 1);
+			barGroups
+				.append('rect')
+				.attr('class', 'bar')
+				.attr('x', (g: any) => xScale(g.day))
+				.attr('y', (g: any) => yScale(g.issues))
+				.attr('height', (g: any) => chartHeight - yScale(g.issues))
+				.attr('width', xScale.bandwidth())
+				.on('mouseenter', function(actual, i) {
+					d3.select(this)
+						.transition()
+						.duration(300)
+						.attr('opacity', 0.6)
+						.attr('x', (a: any) => xScale(a.day) - 5)
+						.attr('width', xScale.bandwidth() + 10);
+					barGroups
+						.append('text')
+						.attr('class', 'value')
+						.attr('x', (a: any) => xScale(a.day) + xScale.bandwidth() / 2)
+						.attr('y', (a: any) => yScale(a.issues) - 20)
+						.attr('text-anchor', 'middle')
+						.text((a: any, idx) => {
+							return idx !== i ? '' : `${a.issues} issues`;
+						});
+				})
+				.on('mouseleave', function() {
+					d3.selectAll('.issues').attr('opacity', 1);
 
-          d3.select(this)
-            .transition()
-            .duration(300)
-            .attr("opacity", 1)
-            .attr("x", (a: any)=> xScale(a.day))
-            .attr("width", xScale.bandwidth());
+					d3.select(this)
+						.transition()
+						.duration(300)
+						.attr('opacity', 1)
+						.attr('x', (a: any) => xScale(a.day))
+						.attr('width', xScale.bandwidth());
 
-          svg.selectAll(".value").remove();
-        });
-    }
-  }
+					svg.selectAll('.value').remove();
+				});
+		}
+	}
 });
 </script>
 

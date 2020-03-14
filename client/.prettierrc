@@ -1,14 +1,11 @@
 {
-  "parser": "babel",
   "singleQuote": true,
   "tabWidth": 2,
   "semi": true,
   "trailingComma": "none",
   "useTabs": true,
   "quoteProps": "as-needed",
-  "jsxSingleQuote": true,
   "bracketSpacing": true,
-  "jsxBracketSameLine": false,
   "htmlWhitespaceSensitivity": "strict",
   "vueIndentScriptAndStyle": true
 }
