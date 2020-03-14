@@ -2,9 +2,8 @@ require('dotenv').config();
 const { Pool } = require('pg');
 const { BUILD_ENV } = process.env;
 import express, { Application, Request, Response } from 'express';
-import helmet from 'helmet';
-import xss from 'xss-clean';
-import hist from 'connect-history-api-fallback';
+import * as helmet from 'helmet';
+import * as hist from 'connect-history-api-fallback';
 import bodyParser from 'body-parser';
 const app: Application = express();
 
@@ -14,14 +13,13 @@ const ENV = BUILD_ENV || 'production';
 console.log('Running environment:', ENV);
 
 //connect DB
-const dbParams = {connectionString: process.env.DATABASE_URL};
+const dbParams = { connectionString: process.env.DATABASE_URL };
 const db = new Pool(dbParams);
 db.connect();
 
 // Initialize middleware
-app.use(hist());
-app.use(helmet());
-app.use(xss());
+app.use(hist.default());
+app.use(helmet.default());
 app.use(express.static('./server/static'));
 app.use(express.json({ limit: '10kb' }));
 app.use(bodyParser.urlencoded({ extended: false }));

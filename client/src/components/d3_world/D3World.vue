@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<form action="#" @submit.prevent="getIssues">
-			{{repository}}
 			<div class="form-group">
 				<input
 					type="text"

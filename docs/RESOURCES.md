@@ -38,6 +38,8 @@
 - [Vue Burger Menu](https://vue-burger-menu.netlify.com/)
 - [Reddit Account Analyzer #1](https://redditmetis.com/)
 - [Reddit Account Analyzer #2](https://gfycat.com/lastingsarcasticanole-javascript-web-design)
+- [D3 Examples on Examples on Examples](https://christopheviau.com/d3list/)
+- [Neumorphism in Color](https://medium.com/@xurxe/accessible-neumorphism-soft-ui-992286900bfa)
 
 ### Gary's Advice
 
