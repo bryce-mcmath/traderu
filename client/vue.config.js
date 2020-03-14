@@ -1,5 +1,5 @@
 module.exports = {
-	outputDir: 'C:\\Users\\bryce\\Documents\\repos\\traderu\\server\\static',
+	outputDir: __dirname + '../../server/static',
 	transpileDependencies: ['vuetify'],
 	configureWebpack: {
 		devServer: {
