@@ -36,6 +36,7 @@
   "dependencies": {
     "@types/connect-history-api-fallback": "^1.3.3",
     "@types/helmet": "0.0.45",
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "connect-history-api-fallback": "^1.6.0",
