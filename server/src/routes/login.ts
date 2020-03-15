@@ -14,6 +14,11 @@ const login = express.Router();
  * @param {String} path - Express path
  * @param {Function} middleware - Callback function used as middleware
  */
-login.post('/', (req: Request, res: Response) => {});
+login.post('/', async (req: Request, res: Response) => {
+	// @TODO
+	// validate
+	// if valid, give session, 200, and nice JSON msg
+	// otherwise give appropriate status and JSON msg
+});
 
 module.exports = login;

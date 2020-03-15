@@ -4,7 +4,7 @@
  * @requires express
  */
 
-import express from 'express';
+import express, { Request, Response } from 'express';
 const register = express.Router();
 
 /**
@@ -14,6 +14,12 @@ const register = express.Router();
  * @param {String} path - Express path
  * @param {Function} middleware - Callback function used as middleware
  */
-register.post('/', (req, res) => {});
+register.post('/', async (req: Request, res: Response) => {
+	// @TODO
+	// check if email is taken
+	// check if password and confirm-password match
+	// if all good, create account, give jwt, 200 status, and nice JSON msg
+	// otherwise send appropriate status code and JSON msg
+});
 
 module.exports = register;
