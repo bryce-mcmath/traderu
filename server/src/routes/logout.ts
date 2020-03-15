@@ -4,7 +4,7 @@
  * @requires express
  */
 
-import express from 'express';
+import express, { Request, Response } from 'express';
 const logout = express.Router();
 
 /**
@@ -14,6 +14,9 @@ const logout = express.Router();
  * @param {String} path Express path
  * @param {Function} middleware Callback function used as middleware
  */
-logout.delete('/', (req, res) => {});
+logout.delete('/', async (req: Request, res: Response) => {
+	// @TODO
+	// remove jwt (could maybe handle this in client... ask Bryce)
+});
 
 module.exports = logout;
