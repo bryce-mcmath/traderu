@@ -39,6 +39,9 @@ app.get('/', (_: Request, res: Response) => {
 app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
+app.use('/stocks', require('./routes/stocks'));
+app.use('/leaderboard', require('./routes/leaderboard'));
+app.use('/portfolios', require('./routes/portfolios'));
 
 /**
  * Catch route to deal with unhandled GETs
