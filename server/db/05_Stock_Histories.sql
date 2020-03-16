@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS stock_histories CASCADE;
+
+CREATE TABLE stock_histories (
+  id serial PRIMARY KEY NOT NULL,
+  stock_id integer NOT NULL UNIQUE REFERENCES stocks (id) ON DELETE CASCADE,
+  TIME_SERIES_INTRADAY json,
+  TIME_SERIES_DAILY json,
+  TIME_SERIES_WEEKLY json
+);
