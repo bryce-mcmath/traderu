@@ -10,7 +10,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { getUserById, getUserByEmail } from '../utils/helpers';
 import auth from '../middleware/auth';
-import { IMiddleware, IAuthRequest } from '../utils/types';
+import { IAuthRequest } from '../utils/types';
 
 const login = express.Router();
 
