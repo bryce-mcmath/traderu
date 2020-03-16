@@ -1,11 +1,11 @@
 require('dotenv').config();
 const { Pool } = require('pg');
 const { BUILD_ENV } = process.env;
-import express, { Application, Request, Response } from 'express';
+import express, { Express, Request, Response } from 'express';
 import * as helmet from 'helmet';
 import * as hist from 'connect-history-api-fallback';
 import bodyParser from 'body-parser';
-const app: Application = express();
+const app: Express = express();
 
 // Local vs deployed config
 const PORT = process.env.PORT || 8080;
@@ -38,7 +38,6 @@ app.get('/', (_: Request, res: Response) => {
 // Routers
 app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
-app.use('/logout', require('./routes/logout'));
 app.use('/stocks', require('./routes/stocks'));
 app.use('/leaderboard', require('./routes/leaderboard'));
 app.use('/portfolios', require('./routes/portfolios'));
