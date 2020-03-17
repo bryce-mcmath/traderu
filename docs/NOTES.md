@@ -40,7 +40,7 @@ Why:
 [github]
 	user = YOUR_GITHUB_USERNAME
 [commit]
-  template = ~/.gitmessage
+	template = ~/.gitmessage.txt
 ```
 
 5. Now rejoice! Simply use `git commit` rather than `git commit -m "Some lame msg"`
