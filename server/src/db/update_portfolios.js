@@ -14,56 +14,63 @@ const update_portfolio = (portfolio_id) => {
     //insert into portfolios value field
 }
 
+//Holy shitballs this one works
+const logOut = () => {
+  db.query(`
+  select SUM(close::numeric * quantity) from
+    (SELECT stock_id, time_series_intraday -> 'Time Series (5min)' -> (
+      SELECT k FROM json_each(time_series_intraday -> 'Time Series (5min)') 
+      AS j(k,v)
+      ORDER BY k::timestamp DESC
+      LIMIT 1
+    ) ->> '4. close' AS close
 
+   FROM
 
+  stock_histories ) as tuna JOIN portfolios_stocks 
+  ON tuna.stock_id = portfolios_stocks.stock_id
+  WHERE portfolio_id = 1
+  `).then(res => {
+    console.log(res.rows);
+  })
+}
+// //Holy shitballs this one works, returns value
 // const logOut = () => {
 //   db.query(`
-//   SELECT 
-//     time_series_intraday -> 'Time Series (5min)' -> (
-//       select * from json_object_keys(select time_series_intraday -> 'Time Series (5min)'
-        
-      
-//         time_series_intraday -> 'Time Series (5min)'
-//       where 'Time Series (5min)' = 
-//       (select k from json_each_text(data->'gender') 
-//       as j(k,v) order by v::numeric desc limit 1);
-//   ) FROM
+//   select SUM(close::numeric * quantity) from
+//     (SELECT stock_id, time_series_intraday -> 'Time Series (5min)' -> (
+//       SELECT k FROM json_each(time_series_intraday -> 'Time Series (5min)') 
+//       AS j(k,v)
+//       ORDER BY k::timestamp DESC
+//       LIMIT 1
+//     ) ->> '4. close' AS close
 
-//   select * from your_table where 'male' = 
-//   (select k from json_each_text(data->'gender') 
-//   as j(k,v) order by v::numeric desc limit 1);
-   
-//   stock_histories
+//    FROM
+
+//   stock_histories ) as tuna JOIN portfolios_stocks 
+//   ON tuna.stock_id = portfolios_stocks.stock_id
+//   WHERE portfolio_id = 1
+//   `).then(res => {
+//     console.log(res.rows);
+//   })
+// }
+// //progress
+// const logOut = () => {
+//   db.query(`
+//   select SUM(close::numeric) from
+//     (SELECT time_series_intraday -> 'Time Series (5min)' -> (
+//       SELECT k FROM json_each(time_series_intraday -> 'Time Series (5min)') 
+//       AS j(k,v)
+//       ORDER BY k::timestamp DESC
+//       LIMIT 1
+//     ) ->> '4. close' AS close
+
+//    FROM
+
+//   stock_histories) as tuna
 //   `).then(res => {
 //     console.log(res.rows);
 //   })
 // }
 
-const logOut = () => {
-  db.query(`
-select time_series_intraday -> 'Time Series (5min)' -> 
-    (select k from json_object_keys(time_series_intraday -> 'Time Series (5min)') 
-    as j(k) order by k::timestamp desc limit 1)
-
-   FROM
-
-  stock_histories
-  `).then(res => {
-    console.log(res.rows);
-  })
-}
-
 logOut();
-
-// update portfolios set value = (
-//   SELECT time_series_intraday -> 'Time Series (5min)'
-//   FROM
-//      stock_histories
-//   )
-//   where id = 1
-
-// MAX (
-//   CAST (
-//     json_object_keys (time_series_intraday -> 'Time Series (5min)') as DATE
-//   )
-// )
