@@ -18,7 +18,7 @@ SET
             intraday_key
           FROM
             -- JSON key, value pairs as rows in fields intraday_key, v
-            json_each(time_series_intraday -> 'Time Series (5min)') AS j (intraday_key,
+            jsonb_each(time_series_intraday -> 'Time Series (5min)') AS j (intraday_key,
               v)
           ORDER BY
             --set key type as timestamp, order descending (backwards in time), take first 
