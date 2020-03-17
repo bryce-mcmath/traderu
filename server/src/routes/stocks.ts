@@ -5,6 +5,7 @@
  */
 
 import express, { Request, Response } from 'express';
+import getAllStocks from '../db/selects/getAllStocks'
 const stocks = express.Router();
 
 /**
@@ -15,10 +16,20 @@ const stocks = express.Router();
  * @param {Function} middleware - Callback function used as middleware
  */
 stocks.get('/', async (req: Request, res: Response) => {
-	// @TODO
-	// if all good, send 200 + JSON array of stocks
-	// else send back error code and JSON msg
-	// see Wiki for format of return data
+	try{
+		const stocks = await getAllStocks();
+		console.log(stocks)
+	} catch (error){
+		console.error('Error in GET -> /leaderboard:', error);
+		res.status(500).json({
+			errors: [
+				{
+					msg:
+						'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+				}
+			]
+		});
+	}
 });
 
 /**
