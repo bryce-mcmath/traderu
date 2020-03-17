@@ -1,4 +1,4 @@
-const getAllRankings = () => {
+const getLocalRankings = (id: number) => {
   return db.query(`
   (
     SELECT
@@ -12,7 +12,7 @@ const getAllRankings = () => {
         FROM
           portfolios
         WHERE
-          id = 13)
+          id = $1)
       ORDER BY
         value ASC
       LIMIT 2)
@@ -28,11 +28,11 @@ const getAllRankings = () => {
         FROM
           portfolios
         WHERE
-          id = 13)
+          id = $1)
       ORDER BY
         value DESC
-      LIMIT 2)`
-    );
+      LIMIT 2)`,
+    [id]);
 }
 
-export default getAllRankings;
+export default getLocalRankings;
