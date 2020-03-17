@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<v-app-bar app color="primary" dark>
+		<!-- <v-app-bar app color="primary" dark>
 			<div class="d-flex align-center">
 				<v-img
 					alt="Vuetify Logo"
@@ -32,8 +32,9 @@
 				<v-btn to="/">Home</v-btn>
 				<v-btn to="/display">Display</v-btn>
 			</ul>
-		</v-app-bar>
-
+		</v-app-bar>-->
+		<Navbar></Navbar>
+		<NavigationDrawer></NavigationDrawer>
 		<v-content>
 			<router-view></router-view>
 		</v-content>
@@ -42,10 +43,15 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import Navbar from '@/components/nav_bar/Navbar.vue';
+import NavigationDrawer from '@/components/navigation_drawer/Navigation_Drawer.vue';
 
 export default Vue.extend({
 	name: 'App',
-	components: {}
+	components: {
+		Navbar,
+		NavigationDrawer
+	}
 });
 </script>
 
