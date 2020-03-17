@@ -438,9 +438,19 @@ const extraStockDataForProduction = [
   }
 ]
 
+interface Stock {
+  name: string,
+  symbol: string
+}
+
+interface Query {
+  query: string,
+  params: object[]
+}
+
 //returns the query string and params for a single stocks intraday, daily, and weekly data
-const buildStockQueries = stock => {
-  const queries = [];
+const buildStockQueries = (stock: Stock) => {
+  const queries: Query[] = [];
 
   const apiFunctions = [
     'TIME_SERIES_INTRADAY',
@@ -472,9 +482,9 @@ const buildStockQueries = stock => {
   });
 }
 
-const runsStocksQueries = stocks => {
+const runsStocksQueries = (stocks: Stock[]) => {
   //allQueries of form [ {query, params}, {query,params}, ...]
-  let allQueries = [];
+  let allQueries: Query[] = [];
   let i = 0;
   //Interval used to avoid API call limits
   const buildQueryInterval = setInterval(async () => {
@@ -491,7 +501,7 @@ const runsStocksQueries = stocks => {
 }
 
 //allQueries of form [ {query, params}, {query,params}, ...]
-const runQueries = async allQueries => {
+const runQueries = async (allQueries: Query[]) => {
   for (const queryInfo of allQueries) {
     await db.query(queryInfo.query, queryInfo.params);
   }
