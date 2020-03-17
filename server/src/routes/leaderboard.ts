@@ -5,7 +5,7 @@
  */
 
 import express, { Request, Response } from 'express';
-import getRankings from '../db/selects/getRankings'
+import getAllRankings from '../db/selects/getAllRankings'
 const leaderboard = express.Router();
 
 /**
@@ -18,7 +18,7 @@ const leaderboard = express.Router();
 leaderboard.get('/', async (req: Request, res: Response) => {
 	// @TODO
 	try{
-		const rankings = await getRankings();
+		const rankings = await getAllRankings();
 		res.json({rankings: rankings.rows});
 	} catch (error){
 		console.error('Error in GET -> /leaderboard:', error);

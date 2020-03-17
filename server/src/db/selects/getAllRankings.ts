@@ -1,4 +1,4 @@
-const getRankings = () => {
+const getAllRankings = () => {
   return db.query(`
   SELECT
     users.name AS username,
@@ -15,4 +15,4 @@ const getRankings = () => {
     );
 }
 
-export default getRankings;
+export default getAllRankings;
