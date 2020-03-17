@@ -8,7 +8,8 @@ import express, { Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { getUserById, getUserByEmail } from '../utils/helpers';
+import getUserByEmail from '../db/selects/getUserByEmail';
+import getUserById from '../db/selects/getUserById';
 import auth from '../middleware/auth';
 import { IAuthRequest } from '../utils/types';
 
@@ -111,7 +112,7 @@ login.post(
 				errors: [
 					{
 						msg:
-							'Sorry! There was an error on our side. We might be serving too many users right now.'
+							'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 					}
 				]
 			});

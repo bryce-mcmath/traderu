@@ -9,7 +9,7 @@ import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import gravatar from 'gravatar';
-import { getUserByEmail } from '../utils/helpers';
+import getUserByEmail from '../db/selects/getUserByEmail';
 import createUser from '../db/inserts/createUser';
 
 const register = express.Router();
@@ -88,7 +88,7 @@ register.post(
 					errors: [
 						{
 							msg:
-								'Sorry! There was an error on our side. We might be serving too many users right now.'
+								'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 						}
 					]
 				});
