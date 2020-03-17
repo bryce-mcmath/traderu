@@ -5,6 +5,7 @@
  */
 
 import express, { Request, Response } from 'express';
+import getRankings from '../db/selects/getRankings'
 const leaderboard = express.Router();
 
 /**
@@ -16,7 +17,20 @@ const leaderboard = express.Router();
  */
 leaderboard.get('/', async (req: Request, res: Response) => {
 	// @TODO
-	// see Wiki for return format
+	try{
+		const rankings = await getRankings();
+		res.json({rankings: rankings.rows});
+	} catch (error){
+		console.error('Error in GET -> /leaderboard:', error);
+		res.status(500).json({
+			errors: [
+				{
+					msg:
+						'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+				}
+			]
+		});
+	}
 });
 
 /**
@@ -28,7 +42,6 @@ leaderboard.get('/', async (req: Request, res: Response) => {
  */
 leaderboard.get('/:portfolio_id', async (req: Request, res: Response) => {
 	// @TODO
-	// see Wiki for return format
 });
 
 module.exports = leaderboard;
