@@ -39,7 +39,7 @@ export default {
 	},
 	computed: {
 		showDrawer() {
-			return this.$store.state.showDrawer;
+			return this.$store.state.ui.showDrawer;
 		}
 	},
 	methods: {

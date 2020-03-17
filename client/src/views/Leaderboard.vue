@@ -1,10 +1,10 @@
 <template>
-	<div>Leadboard Page</div>
+	<div>Leaderboard Page</div>
 </template>
 
 <script>
 export default {
-	name: 'Leadboard',
+	name: 'Leaderboard',
 	components: {}
 };
 </script>

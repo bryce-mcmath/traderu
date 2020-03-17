@@ -5,14 +5,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		showDrawer: false
+		ui: {
+			showDrawer: false
+		}
 	},
 	mutations: {
 		toggleDrawer(state) {
-			state.showDrawer = !state.showDrawer;
+			state.ui.showDrawer = !state.ui.showDrawer;
 		},
 		setDrawer(state, payload) {
-			state.showDrawer = payload;
+			state.ui.showDrawer = payload;
 		}
 	},
 	actions: {},
