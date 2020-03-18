@@ -1,26 +1,28 @@
-import {
-	IStockTransactionInput,
-	IStockTransactionOutput
-} from '../../utils/types';
+import { IStockTransactionInput } from '../../utils/types';
+import db from '../index';
 
 const createTransaction = (
-	userId: number | string,
 	portfolioId: number | string,
 	transaction: IStockTransactionInput
-) => {
-	// @TODO
-	const doSomethingWithThis = userId;
-	const alsoWithThis = portfolioId;
-	const returnedTransaction: IStockTransactionOutput = {
-		id: 1,
-		portfolio_id: 1,
-		stock_id: 1,
-		quantity: 30,
-		date_time: Date.now().toString(),
-		type: 'buy',
-		value: '100000'
-	};
-	return Promise.resolve(returnedTransaction);
-};
+) =>
+	// @TODO: Update other tables affected by this transaction
+	db
+		.query(
+			`
+			INSERT INTO stock_transactions(portfolio_id, stock_id, quantity, type, value)
+			VALUES ($1, $2, $3, $4, $5);
+		`,
+			[
+				portfolioId,
+				transaction.stock_id,
+				transaction.quantity,
+				transaction.type,
+				transaction.value
+			]
+		)
+		.then(() => 'Your order has been successfully placed')
+		.catch((err: Error) => {
+			throw err;
+		});
 
 export default createTransaction;

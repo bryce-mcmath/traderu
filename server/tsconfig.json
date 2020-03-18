@@ -12,6 +12,7 @@
 		"types": [
 			"express",
 			"node",
+			"pg",
 			"connect-history-api-fallback",
 			"helmet",
 			"bcryptjs",

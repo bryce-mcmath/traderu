@@ -1,3 +1,4 @@
+import db from '../index';
 
 const getAllStocks = () => {
   return db.query(`
