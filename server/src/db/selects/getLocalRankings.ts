@@ -5,9 +5,16 @@ const getLocalRankings = (id: string) => {
   return db.query(`
   (
     SELECT
-      *
+      users.name AS username,
+      users.avatar,
+      portfolios.name AS portfolio,
+      portfolios.value
     FROM
       portfolios
+    JOIN 
+      users 
+    ON 
+      portfolios.user_id = users.id
     WHERE
       value >= (
         SELECT
@@ -21,9 +28,16 @@ const getLocalRankings = (id: string) => {
       LIMIT 2)
   UNION (
     SELECT
-      *
+      users.name AS username,
+      users.avatar,
+      portfolios.name AS portfolio,
+      portfolios.value
     FROM
       portfolios
+    JOIN 
+      users 
+    ON 
+      portfolios.user_id = users.id
     WHERE
       value <= (
         SELECT

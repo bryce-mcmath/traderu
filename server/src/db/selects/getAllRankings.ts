@@ -4,6 +4,7 @@ const getAllRankings = () => {
   return db.query(`
   SELECT
     users.name AS username,
+    users.avatar,
     portfolios.name AS portfolio,
     portfolios.value
   FROM
