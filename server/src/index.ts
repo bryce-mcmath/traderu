@@ -18,11 +18,20 @@ const db = new Pool(dbParams);
 db.connect();
 
 // Initialize middleware
-app.use(hist.default());
 app.use(helmet.default());
-app.use(express.static('./server/static'));
 app.use(express.json({ limit: '10kb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Routers
+app.use('/register', require('./routes/register'));
+app.use('/login', require('./routes/login'));
+app.use('/stocks', require('./routes/stocks'));
+app.use('/leaderboard', require('./routes/leaderboard'));
+app.use('/portfolios', require('./routes/portfolios'));
+
+app.use(express.static('./server/static'));
+app.use(hist.default());
+
 
 /**
  * Route serving base application
@@ -35,12 +44,6 @@ app.get('/', (_: Request, res: Response) => {
 	res.render('./server/static/index.html');
 });
 
-// Routers
-app.use('/register', require('./routes/register'));
-app.use('/login', require('./routes/login'));
-app.use('/stocks', require('./routes/stocks'));
-app.use('/leaderboard', require('./routes/leaderboard'));
-app.use('/portfolios', require('./routes/portfolios'));
 
 /**
  * Catch route to deal with unhandled GETs
