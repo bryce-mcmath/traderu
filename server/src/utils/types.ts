@@ -13,6 +13,12 @@ export interface IPerformance {
 	value: number | string;
 }
 
+export interface IstockInfo {
+	stockdata: object,
+	name: string,
+	stockData: object
+}
+
 export interface IUserStock {
 	symbol: string;
 	currentValue: number | string;
