@@ -1,12 +1,8 @@
-const { Pool } = require('pg');
-require('dotenv').config();
-
-const dbParams = { connectionString: process.env.DATABASE_URL };
-const db = new Pool(dbParams);
-db.connect();
+import db from '../index';
 
 const update_portfolios = () => {
-  db.query(` 
+	db.query(
+		`
 UPDATE
 portfolios
 SET
@@ -29,7 +25,7 @@ value = (
           jsonb_each(time_series_intraday -> 'Time Series (5min)') AS j (intraday_key,
             v)
         ORDER BY
-          --set key type as timestamp, order descending (backwards in time), take first 
+          --set key type as timestamp, order descending (backwards in time), take first
           intraday_key::timestamp DESC
         LIMIT 1) ->> '4. close' AS close
     FROM
@@ -38,12 +34,10 @@ value = (
   WHERE
     --value includes held cash
     portfolio_id = portfolios.id) + portfolios.cash
-  `)
-  .then(() => {
-    db.end();
-    process.exit();
-  })
-  .catch((err: string) => console.error(err) )
-}
+  `
+	)
+		.then(() => {})
+		.catch((err: Error) => console.error(err));
+};
 
 export default update_portfolios;

@@ -1,3 +1,5 @@
+import db from '../index';
+
 const getAllRankings = () => {
   return db.query(`
   SELECT

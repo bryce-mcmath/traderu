@@ -8,9 +8,19 @@ export interface IAuthRequest extends Request {
 	user?: IUser;
 }
 
+export interface ILocation {
+	latitude: string;
+	longitude: string;
+}
+
 export interface IPerformance {
 	date_time: Date | string;
 	value: number | string;
+}
+
+export interface IStock {
+	name: string;
+	symbol: string;
 }
 
 export interface IUserStock {
@@ -19,16 +29,38 @@ export interface IUserStock {
 	stockPerformance: IPerformance[];
 }
 
+export interface IAsset {
+	symbol: string;
+	name: string;
+	value: number | string;
+	quantity: number;
+	type?: string;
+}
+
+export interface IQuery {
+	query: string;
+	params: any[];
+}
+
 export interface IPortfolio {
-	user_id?: number;
+	user_id: number;
 	name: string;
 	value: string | number;
 	cash: string | number;
-	buying_power?: string | number;
-	created_at?: string | Date;
+	buying_power: string | number;
+	created_at: string | Date;
 	deleted_at?: string | Date;
-	portfolioPerformance?: IPerformance[];
-	userStocks?: IUserStock[];
+}
+
+export interface IEnhancedPortfolio {
+	name: string;
+	value: string | number;
+	cash: string | number;
+	buying_power: string | number;
+	created_at: string | Date;
+	deleted_at?: string | Date;
+	portfolioHistory?: IPerformance[];
+	assets?: IAsset[];
 }
 
 export interface IStockTransactionInput {

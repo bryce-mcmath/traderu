@@ -1,3 +1,6 @@
+import db from '../index';
+
+//This query is a Snakey Boi
 const getLocalRankings = (id: number) => {
   return db.query(`
   (
