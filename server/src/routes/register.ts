@@ -41,7 +41,7 @@ register.post(
 			res.status(400).json({ errors: errors.array() });
 		} else {
 			try {
-				const { name, email, password } = req.body;
+				const { name, email, password, location } = req.body;
 				const existingUser = await getUserByEmail(email);
 				if (existingUser) {
 					res

@@ -8,7 +8,7 @@ import express, { Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import auth from '../middleware/auth';
 import getPortfoliosByUserId from '../db/selects/getPortfoliosByUserId';
-import getPortfolioByPortfolioId from '../db/selects/getPortfolioByPortfolioId';
+import getStockIdBySymbol from '../db/selects/getStockIdBySymbol';
 import deletePortfolio from '../db/updates/deletePortfolio';
 import createPortfolio from '../db/inserts/createPortfolio';
 import createTransaction from '../db/inserts/createTransaction';
@@ -91,42 +91,7 @@ portfolios.post(
 );
 
 /**
- * Route fetching specific portfolio
- * @name get/portfolios/:portfolio_id
- * @function
- * @param {String} path - Express path
- * @param {Function} middleware - Callback function used as middleware
- */
-portfolios.get(
-	'/:portfolio_id',
-	auth,
-	async (req: IAuthRequest, res: Response) => {
-		try {
-			if (!req.user)
-				throw new Error(
-					'Someone is trying to get portfolio info without being properly authenticated'
-				);
-			const portfolio = await getPortfolioByPortfolioId(
-				req.user.id,
-				req.params.portfolio_id
-			);
-			res.json(portfolio);
-		} catch (error) {
-			console.error('Error in GET -> /portfolios/:portfolio_id', error);
-			res.status(500).json({
-				errors: [
-					{
-						msg:
-							'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
-					}
-				]
-			});
-		}
-	}
-);
-
-/**
- * Route fetching specific current user portfolio
+ * Route deleting specific current user portfolio
  * @name delete/portfolios/:portfolio_id
  * @function
  * @param {String} path - Express path
@@ -169,7 +134,7 @@ portfolios.delete(
  */
 portfolios.post(
 	// @TODO: Better validation for stock.price when that variable type is confirmed
-	// @TODO: Need to check how portfolio is updated in DB either in this route or in createTransaction
+	// @TODO: Need to check how portfolio and other tables are updated in DB either in this route or in createTransaction
 	'/:portfolio_id/stock-transaction',
 	auth,
 	[
@@ -198,11 +163,23 @@ portfolios.post(
 					throw new Error(
 						'Someone is trying to make a trade without being properly authenticated'
 					);
-				const response = await createTransaction(
-					req.user.id,
-					req.params.portfolio_id,
-					{ ...req.body }
-				);
+				const stock_id = await getStockIdBySymbol(req.body.stock.symbol);
+				if (!stock_id) {
+					return res.status(400).json({
+						errors: [
+							{
+								msg:
+									"We're sorry, a stock with that symbol does not exist in our database"
+							}
+						]
+					});
+				}
+				const value = parseFloat(req.body.stock.price) * req.body.quantity;
+				const response = await createTransaction(req.params.portfolio_id, {
+					...req.body,
+					stock_id,
+					value
+				});
 				res.json(response);
 			} catch (error) {
 				console.error(

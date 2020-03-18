@@ -1,18 +1,19 @@
-import { IPortfolio } from '../../utils/types';
+import db from '../index';
+import { QueryResult } from 'pg';
 
-const createPortfolio = (userId: string | number, portfolioName: string) => {
-	// @TODO
-	// if the name is taken, newPortfolio should be:
-	// {errors: [{msg: "You're already using that name for another portfolio!""}]}
-	// then we check the format of the JSON response in the front end to decide what gets displayed
-	const newPortfolio: IPortfolio = {
-		name: 'Risky Biz',
-		value: '100000',
-		cash: '100000',
-		buying_power: '100000',
-		created_at: '2020-03-24'
-	};
-	return Promise.resolve(newPortfolio);
-};
+const createPortfolio = (userId: string | number, portfolioName: string) =>
+	db
+		.query(
+			`
+		INSERT INTO portfolios(user_id, name, value, cash, buying_power)
+		VALUES($1, $2, 100000, 100000, 100000)
+		RETURNING *;
+		`,
+			[userId, portfolioName]
+		)
+		.then((portfolioObj: QueryResult) => portfolioObj.rows[0])
+		.catch((err: Error) => {
+			throw err;
+		});
 
 export default createPortfolio;
