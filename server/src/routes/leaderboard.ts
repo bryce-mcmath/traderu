@@ -42,7 +42,7 @@ leaderboard.get('/', async (req: Request, res: Response) => {
  */
 leaderboard.get('/:portfolio_id', async (req: Request, res: Response) => {
 	try{
-		const rankings = await getLocalRankings(req.body.portfolio_id);
+		const rankings = await getLocalRankings(req.params.portfolio_id);
 		res.json({rankings: rankings.rows});
 	} catch (error){
 		console.error('Error in GET -> /leaderboard:', error);

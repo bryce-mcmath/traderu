@@ -1,7 +1,7 @@
 import db from '../index';
 
 //This query is a Snakey Boi
-const getLocalRankings = (id: number) => {
+const getLocalRankings = (id: string) => {
   return db.query(`
   (
     SELECT

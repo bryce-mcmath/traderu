@@ -11,9 +11,7 @@ const ENV = process.env.BUILD_ENV || 'production';
 console.log('Running environment:', ENV);
 
 // Initialize middleware
-app.use(helmet.default());
-app.use(express.json({ limit: '10kb' }));
-app.use(bodyParser.urlencoded({ extended: false }));
+
 
 // API Routes
 app.use('/api/register', require('./routes/register'));
@@ -25,6 +23,9 @@ app.use('/api/portfolios', require('./routes/portfolios'));
 // Client routes
 app.use(hist.default());
 app.use(express.static('./server/static'));
+app.use(helmet.default());
+app.use(express.json({ limit: '10kb' }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 /**
  * Route serving base application
