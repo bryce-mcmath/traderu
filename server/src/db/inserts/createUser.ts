@@ -1,5 +1,6 @@
 import { ILocation } from '../../utils/types';
 import db from '../index';
+import { QueryResult } from 'pg';
 
 const createUser = (
 	name: string,
@@ -11,12 +12,13 @@ const createUser = (
 	db
 		.query(
 			`
-			INSERT INTO users(name, email, password_hash, avatar, latitude, longitude)
-			VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;
+			INSERT INTO users (name, email, password_hash, avatar, latitude, longitude)
+			VALUES ($1, $2, $3, $4, $5, $6)
+			RETURNING *;
 			`,
 			[name, email, hash, avatar, location.latitude, location.longitude]
 		)
-		.then((userArray: object[]) => userArray[0])
+		.then((userObj: QueryResult) => userObj.rows[0])
 		.catch((err: Error) => {
 			throw err;
 		});

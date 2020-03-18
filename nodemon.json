@@ -1,0 +1,11 @@
+{
+  "watch": ["server/src/"],
+  "ext": "ts",
+  "ignore": ["*.test.ts"],
+  "execMap": {
+    "ts": "ts-node"
+  },
+  "events": {
+    "restart": "npm run ts"
+  }
+}

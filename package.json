@@ -9,8 +9,9 @@
   "scripts": {
     "lerna-install": "npx lerna bootstrap",
     "build": "npx lerna run build",
-    "start": "node ./server/dist/index.js",
+    "start": "ts-node ./server/dist/index.js",
     "dev": "nodemon ./server/dist/index.js",
+    "ts": "npx lerna run ts",
     "test": "npx lerna run test",
     "jsdoc": "npx lerna run jsdoc"
   },
