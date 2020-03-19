@@ -54,6 +54,7 @@ register.post(
 			try {
 				const { name, email, password, location } = req.body;
 				const existingUser = await getUserByEmail(email.toLowerCase());
+
 				if (existingUser) {
 					res
 						.status(400)
@@ -71,7 +72,7 @@ register.post(
 
 					const newUser = location
 						? await createUser(name, email, hash, avatar, location)
-						: createUser(name, email.toLowerCase(), hash, avatar);
+						: await createUser(name, email.toLowerCase(), hash, avatar);
 
 					const payload = {
 						user: {

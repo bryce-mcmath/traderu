@@ -10,7 +10,8 @@ const deletePortfolio = (
 			UPDATE
 			portfolios
 			SET
-			deleted_at = NOW()
+			deleted_at = NOW(),
+			name = NULL
 			WHERE user_id = $1 AND id = $2;
 			`,
 			[userId, portfolioId]

@@ -44,3 +44,7 @@ Why:
 ```
 
 5. Now rejoice! Simply use `git commit` rather than `git commit -m "Some lame msg"`
+
+### Swagger
+
+https://swagger.io
