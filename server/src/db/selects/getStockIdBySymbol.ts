@@ -10,7 +10,7 @@ const getStockIdBySymbol = (symbol: string) =>
 			[symbol]
 		)
 		.then((stockObj: QueryResult) =>
-			stockObj.rows.length > 0 ? stockObj.rows[0] : null
+			stockObj.rows.length > 0 ? stockObj.rows[0].id : null
 		)
 		.catch((err: Error) => {
 			throw err;
