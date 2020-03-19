@@ -1,6 +1,6 @@
 <template>
   <v-bottom-navigation
-    fixed="true"
+    :fixed="true"
   >
     <v-btn to="/">
       <span>Home</span>
