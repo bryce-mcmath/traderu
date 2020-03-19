@@ -25,10 +25,7 @@ authenticate.get('/', auth, async (req: IAuthRequest, res: Response) => {
 				'Someone is trying to get user info without being properly authenticated'
 			);
 		const user = await getUserById(req.user.id);
-		console.log(req.user);
-		console.log(req.user.id);
 		res.json({ user });
-		console.log(user);
 	} catch (error) {
 		console.error('Error in GET -> /authenticate:', error);
 	}
