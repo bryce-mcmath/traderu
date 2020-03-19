@@ -6,7 +6,7 @@ import Axios from 'axios';
 Vue.use(Vuex);
 
 const errorUnwrapper = errObject => {
-	let result = [];
+	const result = [];
 
 	errObject.response.data.errors.forEach(element => {
 		result.push(element.msg);
@@ -25,6 +25,11 @@ export default new Vuex.Store({
 			loginError: []
 		},
 		jwt: ''
+	},
+	getters: {
+		isLoggedIn(state) {
+			if (state.jwt) return true;
+		}
 	},
 	mutations: {
 		toggleDrawer(state) {
@@ -58,8 +63,9 @@ export default new Vuex.Store({
 
 			AjaxCalls.loginAuth(loginEmail, loginPassword)
 				.then(response => {
-					console.log('submitLoginAuth', response);
-
+					// Clear inputs
+					commit('setLoginEmail', '');
+					commit('setLoginPassword', '');
 					// Set JWT in store and local storage
 					commit('setJWT', response.data.token);
 					localStorage.setItem('token', response.data.token);
@@ -67,7 +73,6 @@ export default new Vuex.Store({
 				})
 				.catch(err => {
 					const errArray = errorUnwrapper(err);
-					console.log('submitLoginAuth error:', errArray);
 					commit('setLoginError', errArray);
 				})
 				.finally(() => {
