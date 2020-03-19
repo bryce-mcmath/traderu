@@ -1,7 +1,6 @@
 <template>
 	<div class="home">
 		  <v-btn @click="showStocksDrawer">Toggle stocks</v-btn>
-		  <v-btn @click="setStocksData">Load the data</v-btn>
 			<StocksListDrawer />
 		<Login></Login>
 	</div>
@@ -22,6 +21,7 @@
 		},
 		methods: {
 			showStocksDrawer: function(){
+				this.setStocksData();
 				this.$store.commit('toggleStocksDrawer')
 			},
 	  	...mapActions(['setStocksData'])

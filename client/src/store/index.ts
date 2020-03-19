@@ -47,7 +47,7 @@ export default new Vuex.Store({
 				return;
 			}
 			commit('setAjaxInProgress', true);
-			fetch('http://localhost:8002/api/stocks')
+			fetch('/api/stocks')
 			.then(res => {
 				return res.json();
 			})

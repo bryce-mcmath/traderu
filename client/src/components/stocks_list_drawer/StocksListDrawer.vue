@@ -1,8 +1,10 @@
 <template>
-	<v-navigation-drawer dark :value="showStocksDrawer" app>
+	<v-navigation-drawer dark :value="showStocksDrawer" app @input="drawerEvent">
     <v-list one-line>
       <v-subheader>STOCKS</v-subheader>
-      <Spinner v-if="showSpinner"></Spinner>
+      <div class="spinner-container" v-if="showSpinner">
+        <Spinner></Spinner>
+      </div>
       <v-list-item-group color="primary">
         <v-list-item
           v-for="(item, i) in stocksData"
@@ -39,6 +41,11 @@
     components: {
       Spinner,
     },
+    methods: {
+		drawerEvent(e) {
+        if (!e) this.$store.commit('toggleStocksDrawer');
+      }
+    },
     computed: {
 		  showStocksDrawer() {
 			  return this.$store.state.ui.showStocksDrawer;
@@ -54,4 +61,5 @@
 </script>
 
 <style lang="scss">
+  @import 'stocks_list_drawer';
 </style>
