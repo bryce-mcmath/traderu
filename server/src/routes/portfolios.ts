@@ -30,7 +30,7 @@ portfolios.get('/', auth, async (req: IAuthRequest, res: Response) => {
 				'Someone is trying to get portfolio info without being properly authenticated'
 			);
 		const portfolios = await getPortfoliosByUserId(req.user.id);
-		res.json(portfolios);
+		res.json({ portfolios });
 	} catch (error) {
 		console.error('Error in GET -> /portfolios:', error);
 		res.status(500).json({
@@ -74,7 +74,7 @@ portfolios.post(
 					req.user.id,
 					req.body.portfolioName
 				);
-				res.json(newPortfolio);
+				res.json({ newPortfolio });
 			} catch (error) {
 				console.error('Error in POST -> /portfolios:', error);
 				res.status(500).json({
@@ -110,7 +110,7 @@ portfolios.delete(
 				req.user.id,
 				req.params.portfolio_id
 			);
-			res.json(response);
+			res.json({ response });
 		} catch (error) {
 			console.error('Error in DELETE -> /portfolios/:portfolio_id', error);
 			res.status(500).json({
@@ -141,8 +141,9 @@ portfolios.post(
 		check('quantity', 'Quantity must be a positive integer').custom(
 			(quantity, { req }) => Number.isInteger(quantity) && quantity > 0
 		),
-		check('stock', 'Stock must include symbol and price').custom(
-			(stock, { req }) => typeof stock.symbol === 'string' && stock.price
+		check('stock', 'Stock must include string symbol and string price').custom(
+			(stock, { req }) =>
+				typeof stock.symbol === 'string' && typeof stock.price === 'string'
 		),
 		check('stock', 'Stock symbol must be 1 - 5 characters long').custom(
 			(stock, { req }) => stock.symbol.length > 0 && stock.symbol.length < 6
@@ -163,7 +164,7 @@ portfolios.post(
 					throw new Error(
 						'Someone is trying to make a trade without being properly authenticated'
 					);
-				const stock_id = await getStockIdBySymbol(req.body.stock.symbol);
+				let stock_id = await getStockIdBySymbol(req.body.stock.symbol);
 				if (!stock_id) {
 					return res.status(400).json({
 						errors: [
@@ -174,13 +175,17 @@ portfolios.post(
 						]
 					});
 				}
+				stock_id = parseInt(stock_id);
 				const value = req.body.stock.price * req.body.quantity;
-				const response = await createTransaction(req.params.portfolio_id, {
-					...req.body,
-					stock_id,
-					value
-				});
-				res.json(response);
+				const response = await createTransaction(
+					parseInt(req.params.portfolio_id),
+					{
+						...req.body,
+						stock_id,
+						value
+					}
+				);
+				res.json({ response });
 			} catch (error) {
 				console.error(
 					'Error in POST -> /portfolios/:portfolio_id/stock-transaction',

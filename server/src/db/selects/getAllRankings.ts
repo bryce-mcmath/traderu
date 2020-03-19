@@ -1,21 +1,22 @@
 import db from '../index';
 
 const getAllRankings = () => {
-  return db.query(`
+	return db.query(`
   SELECT
     users.name AS username,
-    users.avatar,
+    users.avatar AS avatar,
     portfolios.name AS portfolio,
-    portfolios.value
+    portfolios.value AS value
   FROM
     portfolios
-  JOIN 
-    users 
-  ON 
+  JOIN
+    users
+  ON
     portfolios.user_id = users.id
+  WHERE
+    portfolios.deleted_at IS NULL
   ORDER BY
-    value DESC`
-    );
-}
+    value DESC`);
+};
 
 export default getAllRankings;
