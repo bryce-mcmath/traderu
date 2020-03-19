@@ -1,58 +1,30 @@
 <template>
 	<div class="home">
-<<<<<<< HEAD
-		  <v-btn @click="drawer = !drawer">Toggle stocks</v-btn>
-		  <v-btn @click="getData">Load the data</v-btn>
-		  <v-navigation-drawer dark v-model="drawer" app>
-				<StocksList v-bind:stockData="this.apiData.stockData"/>
-			</v-navigation-drawer>
-		<img alt="Vue logo" src="../assets/logo.png" />
-		<HelloWorld msg="Under construction, coming soon"></HelloWorld>
-=======
+		  <v-btn @click="showStocksDrawer">Toggle stocks</v-btn>
+		  <v-btn @click="setStocksData">Load the data</v-btn>
+			<StocksListDrawer />
 		<Login></Login>
->>>>>>> development
 	</div>
 </template>
 
 <script>
 	// @ is an alias to /src
-<<<<<<< HEAD
-	import HelloWorld from '@/components/hello_world/HelloWorld.vue';
-	import StocksList from '../components/stocks_list/StocksList'
-=======
+	import StocksListDrawer from '../components/stocks_list_drawer/StocksListDrawer.vue'
 	import Login from '@/components/login/Login.vue';
->>>>>>> development
+	import Vuex from 'vuex';
+  import { mapMutations, mapActions } from 'vuex';
 
 	export default {
 		name: 'Home',
 		components: {
-<<<<<<< HEAD
-			HelloWorld,
-			StocksList
+			StocksListDrawer,
+			Login
 		},
 		methods: {
-      getData: async function(){
-				fetch('http://localhost:8002/api/stocks')
-					.then(res => {
-						return res.json();
-					})
-					.then(res => {
-						const closeValues = res.map(stockObject => {
-							return ({name: stockObject.name, prices: stockObject.stockdata.map(stock => Number(stock.data['4. close']))})
-						});
-						this.apiData['stockData'] = closeValues;
-						console.log(closeValues)
-					})
-      }
+			showStocksDrawer: function(){
+				this.$store.commit('toggleStocksDrawer')
+			},
+	  	...mapActions(['setStocksData'])
     },
-		data(){
-			return {
-				drawer: false,
-				apiData: {}
-			}
-=======
-			Login
->>>>>>> development
-		}
 	};
 </script>
