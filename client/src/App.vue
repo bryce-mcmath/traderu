@@ -34,18 +34,28 @@
 			</ul>
 		</v-app-bar>
 
+
+
 		<v-content>
+			<Spinner v-if="loading"/>
 			<router-view></router-view>
 		</v-content>
+
+
+		<BottomNav />
 	</v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import BottomNav from './components/bottom_nav/BottomNav.vue';
+import Spinner from './components/spinner/Spinner.vue';
 
 export default Vue.extend({
 	name: 'App',
-	components: {}
+	components: {
+		BottomNav
+	}
 });
 </script>
 
