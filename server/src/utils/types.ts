@@ -18,6 +18,12 @@ export interface IPerformance {
 	value: number | string;
 }
 
+export interface IstockInfo {
+	stockdata: object,
+	name: string,
+	stockData: object
+}
+
 export interface IStock {
 	name: string;
 	symbol: string;

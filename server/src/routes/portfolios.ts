@@ -174,7 +174,7 @@ portfolios.post(
 						]
 					});
 				}
-				const value = parseFloat(req.body.stock.price) * req.body.quantity;
+				const value = req.body.stock.price * req.body.quantity;
 				const response = await createTransaction(req.params.portfolio_id, {
 					...req.body,
 					stock_id,

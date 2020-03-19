@@ -1,15 +1,15 @@
 import db from '../index';
+import { QueryResult } from 'pg';
 
 const getUserByEmail = (email: string) =>
 	db
 		.query(
 			`
-	SELECT * FROM users WHERE email = $1
-	RETURNING *;
-	`,
+			SELECT * FROM users WHERE email = $1;
+			`,
 			[email]
 		)
-		.then((userArray: object[]) => userArray[0])
+		.then((userObj: QueryResult) => userObj.rows[0])
 		.catch((err: Error) => {
 			throw err;
 		});

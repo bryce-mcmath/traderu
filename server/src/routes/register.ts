@@ -1,8 +1,9 @@
 /** Express router providing login related routes
- * @module server/routes/register
+ * @module server/routes/api/register
  * @memberof server
  * @requires express
  */
+
 require('dotenv').config();
 import express, { Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
@@ -17,7 +18,7 @@ const salt = process.env.SALT ? parseInt(process.env.SALT) : 10;
 
 /**
  * Route creating a new user
- * @name post/register
+ * @name post/api/register
  * @function
  * @param {String} path - Express path
  * @param {Function} middleware - Callback function used as middleware
@@ -32,7 +33,17 @@ register.post(
 		check(
 			'password',
 			'Please enter a password with at least 6 characters'
-		).isLength({ min: 6 })
+		).isLength({ min: 6 }),
+		check(
+			'location',
+			'If a location is not empty, it must be an object with longitude and latitude'
+		).custom(
+			(location, { req }) =>
+				location === undefined ||
+				(typeof location === 'object' &&
+					typeof location.longitude === 'string' &&
+					typeof location.latitude === 'string')
+		)
 	],
 	async (req: Request, res: Response) => {
 		const errors = validationResult(req);
@@ -42,7 +53,7 @@ register.post(
 		} else {
 			try {
 				const { name, email, password, location } = req.body;
-				const existingUser = await getUserByEmail(email);
+				const existingUser = await getUserByEmail(email.toLowerCase());
 				if (existingUser) {
 					res
 						.status(400)
@@ -58,7 +69,10 @@ register.post(
 						d: 'mm'
 					});
 
-					const newUser = await createUser(name, email, hash, avatar, location);
+					const newUser = location
+						? await createUser(name, email, hash, avatar, location)
+						: createUser(name, email.toLowerCase(), hash, avatar);
+
 					const payload = {
 						user: {
 							id: newUser.id

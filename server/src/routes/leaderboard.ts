@@ -5,6 +5,8 @@
  */
 
 import express, { Request, Response } from 'express';
+import getAllRankings from '../db/selects/getAllRankings'
+import getLocalRankings from '../db/selects/getLocalRankings'
 const leaderboard = express.Router();
 
 /**
@@ -15,8 +17,20 @@ const leaderboard = express.Router();
  * @param {Function} middleware - Callback function used as middleware
  */
 leaderboard.get('/', async (req: Request, res: Response) => {
-	// @TODO
-	// see Wiki for return format
+	try{
+		const rankings = await getAllRankings();
+		res.json({rankings: rankings.rows});
+	} catch (error){
+		console.error('Error in GET -> /leaderboard:', error);
+		res.status(500).json({
+			errors: [
+				{
+					msg:
+						'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+				}
+			]
+		});
+	}
 });
 
 /**
@@ -27,8 +41,20 @@ leaderboard.get('/', async (req: Request, res: Response) => {
  * @param {Function} middleware - Callback function used as middleware
  */
 leaderboard.get('/:portfolio_id', async (req: Request, res: Response) => {
-	// @TODO
-	// see Wiki for return format
+	try{
+		const rankings = await getLocalRankings(req.params.portfolio_id);
+		res.json({rankings: rankings.rows});
+	} catch (error){
+		console.error('Error in GET -> /leaderboard:', error);
+		res.status(500).json({
+			errors: [
+				{
+					msg:
+						'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+				}
+			]
+		});
+	}
 });
 
 module.exports = leaderboard;
