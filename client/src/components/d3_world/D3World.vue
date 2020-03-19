@@ -13,12 +13,6 @@
 		<v-container fluid>
 			<v-row justify="center">Super cool Graph</v-row>
 			<v-row justify="center" align="center" style="height: 300px;">
-				<v-sparkline v-if="!loading"
-					:value="[1,5,3,5,1]"
-					:smooth="radius || false"
-					auto-draw
-				></v-sparkline>
-				<Spinner v-if="loading"/>
 			</v-row>
 		</v-container>
 		<ChartExample :issues="issues"></ChartExample>
@@ -30,17 +24,11 @@
 	import axios from 'axios';
 	import moment from 'moment';
 	import ChartExample from '@/components/chart_example/ChartExample.vue';
-	import Spinner from '../../components/spinner/Spinner.vue';
 
 	export default Vue.extend({
 		name: 'D3World',
-		components: { ChartExample, Spinner },
+		components: { ChartExample },
 		props: {},
-		created(){
-			setTimeout(() => {
-				this.loading = false;		
-			}, 3000);
-		},
 		data() {
 			return {
 				loading: true,

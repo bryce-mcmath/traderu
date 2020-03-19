@@ -37,7 +37,6 @@
 
 
 		<v-content>
-			<Spinner v-if="loading"/>
 			<router-view></router-view>
 		</v-content>
 
