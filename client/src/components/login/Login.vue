@@ -1,6 +1,6 @@
 <template>
 	<v-container class="login-container rb">
-		<div class="mt-10 mb-10 fwb">Login</div>
+		<div class="mt-2 mb-2 fwb">Login</div>
 		<v-input class="input-containers">
 			<input class="input rb" v-model="loginEmail" placeholder="Email" type="text" />
 		</v-input>
