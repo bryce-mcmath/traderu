@@ -28,7 +28,7 @@ export default new Vuex.Store({
 		jwt: '',
 		apiData: {
 			stocksData: {},
-			rankingsData: {},
+			allRankingsData: {},
 			initialPortfolioCapital: 100000,
 		}
 	},
@@ -51,7 +51,7 @@ export default new Vuex.Store({
 			state.apiData.stocksData = payload;
 		},
 		setApiRankingsData(state, payload){
-			state.apiData.rankingsData = payload;
+			state.apiData.allRankingsData = payload;
 		},
 		setLoginEmail(state, payload) {
 			state.ui.loginEmail = payload;
@@ -88,7 +88,8 @@ export default new Vuex.Store({
 		},
 
 		setRankingsData({commit, state}) {
-			if(Object.keys(state.apiData.rankingsData).length !== 0){
+			//Don't update if already loaded
+			if(Object.keys(state.apiData.allRankingsData).length !== 0){
 				return;
 			}
 			commit('setAjaxInProgress', true);
@@ -103,6 +104,7 @@ export default new Vuex.Store({
 				commit('setAjaxInProgress', false);
 			});
 		},
+
 		submitLoginAuth({ commit, state }) {
 			const { loginEmail, loginPassword } = state.ui;
 			commit('setAjaxInProgress', true);

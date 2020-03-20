@@ -1,7 +1,7 @@
 <template>
   <v-progress-circular  
     size="80"
-    indeterminate="true"
+    :indeterminate="true"
   >   
   </v-progress-circular>
 </template>

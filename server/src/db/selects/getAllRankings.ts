@@ -6,7 +6,8 @@ const getAllRankings = () => {
     users.name AS username,
     users.avatar AS avatar,
     portfolios.name AS portfolio,
-    portfolios.value AS value
+    portfolios.value AS value,
+    portfolios.id AS portfolioId
   FROM
     portfolios
   JOIN

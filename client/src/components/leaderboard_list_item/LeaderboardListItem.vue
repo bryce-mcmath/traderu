@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="user-info row">
-      <span class="rank">{{rank + 1}}</span>
+      <span class="rank">{{portfolio.rank + 1}}</span>
       <span class="username">User:{{portfolio.username}}</span>
       <img class="avatar" :src="portfolio.avatar">
       <span></span>
@@ -18,7 +18,7 @@
 
 <script>
   export default {
-    props: ['portfolio', 'rank'],
+    props: ['portfolio'],
     computed: {
       valuePercent(){
         const portfolioCapital = this.$store.state.apiData.initialPortfolioCapital
