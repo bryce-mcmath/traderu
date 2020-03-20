@@ -21,8 +21,10 @@
     props: ['portfolio', 'rank'],
     computed: {
       valuePercent(){
-        return (this.portfolio.value - 100000) / 1000
-      }
+        const portfolioCapital = this.$store.state.apiData.initialPortfolioCapital
+        //Calculate percent change formula
+        return (this.portfolio.value - portfolioCapital) * 100 / portfolioCapital
+      },
     }
   }
 </script>
