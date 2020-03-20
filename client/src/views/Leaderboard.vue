@@ -3,8 +3,8 @@
 </template>
 
 <script>
-export default {
-	name: 'Leaderboard',
-	components: {}
-};
+	export default {
+		name: 'Leaderboard',
+		components: {}
+	};
 </script>

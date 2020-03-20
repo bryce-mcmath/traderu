@@ -1,5 +1,10 @@
 <template>
-	<v-navigation-drawer absolute temporary :value="showDrawer" @input="drawerEvent">
+	<v-navigation-drawer
+		absolute
+		temporary
+		:value="showDrawer"
+		@input="drawerEvent"
+	>
 		<v-list-item>
 			<v-list-item-content>
 				<v-list-item-title class="title">Nav Menu</v-list-item-title>
@@ -10,7 +15,12 @@
 		<v-divider></v-divider>
 
 		<v-list dense nav>
-			<v-list-item v-for="route in routes" :key="route.name" link :to="route.to">
+			<v-list-item
+				v-for="route in routes"
+				:key="route.name"
+				link
+				:to="route.to"
+			>
 				<v-list-item-icon>
 					<v-icon>{{ route.icon }}</v-icon>
 				</v-list-item-icon>
@@ -24,28 +34,32 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
-export default {
-	data() {
-		return {
-			routes: [
-				{ name: 'Home', icon: 'mdi-view-dashboard', to: '/' },
-				{ name: 'Stocks', icon: 'mdi-image', to: '/stocks' },
-				{ name: 'Portfolio', icon: 'mdi-help-box', to: '/portfolio' },
-				{ name: 'Leaderboard', icon: 'mdi-view-dashboard', to: '/leaderboard' }
-			],
-			drawerState: null
-		};
-	},
-	computed: {
-		showDrawer() {
-			return this.$store.state.ui.showDrawer;
+	import Vuex from 'vuex';
+	export default {
+		data() {
+			return {
+				routes: [
+					{ name: 'Home', icon: 'mdi-view-dashboard', to: '/' },
+					{ name: 'Stocks', icon: 'mdi-image', to: '/stocks' },
+					{ name: 'Portfolio', icon: 'mdi-help-box', to: '/portfolio' },
+					{
+						name: 'Leaderboard',
+						icon: 'mdi-view-dashboard',
+						to: '/leaderboard'
+					}
+				],
+				drawerState: null
+			};
+		},
+		computed: {
+			showDrawer() {
+				return this.$store.state.ui.showDrawer;
+			}
+		},
+		methods: {
+			drawerEvent(e) {
+				if (!e) this.$store.commit('setDrawer', false);
+			}
 		}
-	},
-	methods: {
-		drawerEvent(e) {
-			if (!e) this.$store.commit('setDrawer', false);
-		}
-	}
-};
+	};
 </script>

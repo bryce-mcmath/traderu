@@ -22,24 +22,24 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { mapMutations } from 'vuex';
+	import Vue from 'vue';
+	import { mapMutations } from 'vuex';
 
-export default Vue.extend({
-	name: 'Navbar',
-	data() {
-		return {
-			// routes: [
-			// 	{ display: 'Home', to: '/' },
-			// 	{ display: 'Stock', to: '/stocks' },
-			// 	{ display: 'Portfolio', to: '/portfolio' },
-			// 	{ display: 'Leaderboard', to: '/leaderboard' }
-			// ],
-			// on: false
-		};
-	},
-	methods: {
-		...mapMutations(['toggleDrawer'])
-	}
-});
+	export default Vue.extend({
+		name: 'Navbar',
+		data() {
+			return {
+				// routes: [
+				// 	{ display: 'Home', to: '/' },
+				// 	{ display: 'Stock', to: '/stocks' },
+				// 	{ display: 'Portfolio', to: '/portfolio' },
+				// 	{ display: 'Leaderboard', to: '/leaderboard' }
+				// ],
+				// on: false
+			};
+		},
+		methods: {
+			...mapMutations(['toggleDrawer'])
+		}
+	});
 </script>

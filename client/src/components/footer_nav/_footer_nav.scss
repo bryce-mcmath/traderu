@@ -1,0 +1,10 @@
+.v-bottom-navigation {
+  justify-content: space-around !important;
+  align-items: center;
+  height: 12vh !important;
+  background: $light-bg !important;
+
+  &--dark {
+    background: $dark-bg !important;
+  }
+}

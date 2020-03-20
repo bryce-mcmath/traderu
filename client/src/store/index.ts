@@ -37,10 +37,10 @@ export default new Vuex.Store({
 
 			AjaxCalls.loginAuth(loginEmail, loginPassword)
 				.then(response => {
-					console.log('submitLoginAuth', response);
+					window.console.log('submitLoginAuth', response);
 				})
 				.catch(err => {
-					console.log('submitLoginAuth:', err);
+					window.console.log('submitLoginAuth:', err);
 				})
 				.finally(() => {
 					commit('setAjaxInProgress', false);

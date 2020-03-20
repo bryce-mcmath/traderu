@@ -13,12 +13,13 @@
 		<v-container fluid>
 			<v-row justify="center">Super cool Graph</v-row>
 			<v-row justify="center" align="center" style="height: 300px;">
-				<v-sparkline v-if="!loading"
-					:value="[1,5,3,5,1]"
+				<v-sparkline
+					v-if="!loading"
+					:value="[1, 5, 3, 5, 1]"
 					:smooth="radius || false"
 					auto-draw
 				></v-sparkline>
-				<Spinner v-if="loading"/>
+				<Spinner v-if="loading" />
 			</v-row>
 		</v-container>
 		<ChartExample :issues="issues"></ChartExample>
@@ -36,9 +37,9 @@
 		name: 'D3World',
 		components: { ChartExample, Spinner },
 		props: {},
-		created(){
+		created() {
 			setTimeout(() => {
-				this.loading = false;		
+				this.loading = false;
 			}, 3000);
 		},
 		data() {

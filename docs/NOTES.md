@@ -48,3 +48,29 @@ Why:
 ### Swagger
 
 https://swagger.io
+
+## Neumorphism
+
+### Unpressed
+
+#### Light
+
+box-shadow: -5px 5px 10px #cecece,
+5px -5px 10px #ffffff;
+
+#### Dark
+
+box-shadow: -5px 5px 10px #242424,
+5px -5px 10px #303030;
+
+### Pressed
+
+#### Light
+
+box-shadow: inset -5px 5px 10px #cecece,
+inset 5px -5px 10px #ffffff;
+
+#### Dark
+
+box-shadow: inset -5px 5px 10px #242424,
+inset 5px -5px 10px #303030;
