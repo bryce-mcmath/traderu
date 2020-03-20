@@ -1,0 +1,43 @@
+// Neumorphic effect, unpressed button in light mode
+@mixin light-unpressed {
+  background: $light-bg;
+  box-shadow: -5px 5px 10px #cecece, 5px -5px 10px #ffffff;
+  color: $light-bg-secondary-text;
+  text-shadow: 1px 1px 1px #ccc;
+}
+
+// Neumorphic effect, pressed button in light mode
+@mixin light-pressed {
+  background: $light-bg;
+  box-shadow: inset -5px 5px 10px #cecece, inset 5px -5px 10px #ffffff;
+  color: $light-bg-primary-text;
+  text-shadow: 1px 1px 1px #ccc;
+}
+
+// Neumorphic effect, unpressed button in dark mode
+@mixin dark-unpressed {
+  background: $dark-bg;
+  box-shadow: -5px 5px 10px #242424, 5px -5px 10px #303030;
+  color: $dark-bg-secondary-text;
+  text-shadow: 1px 1px 1px #444;
+}
+
+// Neumorphic effect, pressed button in dark mode
+@mixin dark-pressed {
+  background: $dark-bg;
+  box-shadow: inset -5px 5px 10px #242424, inset 5px -5px 10px #303030;
+  color: $dark-bg-primary-text;
+  text-shadow: 1px 1px 1px #444;
+}
+
+// Light
+// #cecece, #ffffff
+// Dark
+// #242424, #303030
+
+// Center child elements => <div><div>This div will be centered vertically and horizontally</div></div>
+@mixin center-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

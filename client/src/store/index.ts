@@ -96,6 +96,7 @@ export default new Vuex.Store({
 
 			AjaxCalls.loginAuth(loginEmail, loginPassword)
 				.then(response => {
+<<<<<<< HEAD
 					// Clear inputs
 					commit('setLoginEmail', '');
 					commit('setLoginPassword', '');
@@ -107,6 +108,12 @@ export default new Vuex.Store({
 				.catch(err => {
 					const errArray = errorUnwrapper(err);
 					commit('setLoginError', errArray);
+=======
+					window.console.log('submitLoginAuth', response);
+				})
+				.catch(err => {
+					window.console.log('submitLoginAuth:', err);
+>>>>>>> feature/footer-nav-button
 				})
 				.finally(() => {
 					commit('setAjaxInProgress', false);

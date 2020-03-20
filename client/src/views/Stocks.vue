@@ -3,8 +3,8 @@
 </template>
 
 <script>
-export default {
-	name: 'Stocks',
-	components: {}
-};
+	export default {
+		name: 'Stocks',
+		components: {}
+	};
 </script>
