@@ -63,9 +63,9 @@ export default new Vuex.Store({
 		setAjaxInProgress(state, payload: boolean) {
 			state.ui.ajaxInProgress = payload;
 		},
-		setLoginError(state, payload: Array<string>) {
+		setLoginError(state, payload) {
 			// Need to use vue.set when replacing an entire obj/array
-			Vue.set(state, 'loginError', [...payload]);
+			// Vue.set(state, 'loginError', [...payload]);
 		},
 		setJWT(state, payload) {
 			state.jwt = payload;
@@ -116,14 +116,16 @@ export default new Vuex.Store({
 					// Clear inputs
 					commit('setLoginEmail', '');
 					commit('setLoginPassword', '');
-					// Set JWT in store and local storage
-					commit('setJWT', response.data.token);
-					localStorage.setItem('token', response.data.token);
-					Axios.defaults.headers.common[authTokenHeader] = response.data.token;
-				})
-				.catch(err => {
-					const errArray = errorUnwrapper(err);
-					commit('setLoginError', errArray);
+					if (response.response) {
+						// There is an error
+						console.log('Error in submitLoginAuth');
+						console.log(errorUnwrapper(response));
+					} else {
+						// Set JWT in store and local storage
+						commit('setJWT', response.token);
+						localStorage.setItem('token', response.token);
+						Axios.defaults.headers.common[authTokenHeader] = response.token;
+					}
 				})
 				.finally(() => {
 					commit('setAjaxInProgress', false);
