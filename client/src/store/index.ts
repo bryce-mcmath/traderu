@@ -4,6 +4,7 @@ import AjaxCalls from '@/api/ajaxCalls';
 import Axios from 'axios';
 
 Vue.use(Vuex);
+const authTokenHeader = 'x-auth-token';
 
 const errorUnwrapper = errObject => {
 	const result = [];
@@ -29,7 +30,7 @@ export default new Vuex.Store({
 		apiData: {
 			stocksData: {},
 			allRankingsData: {},
-			initialPortfolioCapital: 100000,
+			initialPortfolioCapital: 100000
 		}
 	},
 	getters: {
@@ -47,10 +48,10 @@ export default new Vuex.Store({
 		setDrawer(state, payload) {
 			state.ui.showDrawer = payload;
 		},
-		setApiStocksData(state, payload){
+		setApiStocksData(state, payload) {
 			state.apiData.stocksData = payload;
 		},
-		setApiRankingsData(state, payload){
+		setApiRankingsData(state, payload) {
 			state.apiData.allRankingsData = payload;
 		},
 		setLoginEmail(state, payload) {
@@ -71,38 +72,38 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
-		setStocksData({commit, state}) {
+		setStocksData({ commit, state }) {
 			//Only update stocks if not already in state
-			if(Object.keys(state.apiData.stocksData).length !== 0){
+			if (Object.keys(state.apiData.stocksData).length !== 0) {
 				return;
 			}
 			commit('setAjaxInProgress', true);
 			AjaxCalls.fetchStocksData()
-			.then(closeValues => commit('setApiStocksData', closeValues))
-			.catch(err => {
-				console.log('getAPIStockData:', err);
-			})
-			.finally(() => {
-				commit('setAjaxInProgress', false);
-			});
+				.then(closeValues => commit('setApiStocksData', closeValues))
+				.catch(err => {
+					console.log('getAPIStockData:', err);
+				})
+				.finally(() => {
+					commit('setAjaxInProgress', false);
+				});
 		},
 
-		setRankingsData({commit, state}) {
+		setRankingsData({ commit, state }) {
 			//Don't update if already loaded
-			if(Object.keys(state.apiData.allRankingsData).length !== 0){
+			if (Object.keys(state.apiData.allRankingsData).length !== 0) {
 				return;
 			}
 			commit('setAjaxInProgress', true);
 			AjaxCalls.fetchRankingsData()
-			.then(rankData => {
-				commit('setApiRankingsData', rankData);
-			})
-			.catch(err => {
-				console.log('getAPIrankData:', err);
-			})
-			.finally(() => {
-				commit('setAjaxInProgress', false);
-			});
+				.then(rankData => {
+					commit('setApiRankingsData', rankData);
+				})
+				.catch(err => {
+					console.log('getAPIrankData:', err);
+				})
+				.finally(() => {
+					commit('setAjaxInProgress', false);
+				});
 		},
 
 		submitLoginAuth({ commit, state }) {
@@ -118,7 +119,7 @@ export default new Vuex.Store({
 					// Set JWT in store and local storage
 					commit('setJWT', response.data.token);
 					localStorage.setItem('token', response.data.token);
-					Axios.defaults.headers.common['Authorization'] = response.data.token;
+					Axios.defaults.headers.common[authTokenHeader] = response.data.token;
 				})
 				.catch(err => {
 					const errArray = errorUnwrapper(err);
@@ -130,7 +131,7 @@ export default new Vuex.Store({
 		},
 		submitLogout({ commit }) {
 			localStorage.removeItem('token');
-			delete Axios.defaults.headers.common['Authorization'];
+			delete Axios.defaults.headers.common[authTokenHeader];
 			commit('setJWT', '');
 		}
 	},
