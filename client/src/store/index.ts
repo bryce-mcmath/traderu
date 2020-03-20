@@ -28,6 +28,7 @@ export default new Vuex.Store({
 		jwt: '',
 		apiData: {
 			stocksData: {},
+			rankingsData: {},
 		}
 	},
 	mutations: {
@@ -42,6 +43,9 @@ export default new Vuex.Store({
 		},
 		setApiStocksData(state, payload){
 			state.apiData.stocksData = payload;
+		},
+		setApiRankingsData(state, payload){
+			state.apiData.rankingsData = payload;
 		},
 		setLoginEmail(state, payload) {
 			state.ui.loginEmail = payload;
@@ -67,7 +71,7 @@ export default new Vuex.Store({
 				return;
 			}
 			commit('setAjaxInProgress', true);
-			fetch('/api/stocks')
+			fetch('http://localhost:8002/api/stocks')
 			.then(res => {
 				return res.json();
 			})
@@ -78,7 +82,23 @@ export default new Vuex.Store({
 				commit('setApiStocksData', closeValues);
 			})
 			.catch(err => {
-				console.log('submitLoginAuth:', err);
+				console.log('getAPIStockData:', err);
+			})
+			.finally(() => {
+				commit('setAjaxInProgress', false);
+			});
+		},
+		setRankingsData({commit, state}) {
+			if(Object.keys(state.apiData.rankingsData).length !== 0){
+				return;
+			}
+			commit('setAjaxInProgress', true);
+			Axios.get('http://localhost:8002/api/leaderboard')
+			.then(res => {
+				commit('setApiRankingsData', res.data.rankings);
+			})
+			.catch(err => {
+				console.log('getAPIrankData:', err);
 			})
 			.finally(() => {
 				commit('setAjaxInProgress', false);

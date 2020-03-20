@@ -12,7 +12,7 @@ import D3World from '@/components/d3_world/D3World.vue';
 export default {
 	name: 'Display',
 	components: {
-		D3World
+		D3World,
 	}
 };
 </script>
