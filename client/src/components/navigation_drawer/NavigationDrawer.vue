@@ -44,6 +44,7 @@
 <script>
   import Vuex from 'vuex';
   export default {
+    name: 'NavigationDrawer',
     data() {
       return {
         routes: [
@@ -56,7 +57,11 @@
             to: '/leaderboard'
           }
         ],
-        drawerState: null
+        drawerState: null,
+        isLoggedIn: {
+          type: Boolean,
+          default: false
+        }
       };
     },
     computed: {
@@ -67,6 +72,10 @@
     methods: {
       drawerEvent(e) {
         if (!e) this.$store.commit('setDrawer', false);
+      },
+      // This is a placeholder. It was undefined and throwing an error
+      logout(e) {
+        return;
       }
     }
   };
