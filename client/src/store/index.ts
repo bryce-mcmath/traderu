@@ -28,6 +28,8 @@ export default new Vuex.Store({
 		jwt: '',
 		apiData: {
 			stocksData: {},
+			rankingsData: {},
+			initialPortfolioCapital: 100000,
 		}
 	},
 	getters: {
@@ -47,6 +49,9 @@ export default new Vuex.Store({
 		},
 		setApiStocksData(state, payload){
 			state.apiData.stocksData = payload;
+		},
+		setApiRankingsData(state, payload){
+			state.apiData.rankingsData = payload;
 		},
 		setLoginEmail(state, payload) {
 			state.ui.loginEmail = payload;
@@ -72,18 +77,27 @@ export default new Vuex.Store({
 				return;
 			}
 			commit('setAjaxInProgress', true);
-			fetch('/api/stocks')
-			.then(res => {
-				return res.json();
+			AjaxCalls.fetchStocksData()
+			.then(closeValues => commit('setApiStocksData', closeValues))
+			.catch(err => {
+				console.log('getAPIStockData:', err);
 			})
-			.then(res => {
-				const closeValues = res.map(stockObject => {
-					return ({name: stockObject.name, prices: stockObject.stockdata.map(stock => Number(stock.data['4. close']))})
-				});
-				commit('setApiStocksData', closeValues);
+			.finally(() => {
+				commit('setAjaxInProgress', false);
+			});
+		},
+
+		setRankingsData({commit, state}) {
+			if(Object.keys(state.apiData.rankingsData).length !== 0){
+				return;
+			}
+			commit('setAjaxInProgress', true);
+			AjaxCalls.fetchRankingsData()
+			.then(rankData => {
+				commit('setApiRankingsData', rankData);
 			})
 			.catch(err => {
-				console.log('submitLoginAuth:', err);
+				console.log('getAPIrankData:', err);
 			})
 			.finally(() => {
 				commit('setAjaxInProgress', false);
