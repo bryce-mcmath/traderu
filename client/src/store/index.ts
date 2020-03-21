@@ -19,6 +19,7 @@ const errorUnwrapper = errObject => {
 export default new Vuex.Store({
   state: {
     ui: {
+      dark: false,
       showDrawer: false,
       showStocksDrawer: false,
       loginEmail: '',
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    toggleDarkMode(state) {
+      state.ui.dark = !state.ui.dark;
+    },
     toggleDrawer(state) {
       state.ui.showDrawer = !state.ui.showDrawer;
     },

@@ -17,5 +17,22 @@
     height: 6vh;
     border-radius: 10%;
     // @TODO: Increase size of hamburger icon
+
+    &--active {
+      @include light-pressed;
+    }
+  }
+
+  &--dark {
+    background-color: $dark-bg;
+    box-shadow: 0 5px 5px #222;
+    .v-btn.v-btn--icon {
+      @include dark-unpressed;
+      // @TODO: Increase size of hamburger icon
+
+      &--active {
+        @include dark-pressed;
+      }
+    }
   }
 }

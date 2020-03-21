@@ -9,28 +9,28 @@
       link="/"
       icon="fa fa-info"
       :dark="dark"
-      :active="tab === 'info'"
+      :active="tabSelected === 'info'"
     />
     <FooterNavButton
       label="Trade"
-      link="/transaction"
+      link="/trade"
       icon="fas fa-balance-scale-left"
       :dark="dark"
-      :active="tab === 'trade'"
+      :active="tabSelected === 'trade'"
     />
     <FooterNavButton
       label="Portfolios"
       link="/portfolios"
       icon="fas fa-chart-line"
       :dark="dark"
-      :active="tab === 'portfolios'"
+      :active="tabSelected === 'portfolios'"
     />
     <FooterNavButton
       label="Leaderboard"
       link="/leaderboard"
       icon="fas fa-trophy"
       :dark="dark"
-      :active="tab === 'leaderboard'"
+      :active="tabSelected === 'leaderboard'"
     />
   </v-bottom-navigation>
 </template>
@@ -48,7 +48,7 @@
         type: Boolean,
         default: false
       },
-      tab: {
+      tabSelected: {
         type: String,
         default: 'info'
       }
