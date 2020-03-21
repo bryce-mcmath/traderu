@@ -1,10 +1,12 @@
-.v-bottom-navigation {
+.v-item-group.v-bottom-navigation {
   justify-content: space-around !important;
   align-items: center;
   height: 12vh !important;
   background: $light-bg !important;
+  box-shadow: 0 -5px 5px #ddd;
 
   &--dark {
+    box-shadow: 0 -5px 5px #222;
     background: $dark-bg !important;
   }
 }

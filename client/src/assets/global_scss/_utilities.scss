@@ -1,0 +1,69 @@
+@import 'variables';
+.v-application.app--dark {
+  background-color: $dark-bg;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @include dark-primary-header;
+  }
+
+  p {
+    @include dark-primary-paragraph;
+  }
+
+  & .view-container--alt {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      @include dark-secondary-header;
+    }
+
+    p {
+      @include dark-secondary-paragraph;
+    }
+  }
+}
+
+.v-application.app--light {
+  background-color: $light-bg;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @include light-primary-header;
+  }
+
+  p {
+    @include light-primary-paragraph;
+  }
+
+  & .view-container--alt {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      @include light-secondary-header;
+    }
+
+    p {
+      @include light-secondary-paragraph;
+    }
+  }
+}
+
+.view-container {
+  margin: 8px;
+  &--alt {
+    margin: 8px;
+  }
+}

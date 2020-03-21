@@ -1,0 +1,78 @@
+.vuemorphic-toggle__bar {
+  text-align: center;
+  border: 1px solid #f0f0f0;
+  background: #f3f3f3;
+  box-shadow: inset -5px 5px 10px #cecece, inset 5px -5px 10px #ffffff;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  position: relative;
+  overflow: hidden;
+  margin: 1em auto;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.vuemorphic-toggle__bar > i:first-child {
+  color: #555;
+  position: absolute;
+  left: 15%;
+  z-index: 0;
+}
+
+.vuemorphic-toggle__bar > i:nth-child(2) {
+  color: #555;
+  position: absolute;
+  right: 15%;
+  z-index: 0;
+}
+
+.vuemorphic-toggle__bar .vuemorphic-toggle__square {
+  border-radius: 10px;
+  transition: left 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+    background 0.2s ease;
+  background: #f3f3f3;
+  position: absolute;
+  top: 0;
+  left: 40px;
+  width: 30px;
+  height: 100%;
+  box-shadow: 0 4px 16px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vuemorphic-toggle__square .square-bumps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 60%;
+  width: 60%;
+}
+
+.vuemorphic-toggle__square .square-bumps .square-bump {
+  align-self: center;
+  justify-self: center;
+  height: 50%;
+  width: 50%;
+  border-radius: 4px;
+  background: #f3f3f3;
+  box-shadow: 1px 1px 2px #888888, -1px -1px 2px #ffffff;
+}
+
+.vuemorphic-toggle input[type='checkbox'] {
+  display: none;
+  position: absolute;
+  appearance: none;
+}
+
+.vuemorphic-toggle.vuemorphic-toggle--active .vuemorphic-toggle__square {
+  left: 0;
+}
+
+.vuemorphic-toggle-container {
+  align-self: center;
+  display: block;
+}
