@@ -40,6 +40,8 @@
 - [Reddit Account Analyzer #2](https://gfycat.com/lastingsarcasticanole-javascript-web-design)
 - [D3 Examples on Examples on Examples](https://christopheviau.com/d3list/)
 - [Neumorphism in Color](https://medium.com/@xurxe/accessible-neumorphism-soft-ui-992286900bfa)
+- [Pie Breakdown Inspo](https://www.pinterest.com/pin/298011700338636100/)
+- [Cards Inspo](https://www.pinterest.com/pin/325736985543163449/)
 
 ### Gary's Advice
 

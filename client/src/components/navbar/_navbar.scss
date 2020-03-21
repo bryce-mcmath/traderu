@@ -1,0 +1,38 @@
+.brand {
+  width: auto;
+  height: 3vh;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 10vh;
+  box-shadow: 0 5px 5px #ccc;
+  background-color: $light-bg;
+
+  .v-btn.v-btn--icon {
+    @include light-unpressed;
+    width: 6vh;
+    height: 6vh;
+    border-radius: 10%;
+    // @TODO: Increase size of hamburger icon
+
+    &--active {
+      @include light-pressed;
+    }
+  }
+
+  &--dark {
+    background-color: $dark-bg;
+    box-shadow: 0 5px 5px #222;
+    .v-btn.v-btn--icon {
+      @include dark-unpressed;
+      // @TODO: Increase size of hamburger icon
+
+      &--active {
+        @include dark-pressed;
+      }
+    }
+  }
+}

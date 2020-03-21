@@ -1,0 +1,106 @@
+// Neumorphic effect, unpressed button in light mode
+@mixin light-unpressed {
+  background: $light-bg;
+  box-shadow: -5px 5px 10px $light-neu-shadow-color,
+    5px -5px 10px $light-neu-bright-color;
+  color: $light-bg-secondary-text-color;
+  text-shadow: 1px 1px 1px $light-text-shadow-color;
+}
+
+// Neumorphic effect, pressed button in light mode
+@mixin light-pressed {
+  background: $light-bg;
+  box-shadow: inset -5px 5px 10px $light-neu-shadow-color,
+    inset 5px -5px 10px $light-neu-bright-color;
+  color: $light-bg-primary-text-color;
+  text-shadow: 1px 1px 1px $light-text-shadow-color;
+}
+
+// Header, light mode
+@mixin light-primary-header {
+  font-family: $primary-font, sans-serif;
+  font-weight: 600;
+  color: $light-bg-primary-text-color;
+  text-shadow: 1px 1px 1px $light-text-shadow-color;
+}
+
+// Paragraph, light mode
+@mixin light-primary-paragraph {
+  font-family: $primary-font, sans-serif;
+  font-weight: 300;
+  color: $light-bg-primary-text-color;
+  text-shadow: 1px 1px 1px $light-text-shadow-color;
+}
+
+// Header, light mode, secondary font
+@mixin light-secondary-header {
+  font-family: $secondary-font, sans-serif;
+  font-weight: 700;
+  color: $light-bg-primary-text-color;
+  text-shadow: 1px 1px 1px $light-text-shadow-color;
+}
+
+// Paragraph, light mode, secondary font
+@mixin light-secondary-paragraph {
+  font-family: $secondary-font, sans-serif;
+  font-weight: 300;
+  color: $light-bg-primary-text-color;
+  text-shadow: 1px 1px 1px $light-text-shadow-color;
+}
+
+// Header, dark mode
+@mixin dark-primary-header {
+  font-family: $primary-font, sans-serif;
+  font-weight: 600;
+  color: $dark-bg-primary-text-color;
+  text-shadow: 1px 1px 1px $dark-text-shadow-color;
+}
+
+// Paragraph, dark mode
+@mixin dark-primary-paragraph {
+  font-family: $primary-font, sans-serif;
+  font-weight: 300;
+  color: $dark-bg-primary-text-color;
+  text-shadow: 1px 1px 1px $dark-text-shadow-color;
+}
+
+// Header, dark mode, secondary font
+@mixin dark-secondary-header {
+  font-family: $secondary-font, sans-serif;
+  font-weight: 700;
+  color: $dark-bg-primary-text-color;
+  text-shadow: 1px 1px 1px $dark-text-shadow-color;
+}
+
+// Paragraph, dark mode, secondary font
+@mixin dark-secondary-paragraph {
+  font-family: $secondary-font, sans-serif;
+  font-weight: 300;
+  color: $dark-bg-primary-text-color;
+  text-shadow: 1px 1px 1px $dark-text-shadow-color;
+}
+
+// Neumorphic effect, unpressed button in dark mode
+@mixin dark-unpressed {
+  background: $dark-bg;
+  box-shadow: -5px 5px 10px $dark-neu-shadow-color,
+    5px -5px 10px $dark-neu-bright-color;
+  color: $dark-bg-secondary-text-color;
+  text-shadow: 1px 1px 1px $dark-text-shadow-color;
+}
+
+// Neumorphic effect, pressed button in dark mode
+@mixin dark-pressed {
+  background: $dark-bg;
+  box-shadow: inset -5px 5px 10px $dark-neu-shadow-color,
+    inset 5px -5px 10px $dark-neu-bright-color;
+  color: $dark-bg-primary-text-color;
+  text-shadow: 1px 1px 1px $dark-text-shadow-color;
+}
+
+// Center child elements => <div><div>This div will be centered vertically and horizontally</div></div>
+@mixin center-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

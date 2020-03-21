@@ -45,6 +45,44 @@ Why:
 
 5. Now rejoice! Simply use `git commit` rather than `git commit -m "Some lame msg"`
 
-### Swagger
+### Stretch goals we come up with
 
-https://swagger.io
+[Use browser preference to determine initial dark mode setting](https://www.freecodecamp.org/news/how-to-detect-a-users-preferred-color-scheme-in-javascript-ec8ee514f1ef/)
+Implement crypto (Not really stretch, but more than MVP)
+Price AI
+Duration AI
+Market close and open
+Location visualization
+Donate real money and get extra capital
+ActuallyEmployed-Level JSDocs
+
+### Good stretch goals other people suggested
+
+[Cron jobs since we already have an AWS pipeline](https://aws.amazon.com/premiumsupport/knowledge-center/cron-job-elastic-beanstalk/)
+[ActuallyEmployed-Level API Documentation](https://swagger.io)
+
+## Neumorphism
+
+### Unpressed
+
+#### Light
+
+box-shadow: -5px 5px 10px #cecece,
+5px -5px 10px #ffffff;
+
+#### Dark
+
+box-shadow: -5px 5px 10px #242424,
+5px -5px 10px #303030;
+
+### Pressed
+
+#### Light
+
+box-shadow: inset -5px 5px 10px #cecece,
+inset 5px -5px 10px #ffffff;
+
+#### Dark
+
+box-shadow: inset -5px 5px 10px #242424,
+inset 5px -5px 10px #303030;

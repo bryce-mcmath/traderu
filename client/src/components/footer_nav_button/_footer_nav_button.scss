@@ -1,0 +1,75 @@
+.v-btn.footer-nav-button {
+  @include center-content;
+
+  // Default & Light Mode
+  .v-btn__content {
+    .footer-nav-button__label {
+      color: $light-bg-secondary-text-color;
+    }
+
+    i.footer-nav-button__icon {
+      @include light-unpressed;
+      text-align: center;
+      line-height: 9vh;
+      border-radius: 50%;
+      height: 9vh;
+      width: 9vh;
+      font-size: 4vh;
+    }
+  }
+
+  &.footer-nav-button--active {
+    .v-btn__content {
+      .footer-nav-button__label {
+        color: $light-bg-primary-text-color;
+      }
+
+      i.footer-nav-button__icon {
+        @include light-pressed;
+        text-align: center;
+        line-height: 9vh;
+        border-radius: 50%;
+        height: 9vh;
+        width: 9vh;
+        font-size: 4vh;
+      }
+    }
+  }
+
+  // Dark Mode
+  &--dark {
+    .v-btn__content {
+      .footer-nav-button__label {
+        color: $dark-bg-secondary-text-color;
+      }
+
+      i.footer-nav-button__icon {
+        @include dark-unpressed;
+        text-align: center;
+        line-height: 9vh;
+        border-radius: 50%;
+        height: 9vh;
+        width: 9vh;
+        font-size: 4vh;
+      }
+    }
+
+    &.footer-nav-button--active {
+      .v-btn__content {
+        .footer-nav-button__label {
+          color: $dark-bg-primary-text-color;
+        }
+
+        i.footer-nav-button__icon {
+          @include dark-pressed;
+          text-align: center;
+          line-height: 9vh;
+          border-radius: 50%;
+          height: 9vh;
+          width: 9vh;
+          font-size: 4vh;
+        }
+      }
+    }
+  }
+}
