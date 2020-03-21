@@ -4,7 +4,7 @@
   // Default & Light Mode
   .v-btn__content {
     .footer-nav-button__label {
-      color: $light-bg-secondary-text;
+      color: $light-bg-secondary-text-color;
     }
 
     i.footer-nav-button__icon {
@@ -21,7 +21,7 @@
   &.footer-nav-button--active {
     .v-btn__content {
       .footer-nav-button__label {
-        color: $light-bg-primary-text;
+        color: $light-bg-primary-text-color;
       }
 
       i.footer-nav-button__icon {
@@ -40,7 +40,7 @@
   &--dark {
     .v-btn__content {
       .footer-nav-button__label {
-        color: $dark-bg-secondary-text;
+        color: $dark-bg-secondary-text-color;
       }
 
       i.footer-nav-button__icon {
@@ -57,7 +57,7 @@
     &.footer-nav-button--active {
       .v-btn__content {
         .footer-nav-button__label {
-          color: $dark-bg-primary-text;
+          color: $dark-bg-primary-text-color;
         }
 
         i.footer-nav-button__icon {

@@ -1,0 +1,30 @@
+img{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+.container{
+  display: flex;
+  flex-flow: column;
+  border: 1px solid black;
+  width: 80vw;
+  border-radius: 20px;
+  position:relative;
+}
+.row{
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+.performance-info>span{
+  padding: 5px;
+}
+
+.username{
+  font-size: 1.6em;
+}
+.rank{
+  position: absolute;
+  left: 5px;
+  top:5px;
+}

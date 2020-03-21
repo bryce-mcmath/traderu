@@ -12,25 +12,25 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
-  import Navbar from '@/components/navbar/Navbar.vue';
-  import NavigationDrawer from '@/components/navigation_drawer/NavigationDrawer.vue';
-  import FooterNavButton from '@/components/footer_nav_button/FooterNavButton.vue';
-  import FooterNav from './components/footer_nav/FooterNav.vue';
-  import Spinner from './components/spinner/Spinner.vue';
+import Vue from 'vue';
+import Navbar from '@/components/navbar/Navbar.vue';
+import NavigationDrawer from '@/components/navigation_drawer/NavigationDrawer.vue';
+import FooterNavButton from '@/components/footer_nav_button/FooterNavButton.vue';
+import FooterNav from './components/footer_nav/FooterNav.vue';
+import Spinner from './components/spinner/Spinner.vue';
 
-  export default Vue.extend({
-    name: 'App',
-    components: {
-      Navbar,
-      NavigationDrawer,
-      FooterNav
-    },
-    data: function() {
-      return {
-        dark: false,
-        loading: false
-      };
-    }
-  });
+export default Vue.extend({
+  name: 'App',
+  components: {
+    Navbar,
+    NavigationDrawer,
+    FooterNav
+  },
+  data: function() {
+    return {
+      dark: false,
+      loading: false
+    };
+  }
+});
 </script>

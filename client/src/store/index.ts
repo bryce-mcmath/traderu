@@ -4,6 +4,7 @@ import AjaxCalls from '@/api/ajaxCalls';
 import Axios from 'axios';
 
 Vue.use(Vuex);
+const authTokenHeader = 'x-auth-token';
 
 const errorUnwrapper = errObject => {
   const result = [];
@@ -27,7 +28,9 @@ export default new Vuex.Store({
     },
     jwt: '',
     apiData: {
-      stocksData: {}
+      stocksData: {},
+      allRankingsData: {},
+      initialPortfolioCapital: 100000
     }
   },
   getters: {
@@ -48,6 +51,9 @@ export default new Vuex.Store({
     setApiStocksData(state, payload) {
       state.apiData.stocksData = payload;
     },
+    setApiRankingsData(state, payload) {
+      state.apiData.allRankingsData = payload;
+    },
     setLoginEmail(state, payload) {
       state.ui.loginEmail = payload;
     },
@@ -57,9 +63,9 @@ export default new Vuex.Store({
     setAjaxInProgress(state, payload: boolean) {
       state.ui.ajaxInProgress = payload;
     },
-    setLoginError(state, payload: Array<string>) {
+    setLoginError(state, payload) {
       // Need to use vue.set when replacing an entire obj/array
-      Vue.set(state, 'loginError', [...payload]);
+      // Vue.set(state, 'loginError', [...payload]);
     },
     setJWT(state, payload) {
       state.jwt = payload;
@@ -72,28 +78,34 @@ export default new Vuex.Store({
         return;
       }
       commit('setAjaxInProgress', true);
-      fetch('/api/stocks')
-        .then(res => {
-          return res.json();
-        })
-        .then(res => {
-          const closeValues = res.map(stockObject => {
-            return {
-              name: stockObject.name,
-              prices: stockObject.stockdata.map(stock =>
-                Number(stock.data['4. close'])
-              )
-            };
-          });
-          commit('setApiStocksData', closeValues);
-        })
+      AjaxCalls.fetchStocksData()
+        .then(closeValues => commit('setApiStocksData', closeValues))
         .catch(err => {
-          console.log('submitLoginAuth:', err);
+          console.log('getAPIStockData:', err);
         })
         .finally(() => {
           commit('setAjaxInProgress', false);
         });
     },
+
+    setRankingsData({ commit, state }) {
+      //Don't update if already loaded
+      if (Object.keys(state.apiData.allRankingsData).length !== 0) {
+        return;
+      }
+      commit('setAjaxInProgress', true);
+      AjaxCalls.fetchRankingsData()
+        .then(rankData => {
+          commit('setApiRankingsData', rankData);
+        })
+        .catch(err => {
+          console.log('getAPIrankData:', err);
+        })
+        .finally(() => {
+          commit('setAjaxInProgress', false);
+        });
+    },
+
     submitLoginAuth({ commit, state }) {
       const { loginEmail, loginPassword } = state.ui;
       commit('setAjaxInProgress', true);
@@ -104,14 +116,16 @@ export default new Vuex.Store({
           // Clear inputs
           commit('setLoginEmail', '');
           commit('setLoginPassword', '');
-          // Set JWT in store and local storage
-          commit('setJWT', response.data.token);
-          localStorage.setItem('token', response.data.token);
-          Axios.defaults.headers.common['Authorization'] = response.data.token;
-        })
-        .catch(err => {
-          const errArray = errorUnwrapper(err);
-          commit('setLoginError', errArray);
+          if (response.response) {
+            // There is an error
+            console.log('Error in submitLoginAuth');
+            console.log(errorUnwrapper(response));
+          } else {
+            // Set JWT in store and local storage
+            commit('setJWT', response.token);
+            localStorage.setItem('token', response.token);
+            Axios.defaults.headers.common[authTokenHeader] = response.token;
+          }
         })
         .finally(() => {
           commit('setAjaxInProgress', false);
@@ -119,7 +133,7 @@ export default new Vuex.Store({
     },
     submitLogout({ commit }) {
       localStorage.removeItem('token');
-      delete Axios.defaults.headers.common['Authorization'];
+      delete Axios.defaults.headers.common[authTokenHeader];
       commit('setJWT', '');
     }
   },

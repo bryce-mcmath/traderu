@@ -3,6 +3,7 @@ import express, { Express, Request, Response } from 'express';
 import * as helmet from 'helmet';
 import * as hist from 'connect-history-api-fallback';
 import bodyParser from 'body-parser';
+const cors = require('cors');
 const app: Express = express();
 
 // Local vs deployed config
@@ -12,6 +13,8 @@ const ENV = process.env.BUILD_ENV || 'production';
 console.log('Running environment:', ENV);
 
 // Initialize middleware
+app.use(cors());
+app.options('*', cors());
 app.use(helmet.default());
 app.use(express.json({ limit: '10kb' }));
 

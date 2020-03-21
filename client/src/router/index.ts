@@ -36,6 +36,11 @@ const routes = [
 		path: '/leaderboard',
 		name: 'Leaderboard',
 		component: Leaderboard
+	},
+	{
+		path: '/leaderboard/:id',
+		name: 'LeaderboardId',
+		component: Leaderboard
 	}
 ];
 

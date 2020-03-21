@@ -1,10 +1,21 @@
 $light-bg: #f3f3f3;
-$light-bg-primary-text: #2a2a2a;
-$light-bg-secondary-text: #4a4a4a;
+$light-bg-primary-text-color: #2a2a2a;
+$light-bg-secondary-text-color: #4a4a4a;
+$light-neu-shadow-color: #cecece;
+$light-neu-bright-color: #ffffff;
+$light-text-shadow-color: #cccccc;
 
 $dark-bg: #2a2a2a;
-$dark-bg-primary-text: #f3f3f3;
-$dark-bg-secondary-text: #c3c3c3;
+$dark-bg-primary-text-color: #f3f3f3;
+$dark-bg-secondary-text-color: #c3c3c3;
+$dark-neu-shadow-color: #242424;
+$dark-neu-bright-color: #303030;
+$dark-text-shadow-color: #444444;
 
 $profit-color: #75ff83;
 $loss-color: #ff073a;
+
+// Light
+// #cecece, #ffffff
+// Dark
+// #242424, #303030
