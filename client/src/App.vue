@@ -1,5 +1,6 @@
 <template>
 	<v-app>
+		<Dialog></Dialog>
 		<Navbar></Navbar>
 		<NavigationDrawer></NavigationDrawer>
 		<v-content>
@@ -16,13 +17,15 @@
 	import NavigationDrawer from '@/components/navigation_drawer/Navigation_Drawer.vue';
 	import BottomNav from './components/bottom_nav/BottomNav.vue';
 	import Spinner from './components/spinner/Spinner.vue';
+	import Dialog from './components/dialog/Dialog.vue';
 
 	export default Vue.extend({
 		name: 'App',
 		components: {
 			Navbar,
 			NavigationDrawer,
-			BottomNav
+			BottomNav,
+			Dialog
 		}
 	});
 </script>

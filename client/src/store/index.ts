@@ -19,12 +19,25 @@ const errorUnwrapper = errObject => {
 export default new Vuex.Store({
 	state: {
 		ui: {
+			// Multi component use
+			ajaxInProgress: false,
+			// For navigation drawer
 			showDrawer: false,
 			showStocksDrawer: false,
+			// For login component
 			loginEmail: '',
 			loginPassword: '',
-			ajaxInProgress: false,
-			loginError: []
+			loginError: [],
+			// For dialog box
+			showDialog: false,
+			dialogOptions: {
+				dialogTitle: '',
+				dialogContent: '',
+				dialogPrimaryBtnText: '',
+				dialogSecondaryBtnText: '',
+				dialogPrimaryCallback: '',
+				dialogSecondaryCallback: ''
+			}
 		},
 		jwt: '',
 		apiData: {
@@ -69,6 +82,31 @@ export default new Vuex.Store({
 		},
 		setJWT(state, payload) {
 			state.jwt = payload;
+		},
+		setShowDialog(state, payload) {
+			state.ui.showDialog = payload;
+		},
+		setDialogText(state, payload = {}) {
+			const options = state.ui.dialogOptions;
+			const {
+				title = '',
+				content = '',
+				primaryBtn = '',
+				primaryCallback = '',
+				secondaryBtn = '',
+				secondaryCallback = ''
+			} = payload;
+			options.dialogTitle = title;
+			options.dialogContent = content;
+			options.dialogPrimaryBtnText = primaryBtn;
+			options.dialogPrimaryCallback = primaryCallback;
+			options.dialogSecondaryBtnText = secondaryBtn;
+			options.dialogSecondaryCallback = secondaryCallback;
+		},
+		submitLogout(state) {
+			localStorage.removeItem('token');
+			delete Axios.defaults.headers.common[authTokenHeader];
+			state.jwt = '';
 		}
 	},
 	actions: {
@@ -111,25 +149,30 @@ export default new Vuex.Store({
 			commit('setAjaxInProgress', true);
 			commit('setLoginError', []);
 
-			AjaxCalls.loginAuth(loginEmail, loginPassword)
-				.then(response => {
-					// Clear inputs
-					commit('setLoginEmail', '');
-					commit('setLoginPassword', '');
-					if (response.response) {
-						// There is an error
-						console.log('Error in submitLoginAuth');
-						console.log(errorUnwrapper(response));
-					} else {
-						// Set JWT in store and local storage
-						commit('setJWT', response.token);
-						localStorage.setItem('token', response.token);
-						Axios.defaults.headers.common[authTokenHeader] = response.token;
-					}
-				})
-				.finally(() => {
-					commit('setAjaxInProgress', false);
-				});
+			return new Promise((resolve, reject) => {
+				AjaxCalls.loginAuth(loginEmail, loginPassword)
+					.then(response => {
+						// Clear inputs
+						commit('setLoginEmail', '');
+						commit('setLoginPassword', '');
+						if (response.response) {
+							// There is an error
+							console.log('Error in submitLoginAuth');
+							reject(errorUnwrapper(response));
+						} else {
+							// Set JWT in store and local storage
+							commit('setJWT', response.token);
+							localStorage.setItem('token', response.token);
+							Axios.defaults.headers.common[authTokenHeader] = response.token;
+							resolve();
+						}
+					})
+					.finally(() => {
+						setTimeout(() => {
+							commit('setAjaxInProgress', false);
+						}, 1000);
+					});
+			});
 		},
 		submitLogout({ commit }) {
 			localStorage.removeItem('token');
