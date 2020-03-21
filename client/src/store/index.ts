@@ -44,7 +44,8 @@ export default new Vuex.Store({
     apiData: {
       stocksData: {},
       allRankingsData: {},
-      initialPortfolioCapital: 100000
+      initialPortfolioCapital: 100000,
+      userPortfolios: [],
     }
   },
   getters: {
@@ -67,6 +68,9 @@ export default new Vuex.Store({
     },
     setApiStocksData(state, payload) {
       state.apiData.stocksData = payload;
+    },
+    setUserPortfolios(state, payload) {
+      state.apiData.userPortfolios = payload;
     },
     setApiRankingsData(state, payload) {
       state.apiData.allRankingsData = payload;
@@ -139,6 +143,21 @@ export default new Vuex.Store({
       AjaxCalls.fetchRankingsData()
         .then(rankData => {
           commit('setApiRankingsData', rankData);
+        })
+        .catch(err => {
+          console.log('getAPIrankData:', err);
+        })
+        .finally(() => {
+          commit('setAjaxInProgress', false);
+        });
+    },
+
+    setUserPortfolios({ commit, state }) {
+      commit('setAjaxInProgress', true);
+      AjaxCalls.fetchPortfolioData()
+        .then(portfolios => {
+          console.log(portfolios)
+          commit('setUserPortfolios', portfolios);
         })
         .catch(err => {
           console.log('getAPIrankData:', err);

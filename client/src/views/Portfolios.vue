@@ -18,14 +18,22 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
+
   export default {
     name: 'Portfolios',
     components: {},
+    created(){
+      this.setUserPortfolios();
+    },
     props: {
       dark: {
         type: Boolean,
         default: false
       }
-    }
+    },
+    methods: {
+      ...mapActions(['setUserPortfolios'])
+    },
   };
 </script>

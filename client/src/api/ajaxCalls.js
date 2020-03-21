@@ -11,8 +11,6 @@ export default {
 	},
 
 	fetchStocksData() {
-		//Local route for quicker workflow during development
-		// return Axios.get('http://localhost:8002/api/stocks')
 		return Axios.get('/api/stocks').then(res => {
 			return res.data.map(stockObject => {
 				return {
@@ -25,9 +23,11 @@ export default {
 		});
 	},
 
+	fetchPortfolioData() {
+		return Axios.get('/api/portfolios').then(res => res.data);
+	},
+
 	fetchRankingsData() {
-		//Local route for quicker workflow during development
-		// return Axios.get('http://localhost:8002/api/leaderboard')
 		return Axios.get('/api/leaderboard').then(res => {
 			console.log(res.data.rankings);
 			return res.data.rankings;
