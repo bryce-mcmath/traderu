@@ -17,8 +17,9 @@ const getPortfoliosByUserId = (user_id: string | number) =>
 				array_agg(stocks.name) AS stock_names
 			FROM
 				portfolios
-				JOIN portfolios_stocks ON portfolios.id = portfolios_stocks.portfolio_id
-				JOIN stocks ON stocks.id = portfolios_stocks.stock_id
+				LEFT JOIN 
+				(portfolios_stocks JOIN stocks ON stocks.id = portfolios_stocks.stock_id)
+				ON portfolios.id = portfolios_stocks.portfolio_id
 			WHERE
 				user_id = $1
 				AND deleted_at IS NULL
