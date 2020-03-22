@@ -5,33 +5,30 @@ const getPortfoliosByUserId = (user_id: string | number) =>
 	db
 		.query(
 			`		
-			SELECT
-				portfolios.id,
-				portfolios.user_id,
-				portfolios.name,
-				value,
-				cash,
-				buying_power,
-				portfolios.created_at,
-				portfolios.deleted_at,
-				array_agg(json_build_object('name', stocks.name , 'quantity', portfolios_stocks.quantity )) AS stock_names
-			FROM
-				portfolios
-				LEFT JOIN 
-				(portfolios_stocks JOIN stocks ON stocks.id = portfolios_stocks.stock_id)
-				ON portfolios.id = portfolios_stocks.portfolio_id
-			WHERE
-				user_id = $1
-				AND deleted_at IS NULL
-			GROUP BY
-				portfolios.name,
-				portfolios.id,
-				buying_power,
-				portfolios.created_at,
-				portfolios.deleted_at,
-				portfolios.user_id,
-				value,
-				cash
+      SELECT * FROM 
+      (	
+        WITH stocks as (
+          SELECT stocks.name, portfolios_stocks.quantity, portfolio_id
+          FROM stocks JOIN portfolios_stocks ON stocks.id = stock_id
+        )
+        SELECT portfolios.*, json_agg(stocks) as stocks 
+        FROM portfolios left join stocks on portfolios.id = portfolio_id  
+        WHERE
+        user_id = $1
+        AND deleted_at IS NULL group by portfolios.id
+      ) AS a
+      JOIN (
+        WITH values as (
+          SELECT portfolio_histories.value, portfolio_histories.date_time, portfolio_id
+          FROM portfolio_histories
+        )
+        SELECT id, json_agg(values) as values 
+        FROM portfolios left join values on portfolios.id = values.portfolio_id  
+        WHERE
+        user_id = $1
+        AND deleted_at IS NULL group by portfolios.id
+      ) AS b
+      ON a.id = b.id
 		`,
 			[user_id]
 		)
