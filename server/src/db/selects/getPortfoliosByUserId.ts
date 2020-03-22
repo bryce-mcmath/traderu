@@ -14,7 +14,7 @@ const getPortfoliosByUserId = (user_id: string | number) =>
 				buying_power,
 				portfolios.created_at,
 				portfolios.deleted_at,
-				array_agg(stocks.name) AS stock_names
+				array_agg(json_build_object('name', stocks.name , 'quantity', portfolios_stocks.quantity )) AS stock_names
 			FROM
 				portfolios
 				LEFT JOIN 
