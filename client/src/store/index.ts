@@ -197,6 +197,7 @@ export default new Vuex.Store({
           });
       });
     },
+    
     submitLogout({ commit }) {
       localStorage.removeItem('token');
       delete Axios.defaults.headers.common[authTokenHeader];
