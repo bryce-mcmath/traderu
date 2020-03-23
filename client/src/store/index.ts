@@ -156,7 +156,6 @@ export default new Vuex.Store({
       commit('setAjaxInProgress', true);
       AjaxCalls.fetchPortfolioData()
         .then(portfolios => {
-          console.log(portfolios)
           commit('setUserPortfolios', portfolios);
         })
         .catch(err => {

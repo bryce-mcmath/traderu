@@ -24,7 +24,7 @@ export default {
 	},
 
 	fetchPortfolioData() {
-		return Axios.get('/api/portfolios').then(res => {console.log(res.data); return res.data});
+		return Axios.get('/api/portfolios').then(res => res.data);
 	},
 
 	fetchRankingsData() {
