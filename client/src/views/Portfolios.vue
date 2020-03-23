@@ -1,17 +1,18 @@
 <template>
   <main class="view-container--alt">
     <h2>Primary Header</h2>
-      <v-expansion-panels :accordion="true" :focusable="true" :flat="true">
-        <v-expansion-panel
-          v-for="(portfolio,i) in portfolios"
-          :key="i"
-        >
-          <v-expansion-panel-header>{{portfolio.name}}</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <Portfolio :portfolio="portfolio"/>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
+    <v-btn block :dark="dark">Add Portfolio</v-btn>
+    <v-expansion-panels :accordion="true" :focusable="true" :flat="true" :dark="dark">
+      <v-expansion-panel
+        v-for="(portfolio,i) in portfolios"
+        :key="i"
+      >
+        <v-expansion-panel-header>{{portfolio.name}}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <Portfolio :portfolio="portfolio"/>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </main>
 </template>
 
@@ -40,7 +41,7 @@
     computed: {
       portfolios(){
         return this.$store.state.apiData.userPortfolios["portfolios"];
-      }
+      },
     }
   };
 </script>

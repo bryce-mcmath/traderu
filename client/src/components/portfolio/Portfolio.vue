@@ -1,7 +1,9 @@
 <template>
-  <main>
-  	<svg :id="portfolio.name" width="200" height="200"></svg>
-    <svg id="visualisation" width="1000" height="500"></svg>
+  <main class="portfolio-container">
+    <h2>Stocks Breakdown</h2>
+  	<svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width"></svg>
+    <h2>Portfolio value</h2>
+    <svg :id="`line-chart-${portfolio.name}`" :width="width" :height="width"></svg>
   </main>
 </template>
 
@@ -12,59 +14,7 @@
       // STOCK BREAKDOWN CHART
       this.makePie();
       //VALUE OVER TIME 
-      const data = [{
-        "sale": "202",
-        "year": "00"
-         }, {
-        "sale": "215",
-        "year": "01"
-        }, {
-        "sale": "179",
-        "year": "02"
-        }, {
-        "sale": "199",
-        "year": "03"
-        }, {
-        "sale": "134",
-        "year": "03"
-         }, {
-        "sale": "176",
-        "year": "10"
-        }];
-      const vis = d3.select("#visualisation"),
-        WIDTH = 300,
-        HEIGHT = 500,
-        MARGINS = {
-        top: 20,
-        right: 20,
-        bottom: 20,
-        left: 40},
-        xScale = d3.scaleLinear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0,10]),
-        yScale = d3.scaleLinear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([134,215]),
-        xAxis = d3.axisBottom(xScale),
-        yAxis = d3.axisLeft(yScale);
-      
-      vis.append("svg:g").call(xAxis)
-        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
-        .call(xAxis);
-
-      vis.append("svg:g")
-        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
-        .call(yAxis);
-
-      const lineGen = d3.line()
-        .x(function(d) {
-          return xScale(d.year);
-        })
-        .y(function(d) {
-          return yScale(d.sale);
-        });
-     
-      vis.append('svg:path')
-        .attr('d', lineGen(data))
-        .attr('stroke', 'green')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none');
+      this.makeLineChart();
 
     },
       methods: {
@@ -72,7 +22,7 @@
         const data = this.pieData.map(obj => Number(obj.value));
         const labels = this.pieData.map(obj => obj.name);
       
-        const svg = d3.select(`#${this.portfolio.name}`),
+        const svg = d3.select(`#pie-chart-${this.portfolio.name}`),
             width = svg.attr("width"),
             height = svg.attr("height"),
             radius = Math.min(width, height) / 2,
@@ -112,12 +62,60 @@
           .text( function(d, i) {
             return labels[i];}
           );
+        },
+        makeLineChart(){
+          const rawData = this.portfolio.values;
+          //Format time values to just dates for this graph
+          const data = rawData.map(value => ({...value, date: value.date_time.split("T")[0]})) 
+          const parseTime = d3.timeParse("%Y-%m-%d");
+
+          const vis = d3.select(`#line-chart-${this.portfolio.name}`),
+            WIDTH = vis.attr('width'),
+            HEIGHT = vis.attr('height'),
+            MARGINS = {
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 40},
+            xScale = d3.scaleTime()
+              .range([MARGINS.left, WIDTH - MARGINS.right])
+              .domain(d3.extent(data, d =>  parseTime(d.date))),
+            yScale = d3.scaleLinear()
+              .range([HEIGHT - MARGINS.top, MARGINS.bottom])
+              //Going from min to max, 0 to max might be better
+              .domain([d3.min(data, d => d.value) * 0.9, d3.max(data, d => d.value) * 1.1]),
+            xAxis = d3.axisBottom(xScale).ticks(5),
+            yAxis = d3.axisLeft(yScale);
+          
+          //Append and move down x axis
+          vis.append("svg:g")
+            .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+            .call(xAxis);
+          
+          //Append and move y axis past margin
+          vis.append("svg:g")
+            .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+            .call(yAxis);
+
+          //Make line
+          const lineGen = d3.line()
+            .x(d => xScale(parseTime(d.date)))
+            .y(d => {return yScale(d.value)});
+        
+          vis.append('svg:path')
+            .attr('d', lineGen(data))
+            .attr('stroke', 'green')
+            .attr('stroke-width', 2)
+            .attr('fill', 'none');
         }
     },
 
     computed: {
       stocksData(){
         return this.$store.state.apiData.stocksData;
+      },
+      width(){
+        return window.innerWidth / 1.5;
       },
       pieData(){
         const stocks = this.portfolio.stocks.filter(stock => stock);
