@@ -10,7 +10,8 @@
     @include dark-primary-header;
   }
 
-  p {
+  p,
+  label {
     @include dark-primary-paragraph;
   }
 
@@ -24,7 +25,8 @@
       @include dark-secondary-header;
     }
 
-    p {
+    p,
+    label {
       @include dark-secondary-paragraph;
     }
   }
@@ -41,7 +43,8 @@
     @include light-primary-header;
   }
 
-  p {
+  p,
+  label {
     @include light-primary-paragraph;
   }
 
@@ -55,7 +58,8 @@
       @include light-secondary-header;
     }
 
-    p {
+    p,
+    label {
       @include light-secondary-paragraph;
     }
   }
@@ -66,4 +70,8 @@
   &--alt {
     margin: 8px;
   }
+}
+
+.cp {
+  cursor: pointer;
 }
