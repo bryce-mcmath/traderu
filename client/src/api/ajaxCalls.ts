@@ -30,7 +30,7 @@ export default {
           name: stockObject.name,
           symbol: stockObject.symbol,
           prices: stockObject.stockdata.map(stock =>
-            Number(stock.data['4. close'])
+            ({time: stock.time, price: Number(stock.data['4. close'])})
           )
         };
       });
