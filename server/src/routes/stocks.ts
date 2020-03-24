@@ -58,7 +58,7 @@ stocks.get('/', async (req: Request, res: Response) => {
  * @param {String} path - Express path
  * @param {Function} middleware - Callback function used as middleware
  */
-stocks.get('/:symbol/intraday', async (req: Request, res: Response) => {
+stocks.get(['/:symbol/intraday', '/:symbol'], async (req: Request, res: Response) => {
 	try {
 		const stock = await getStockIntraday(req.params.symbol);
 		console.log(stock)
