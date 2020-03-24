@@ -14,8 +14,20 @@ export default {
   async loginAuth(email = '', password = '') {
     return axios
       .post('/api/login', {
-        email: email,
-        password: password
+        email,
+        password
+      })
+      .then(response => response.data)
+      .catch(err => err);
+  },
+
+  async register(name = '', email = '', password = '', location) {
+    return axios
+      .post('/api/register', {
+        email,
+        password,
+        name,
+        location
       })
       .then(response => response.data)
       .catch(err => err);
@@ -46,14 +58,23 @@ export default {
   },
 
   async fetchPortfolioData() {
+    axios.defaults.headers.common['x-auth-token'] = localStorage.getItem(
+      'token'
+    );
     return axios.get('/api/portfolios').then(res => res.data);
   },
 
   async postPortfolio(name) {
+    axios.defaults.headers.common['x-auth-token'] = localStorage.getItem(
+      'token'
+    );
     return axios.post('/api/portfolios', { 'portfolioName': name });
   },
 
   async deletePortfolio(id) {
+    axios.defaults.headers.common['x-auth-token'] = localStorage.getItem(
+      'token'
+    );
     return axios.delete(`/api/portfolios/${id}`);
   }
 };

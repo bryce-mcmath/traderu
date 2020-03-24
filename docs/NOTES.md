@@ -86,3 +86,7 @@ inset 5px -5px 10px #ffffff;
 
 box-shadow: inset -5px 5px 10px #242424,
 inset 5px -5px 10px #303030;
+
+### Making Stretch Easier
+
+If we change our /trade vue route to /assets, we can list all assets in the one view under their respective headers, [like so](https://s.yimg.com/ny/api/res/1.2/5tXNfWiMKGWe5oXwtFQd8w--~A/YXBwaWQ9aGlnaGxhbmRlcjtzbT0xO3c9MTI4MDtoPTk2MA--/http://media.zenfs.com/en-US/homerun/businessinsider.com/b4c63fb7370c5bb4a97110a5c70fd11c). Then we can pop a new view on top when they click an asset, and move our transaction form there (disabled if they aren't logged in.) Then when when we add in crypto and other assets it's just ctrl c ctrl v.
