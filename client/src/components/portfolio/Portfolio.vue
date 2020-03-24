@@ -4,20 +4,71 @@
   	<svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width"></svg>
     <h2>Portfolio value</h2>
     <svg :id="`line-chart-${portfolio.name}`" :width="width" :height="width"></svg>
+    <v-btn id="delete-portfolio"
+      color="red"
+      @click.stop="dialog = true"
+    >
+      Delete Portfolio
+    </v-btn>
+
+    <v-dialog
+      v-model="dialog"
+      max-width="290"
+    >
+      <div class="spinner-container" v-if="deleting">
+        <Spinner></Spinner>
+      </div>
+      <v-card v-if="!deleting">
+        <v-card-title>Are you sure you want to delete this portfolio?</v-card-title>
+
+        <v-card-text>
+          Deleting a portfolio cannot be undone.
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Go Back
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="deletePortfolio"
+          >
+            Delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </main>
 </template>
 
 <script>
   import * as d3 from 'd3';
+  import AjaxCalls from '../../api/ajaxCalls';
+  import { mapActions } from 'vuex';
+  import Spinner from '../spinner/Spinner.vue'
+
   export default {
+    components: {Spinner},
     mounted(){
       // STOCK BREAKDOWN CHART
       this.makePie();
       //VALUE OVER TIME 
       this.makeLineChart();
-
     },
       methods: {
+        deletePortfolio(){
+          AjaxCalls.deletePortfolio(this.portfolio.id)
+          .then(() => this.setUserPortfolios())
+          .then(() => this.dialog = false)
+        },
         makePie(){
         const data = this.pieData.map(obj => Number(obj.value));
         const labels = this.pieData.map(obj => obj.name);
@@ -63,6 +114,7 @@
             return labels[i];}
           );
         },
+        ...mapActions(['setUserPortfolios']),
         makeLineChart(){
           const rawData = this.portfolio.values;
           //Format time values to just dates for this graph
@@ -76,7 +128,7 @@
             top: 20,
             right: 20,
             bottom: 20,
-            left: 40},
+            left: 55},
             xScale = d3.scaleTime()
               .range([MARGINS.left, WIDTH - MARGINS.right])
               .domain(d3.extent(data, d =>  parseTime(d.date))),
@@ -84,7 +136,10 @@
               .range([HEIGHT - MARGINS.top, MARGINS.bottom])
               //Going from min to max, 0 to max might be better
               .domain([d3.min(data, d => d.value) * 0.9, d3.max(data, d => d.value) * 1.1]),
-            xAxis = d3.axisBottom(xScale).ticks(5),
+            xAxis = d3.axisBottom(xScale)
+              // @TODO this will make 5 ticks even if only one datapoint.
+              //Maybe use v-if to only display values chart for portfolios > x days old 
+              .ticks(5),
             yAxis = d3.axisLeft(yScale);
           
           //Append and move down x axis
@@ -111,6 +166,9 @@
     },
 
     computed: {
+      deleting(){
+        return this.$store.state.ui.ajaxInProgress;
+      },
       stocksData(){
         return this.$store.state.apiData.stocksData;
       },
@@ -125,6 +183,11 @@
           return {name: stock.name, value: stock.quantity * price}
         });
         return [...stockValues, {name:"cash", value:this.portfolio.cash}];
+      }
+    },
+    data () {
+      return {
+        dialog: false,
       }
     },
     props: ["portfolio"]

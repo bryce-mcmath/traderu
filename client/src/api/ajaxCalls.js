@@ -32,5 +32,13 @@ export default {
 			console.log(res.data.rankings);
 			return res.data.rankings;
 		});
+	},
+
+	postPortfolio(name) {
+		return Axios.post('/api/portfolios', {"portfolioName": name})
+	},
+
+	deletePortfolio(id) {
+		return Axios.delete(`/api/portfolios/${id}`)
 	}
 };
