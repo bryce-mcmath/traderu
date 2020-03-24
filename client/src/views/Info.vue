@@ -27,10 +27,8 @@
     },
     methods: {
       showStocksDrawer: function() {
-        this.setStocksData();
         this.$store.commit('toggleStocksDrawer');
       },
-      ...mapActions(['setStocksData'])
     }
   };
 </script>

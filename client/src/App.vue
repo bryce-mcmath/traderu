@@ -22,6 +22,7 @@
   import FooterNav from './components/footer_nav/FooterNav.vue';
   import Spinner from './components/spinner/Spinner.vue';
   import Dialog from './components/dialog/Dialog.vue';
+  import { mapMutations, mapActions } from 'vuex';
 
   export default Vue.extend({
     name: 'App',
@@ -30,6 +31,12 @@
       NavigationDrawer,
       FooterNav,
       Dialog
+    },
+    created(){
+      this.setStocksData();
+    },
+    methods: {
+      ...mapActions(['setStocksData'])
     },
     data: function() {
       return {

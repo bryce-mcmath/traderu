@@ -123,15 +123,11 @@ export default new Vuex.Store({
       if (Object.keys(state.apiData.stocksData).length !== 0) {
         return;
       }
-      commit('setAjaxInProgress', true);
       AjaxCalls.fetchStocksData()
         .then(closeValues => commit('setApiStocksData', closeValues))
         .catch(err => {
           console.log('getAPIStockData:', err);
         })
-        .finally(() => {
-          commit('setAjaxInProgress', false);
-        });
     },
 
     setRankingsData({ commit, state }) {

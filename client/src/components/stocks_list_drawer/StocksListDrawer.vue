@@ -2,9 +2,6 @@
 	<v-navigation-drawer dark :value="showStocksDrawer" app @input="drawerEvent">
     <v-list one-line>
       <v-subheader>STOCKS</v-subheader>
-      <div class="spinner-container" v-if="showSpinner">
-        <Spinner></Spinner>
-      </div>
       <v-list-item-group color="primary">
         <v-list-item
           v-for="(item, i) in stocksData"
@@ -34,13 +31,9 @@
 
 <script>
   import Vuex from 'vuex';
-  import Spinner from '../spinner/Spinner.vue';
 
   export default {
     name: "BottomNav",
-    components: {
-      Spinner,
-    },
     methods: {
 		drawerEvent(e) {
         if (!e) this.$store.commit('toggleStocksDrawer');
