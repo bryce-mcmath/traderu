@@ -28,6 +28,7 @@ export default {
       return res.data.map(stockObject => {
         return {
           name: stockObject.name,
+          symbol: stockObject.symbol,
           prices: stockObject.stockdata.map(stock =>
             Number(stock.data['4. close'])
           )
