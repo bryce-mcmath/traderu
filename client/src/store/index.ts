@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import AjaxCalls from '@/api/ajaxCalls';
-import Axios from 'axios';
+import ajaxCalls from '@/api/ajaxCalls';
+import axios from 'axios';
+
+const { checkAuth, loginAuth, fetchRankingsData, fetchStocksData } = ajaxCalls;
 
 Vue.use(Vuex);
 const authTokenHeader = 'x-auth-token';
@@ -18,25 +20,27 @@ const errorUnwrapper = errObject => {
 
 export default new Vuex.Store({
   state: {
+    user: null,
     ui: {
       dark: false,
       showDrawer: false,
       showStocksDrawer: false,
+      registerName: '',
+      registerEmail: '',
+      registerPassword: '',
+      registerLatitude: '',
+      registerLongitude: '',
       loginEmail: '',
       loginPassword: '',
       ajaxInProgress: false,
-      loginError: []
+      errors: []
     },
-    jwt: '',
     apiData: {
       stocksData: {},
+      cryptoData: {},
       allRankingsData: {},
+      localRankingsData: {},
       initialPortfolioCapital: 100000
-    }
-  },
-  getters: {
-    isLoggedIn(state) {
-      if (state.jwt) return true;
     }
   },
   mutations: {
@@ -48,6 +52,9 @@ export default new Vuex.Store({
     },
     toggleStocksDrawer(state) {
       state.ui.showStocksDrawer = !state.ui.showStocksDrawer;
+    },
+    setUser(state, payload) {
+      state.user = payload;
     },
     setDrawer(state, payload) {
       state.ui.showDrawer = payload;
@@ -67,78 +74,95 @@ export default new Vuex.Store({
     setAjaxInProgress(state, payload: boolean) {
       state.ui.ajaxInProgress = payload;
     },
-    setLoginError(state, payload) {
-      // Need to use vue.set when replacing an entire obj/array
-      // Vue.set(state, 'loginError', [...payload]);
-    },
-    setJWT(state, payload) {
-      state.jwt = payload;
+    setErrors(state, payload) {
+      state.ui.errors = payload;
     }
   },
   actions: {
-    setStocksData({ commit, state }) {
+    async setStocksData({ commit, state }) {
       //Only update stocks if not already in state
-      if (Object.keys(state.apiData.stocksData).length !== 0) {
-        return;
-      }
+      if (Object.keys(state.apiData.stocksData).length !== 0) return;
+
       commit('setAjaxInProgress', true);
-      AjaxCalls.fetchStocksData()
+      fetchStocksData()
         .then(closeValues => commit('setApiStocksData', closeValues))
         .catch(err => {
-          console.log('getAPIStockData:', err);
+          window.console.error('getAPIStockData:', err);
         })
         .finally(() => {
           commit('setAjaxInProgress', false);
         });
     },
 
-    setRankingsData({ commit, state }) {
+    async setRankingsData({ commit, state }) {
       //Don't update if already loaded
       if (Object.keys(state.apiData.allRankingsData).length !== 0) {
         return;
       }
       commit('setAjaxInProgress', true);
-      AjaxCalls.fetchRankingsData()
+      fetchRankingsData()
         .then(rankData => {
           commit('setApiRankingsData', rankData);
         })
         .catch(err => {
-          console.log('getAPIrankData:', err);
+          window.console.error('fetchRankingsData:', err);
         })
         .finally(() => {
           commit('setAjaxInProgress', false);
         });
     },
 
-    submitLoginAuth({ commit, state }) {
+    async checkUserAuth({ commit, state }) {
+      // Only check auth if no current user
+      if (state.user) return;
+      commit('setAjaxInProgress', true);
+      checkAuth()
+        .then(data => {
+          window.console.log('data in checkUserAuth', data);
+          if (!data.user) {
+            commit('setErrors', [data]);
+            commit('setUser', null);
+          } else {
+            commit('setErrors', []);
+            commit('setUser', { ...data.user });
+          }
+        })
+        .catch(err => {
+          return;
+        })
+        .finally(() => {
+          commit('setAjaxInProgress', false);
+        });
+    },
+
+    async submitLoginAuth({ dispatch, commit, state }) {
       const { loginEmail, loginPassword } = state.ui;
       commit('setAjaxInProgress', true);
-      commit('setLoginError', []);
 
-      AjaxCalls.loginAuth(loginEmail, loginPassword)
-        .then(response => {
+      loginAuth(loginEmail, loginPassword)
+        .then(async response => {
           // Clear inputs
           commit('setLoginEmail', '');
           commit('setLoginPassword', '');
           if (response.response) {
             // There is an error
-            console.log('Error in submitLoginAuth');
-            console.log(errorUnwrapper(response));
+            commit('setErrors', errorUnwrapper(response));
           } else {
             // Set JWT in store and local storage
-            commit('setJWT', response.token);
             localStorage.setItem('token', response.token);
-            Axios.defaults.headers.common[authTokenHeader] = response.token;
+            axios.defaults.headers.common[authTokenHeader] = response.token;
+            await dispatch('checkUserAuth');
           }
         })
         .finally(() => {
           commit('setAjaxInProgress', false);
         });
     },
-    submitLogout({ commit }) {
+
+    async submitLogout({ commit }) {
       localStorage.removeItem('token');
-      delete Axios.defaults.headers.common[authTokenHeader];
-      commit('setJWT', '');
+      delete axios.defaults.headers.common[authTokenHeader];
+      // @TODO: Clear the rest of state
     }
   },
   modules: {}

@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar" v-bind:class="{ 'navbar--dark': dark }">
-    <VuemorphicToggle :dark="dark"></VuemorphicToggle>
+    <VuemorphicToggle></VuemorphicToggle>
     <img class="brand" v-if="!dark" src="@/assets/logo.png" />
     <img class="brand" v-if="dark" src="@/assets/logo--dark-mode.png" />
     <v-app-bar-nav-icon
@@ -11,30 +11,27 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
-  import VuemorphicToggle from '@/components/vuemorphic_toggle/VuemorphicToggle.vue';
-  import { mapMutations } from 'vuex';
+import Vue from 'vue';
+import VuemorphicToggle from '@/components/vuemorphic_toggle/VuemorphicToggle.vue';
+import { mapMutations } from 'vuex';
 
-  export default Vue.extend({
-    name: 'Navbar',
-    components: { VuemorphicToggle },
-    props: {
-      dark: {
-        type: Boolean,
-        default: false
-      }
+export default Vue.extend({
+  name: 'Navbar',
+  components: { VuemorphicToggle },
+  computed: {
+    pressed() {
+      return this.$store.state.ui.showDrawer;
     },
-    computed: {
-      pressed() {
-        return this.$store.state.ui.showDrawer;
-      }
-    },
-    methods: {
-      ...mapMutations(['toggleDrawer'])
+    dark() {
+      return this.$store.state.ui.dark;
     }
-  });
+  },
+  methods: {
+    ...mapMutations(['toggleDrawer'])
+  }
+});
 </script>
 
 <style lang="scss" scoped>
-  @import 'navbar';
+@import 'navbar';
 </style>
