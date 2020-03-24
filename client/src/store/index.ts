@@ -130,6 +130,12 @@ export default new Vuex.Store({
         })
     },
 
+    async createPortfolio({commit}, name){
+      commit('setAjaxInProgress', true);
+      await AjaxCalls.postPortfolio(name)
+      commit('setAjaxInProgress', false);
+    },
+
     setRankingsData({ commit, state }) {
       //Don't update if already loaded
       if (Object.keys(state.apiData.allRankingsData).length !== 0) {

@@ -4,7 +4,10 @@
       <template v-slot:activator="{ on }">
         <v-btn block v-on="on">New Portfolio</v-btn>
       </template>
-      <v-card>
+      <div class="spinner-container" v-if="creating">
+        <Spinner></Spinner>
+      </div>
+      <v-card v-if="!creating">
         <v-card-title>
           <span class="headline">New Portfolio</span>
         </v-card-title>
@@ -30,21 +33,31 @@
 </template>
 
 <script>
-  import AjaxCalls from '../../api/ajaxCalls';
   import { mapActions } from 'vuex';
+  import Spinner from '../spinner/Spinner.vue'
 
   export default {
     data: () => ({
       dialog: false,
       portfolioName: ''
     }),
+    components: {
+      Spinner
+    },
     methods: {
       save(){
-        this.dialog = false;
-        AjaxCalls.postPortfolio(this.portfolioName)
-        .then(() => this.setUserPortfolios());
+        this.createPortfolio(this.portfolioName)
+        .then(async () => {
+          await this.setUserPortfolios();
+          this.dialog = false;
+        });
       },
-      ...mapActions(['setUserPortfolios']),
+      ...mapActions(['setUserPortfolios', 'createPortfolio']),
+    },
+    computed: {
+      creating(){
+        return this.$store.state.ui.ajaxInProgress;
+      },
     }
   };
 </script>
