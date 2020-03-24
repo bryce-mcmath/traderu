@@ -44,7 +44,8 @@ export default new Vuex.Store({
     apiData: {
       stocksData: {},
       allRankingsData: {},
-      initialPortfolioCapital: 100000
+      initialPortfolioCapital: 100000,
+      userPortfolios: [],
     }
   },
   getters: {
@@ -67,6 +68,9 @@ export default new Vuex.Store({
     },
     setApiStocksData(state, payload) {
       state.apiData.stocksData = payload;
+    },
+    setUserPortfolios(state, payload) {
+      state.apiData.userPortfolios = payload;
     },
     setApiRankingsData(state, payload) {
       state.apiData.allRankingsData = payload;
@@ -148,6 +152,20 @@ export default new Vuex.Store({
         });
     },
 
+    setUserPortfolios({ commit }) {
+      commit('setAjaxInProgress', true);
+      return AjaxCalls.fetchPortfolioData()
+        .then(portfolios => {
+          commit('setUserPortfolios', portfolios);
+        })
+        .catch(err => {
+          console.log('getAPIrankData:', err);
+        })
+        .finally(() => {
+          commit('setAjaxInProgress', false);
+        });
+    },
+
     submitLoginAuth({ commit, state }) {
       const { loginEmail, loginPassword } = state.ui;
       commit('setAjaxInProgress', true);
@@ -178,6 +196,7 @@ export default new Vuex.Store({
           });
       });
     },
+    
     submitLogout({ commit }) {
       localStorage.removeItem('token');
       delete Axios.defaults.headers.common[authTokenHeader];

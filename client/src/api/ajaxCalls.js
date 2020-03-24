@@ -10,35 +10,35 @@ export default {
       .catch(err => err);
   },
 
-  fetchStocksData() {
-    //Local route for quicker workflow during development
-    // return Axios.get('http://localhost:8002/api/stocks')
-    return Axios.get('/api/stocks').then(res => {
-      return res.data.map(stockObject => {
-        return {
-          name: stockObject.name,
-          prices: stockObject.stockdata.map(stock =>
-            Number(stock.data['4. close'])
-          )
-        };
-      });
-    });
-  },
+	fetchStocksData() {
+		return Axios.get('/api/stocks').then(res => {
+			return res.data.map(stockObject => {
+				return {
+					name: stockObject.name,
+					prices: stockObject.stockdata.map(stock =>
+						Number(stock.data['4. close'])
+					)
+				};
+			});
+		});
+	},
 
-  fetchStockSymbolData(symbol) {
-    //Local route for quicker workflow during development
-    // return Axios.get('http://localhost:8002/api/stocks')
-    return Axios.get(`/api/stocks/${symbol}`)
-      .then(res => res.data)
-      .catch(err => err);
-  },
+	fetchPortfolioData() {
+		return Axios.get('/api/portfolios').then(res => res.data);
+	},
 
-  fetchRankingsData() {
-    //Local route for quicker workflow during development
-    // return Axios.get('http://localhost:8002/api/leaderboard')
-    return Axios.get('/api/leaderboard').then(res => {
-      console.log(res.data.rankings);
-      return res.data.rankings;
-    });
-  }
+	fetchRankingsData() {
+		return Axios.get('/api/leaderboard').then(res => {
+			console.log(res.data.rankings);
+			return res.data.rankings;
+		});
+	},
+
+	postPortfolio(name) {
+		return Axios.post('/api/portfolios', {"portfolioName": name})
+	},
+
+	deletePortfolio(id) {
+		return Axios.delete(`/api/portfolios/${id}`)
+	}
 };
