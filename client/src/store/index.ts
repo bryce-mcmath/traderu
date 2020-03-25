@@ -56,6 +56,7 @@ export default new Vuex.Store({
       registerLocation: null,
       errors: []
     },
+    symbolSearch: '',
     apiData: {
       stocksData: {},
       cryptoData: {},
@@ -119,6 +120,9 @@ export default new Vuex.Store({
     },
     setShowDialog(state, payload) {
       state.ui.showDialog = payload;
+    },
+    setSearchSymbol(state, payload) {
+      state.symbolSearch = payload;
     },
     setDialogText(state, payload = {}) {
       const options = state.ui.dialogOptions;

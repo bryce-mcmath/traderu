@@ -6,7 +6,11 @@
 
 import express, { Request, Response } from 'express';
 import getAllStocks from '../db/selects/getAllStocks';
-import { getStockIntraday, getStockDaily, getStockWeekly } from '../db/selects/getStock';
+import {
+	getStockIntraday,
+	getStockDaily,
+	getStockWeekly
+} from '../db/selects/getStock';
 import { IstockInfo } from '../utils/types';
 const stocks = express.Router();
 
@@ -58,26 +62,31 @@ stocks.get('/', async (req: Request, res: Response) => {
  * @param {String} path - Express path
  * @param {Function} middleware - Callback function used as middleware
  */
-stocks.get(['/:symbol/intraday', '/:symbol'], async (req: Request, res: Response) => {
-	try {
-		const stock = await getStockIntraday(req.params.symbol);
-		console.log(stock)
-		const stockDataOrganized = Object.entries(stock.rows[0].stockdata).sort((a, b) => {
-				return (new Date(b[0])).valueOf() - (new Date(a[0])).valueOf();
-		}).map(arr => ({ time: arr[0], data: arr[1] }));
-		res.send({...stock.rows[0], stockData:stockDataOrganized})
-}
-catch (error) {
-		console.error('Error in GET -> /stocks/:id/intraday', error);
-		res.status(500).json({
+stocks.get(
+	['/:symbol/intraday', '/:symbol'],
+	async (req: Request, res: Response) => {
+		try {
+			const stock = await getStockIntraday(req.params.symbol);
+			console.log(stock);
+			const stockDataOrganized = Object.entries(stock.rows[0].stockdata)
+				.sort((a, b) => {
+					return new Date(b[0]).valueOf() - new Date(a[0]).valueOf();
+				})
+				.map(arr => ({ time: arr[0], data: arr[1] }));
+			res.send({ ...stock.rows[0], stockData: stockDataOrganized });
+		} catch (error) {
+			console.error('Error in GET -> /stocks/:id/intraday', error);
+			res.status(500).json({
 				errors: [
-						{
-								msg: 'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
-						}
+					{
+						msg:
+							'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+					}
 				]
-		});
-}
-});
+			});
+		}
+	}
+);
 
 /**
  * Route fetching specific stock
@@ -89,21 +98,23 @@ catch (error) {
 stocks.get('/:symbol/daily', async (req: Request, res: Response) => {
 	try {
 		const stock = await getStockDaily(req.params.symbol);
-		const stockDataOrganized = Object.entries(stock.rows[0].stockdata).sort((a, b) => {
-				return (new Date(b[0])).valueOf() - (new Date(a[0])).valueOf();
-		}).map(arr => ({ time: arr[0], data: arr[1] }));
-		res.send({...stock.rows[0], stockData:stockDataOrganized})
-}
-catch (error) {
+		const stockDataOrganized = Object.entries(stock.rows[0].stockdata)
+			.sort((a, b) => {
+				return new Date(b[0]).valueOf() - new Date(a[0]).valueOf();
+			})
+			.map(arr => ({ time: arr[0], data: arr[1] }));
+		res.send({ ...stock.rows[0], stockData: stockDataOrganized });
+	} catch (error) {
 		console.error('Error in GET -> /stocks/:id/daily', error);
 		res.status(500).json({
-				errors: [
-						{
-								msg: 'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
-						}
-				]
+			errors: [
+				{
+					msg:
+						'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+				}
+			]
 		});
-}
+	}
 });
 
 /**
@@ -116,21 +127,23 @@ catch (error) {
 stocks.get('/:symbol/weekly', async (req: Request, res: Response) => {
 	try {
 		const stock = await getStockWeekly(req.params.symbol);
-		const stockDataOrganized = Object.entries(stock.rows[0].stockdata).sort((a, b) => {
-				return (new Date(b[0])).valueOf() - (new Date(a[0])).valueOf();
-		}).map(arr => ({ time: arr[0], data: arr[1] }));
-		res.send({...stock.rows[0], stockData:stockDataOrganized})
-}
-catch (error) {
-	console.error('Error in GET -> /stocks/:id/weekly', error);
-	res.status(500).json({
+		const stockDataOrganized = Object.entries(stock.rows[0].stockdata)
+			.sort((a, b) => {
+				return new Date(b[0]).valueOf() - new Date(a[0]).valueOf();
+			})
+			.map(arr => ({ time: arr[0], data: arr[1] }));
+		res.send({ ...stock.rows[0], stockData: stockDataOrganized });
+	} catch (error) {
+		console.error('Error in GET -> /stocks/:id/weekly', error);
+		res.status(500).json({
 			errors: [
-					{
-							msg: 'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
-					}
+				{
+					msg:
+						'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+				}
 			]
-	});
-}
+		});
+	}
 });
 
 module.exports = stocks;

@@ -2,13 +2,22 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 16px;
   margin-bottom: 100px;
 
   h1 {
     text-align: center;
     margin-top: 10px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  h3 {
+    text-align: center;
+    margin-top: 16px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  .assets-container {
+    margin: 16px;
   }
 
   .placeholder-graph {
@@ -34,4 +43,10 @@
 .rb {
   border-color: rgba(0, 0, 0, 0.38);
   border-radius: 28px;
+}
+
+.symbol-text-input {
+  background-color: white;
+  height: 32px;
+  padding-left: 24px;
 }
