@@ -8,7 +8,6 @@
         { 'vuemorphic-toggle--active': dark }
       ]"
     >
-      <span class="hide-sm">Dark Mode</span>
       <input type="checkbox" id="name" name="vuemorphic-toggle" />
       <span class="vuemorphic-toggle__bar">
         <i class="fas fa-sun"></i>

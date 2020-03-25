@@ -18,6 +18,16 @@
     border-radius: 10%;
     // @TODO: Increase size of hamburger icon
 
+    &:hover {
+      cursor: pointer;
+      background-color: inherit;
+      color: $light-bg-primary-text-color;
+      &::before,
+      &::after {
+        opacity: 0;
+      }
+    }
+
     &--active {
       @include light-pressed;
     }
@@ -29,6 +39,16 @@
     .v-btn.v-btn--icon {
       @include dark-unpressed;
       // @TODO: Increase size of hamburger icon
+
+      &:hover {
+        cursor: pointer;
+        background-color: inherit;
+        color: $dark-bg-primary-text-color;
+        &::before,
+        &::after {
+          opacity: 0;
+        }
+      }
 
       &--active {
         @include dark-pressed;
