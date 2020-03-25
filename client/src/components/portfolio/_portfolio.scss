@@ -18,8 +18,22 @@ h2{
   pointer-events: all;
 }
 #portfolioValue{
-  
+  font-size: 2em;
 }
+
+#pieStockInfo{
+  position: relative;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.2em;
+  p {
+    padding: 0;
+    margin: 0;
+  }
+}
+
 .tick{
   font-family: $primary-font;
   font-size: 2em;

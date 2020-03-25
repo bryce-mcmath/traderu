@@ -4,6 +4,11 @@
     <p id='portfolioValue'>${{portfolio.value}}</p>
     <h2>Stocks Breakdown</h2>
   	<svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width"></svg>
+    <div id="pieStockInfo" v-bind:style="{bottom: width/2 + 50 + 'px'}">
+      <h5>{{highlightedStock}}</h5>
+      <p>Value: ${{stockValue}}</p>
+      <p>{{stockPercent}}</p>
+    </div>
     <h2>Portfolio value</h2>
     <svg :id="`line-chart-${portfolio.name}`" :width="width" :height="width"></svg>
     <v-btn id="delete-portfolio"
@@ -71,6 +76,20 @@
           .then(() => this.setUserPortfolios())
           .then(() => this.dialog = false)
         },
+
+        handleMouseOver(d,i){
+          const stockData = this.pieData[i]
+          this.highlightedStock = stockData.name;
+          this.stockValue = Math.round(stockData.value*100) / 100;
+          this.stockPercent = ((Math.round(stockData.value * 10000 / this.portfolio.value))/100) + '%'
+        },
+        
+        handleMouseOut(d,i){
+          this.highlightedStock = "Total";
+          this.stockValue = this.portfolio.value;
+          this.stockPercent = '';
+        },
+
         makePie(){
         const data = this.pieData.map(obj => Number(obj.value));
         const labels = this.pieData.map(obj => obj.symbol);
@@ -97,6 +116,8 @@
                     .enter()
                     .append("g")
                     .attr("class", "arc")
+                    .on("mouseover", this.handleMouseOver)
+                    .on("mouseout", this.handleMouseOut);
 
         //Draw arc paths
         arcs.append("path")
@@ -231,14 +252,17 @@
         const stockValues = stocks.map(stock => {
           //most recent price from stock with same name
           const price = this.stocksData.find(nestedStock => nestedStock.name === stock.name).prices[0].price;
-          return {symbol: stock.symbol, value: stock.quantity * price}
+          return {name: stock.name, symbol: stock.symbol, value: stock.quantity * price}
         });
-        return [...stockValues, {symbol:"cash", value:this.portfolio.cash}];
+        return [...stockValues, {name:"CASH", symbol:"CASH", value:this.portfolio.cash}];
       }
     },
     data () {
       return {
         dialog: false,
+        stockPercent: '',
+        stockValue: this.portfolio.value,
+        highlightedStock: "Total"
       }
     },
     props: ["portfolio"]

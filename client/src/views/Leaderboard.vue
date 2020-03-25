@@ -74,7 +74,7 @@ main {
 h1, h2 {
   text-align: center;
   margin-top: 10px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: $primary-font;
 }
 
 hr {
