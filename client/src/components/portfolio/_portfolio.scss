@@ -44,6 +44,11 @@ h2{
   stroke-opacity: 0.5;
 }
 
+.axis-label{
+  font-family: $primary-font;
+  fill: currentColor;
+}
+
 text{
   pointer-events: none;
   font-family: $primary-font;

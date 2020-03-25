@@ -10,7 +10,7 @@
       <p>{{stockPercent}}</p>
     </div>
     <h2>Portfolio value</h2>
-    <svg :id="`line-chart-${portfolio.name}`" :width="width" :height="width"></svg>
+    <svg :id="`line-chart-${portfolio.name}`" :width="width *1.1" :height="width"></svg>
     
     <v-btn :to="`/leaderboard/${this.portfolio.id}`">Leaderboard Position</v-btn>
     
@@ -175,7 +175,7 @@
             top: 55,
             right: 20,
             bottom: 55,
-            left: 55},
+            left: 80},
             xScale = d3.scaleTime()
               .range([MARGINS.left, WIDTH - MARGINS.right])
               .domain(d3.extent(data, d =>  parseTime(d.date))),
@@ -207,6 +207,25 @@
           vis.append("svg:g")
             .attr("transform", "translate(" + (MARGINS.left) + ",0)")
             .call(yAxis);
+
+          //X axis label
+          vis.append("text")
+            .attr('class', 'axis-label')             
+            .attr("transform",
+                  "translate(" + (WIDTH/2) + " ," + 
+                                (HEIGHT + MARGINS.top) + ")")
+            .style("text-anchor", "middle")
+            .text("Date");
+
+          //Y-axis label
+          vis.append("text")
+            .attr('class', 'axis-label')             
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0)
+            .attr("x",0 - (HEIGHT / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Value (Dollars)");      
           
           //Add x gridlines
           vis.append("g")			
