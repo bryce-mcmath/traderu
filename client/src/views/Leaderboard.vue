@@ -6,7 +6,7 @@
     <div class="spinner-container" v-if="showSpinner">
       <Spinner></Spinner>
     </div>
-    <v-list v-for="(portfolio, i) in rankData" :key="`${i}`">
+    <v-list v-for="(portfolio, i) in rankData" :key="`${i}`" :dark="darken">
       <LeaderboardListItem :portfolio="portfolio"></LeaderboardListItem>
     </v-list>
   </main>
@@ -32,6 +32,9 @@ export default {
   computed: {
     showSpinner() {
       return this.$store.state.ui.ajaxInProgress;
+    },
+    darken(){
+      return this.$store.state.ui.dark
     },
     rankData() {
       if (!Array.isArray(this.$store.state.apiData.allRankingsData)) return;

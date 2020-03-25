@@ -2,7 +2,7 @@
   <main class="view-container">
     <h2>Portfolios</h2>
     <NewPortfolioForm></NewPortfolioForm>
-    <v-expansion-panels :accordion="true" :focusable="true" :flat="true" :dark="dark">
+    <v-expansion-panels :accordion="true" :focusable="true" :flat="true" :dark="darken">
       <v-expansion-panel v-for="(portfolio) in portfolios" :key="portfolio.name">
         <v-expansion-panel-header>{{portfolio.name}}</v-expansion-panel-header>
         <v-expansion-panel-content>
@@ -39,12 +39,15 @@ export default {
   computed: {
     portfolios() {
       return this.$store.state.apiData.userPortfolios['portfolios'];
+    },
+    darken() {
+      return this.$store.state.ui.dark;
     }
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .view-container--alt {
   margin-bottom: 150px !important;
 }

@@ -40,9 +40,11 @@ export default {
       return res.data.map(stockObject => {
         return {
           name: stockObject.name,
-          prices: stockObject.stockdata.map(stock =>
-            Number(stock.data['4. close'])
-          )
+          symbol: stockObject.symbol,
+          prices: stockObject.stockdata.map(stock => ({
+            time: stock.time,
+            price: Number(stock.data['4. close'])
+          }))
         };
       });
     });
@@ -52,7 +54,6 @@ export default {
     //Local route for quicker workflow during development
     // return axios.get('http://localhost:8002/api/leaderboard')
     return axios.get('/api/leaderboard').then(res => {
-      window.console.log(res.data.rankings);
       return res.data.rankings;
     });
   },

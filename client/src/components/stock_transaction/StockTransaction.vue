@@ -50,7 +50,7 @@ import AjaxCalls from '../../api/ajaxCalls';
 export default Vue.extend({
   name: 'StockTransaction',
   computed: {
-    darkMode() {
+    dark() {
       return this.$store.state.ui.dark;
     }
   },
@@ -63,16 +63,15 @@ export default Vue.extend({
     stockData: ''
   }),
   methods: {
-    searchSymbol() {
-      if (this.stockSymbolInput) {
-        const placeholder = 'placeholder';
-        // AjaxCalls.fetchStockSymbolData(this.stockSymbolInput)
-        //   .then(data => {
-        //     Vue.set(this, 'stockData', data);
-        //   })
-        //   .catch(err => console.log(err.response));
-      }
-    }
+    // searchSymbol() {
+    //   if (this.stockSymbolInput) {
+    //     AjaxCalls.fetchStockSymbolData(this.stockSymbolInput)
+    //       .then(data => {
+    //         Vue.set(this, 'stockData', data);
+    //       })
+    //       .catch(err => console.log(err.response));
+    //   }
+    // }
   }
 });
 </script>

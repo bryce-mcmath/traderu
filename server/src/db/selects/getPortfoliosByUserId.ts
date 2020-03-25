@@ -8,7 +8,7 @@ const getPortfoliosByUserId = (user_id: string | number) =>
       SELECT * FROM 
       (	
         WITH stocks as (
-          SELECT stocks.name, portfolios_stocks.quantity, portfolio_id
+          SELECT stocks.name, stocks.symbol, portfolios_stocks.quantity, portfolio_id
           FROM stocks JOIN portfolios_stocks ON stocks.id = stock_id
         )
         SELECT portfolios.*, json_agg(stocks) as stocks 

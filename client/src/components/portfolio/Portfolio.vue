@@ -1,5 +1,7 @@
 <template>
   <main class="portfolio-container">
+    <h1>Value</h1>
+    <p id='portfolioValue'>${{portfolio.value}}</p>
     <h2>Stocks Breakdown</h2>
   	<svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width"></svg>
     <h2>Portfolio value</h2>
@@ -71,22 +73,22 @@
         },
         makePie(){
         const data = this.pieData.map(obj => Number(obj.value));
-        const labels = this.pieData.map(obj => obj.name);
+        const labels = this.pieData.map(obj => obj.symbol);
       
         const svg = d3.select(`#pie-chart-${this.portfolio.name}`),
             width = svg.attr("width"),
             height = svg.attr("height"),
-            radius = Math.min(width, height) / 2,
+            radius = Math.min(width, height) / 2.1,
             g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-        const color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
+        const color = d3.scaleOrdinal(['#EC4F28','#FCD132','#B1BA68','#529E7B','#516564']);
 
         // Generate the pie
         const pie = d3.pie();
 
         // Generate the arcs
         const arc = d3.arc()
-                    .innerRadius(0)
+                    .innerRadius(radius / 2)
                     .outerRadius(radius);
 
         //Generate groups
@@ -102,6 +104,24 @@
                 return color(i);
             })
             .attr("d", arc);
+
+        //Container for the gradients
+        const defs = svg.append("defs");
+
+        // Filter for the outside glow
+        const filter = defs.append("filter")
+            .attr("id", `pie-chart-${this.portfolio.name}-glow`);
+        filter.append("feGaussianBlur")
+            .attr("stdDeviation","3.5")
+            .attr("result","coloredBlur");
+        const feMerge = filter.append("feMerge");
+        feMerge.append("feMergeNode")
+            .attr("in","coloredBlur");
+        feMerge.append("feMergeNode")
+            .attr("in","SourceGraphic");
+        d3.select(`#pie-chart-${this.portfolio.name}`) 
+          .selectAll('path')
+          .style("filter", `url(#pie-chart-${this.portfolio.name}-glow)`);
         
         arcs.append("text")
         .attr("transform", function(d){
@@ -113,21 +133,24 @@
           .text( function(d, i) {
             return labels[i];}
           );
+ 
         },
         ...mapActions(['setUserPortfolios']),
+
         makeLineChart(){
           const rawData = this.portfolio.values;
           //Format time values to just dates for this graph
           const data = rawData.map(value => ({...value, date: value.date_time.split("T")[0]})) 
           const parseTime = d3.timeParse("%Y-%m-%d");
-
+          
+          
           const vis = d3.select(`#line-chart-${this.portfolio.name}`),
             WIDTH = vis.attr('width'),
             HEIGHT = vis.attr('height'),
             MARGINS = {
-            top: 20,
+            top: 55,
             right: 20,
-            bottom: 20,
+            bottom: 55,
             left: 55},
             xScale = d3.scaleTime()
               .range([MARGINS.left, WIDTH - MARGINS.right])
@@ -139,9 +162,18 @@
             xAxis = d3.axisBottom(xScale)
               // @TODO this will make 5 ticks even if only one datapoint.
               //Maybe use v-if to only display values chart for portfolios > x days old 
-              .ticks(5),
-            yAxis = d3.axisLeft(yScale);
+              .ticks(5).tickSizeOuter(0),
+            yAxis = d3.axisLeft(yScale).ticks(5).tickSizeOuter(0);
           
+          function makeXGridlines() {		
+              return d3.axisBottom(xScale)
+          }
+
+          // gridlines in y axis function
+          function makeYGridlines() {		
+              return d3.axisLeft(yScale)
+          }
+
           //Append and move down x axis
           vis.append("svg:g")
             .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
@@ -151,7 +183,26 @@
           vis.append("svg:g")
             .attr("transform", "translate(" + (MARGINS.left) + ",0)")
             .call(yAxis);
+          
+          //Add x gridlines
+          vis.append("g")			
+              .attr("class", "grid")
+              .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom)  + ")")
+              .call(makeXGridlines()
+                  .tickSize(-(HEIGHT - MARGINS.bottom - MARGINS.top))
+                  .tickFormat("")
+                  .tickSizeOuter(0)
+              )
 
+          // add the Y gridlines
+          vis.append("g")			
+              .attr("class", "grid")
+              .attr("transform", "translate(" + MARGINS.left  +  ", 0)")
+              .call(makeYGridlines()
+                  .tickSize(-(WIDTH -  MARGINS.left - MARGINS.right))
+                  .tickFormat("")
+                  .tickSizeOuter(0)
+              )
           //Make line
           const lineGen = d3.line()
             .x(d => xScale(parseTime(d.date)))
@@ -159,8 +210,8 @@
         
           vis.append('svg:path')
             .attr('d', lineGen(data))
-            .attr('stroke', 'green')
-            .attr('stroke-width', 2)
+            .attr('stroke', "grey")
+            .attr('stroke-width', 4)
             .attr('fill', 'none');
         }
     },
@@ -173,16 +224,16 @@
         return this.$store.state.apiData.stocksData;
       },
       width(){
-        return window.innerWidth / 1.5;
+        return window.innerWidth / 1.4;
       },
       pieData(){
         const stocks = this.portfolio.stocks.filter(stock => stock);
         const stockValues = stocks.map(stock => {
           //most recent price from stock with same name
-          const price = this.stocksData.find(nestedStock => nestedStock.name === stock.name).prices[0];
-          return {name: stock.name, value: stock.quantity * price}
+          const price = this.stocksData.find(nestedStock => nestedStock.name === stock.name).prices[0].price;
+          return {symbol: stock.symbol, value: stock.quantity * price}
         });
-        return [...stockValues, {name:"cash", value:this.portfolio.cash}];
+        return [...stockValues, {symbol:"cash", value:this.portfolio.cash}];
       }
     },
     data () {

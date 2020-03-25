@@ -13,3 +13,24 @@ h2{
 #delete-portfolio{
   margin-top: 50px;
 }
+.arc>path:hover{
+  filter: brightness(80%) !important;
+  pointer-events: all;
+}
+#portfolioValue{
+  
+}
+.tick{
+  font-family: $primary-font;
+  font-size: 2em;
+}
+
+.tick>line {
+  stroke: lightgrey;
+  stroke-opacity: 0.5;
+}
+
+text{
+  pointer-events: none;
+  font-family: $primary-font;
+}
