@@ -11,6 +11,9 @@
     </div>
     <h2>Portfolio value</h2>
     <svg :id="`line-chart-${portfolio.name}`" :width="width" :height="width"></svg>
+    
+    <v-btn :to="`/leaderboard/${this.portfolio.id}`">Leaderboard Position</v-btn>
+    
     <v-btn id="delete-portfolio"
       color="red"
       @click.stop="dialog = true"
