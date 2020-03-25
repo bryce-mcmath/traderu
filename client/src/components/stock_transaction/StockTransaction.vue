@@ -63,15 +63,15 @@ export default Vue.extend({
     stockData: ''
   }),
   methods: {
-    searchSymbol() {
-      if (this.stockSymbolInput) {
-        AjaxCalls.fetchStockSymbolData(this.stockSymbolInput)
-          .then(data => {
-            Vue.set(this, 'stockData', data);
-          })
-          .catch(err => console.log(err.response));
-      }
-    }
+    // searchSymbol() {
+    //   if (this.stockSymbolInput) {
+    //     AjaxCalls.fetchStockSymbolData(this.stockSymbolInput)
+    //       .then(data => {
+    //         Vue.set(this, 'stockData', data);
+    //       })
+    //       .catch(err => console.log(err.response));
+    //   }
+    // }
   }
 });
 </script>

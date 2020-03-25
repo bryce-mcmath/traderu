@@ -26,7 +26,7 @@ export default Vue.extend({
     Navbar,
     NavigationDrawer,
     FooterNav,
-    Dialog
+    Spinner
   },
 
   computed: {
