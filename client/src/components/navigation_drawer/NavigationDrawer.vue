@@ -1,51 +1,102 @@
 <template>
   <v-navigation-drawer
+    width="280"
     absolute
     temporary
     :value="showDrawer"
     @input="drawerEvent"
     :dark="dark"
+    v-bind:class="[{ 'v-navigation-drawer--dark': dark }, { 'v-navigation-drawer--light': !dark }]"
   >
-    <v-list-item>
-      <v-list-item-content>
-        <!-- @TODO: If current user, show data as per mockup, otherwise this entire section shouldn't appear -->
-        <!-- <v-list-item-title class="title">Nav Menu</v-list-item-title>
-        <v-list-item-subtitle>subtitle</v-list-item-subtitle> -->
-      </v-list-item-content>
+    <v-list-item v-if="user">
+      <div class="profile">
+        <img class="profile__avatar" :src="user.avatar" />
+        <h3 class="profile__name">{{user.name}}</h3>
+      </div>
     </v-list-item>
 
-    <v-divider></v-divider>
+    <v-divider v-if="user"></v-divider>
 
-    <v-list dense nav v-if="isLoggedIn">
-      <v-list-item
-        v-for="route in loggedInLinks"
-        :key="route.name"
-        link
-        :to="route.to"
-      >
+    <v-list dense nav v-if="user">
+      <!-- Login -->
+      <v-list-item link :to="'/'">
         <v-list-item-icon>
-          <v-icon>{{ route.icon }}</v-icon>
+          <v-icon>fas fa-sign-in-alt</v-icon>
         </v-list-item-icon>
-
         <v-list-item-content>
-          <v-list-item-title>{{ route.name }}</v-list-item-title>
+          <v-btn>Logout</v-btn>
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- View Portfolios -->
+      <v-list-item link :to="'/portfolios'">
+        <v-list-item-icon>
+          <v-icon>fas fa-user-plus</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-btn>View Portfolios</v-btn>
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- Assets -->
+      <v-list-item link :to="'/assets'">
+        <v-list-item-icon>
+          <v-icon>fas fa-balance-scale-left</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-btn>View Assets</v-btn>
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- View Leaderboard -->
+      <v-list-item link :to="'/leaderboard'">
+        <v-list-item-icon>
+          <v-icon>fas fa-trophy</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-btn>View Leaderboard</v-btn>
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- Settings -->
+      <v-list-item link :to="'/'">
+        <v-list-item-icon>
+          <v-icon>fas fa-cogs</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-btn>Settings</v-btn>
         </v-list-item-content>
       </v-list-item>
     </v-list>
 
-    <v-list dense nav v-if="!isLoggedIn">
-      <v-list-item
-        v-for="route in loggedOutLinks"
-        :key="route.name"
-        link
-        :to="route.to"
-      >
+    <v-list dense nav v-if="!user">
+      <!-- Login -->
+      <v-list-item>
         <v-list-item-icon>
-          <v-icon>{{ route.icon }}</v-icon>
+          <v-icon>fas fa-sign-in-alt</v-icon>
         </v-list-item-icon>
-
         <v-list-item-content>
-          <v-list-item-title>{{ route.name }}</v-list-item-title>
+          <LoginDialog />
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- Register -->
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon>fas fa-user-plus</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-btn>Register</v-btn>
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- View Leaderboard -->
+      <v-list-item link :to="'/leaderboard'">
+        <v-list-item-icon>
+          <v-icon>fas fa-trophy</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-btn>View Leaderboard</v-btn>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -53,65 +104,89 @@
 </template>
 
 <script>
-  import Vuex from 'vuex';
-  export default {
-    name: 'NavigationDrawer',
-    props: {
-      dark: {
-        type: Boolean,
-        default: false
-      }
+import Vuex from 'vuex';
+import LoginDialog from '@/components/login_dialog/LoginDialog.vue';
+
+export default {
+  name: 'NavigationDrawer',
+  components: {
+    LoginDialog
+  },
+  data() {
+    return {
+      loggedInLinks: [{ name: 'Logout', icon: 'fas fa-sign-in-alt', to: '/' }],
+      drawerState: null
+    };
+  },
+  computed: {
+    showDrawer() {
+      return this.$store.state.ui.showDrawer;
     },
-    data() {
-      return {
-        loggedInLinks: [
-          { name: 'Logout', icon: 'fas fa-sign-in-alt', to: '/' },
-          {
-            name: 'View Portfolios',
-            icon: 'fas fa-user-plus',
-            to: '/portfolios'
-          },
-          {
-            name: 'Make Trade',
-            icon: 'fas fa-balance-scale-left',
-            to: '/trade'
-          },
-          {
-            name: 'View Leaderboard',
-            icon: 'fas fa-trophy',
-            to: '/leaderboard'
-          },
-          { name: 'Settings', icon: 'fas fa-cogs', to: '/' }
-        ],
-        loggedOutLinks: [
-          { name: 'Login', icon: 'fas fa-sign-in-alt', to: '/' },
-          { name: 'Register', icon: 'fas fa-user-plus', to: '/' },
-          {
-            name: 'View Leaderboard',
-            icon: 'fas fa-trophy',
-            to: '/leaderboard'
-          }
-        ],
-        drawerState: null,
-        isLoggedIn: {
-          type: Boolean,
-          default: false
-        }
-      };
+    user() {
+      return this.$store.state.user;
     },
-    computed: {
-      showDrawer() {
-        return this.$store.state.ui.showDrawer;
-      }
-    },
-    methods: {
-      drawerEvent(e) {
-        if (!e) this.$store.commit('setDrawer', false);
-      },
-      // This is a placeholder. It was undefined and throwing an error
-      logout(e) {
-        return;
-      }
+    dark() {
+      return this.$store.state.ui.dark;
     }
-  };
+  },
+  methods: {
+    drawerEvent(e) {
+      if (!e) this.$store.commit('setDrawer', false);
+    },
+    // This is a placeholder. It was undefined and throwing an error
+    logout(e) {
+      return;
+    }
+  }
+};
 </script>
+
+<style lang="scss">
+aside.v-navigation-drawer {
+  background: $light-bg;
+  .v-list-item {
+    align-items: center;
+    justify-content: center;
+    .v-list-item__icon {
+      margin: auto;
+    }
+  }
+
+  .v-list-item__content {
+    width: 200px;
+
+    > * {
+      flex: 1 0 60%;
+    }
+
+    button.v-btn.v-size--default {
+      margin-left: 12px;
+      padding: 0;
+      width: 100px;
+    }
+  }
+
+  &--dark {
+    background: $dark-bg;
+  }
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  width: 100%;
+
+  &__avatar {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+
+  &__name {
+  }
+}
+</style>

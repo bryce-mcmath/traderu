@@ -10,7 +10,8 @@ const {
   fetchStocksData,
   postPortfolio,
   fetchPortfolioData,
-  deletePortfolio
+  deletePortfolio,
+  register
 } = ajaxCalls;
 
 Vue.use(Vuex);
