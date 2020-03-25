@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex, { Store } from 'vuex';
+import Vuex from 'vuex';
 import ajaxCalls from '@/api/ajaxCalls';
 import axios from 'axios';
 
@@ -10,7 +10,6 @@ const {
   fetchStocksData,
   postPortfolio,
   fetchPortfolioData,
-  deletePortfolio,
   register
 } = ajaxCalls;
 

@@ -18,10 +18,10 @@
     <v-divider v-if="user"></v-divider>
 
     <v-list dense nav v-if="user">
-      <!-- Login -->
-      <v-list-item link :to="'/'">
+      <!-- Logout -->
+      <v-list-item @click="logout">
         <v-list-item-icon>
-          <v-icon>fas fa-sign-in-alt</v-icon>
+          <v-icon>fas fa-sign-out-alt</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-btn>Logout</v-btn>
@@ -86,7 +86,7 @@
           <v-icon>fas fa-user-plus</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-btn>Register</v-btn>
+          <RegisterDialog />
         </v-list-item-content>
       </v-list-item>
 
@@ -106,15 +106,16 @@
 <script>
 import Vuex from 'vuex';
 import LoginDialog from '@/components/login_dialog/LoginDialog.vue';
+import RegisterDialog from '@/components/register_dialog/RegisterDialog.vue';
 
 export default {
   name: 'NavigationDrawer',
   components: {
-    LoginDialog
+    LoginDialog,
+    RegisterDialog
   },
   data() {
     return {
-      loggedInLinks: [{ name: 'Logout', icon: 'fas fa-sign-in-alt', to: '/' }],
       drawerState: null
     };
   },
@@ -133,9 +134,27 @@ export default {
     drawerEvent(e) {
       if (!e) this.$store.commit('setDrawer', false);
     },
-    // This is a placeholder. It was undefined and throwing an error
-    logout(e) {
-      return;
+    logout() {
+      this.$store
+        .dispatch('submitLogout')
+        .then(() => {
+          this.$store.commit('setDialogText', {
+            title: 'Logout Successful',
+            content: "We'll miss you buddy.",
+            primaryBtn: 'Ok',
+            secondaryBtn: null,
+            secondaryCallback: null
+          });
+          this.$store.commit('setShowDialog', true);
+        })
+        .catch(err => {
+          this.$store.commit('setDialogText', {
+            title: 'Logout failed. Wait, what? Logout failed?!',
+            content: err[0],
+            primaryBtn: 'Ok'
+          });
+          this.$store.commit('setShowDialog', true);
+        });
     }
   }
 };
