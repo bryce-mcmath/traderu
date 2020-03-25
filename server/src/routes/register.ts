@@ -39,7 +39,7 @@ register.post(
 			'If a location is not empty, it must be an object with longitude and latitude'
 		).custom(
 			(location, { req }) =>
-				location === undefined ||
+				!location ||
 				(typeof location === 'object' &&
 					typeof location.longitude === 'string' &&
 					typeof location.latitude === 'string')
@@ -53,6 +53,7 @@ register.post(
 		} else {
 			try {
 				const { name, email, password, location } = req.body;
+				if (location) console.log(location.latitude, location.longitude);
 				const existingUser = await getUserByEmail(email.toLowerCase());
 
 				if (existingUser) {

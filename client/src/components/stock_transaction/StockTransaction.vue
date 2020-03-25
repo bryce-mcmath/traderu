@@ -58,7 +58,7 @@ import AjaxCalls from '../../api/ajaxCalls';
 export default Vue.extend({
   name: 'StockTransaction',
   computed: {
-    darkMode() {
+    dark() {
       return this.$store.state.ui.dark;
     }
   },

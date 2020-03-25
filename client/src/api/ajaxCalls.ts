@@ -14,8 +14,20 @@ export default {
   async loginAuth(email = '', password = '') {
     return axios
       .post('/api/login', {
-        email: email,
-        password: password
+        email,
+        password
+      })
+      .then(response => response.data)
+      .catch(err => err);
+  },
+
+  async register(name = '', email = '', password = '', location) {
+    return axios
+      .post('/api/register', {
+        email,
+        password,
+        name,
+        location
       })
       .then(response => response.data)
       .catch(err => err);
@@ -29,9 +41,10 @@ export default {
         return {
           name: stockObject.name,
           symbol: stockObject.symbol,
-          prices: stockObject.stockdata.map(stock =>
-            ({time: stock.time, price: Number(stock.data['4. close'])})
-          )
+          prices: stockObject.stockdata.map(stock => ({
+            time: stock.time,
+            price: Number(stock.data['4. close'])
+          }))
         };
       });
     });
@@ -41,20 +54,28 @@ export default {
     //Local route for quicker workflow during development
     // return axios.get('http://localhost:8002/api/leaderboard')
     return axios.get('/api/leaderboard').then(res => {
-      window.console.log(res.data.rankings);
       return res.data.rankings;
     });
   },
 
   async fetchPortfolioData() {
+    axios.defaults.headers.common['x-auth-token'] = localStorage.getItem(
+      'token'
+    );
     return axios.get('/api/portfolios').then(res => res.data);
   },
 
   async postPortfolio(name) {
+    axios.defaults.headers.common['x-auth-token'] = localStorage.getItem(
+      'token'
+    );
     return axios.post('/api/portfolios', { 'portfolioName': name });
   },
 
   async deletePortfolio(id) {
+    axios.defaults.headers.common['x-auth-token'] = localStorage.getItem(
+      'token'
+    );
     return axios.delete(`/api/portfolios/${id}`);
   }
 };

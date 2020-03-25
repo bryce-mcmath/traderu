@@ -1,0 +1,31 @@
+aside.v-navigation-drawer {
+  background: $light-bg;
+  .v-list-item {
+    .v-list-item__icon {
+      margin: auto;
+    }
+  }
+
+  .v-list-item__content {
+    button.v-btn.v-size--default {
+      margin-left: 12px;
+      padding: 0;
+      width: 100px;
+
+      span.v-btn__content {
+        width: 100px;
+        font-size: 12px;
+        display: block;
+      }
+    }
+  }
+
+  &--dark {
+    background: $dark-bg;
+  }
+}
+
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
