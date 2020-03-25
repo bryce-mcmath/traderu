@@ -36,26 +36,28 @@
 </template>
 
 <script>
-  import FooterNavButton from '@/components/footer_nav_button/FooterNavButton.vue';
+import FooterNavButton from '@/components/footer_nav_button/FooterNavButton.vue';
 
-  export default {
-    name: 'FooterNav',
-    components: {
-      FooterNavButton
+export default {
+  name: 'FooterNav',
+  components: {
+    FooterNavButton
+  },
+  computed: {
+    dark() {
+      return this.$store.state.ui.dark;
     },
-    props: {
-      dark: {
-        type: Boolean,
-        default: false
-      },
-      tabSelected: {
-        type: String,
-        default: 'info'
-      }
+    tabSelected() {
+      const route = this.$route.path.toLowerCase();
+      if (route.includes('trade')) return 'trade';
+      if (route.includes('portfolios')) return 'portfolios';
+      if (route.includes('leaderboard')) return 'leaderboard';
+      return 'info';
     }
-  };
+  }
+};
 </script>
 
 <style scoped lang="scss">
-  @import 'footer_nav';
+@import 'footer_nav';
 </style>

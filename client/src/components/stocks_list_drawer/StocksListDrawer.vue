@@ -1,31 +1,24 @@
 <template>
-	<v-navigation-drawer dark :value="showStocksDrawer" app @input="drawerEvent">
+  <v-navigation-drawer :dark="dark" :value="showStocksDrawer" app @input="drawerEvent">
     <v-list one-line>
-      <v-subheader>STOCKS</v-subheader>
+      <v-subheader>Stocks</v-subheader>
       <div class="spinner-container" v-if="showSpinner">
         <Spinner></Spinner>
       </div>
       <v-list-item-group color="primary">
-        <v-list-item
-          v-for="(item, i) in stocksData"
-          :key="i"
-        >
-
+        <v-list-item v-for="(item, i) in stocksData" :key="i">
           <v-list-item-content>
             <v-list-item-title v-text="item.name"></v-list-item-title>
-            <v-list-item-subtitle>Price: {{item.prices[0]}}</v-list-item-subtitle>
-            
-            
+            <v-list-item-subtitle>Price: {{item.prices[0].price}}</v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-avatar>
             <v-sparkline
-                :value="item.prices.slice().reverse()"
-                color="white"
-                line-width="3"
-                padding="16"
+              :value="item.prices.map(stockObj => stockObj.price).slice().reverse()"
+              color="white"
+              line-width="3"
+              padding="16"
             ></v-sparkline>
           </v-list-item-avatar>
-            
         </v-list-item>
       </v-list-item-group>
     </v-list>
@@ -33,33 +26,36 @@
 </template>
 
 <script>
-  import Vuex from 'vuex';
-  import Spinner from '../spinner/Spinner.vue';
+import Vuex from 'vuex';
+import Spinner from '../spinner/Spinner.vue';
 
-  export default {
-    name: "BottomNav",
-    components: {
-      Spinner,
+export default {
+  name: 'StocksListDrawer',
+  components: {
+    Spinner
+  },
+  methods: {
+    drawerEvent(e) {
+      if (!e) this.$store.commit('toggleStocksDrawer');
+    }
+  },
+  computed: {
+    showStocksDrawer() {
+      return this.$store.state.ui.showStocksDrawer;
     },
-    methods: {
-		drawerEvent(e) {
-        if (!e) this.$store.commit('toggleStocksDrawer');
-      }
+    showSpinner() {
+      return this.$store.state.ui.ajaxInProgress;
     },
-    computed: {
-		  showStocksDrawer() {
-			  return this.$store.state.ui.showStocksDrawer;
-      },
-      showSpinner(){
-        return this.$store.state.ui.ajaxInProgress;
-      },
-      stocksData(){
-        return this.$store.state.apiData.stocksData;
-      }
+    stocksData() {
+      return this.$store.state.apiData.stocksData;
     },
+    dark() {
+      return this.$store.state.ui.dark;
+    }
   }
+};
 </script>
 
 <style lang="scss">
-  @import 'stocks_list_drawer';
+@import 'stocks_list_drawer';
 </style>

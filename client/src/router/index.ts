@@ -11,15 +11,6 @@ const routes = [
     component: Info
   },
   {
-    path: '/display',
-    name: 'Display',
-    // route level code-splitting
-    // this generates a separate chunk (display.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "display" */ '../views/Display.vue')
-  },
-  {
     path: '/trade',
     name: 'Trade',
     component: () =>

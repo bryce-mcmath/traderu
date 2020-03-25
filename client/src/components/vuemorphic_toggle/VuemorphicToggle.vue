@@ -27,22 +27,21 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex';
+import { mapMutations } from 'vuex';
 
-  export default {
-    name: 'VuemorphicToggle',
-    props: {
-      dark: {
-        type: Boolean,
-        default: false
-      }
-    },
-    methods: {
-      ...mapMutations(['toggleDarkMode'])
+export default {
+  name: 'VuemorphicToggle',
+  computed: {
+    dark() {
+      return this.$store.state.ui.dark;
     }
-  };
+  },
+  methods: {
+    ...mapMutations(['toggleDarkMode'])
+  }
+};
 </script>
 
 <style scoped lang="scss">
-  @import 'vuemorphic_toggle';
+@import 'vuemorphic_toggle';
 </style>

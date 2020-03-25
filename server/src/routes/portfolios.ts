@@ -11,6 +11,7 @@ import getPortfoliosByUserId from '../db/selects/getPortfoliosByUserId';
 import getStockIdBySymbol from '../db/selects/getStockIdBySymbol';
 import deletePortfolio from '../db/updates/deletePortfolio';
 import createPortfolio from '../db/inserts/createPortfolio';
+import createPortfolioHistory from '../db/inserts/createPortfolioHistory';
 import createTransaction from '../db/inserts/createTransaction';
 import { IAuthRequest } from '../utils/types';
 
@@ -74,6 +75,7 @@ portfolios.post(
 					req.user.id,
 					req.body.portfolioName
 				);
+				await createPortfolioHistory(newPortfolio.id);
 				res.json({ newPortfolio });
 			} catch (error) {
 				console.error('Error in POST -> /portfolios:', error);
