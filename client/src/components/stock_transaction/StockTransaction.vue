@@ -27,7 +27,15 @@
         </v-col>
         <v-col>
           <label>Transaction</label>
-          <v-select class="rb" :items="items" background-color="white" outlined></v-select>
+          <v-select
+            class="rb"
+            :items="transactionsSelectArray"
+            item-text="text"
+            item-value="value"
+            v-model="transactionSelected"
+            background-color="white"
+            outlined
+          ></v-select>
         </v-col>
       </v-row>
       <v-row>
@@ -55,10 +63,11 @@ export default Vue.extend({
     }
   },
   data: () => ({
-    items: [
+    transactionsSelectArray: [
       { text: 'Buy', value: 'buy' },
       { text: 'Sell', value: 'sell' }
     ],
+    transactionSelected: '',
     stockSymbolInput: '',
     stockData: ''
   }),
