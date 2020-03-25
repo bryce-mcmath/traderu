@@ -12,6 +12,7 @@ import jwt from 'jsonwebtoken';
 import gravatar from 'gravatar';
 import getUserByEmail from '../db/selects/getUserByEmail';
 import createUser from '../db/inserts/createUser';
+import axios from 'axios';
 
 const register = express.Router();
 const salt = process.env.SALT ? parseInt(process.env.SALT) : 10;
@@ -63,9 +64,29 @@ register.post(
 				} else {
 					const hash = await bcrypt.hash(password, salt);
 
-					// Set avatar, use default if gravatar doesn't exist
-					// @TODO set the default to a random character from The Big Short or Wall Street or Limitless lol
-					const avatar = gravatar.url(email, {
+					// Set avatar, use random big short character if no gravatar exists lol
+					const gravatarProfile = await gravatar.profile_url(email);
+
+					const hasGravatar = await axios
+						.head(gravatarProfile)
+						.then(res => {
+							return res.status === 200;
+						})
+						.catch(err => {
+							return false;
+						});
+
+					const bigShortEmails = [
+						'michaelburry.official@gmail.com',
+						'markbaum.official@gmail.com',
+						'jaredvennett.official@gmail.com'
+					];
+
+					const gravatarEmail = hasGravatar
+						? email
+						: bigShortEmails[Math.floor(Math.random() * 3)];
+
+					const avatar = gravatar.url(gravatarEmail, {
 						s: '200',
 						r: 'pg',
 						d: 'mm'
