@@ -8,6 +8,7 @@ const {
   loginAuth,
   fetchRankingsData,
   fetchStocksData,
+  fetchStockData,
   postPortfolio,
   fetchPortfolioData,
   register
@@ -49,6 +50,8 @@ export default new Vuex.Store({
         dialogPrimaryCallback: '',
         dialogSecondaryCallback: ''
       },
+      // For search
+      stockSymbol: '',
       // For register component
       registerName: '',
       registerEmail: '',
@@ -57,6 +60,7 @@ export default new Vuex.Store({
       errors: []
     },
     apiData: {
+      currentAsset: null,
       stocksData: {},
       cryptoData: {},
       allRankingsData: {},
@@ -86,6 +90,12 @@ export default new Vuex.Store({
     },
     setApiStocksData(state, payload) {
       state.apiData.stocksData = payload;
+    },
+    setStockSymbol(state, payload) {
+      state.ui.stockSymbol = payload;
+    },
+    setCurrentAsset(state, payload) {
+      state.apiData.currentAsset = payload;
     },
     setUserPortfolios(state, payload) {
       state.apiData.userPortfolios = payload;
@@ -181,7 +191,6 @@ export default new Vuex.Store({
       commit('setAjaxInProgress', true);
       checkAuth()
         .then(data => {
-          window.console.log('data in checkUserAuth', data);
           if (!data.user) {
             commit('setErrors', [data]);
             commit('setUser', null);
@@ -190,8 +199,22 @@ export default new Vuex.Store({
             commit('setUser', { ...data.user });
           }
         })
-        .catch(err => {
+        .catch(() => {
           return;
+        })
+        .finally(() => {
+          commit('setAjaxInProgress', false);
+        });
+    },
+
+    async setCurrentAsset({ commit, state }) {
+      commit('setAjaxInProgress', true);
+      return fetchStockData(state.ui.stockSymbol)
+        .then(asset => {
+          commit('setCurrentAsset', asset);
+        })
+        .catch(err => {
+          window.console.error('setUserPortfolios:', err);
         })
         .finally(() => {
           commit('setAjaxInProgress', false);

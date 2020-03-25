@@ -8,7 +8,7 @@
         <v-text-field
           rounded
           background-color="white"
-          v-model="stockSymbolInput"
+          v-model="symbol"
           outlined
           @keyup.enter="searchSymbol"
         ></v-text-field>
@@ -60,6 +60,14 @@ export default Vue.extend({
   computed: {
     dark() {
       return this.$store.state.ui.dark;
+    },
+    symbol: {
+      get() {
+        return this.$store.state.ui.stockSymbol;
+      },
+      set(value) {
+        this.$store.commit('setStockSymbol', value);
+      }
     }
   },
   data: () => ({
@@ -68,19 +76,13 @@ export default Vue.extend({
       { text: 'Sell', value: 'sell' }
     ],
     transactionSelected: '',
-    stockSymbolInput: '',
     stockData: ''
   }),
   methods: {
-    // searchSymbol() {
-    //   if (this.stockSymbolInput) {
-    //     AjaxCalls.fetchStockSymbolData(this.stockSymbolInput)
-    //       .then(data => {
-    //         Vue.set(this, 'stockData', data);
-    //       })
-    //       .catch(err => console.log(err.response));
-    //   }
-    // }
+    searchSymbol() {
+      if (!this.symbol) return;
+      this.$store.dispatch('setCurrentAsset');
+    }
   }
 });
 </script>

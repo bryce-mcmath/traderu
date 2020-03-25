@@ -5,36 +5,42 @@ const dbParams = { connectionString: process.env.DATABASE_URL };
 const db = new Pool(dbParams);
 db.connect();
 
-export function getStockIntraday(symbol: string){
-  return db.query(`
-  SELECT name, symbol, 
+export function getStockIntraday(symbol: string) {
+	return db.query(
+		`
+  SELECT name, symbol,
   time_series_intraday -> 'Time Series (5min)' as stockData
-  FROM 
+  FROM
     stocks JOIN stock_histories
     ON stocks.id = stock_histories.stock_id
   WHERE stocks.symbol = $1
-    `, [symbol]
-  )
+    `,
+		[symbol]
+	);
 }
-export function getStockDaily(symbol: string){
-  return db.query(`
-  SELECT name, symbol, 
+export function getStockDaily(symbol: string) {
+	return db.query(
+		`
+  SELECT name, symbol,
   time_series_daily -> 'Time Series (Daily)' as stockData
-  FROM 
+  FROM
     stocks JOIN stock_histories
     ON stocks.id = stock_histories.stock_id
   WHERE stocks.symbol = $1
-    `, [symbol]
-  )
+    `,
+		[symbol]
+	);
 }
-export function getStockWeekly(symbol: string){
-  return db.query(`
-  SELECT name, symbol, 
+export function getStockWeekly(symbol: string) {
+	return db.query(
+		`
+  SELECT name, symbol,
   time_series_weekly -> 'Weekly Time Series' as stockData
-  FROM 
+  FROM
     stocks JOIN stock_histories
     ON stocks.id = stock_histories.stock_id
   WHERE stocks.symbol = $1
-    `, [symbol]
-  )
+    `,
+		[symbol]
+	);
 }

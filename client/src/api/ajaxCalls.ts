@@ -50,6 +50,32 @@ export default {
     });
   },
 
+  async fetchStockData(symbol) {
+    let error;
+    const intraday = await axios
+      .get(`/api/stocks/${symbol}/intraday`)
+      .then(res => res.data)
+      .catch(err => (error = err));
+    const daily = await axios
+      .get(`/api/stocks/${symbol}/daily`)
+      .then(res => res.data)
+      .catch(err => (error = err));
+    const weekly = await axios
+      .get(`/api/stocks/${symbol}/weekly`)
+      .then(res => res.data)
+      .catch(err => (error = err));
+
+    if (!error) {
+      return {
+        intraday,
+        daily,
+        weekly
+      };
+    }
+
+    return error;
+  },
+
   async fetchRankingsData() {
     //Local route for quicker workflow during development
     // return axios.get('http://localhost:8002/api/leaderboard')

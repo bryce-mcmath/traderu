@@ -33,8 +33,8 @@
           <v-list-item-content>
             <v-btn
               @click="submitLoginAuth"
-              :loading="ajaxInProgress"
-              :disabled="ajaxInProgress"
+              :loading="loading"
+              :disabled="loading || !loginEmail || !loginPassword"
             >Submit</v-btn>
           </v-list-item-content>
         </v-list-item>
@@ -70,7 +70,7 @@ export default Vue.extend({
         this.$store.commit('setLoginPassword', value);
       }
     },
-    ajaxInProgress() {
+    loading() {
       return this.$store.state.ui.ajaxInProgress;
     },
     dark() {
