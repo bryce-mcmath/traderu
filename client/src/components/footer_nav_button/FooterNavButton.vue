@@ -7,39 +7,38 @@
       { 'footer-nav-button--active': active }
     ]"
   >
-    <span class="hide-sm footer-nav-button__label">{{ label }}</span>
     <i :class="icon + ' footer-nav-button__icon'"></i>
   </v-btn>
 </template>
 
 <script>
-  export default {
-    name: 'FooterNavButton',
-    props: {
-      label: {
-        type: String,
-        default: 'fas fa-question'
-      },
-      dark: {
-        type: Boolean,
-        default: false
-      },
-      icon: {
-        type: String,
-        default: 'fas fa-question'
-      },
-      link: {
-        type: String,
-        default: '/'
-      },
-      active: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  name: 'FooterNavButton',
+  props: {
+    label: {
+      type: String,
+      default: 'fas fa-question'
+    },
+    dark: {
+      type: Boolean,
+      default: false
+    },
+    icon: {
+      type: String,
+      default: 'fas fa-question'
+    },
+    link: {
+      type: String,
+      default: '/'
+    },
+    active: {
+      type: Boolean,
+      default: false
     }
-  };
+  }
+};
 </script>
 
 <style scoped lang="scss">
-  @import 'footer_nav_button';
+@import 'footer_nav_button';
 </style>

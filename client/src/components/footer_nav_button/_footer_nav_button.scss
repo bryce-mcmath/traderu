@@ -1,6 +1,16 @@
 .v-btn.footer-nav-button {
   @include center-content;
 
+  &:hover {
+    cursor: pointer;
+    background-color: inherit;
+    color: $light-bg-primary-text-color;
+    &::before,
+    &::after {
+      opacity: 0;
+    }
+  }
+
   // Default & Light Mode
   .v-btn__content {
     .footer-nav-button__label {
@@ -38,6 +48,16 @@
 
   // Dark Mode
   &--dark {
+    &:hover {
+      cursor: pointer;
+      background-color: inherit;
+      color: $dark-bg-primary-text-color;
+      &::before,
+      &::after {
+        opacity: 0;
+      }
+    }
+
     .v-btn__content {
       .footer-nav-button__label {
         color: $dark-bg-secondary-text-color;
