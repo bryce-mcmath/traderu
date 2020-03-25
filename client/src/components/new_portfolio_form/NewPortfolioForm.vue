@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn block v-on="on">New Portfolio</v-btn>
+        <v-btn block v-on="on" :dark="darken">New Portfolio</v-btn>
       </template>
       <div class="spinner-container" v-if="creating">
         <Spinner></Spinner>
@@ -58,6 +58,9 @@
       creating(){
         return this.$store.state.ui.ajaxInProgress;
       },
+      darken(){
+        return this.$store.state.ui.dark
+      }
     }
   };
 </script>
