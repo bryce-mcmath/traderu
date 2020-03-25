@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { Store } from 'vuex';
 import ajaxCalls from '@/api/ajaxCalls';
 import axios from 'axios';
 
@@ -40,7 +40,6 @@ export default new Vuex.Store({
       // For login component
       loginEmail: '',
       loginPassword: '',
-      loginError: [],
       // For dialog box
       showDialog: false,
       dialogOptions: {
@@ -55,8 +54,7 @@ export default new Vuex.Store({
       registerName: '',
       registerEmail: '',
       registerPassword: '',
-      registerLatitude: '',
-      registerLongitude: '',
+      registerLocation: null,
       errors: []
     },
     apiData: {
@@ -96,11 +94,26 @@ export default new Vuex.Store({
     setApiRankingsData(state, payload) {
       state.apiData.allRankingsData = payload;
     },
+    setApiLocalRankingsData(state, payload) {
+      state.apiData.localRankingsData = payload;
+    },
     setLoginEmail(state, payload) {
       state.ui.loginEmail = payload;
     },
     setLoginPassword(state, payload) {
       state.ui.loginPassword = payload;
+    },
+    setRegisterName(state, payload) {
+      state.ui.registerName = payload;
+    },
+    setRegisterEmail(state, payload) {
+      state.ui.registerEmail = payload;
+    },
+    setRegisterPassword(state, payload) {
+      state.ui.registerPassword = payload;
+    },
+    setRegisterLocation(state, payload) {
+      state.ui.registerLocation = payload;
     },
     setAjaxInProgress(state, payload: boolean) {
       state.ui.ajaxInProgress = payload;
@@ -200,6 +213,37 @@ export default new Vuex.Store({
         });
     },
 
+    async submitRegister({ dispatch, commit, state }) {
+      const {
+        registerName,
+        registerEmail,
+        registerPassword,
+        registerLocation
+      } = state.ui;
+      commit('setAjaxInProgress', true);
+
+      register(registerName, registerEmail, registerPassword, registerLocation)
+        .then(async response => {
+          // Clear inputs
+          commit('setRegisterName', '');
+          commit('setRegisterEmail', '');
+          commit('setRegisterPassword', '');
+          commit('setRegisterLocation', null);
+          if (response.response) {
+            // There is an error
+            commit('setErrors', errorUnwrapper(response));
+          } else {
+            // Set JWT in local storage, checkUserAuth to get user data and verify token
+            localStorage.setItem('token', response.token);
+            axios.defaults.headers.common[authTokenHeader] = response.token;
+            await dispatch('checkUserAuth');
+          }
+        })
+        .finally(() => {
+          commit('setAjaxInProgress', false);
+        });
+    },
+
     async submitLoginAuth({ dispatch, commit, state }) {
       const { loginEmail, loginPassword } = state.ui;
       commit('setAjaxInProgress', true);
@@ -213,7 +257,7 @@ export default new Vuex.Store({
             // There is an error
             commit('setErrors', errorUnwrapper(response));
           } else {
-            // Set JWT in store and local storage
+            // Set JWT in local storage, checkUserAuth to get user data and verify token
             localStorage.setItem('token', response.token);
             axios.defaults.headers.common[authTokenHeader] = response.token;
             await dispatch('checkUserAuth');
@@ -227,7 +271,9 @@ export default new Vuex.Store({
     async submitLogout({ commit }) {
       localStorage.removeItem('token');
       delete axios.defaults.headers.common[authTokenHeader];
-      // @TODO: Clear the rest of state
+      commit('setUser', null);
+      commit('setUserPortfolios', []);
+      commit('setApiLocalRankingsData', {});
     }
   },
   modules: {}
