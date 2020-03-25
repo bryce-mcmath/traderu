@@ -40,14 +40,14 @@ export default {
     portfolios() {
       return this.$store.state.apiData.userPortfolios['portfolios'];
     },
-    darken(){
+    darken() {
       return this.$store.state.ui.dark;
     }
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .view-container--alt {
   margin-bottom: 150px !important;
 }
