@@ -75,19 +75,15 @@ export interface IEnhancedPortfolio {
 }
 
 export interface IStockTransactionInput {
-	portfolio_id: number | string;
 	stock_id: number | string;
 	quantity: number | string;
-	date_time: Date | string;
 	type: string;
 	value: number | string;
 }
 
 export interface ICryptoTransactionInput {
-	portfolio_id: number | string;
 	crypto_id: number | string;
 	quantity: number | string;
-	date_time: Date | string;
 	type: string;
 	value: number | string;
 }
