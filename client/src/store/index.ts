@@ -80,7 +80,7 @@ export default new Vuex.Store({
       state.ui.showStocksDrawer = !state.ui.showStocksDrawer;
     },
     setUser(state, payload) {
-      state.user = payload;
+      state.user = Vue.set(this.state, 'user', payload);
     },
     setErrors(state, payload) {
       state.ui.errors = payload;
