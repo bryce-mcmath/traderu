@@ -4,7 +4,7 @@ export function getCryptoDaily(symbol: string) {
 	return db.query(
 		`
   SELECT name, symbol,
-  time_series_daily -> 'Time Series (Daily)' as cryptoData
+  digital_currency_daily -> 'Time Series (Digital Currency Daily)' as cryptoData
   FROM
     cryptos JOIN crypto_histories
     ON cryptos.id = crypto_histories.crypto_id
