@@ -22,16 +22,11 @@ const cryptoData = [
 const buildStockQueries = (stock: IStock) => {
 	const queries: IQuery[] = [];
 
-	const apiFunctions = [
-		'TIME_SERIES_INTRADAY',
-		'TIME_SERIES_DAILY',
-		'TIME_SERIES_WEEKLY'
-	];
+	const apiFunctions = ['DIGITAL_CURRENCY_DAILY', 'DIGITAL_CURRENCY_WEEKLY'];
 
 	const stockSymbol = stock.symbol;
 	const urlIntraday = `https://www.alphavantage.co/query?function=${apiFunctions[0]}&symbol=${stockSymbol}&interval=5min&apikey=${process.env.ALPHA_VANTAGE_KEY}`;
 	const urlDaily = `https://www.alphavantage.co/query?function=${apiFunctions[1]}&symbol=${stockSymbol}&interval=5min&apikey=${process.env.ALPHA_VANTAGE_KEY}`;
-	const urlWeekly = `https://www.alphavantage.co/query?function=${apiFunctions[2]}&symbol=${stockSymbol}&interval=5min&apikey=${process.env.ALPHA_VANTAGE_KEY}`;
 
 	return Promise.all([
 		axios.get(urlIntraday),

@@ -19,12 +19,17 @@ export interface IPerformance {
 }
 
 export interface IstockInfo {
-	stockdata: object,
-	name: string,
-	stockData: object
+	stockdata: object;
+	name: string;
+	stockData: object;
 }
 
 export interface IStock {
+	name: string;
+	symbol: string;
+}
+
+export interface ICrypto {
 	name: string;
 	symbol: string;
 }
