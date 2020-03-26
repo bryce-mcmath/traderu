@@ -12,7 +12,7 @@ import getStockIdBySymbol from '../db/selects/getStockIdBySymbol';
 import deletePortfolio from '../db/updates/deletePortfolio';
 import createPortfolio from '../db/inserts/createPortfolio';
 import createPortfolioHistory from '../db/inserts/createPortfolioHistory';
-import createTransaction from '../db/inserts/createTransaction';
+import createStockTransaction from '../db/inserts/createStockTransaction';
 import { IAuthRequest } from '../utils/types';
 
 const portfolios = express.Router();
@@ -179,7 +179,7 @@ portfolios.post(
 				}
 				stock_id = parseInt(stock_id);
 				const value = req.body.stock.price * req.body.quantity;
-				const response = await createTransaction(
+				const response = await createStockTransaction(
 					parseInt(req.params.portfolio_id),
 					{
 						...req.body,
