@@ -18,7 +18,7 @@ export interface IPerformance {
 	value: number | string;
 }
 
-export interface IstockInfo {
+export interface IStockInfo {
 	stockdata: object;
 	name: string;
 	stockData: object;
