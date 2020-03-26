@@ -11,10 +11,10 @@ const routes = [
     component: Info
   },
   {
-    path: '/trade',
-    name: 'Trade',
+    path: '/assets',
+    name: 'Assets',
     component: () =>
-      import(/* webpackChunkName: "trade" */ '../views/Trade.vue')
+      import(/* webpackChunkName: "trade" */ '../views/Assets.vue')
   },
   {
     path: '/portfolios',

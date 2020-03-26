@@ -12,11 +12,11 @@
       :active="tabSelected === 'info'"
     />
     <FooterNavButton
-      label="Trade"
-      link="/trade"
+      label="Assets"
+      link="/assets"
       icon="fas fa-balance-scale-left"
       :dark="dark"
-      :active="tabSelected === 'trade'"
+      :active="tabSelected === 'assets'"
     />
     <FooterNavButton
       label="Portfolios"
@@ -36,28 +36,28 @@
 </template>
 
 <script>
-import FooterNavButton from '@/components/footer_nav_button/FooterNavButton.vue';
+  import FooterNavButton from '@/components/footer_nav_button/FooterNavButton.vue';
 
-export default {
-  name: 'FooterNav',
-  components: {
-    FooterNavButton
-  },
-  computed: {
-    dark() {
-      return this.$store.state.ui.dark;
+  export default {
+    name: 'FooterNav',
+    components: {
+      FooterNavButton
     },
-    tabSelected() {
-      const route = this.$route.path.toLowerCase();
-      if (route.includes('trade')) return 'trade';
-      if (route.includes('portfolios')) return 'portfolios';
-      if (route.includes('leaderboard')) return 'leaderboard';
-      return 'info';
+    computed: {
+      dark() {
+        return this.$store.state.ui.dark;
+      },
+      tabSelected() {
+        const route = this.$route.path.toLowerCase();
+        if (route.includes('assets')) return 'assets';
+        if (route.includes('portfolios')) return 'portfolios';
+        if (route.includes('leaderboard')) return 'leaderboard';
+        return 'info';
+      }
     }
-  }
-};
+  };
 </script>
 
 <style scoped lang="scss">
-@import 'footer_nav';
+  @import 'footer_nav';
 </style>
