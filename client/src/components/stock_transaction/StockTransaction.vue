@@ -75,23 +75,12 @@ export default Vue.extend({
     dark() {
       return this.$store.state.ui.dark;
     },
-<<<<<<< HEAD
-    darkSparkline() {
-      return this.$store.state.ui.dark ? 'white' : 'black';
-    },
-    portfolioId() {
-      if (this.$store.state.user) {
-        return this.$store.state.user.id;
-      } else {
-        return '00';
-=======
     symbol: {
       get() {
         return this.$store.state.ui.stockSymbol;
       },
       set(value) {
         this.$store.commit('setStockSymbol', value);
->>>>>>> 98856dc0f7e46f740fd09724752b46dec049fe48
       }
     }
   },
@@ -101,42 +90,12 @@ export default Vue.extend({
       { text: 'Sell', value: 'sell' }
     ],
     transactionSelected: '',
-<<<<<<< HEAD
-    searchSymbol: '',
-    assetSelected: '',
-    quantity: ''
-  }),
-  methods: {
-    selectAsset(assetItem) {
-      this.assetSelected = assetItem;
-    },
-    handleSymbolInput() {
-      if (this.assetSelected) {
-        this.assetSelected = '';
-      }
-    },
-    submitTransaction() {
-      AjaxCalls.makeTransaction(
-        {
-          stock: {
-            symbol: this.assetSelected.symbol,
-            price: String(this.assetSelected.prices.pop().price)
-          },
-          type: this.transactionSelected,
-          quantity: this.quantity
-        },
-        this.portfolioId
-      )
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
-=======
     stockData: ''
   }),
   methods: {
     searchSymbol() {
       if (!this.symbol) return;
       this.$store.dispatch('setCurrentAsset');
->>>>>>> 98856dc0f7e46f740fd09724752b46dec049fe48
     }
   }
 });
