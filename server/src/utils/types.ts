@@ -18,10 +18,18 @@ export interface IPerformance {
 	value: number | string;
 }
 
+// @TODO: Naming stuff like the below is probably bad practice
 export interface IStockInfo {
 	stockdata: object;
 	name: string;
 	stockData: object;
+}
+
+// @TODO: Naming stuff like the below is probably bad practice
+export interface ICryptoInfo {
+	cryptodata: object;
+	name: string;
+	cryptoData: object;
 }
 
 export interface IStock {
