@@ -6,8 +6,8 @@
     <div class="spinner-container" v-if="showSpinner">
       <Spinner></Spinner>
     </div>
-    <v-list v-for="(portfolio, i) in rankData" :key="`${i}`" :dark="darken">
-      <LeaderboardListItem :portfolio="portfolio"></LeaderboardListItem>
+    <v-list :dark="darken">
+      <LeaderboardListItem :portfolio="portfolio" v-for="(portfolio, i) in rankData" :key="`${i}`"></LeaderboardListItem>
     </v-list>
   </main>
 </template>
@@ -67,11 +67,14 @@ export default {
 main {
   margin-bottom: 100px;
 }
+.v-list {
+  background-color:rgba(0, 0, 0, 0)
+}
 
-h1 {
+h1, h2 {
   text-align: center;
   margin-top: 10px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: $primary-font;
 }
 
 hr {

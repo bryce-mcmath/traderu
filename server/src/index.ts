@@ -2,7 +2,6 @@ require('dotenv').config();
 import express, { Express, Request, Response } from 'express';
 import * as helmet from 'helmet';
 import * as hist from 'connect-history-api-fallback';
-import bodyParser from 'body-parser';
 const cors = require('cors');
 const app: Express = express();
 
@@ -24,6 +23,7 @@ app.use('/api/register', require('./routes/register'));
 app.use('/api/login', require('./routes/login'));
 app.use('/api/authenticate', require('./routes/authenticate'));
 app.use('/api/stocks', require('./routes/stocks'));
+app.use('/api/cryptos', require('./routes/cryptos'));
 app.use('/api/leaderboard', require('./routes/leaderboard'));
 app.use('/api/portfolios', require('./routes/portfolios'));
 

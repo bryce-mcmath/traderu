@@ -9,10 +9,12 @@ import { check, validationResult } from 'express-validator';
 import auth from '../middleware/auth';
 import getPortfoliosByUserId from '../db/selects/getPortfoliosByUserId';
 import getStockIdBySymbol from '../db/selects/getStockIdBySymbol';
+import getCryptoIdBySymbol from '../db/selects/getCryptoIdBySymbol';
 import deletePortfolio from '../db/updates/deletePortfolio';
 import createPortfolio from '../db/inserts/createPortfolio';
 import createPortfolioHistory from '../db/inserts/createPortfolioHistory';
-import createTransaction from '../db/inserts/createTransaction';
+import createStockTransaction from '../db/inserts/createStockTransaction';
+import createCryptoTransaction from '../db/inserts/createCryptoTransaction';
 import { IAuthRequest } from '../utils/types';
 
 const portfolios = express.Router();
@@ -128,7 +130,7 @@ portfolios.delete(
 );
 
 /**
- * Route creating new transaction
+ * Route creating new stock transaction
  * @name post/portfolios/:id/stock-transaction
  * @function
  * @param {String} path - Express path
@@ -166,8 +168,10 @@ portfolios.post(
 					throw new Error(
 						'Someone is trying to make a trade without being properly authenticated'
 					);
-				let stock_id = await getStockIdBySymbol(req.body.stock.symbol);
-				if (!stock_id) {
+
+				const stock_id = await getStockIdBySymbol(req.body.stock.symbol);
+
+				if (isNaN(stock_id)) {
 					return res.status(400).json({
 						errors: [
 							{
@@ -177,13 +181,17 @@ portfolios.post(
 						]
 					});
 				}
-				stock_id = parseInt(stock_id);
-				const value = req.body.stock.price * req.body.quantity;
-				const response = await createTransaction(
+
+				const quantity = req.body.quantity;
+				const value = req.body.stock.price * quantity;
+				const type = req.body.type.toLowerCase();
+
+				const response = await createStockTransaction(
 					parseInt(req.params.portfolio_id),
 					{
-						...req.body,
 						stock_id,
+						quantity,
+						type,
 						value
 					}
 				);
@@ -191,6 +199,92 @@ portfolios.post(
 			} catch (error) {
 				console.error(
 					'Error in POST -> /portfolios/:portfolio_id/stock-transaction',
+					error
+				);
+				res.status(500).json({
+					errors: [
+						{
+							msg:
+								'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+						}
+					]
+				});
+			}
+		}
+	}
+);
+
+/**
+ * Route creating new crypto transaction
+ * @name post/portfolios/:id/crypto-transaction
+ * @function
+ * @param {String} path - Express path
+ * @param {Function} middleware - Callback function used as middleware
+ */
+portfolios.post(
+	'/:portfolio_id/crypto-transaction',
+	auth,
+	[
+		check('quantity', 'Quantity must be a positive number').custom(
+			(quantity, { req }) => !isNaN(quantity) && quantity > 0
+		),
+		check(
+			'crypto',
+			'Crypto must include string symbol and string price'
+		).custom(
+			(crypto, { req }) =>
+				typeof crypto.symbol === 'string' && typeof crypto.price === 'string'
+		),
+		check('crypto', 'Crypto symbol must be 1 - 5 characters long').custom(
+			(crypto, { req }) => crypto.symbol.length > 0 && crypto.symbol.length < 6
+		),
+		check('type', 'Must include a valid transaction type').custom(
+			(type, { req }) =>
+				(typeof type === 'string' && type.toLowerCase() === 'buy') ||
+				(typeof type === 'string' && type.toLowerCase() === 'sell')
+		)
+	],
+	async (req: IAuthRequest, res: Response) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			res.status(400).json({ errors: errors.array() });
+		} else {
+			try {
+				if (!req.user)
+					throw new Error(
+						'Someone is trying to make a trade without being properly authenticated'
+					);
+
+				const crypto_id = await getCryptoIdBySymbol(req.body.crypto.symbol);
+
+				if (isNaN(crypto_id)) {
+					return res.status(400).json({
+						errors: [
+							{
+								msg:
+									"We're sorry, a crypto with that symbol does not exist in our database"
+							}
+						]
+					});
+				}
+				const quantity = req.body.quantity;
+				const value = req.body.crypto.price * quantity;
+				const type = req.body.type.toLowerCase();
+
+				const response = await createCryptoTransaction(
+					parseInt(req.params.portfolio_id),
+					{
+						crypto_id,
+						quantity,
+						type,
+						value
+					}
+				);
+
+				res.json({ response });
+			} catch (error) {
+				console.error(
+					'Error in POST -> /portfolios/:portfolio_id/crypto-transaction',
 					error
 				);
 				res.status(500).json({

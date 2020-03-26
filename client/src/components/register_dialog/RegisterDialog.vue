@@ -108,9 +108,7 @@ export default Vue.extend({
     getLocation() {
       if (!('geolocation' in navigator)) {
         this.gettingLocation = false;
-        window.console.log(
-          'Geolocation not avail, we are now exiting the function'
-        );
+        window.console.log('Geolocation not avail');
         return;
       }
       navigator.geolocation.getCurrentPosition(
@@ -120,9 +118,6 @@ export default Vue.extend({
             longitude: pos.coords.longitude.toString()
           };
           this.gettingLocation = false;
-          window.console.log(
-            'We set the location and are now exiting the function'
-          );
           return;
         },
         err => {

@@ -161,51 +161,5 @@ export default {
 </script>
 
 <style lang="scss">
-aside.v-navigation-drawer {
-  background: $light-bg;
-  .v-list-item {
-    align-items: center;
-    justify-content: center;
-    .v-list-item__icon {
-      margin: auto;
-    }
-  }
-
-  .v-list-item__content {
-    width: 200px;
-
-    > * {
-      flex: 1 0 60%;
-    }
-
-    button.v-btn.v-size--default {
-      margin-left: 12px;
-      padding: 0;
-      width: 100px;
-    }
-  }
-
-  &--dark {
-    background: $dark-bg;
-  }
-}
-
-.profile {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 16px;
-  margin-bottom: 16px;
-  width: 100%;
-
-  &__avatar {
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-  }
-
-  &__name {
-  }
-}
+@import 'navigation_drawer';
 </style>

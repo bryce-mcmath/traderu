@@ -11,7 +11,11 @@ import {
 	getStockDaily,
 	getStockWeekly
 } from '../db/selects/getStock';
+<<<<<<< HEAD
 import { IstockInfo } from '../utils/types';
+=======
+import { IStockInfo } from '../utils/types';
+>>>>>>> 98856dc0f7e46f740fd09724752b46dec049fe48
 const stocks = express.Router();
 
 /**
@@ -27,7 +31,7 @@ stocks.get('/', async (req: Request, res: Response) => {
 
 		//Sort returned API data. Converts objects to arrays, sort them by date,
 		//then convert back to objects
-		const intradayDataOrdered = stocks.rows.map((stockInfo: IstockInfo) => {
+		const intradayDataOrdered = stocks.rows.map((stockInfo: IStockInfo) => {
 			return Object.entries(stockInfo.stockdata)
 				.sort((a, b) => {
 					return new Date(b[0]).valueOf() - new Date(a[0]).valueOf();

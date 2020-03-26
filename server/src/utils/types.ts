@@ -18,13 +18,26 @@ export interface IPerformance {
 	value: number | string;
 }
 
-export interface IstockInfo {
-	stockdata: object,
-	name: string,
-	stockData: object
+// @TODO: Naming stuff like the below is probably bad practice
+export interface IStockInfo {
+	stockdata: object;
+	name: string;
+	stockData: object;
+}
+
+// @TODO: Naming stuff like the below is probably bad practice
+export interface ICryptoInfo {
+	cryptodata: object;
+	name: string;
+	cryptoData: object;
 }
 
 export interface IStock {
+	name: string;
+	symbol: string;
+}
+
+export interface ICrypto {
 	name: string;
 	symbol: string;
 }
@@ -70,10 +83,15 @@ export interface IEnhancedPortfolio {
 }
 
 export interface IStockTransactionInput {
-	portfolio_id: number | string;
 	stock_id: number | string;
 	quantity: number | string;
-	date_time: Date | string;
+	type: string;
+	value: number | string;
+}
+
+export interface ICryptoTransactionInput {
+	crypto_id: number | string;
+	quantity: number | string;
 	type: string;
 	value: number | string;
 }
