@@ -1,9 +1,4 @@
-require('dotenv').config();
-const { Pool } = require('pg');
-
-const dbParams = { connectionString: process.env.DATABASE_URL };
-const db = new Pool(dbParams);
-db.connect();
+import db from '../index';
 
 export function getStockIntraday(symbol: string) {
 	return db.query(
