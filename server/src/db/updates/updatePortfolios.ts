@@ -1,6 +1,6 @@
 import db from '../index';
 
-const update_portfolios = () => {
+const updatePortfolios = () => {
 	db.query(
 		`
     UPDATE
@@ -82,4 +82,4 @@ const update_portfolios = () => {
 		.catch((err: Error) => console.error(err));
 };
 
-export default update_portfolios;
+export default updatePortfolios;
