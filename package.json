@@ -12,7 +12,9 @@
     "start": "ts-node ./server/dist/index.js",
     "dev": "nodemon ./server/dist/index.js",
     "ts": "npx lerna run ts",
-    "test": "npx lerna run test",
+    "test": "BUILD_ENV=test node ./server/dist/index.js",
+    "pretest": "BUILD_ENV=test npm run migrate:reset",
+    "migrate:reset": "node ./server/dist/db/reset.js",
     "jsdoc": "npx lerna run jsdoc"
   },
   "repository": {
