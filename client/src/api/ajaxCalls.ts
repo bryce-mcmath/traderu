@@ -103,15 +103,5 @@ export default {
       'token'
     );
     return axios.delete(`/api/portfolios/${id}`);
-  },
-
-  async makeTransaction(transactionObj, portfolioId) {
-    axios.defaults.headers.common['x-auth-token'] = localStorage.getItem(
-      'token'
-    );
-    return axios.post(
-      `/api/portfolios/${portfolioId}/stock-transaction`,
-      transactionObj
-    );
   }
 };

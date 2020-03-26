@@ -11,11 +11,7 @@ import {
 	getStockDaily,
 	getStockWeekly
 } from '../db/selects/getStock';
-<<<<<<< HEAD
-import { IstockInfo } from '../utils/types';
-=======
 import { IStockInfo } from '../utils/types';
->>>>>>> 98856dc0f7e46f740fd09724752b46dec049fe48
 const stocks = express.Router();
 
 /**
