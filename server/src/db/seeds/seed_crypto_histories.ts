@@ -47,14 +47,15 @@ const buildCryptoQueries = (crypto: ICrypto) => {
 	);
 };
 
-const runscryptosQueries = (cryptos: ICrypto[]) => {
+const runCryptoQueries = (cryptos: ICrypto[]) => {
 	//allQueries of form [ {query, params}, {query,params}, ...]
 	let allQueries: IQuery[] = [];
 	let i = 0;
+
 	//Interval used to avoid API call limits
 	const buildQueryInterval = setInterval(async () => {
 		//buildcryptoQueries returns [ {query1, params1}, {query2, params2}, {query3, params3} ]
-		const queries = await buildcryptoQueries(cryptos[i]);
+		const queries = await buildCryptoQueries(cryptos[i]);
 		console.log(`API call ${i} completed`);
 		allQueries = [...allQueries, ...queries];
 		i++;
@@ -74,4 +75,4 @@ const runQueries = async (allQueries: IQuery[]) => {
 	process.exit();
 };
 
-runscryptosQueries(testcryptoData);
+runCryptoQueries(cryptoData);
