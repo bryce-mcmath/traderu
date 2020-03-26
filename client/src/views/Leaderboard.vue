@@ -68,7 +68,8 @@ main {
   margin-bottom: 100px;
 }
 .v-list {
-  background-color:rgba(0, 0, 0, 0)
+  background-color:rgba(0, 0, 0, 0);
+  margin-bottom: 150px;
 }
 
 h1, h2 {

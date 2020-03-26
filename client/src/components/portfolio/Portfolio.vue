@@ -301,16 +301,16 @@ export default {
         const price = this.stocksData.find(
           nestedStock => nestedStock.name === stock.name
         ).prices[0].price;
-        return { symbol: stock.symbol, value: stock.quantity * price };
+        return { name: stock.name, symbol: stock.symbol, value: stock.quantity * price };
       });
-      return [...stockValues, { symbol: 'cash', value: this.portfolio.cash }];
+      return [...stockValues, { symbol: 'CASH', name:'CASH', value: this.portfolio.cash }];
     }
   },
-  data() {
-    return {
-      dialog: false
-    };
-  },
+  // data() {
+  //   return {
+  //     dialog: false
+  //   };
+  // },
   props: ['portfolio']
 };
 </script>
