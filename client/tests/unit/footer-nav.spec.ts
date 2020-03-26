@@ -31,7 +31,7 @@ describe('FooterNav.vue', () => {
 	it('Sets only the trade button active when at the trade route', () => {
     //computed property tabSelected requires a mocked $route 
     const $route = {
-      path: '/trade'
+      path: '/assets'
     }
 
 		const wrapper = shallowMount(FooterNav, {
@@ -44,13 +44,13 @@ describe('FooterNav.vue', () => {
     });
 
     //Get buttons
-    const tradeButton = wrapper.find('[label="Trade"]');
+    const assetsButton = wrapper.find('[label="Assets"]');
     const infoButton = wrapper.find('[label="Info"]');
     const leaderboardButton = wrapper.find('[label="Portfolios"]');
     const portfolioButton = wrapper.find('[label="Leaderboard"]');
     
     //Check trade button active, all others inactive
-    expect(tradeButton.html()).toContain('active');
+    expect(assetsButton.html()).toContain('active');
 		expect(infoButton.html()).not.toContain('active');
 		expect(leaderboardButton.html()).not.toContain('active');
 		expect(portfolioButton.html()).not.toContain('active');
@@ -59,7 +59,7 @@ describe('FooterNav.vue', () => {
 	it('Applies dark mode when dark set true in state', () => { 
     //computed property tabSelected requires a mocked $route 
     const $route = {
-      path: '/trade'
+      path: '/assets'
     }
 
     const wrapper = shallowMount(FooterNav, {

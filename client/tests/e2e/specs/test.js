@@ -8,7 +8,7 @@ describe('FooterNav', () => {
 		cy.contains('span', 'View Stocks');
 		
 		cy.get('.fa-balance-scale-left').click();
-		cy.contains('h1', 'Select a Stock');
+		cy.contains('h3', 'Assets');
 
 		cy.get('.fa-chart-line').click();
 		cy.contains('h2', 'Portfolios');
