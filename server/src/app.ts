@@ -6,8 +6,6 @@ const cors = require('cors');
 const app: Express = express();
 
 // Local vs deployed config
-
-const PORT = process.env.PORT || 8080;
 const ENV = process.env.BUILD_ENV || 'production';
 console.log('Running environment:', ENV);
 
@@ -55,4 +53,4 @@ app.get('/*', (_: Request, res: Response) => {
 	res.redirect('/');
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+export default app;

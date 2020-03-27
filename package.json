@@ -1,18 +1,19 @@
 {
   "name": "traderu",
   "version": "0.1.0",
+  "private": true,
   "description": "Stock and cryptocurrency trading simulator",
-  "main": "./server/dist/index.js",
+  "main": "./server/dist/server.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "lerna-install": "npx lerna bootstrap",
     "build": "npx lerna run build",
-    "start": "ts-node ./server/dist/index.js",
-    "dev": "nodemon ./server/dist/index.js",
+    "start": "ts-node ./server/dist/server.js",
+    "dev": "nodemon ./server/dist/server.js",
     "ts": "npx lerna run ts",
-    "test": "cross-env BUILD_ENV=test npx lerna run test",
+    "test": "cross-env BUILD_ENV=test lerna run test",
     "migrate:test-db": "cross-env BUILD_ENV=test node ./server/dist/db/reset.js",
     "migrate:prod-db": "cross-env BUILD_ENV=production node ./server/dist/db/reset.js",
     "jsdoc": "npx lerna run jsdoc"
@@ -28,9 +29,12 @@
   },
   "homepage": "https://traderu.io",
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.9.0",
+    "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/preset-typescript": "^7.9.0",
     "cross-env": "^7.0.2",
     "lerna": "^3.20.2",
     "nodemon": "^2.0.2"
-  },
-  "dependencies": {}
+  }
 }

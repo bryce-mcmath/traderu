@@ -10,29 +10,6 @@
 		"jsdoc": "./node_modules/.bin/jsdoc . -c ./jsdocs.json -R ../README.md",
 		"test": "jest"
 	},
-	"jest": {
-		"coveragePathIgnorePatterns": [
-			"/node_modules/",
-			"/dist/",
-			"/static/"
-		],
-		"moduleFileExtensions": [
-			"ts",
-			"tsx",
-			"js"
-		],
-		"transform": {
-			"^.+\\.(ts|tsx)$": "ts-jest"
-		},
-		"globals": {
-			"ts-jest": {
-				"tsConfigFile": "./tsconfig.json"
-			}
-		},
-		"testMatch": [
-			"**/__tests__/*.+(ts|tsx|js)"
-		]
-	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/bryce-mcmath/traderu.git"
@@ -86,6 +63,7 @@
 		"xss-clean": "^0.1.1"
 	},
 	"devDependencies": {
+		"@babel/preset-env": "^7.9.0",
 		"@types/express": "^4.17.3",
 		"@types/node": "^13.9.0",
 		"babel-core": "^6.26.3",

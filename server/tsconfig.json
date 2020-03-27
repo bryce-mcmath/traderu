@@ -6,11 +6,12 @@
 		"strict": true,
 		"moduleResolution": "node",
 		"esModuleInterop": true,
-		"outDir": "./dist",
 		"rootDir": "./src",
+		"outDir": "./dist",
 		"lib": ["esnext", "dom"],
 		"types": [
 			"supertest",
+			"jest",
 			"express",
 			"node",
 			"pg",
@@ -19,8 +20,7 @@
 			"bcryptjs",
 			"jsonwebtoken",
 			"gravatar",
-			"express-validator",
-			"jest"
+			"express-validator"
 		]
 	},
 	"exclude": ["node_modules", ".npm"]

@@ -174,8 +174,8 @@
           },
           this.portfolioId
         )
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
+          .then(res => window.console.log(res))
+          .catch(err => window.console.log(err));
       }
     }
   });

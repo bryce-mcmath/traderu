@@ -2,7 +2,7 @@
 
 > Stock and cryptocurrency trading simulator
 
-**NOTE: 🚧 Under construction! 🚧 It's nearly final project week at Lighthouse Labs so we've just started chipping away at it.**
+**NOTE: 🚧 Under construction! 🚧**
 
 <!-- Badges -->
 
@@ -10,7 +10,7 @@
 [![code coverage](https://img.shields.io/codecov/c/github/bryce-mcmath/traderu/master.svg)](https://codecov.io/gh/bryce-mcmath/traderu/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-TraderU is a responsive fullstack application made to simulate stock and cryptocurrency trading. It uses multiple publicly available stock and cryptocurrency APIs.
+TraderU is a responsive fullstack application made to simulate stock and cryptocurrency trading. It uses various publicly available APIs to do so.
 
 To learn more and see it in action, read further. Or visit it [live](https://traderu.io)
 
@@ -147,7 +147,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Contributing
 
-1. Fork it (<https://github.com/bryce-mcmath/foodzebra/fork>)
+1. Fork it (<https://github.com/bryce-mcmath/traderu/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`) or issue branch (`git checkout -b issue/brokenThing`)
 3. Commit your changes (`git commit -m 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
