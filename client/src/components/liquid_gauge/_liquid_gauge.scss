@@ -7,6 +7,6 @@
   color: rgb(110, 194, 114);
 
   &--dark {
-    @include dark-unpressed;
+    background: $dark-bg;
   }
 }
