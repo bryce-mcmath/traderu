@@ -7,7 +7,7 @@
 <!-- Badges -->
 
 ![Build Status](https://codebuild.us-east-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoidkc4a2Q5UFVuTTNNRkVwTERVWnZEbGhkK0g2ZmhVdHN0cWxIS3owaDJ0TndQRHNRUmlLM2VYalhxQzFJTXkxSkFVb2JUdklHNk91aFN2ZjZQLzhTbmswPSIsIml2UGFyYW1ldGVyU3BlYyI6Im85a3kvRDF2V0JjU28vcG4iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
-[![code coverage](https://img.shields.io/codecov/c/github/bryce-mcmath/traderu/master.svg)](https://codecov.io/gh/bryce-mcmath/traderu/)
+[![codecov](https://codecov.io/gh/bryce-mcmath/traderu/branch/development/graph/badge.svg)](https://codecov.io/gh/bryce-mcmath/traderu)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 TraderU is a responsive fullstack application made to simulate stock and cryptocurrency trading. It uses various publicly available APIs to do so.
