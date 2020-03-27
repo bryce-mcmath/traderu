@@ -1,7 +1,7 @@
 <template>
   <main class="portfolio-container">
     <h1>Value</h1>
-    <p id="portfolioValue">${{ portfolio.value }}</p>
+    <p id="portfolioValue">${{ Math.round(portfolio.value * 100) / 100 }}</p>
     <h2>Stocks Breakdown</h2>
     <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
     <div id="pieStockInfo" v-bind:style="{ bottom: width / 2 + 50 + 'px' }">
@@ -14,6 +14,7 @@
       :id="`line-chart-${portfolio.name}`"
       :width="width * 1.1"
       :height="width"
+      v-if="portfolio.values.length > 3"
     />
 
     <LiquidGauge :id="'liqgauge'" :percentile="76" />
@@ -86,7 +87,7 @@
 
       handleMouseOut(d, i) {
         this.highlightedStock = 'Total';
-        this.stockValue = this.portfolio.value;
+        this.stockValue = Math.round(this.portfolio.value * 100) / 100;
         this.stockPercent = '';
       },
 
@@ -204,9 +205,8 @@
             ]),
           xAxis = d3
             .axisBottom(xScale)
-            // @TODO this will make 5 ticks even if only one datapoint.
-            //Maybe use v-if to only display values chart for portfolios > x days old
-            .ticks(5)
+            //Ticks is a hint, not exact. Frustrating, but better to go under than over 
+            .ticks(4)
             .tickSizeOuter(0),
           yAxis = d3
             .axisLeft(yScale)
@@ -299,7 +299,7 @@
       return {
         dialog: false,
         stockPercent: '',
-        stockValue: this.portfolio.value,
+        stockValue: Math.round(this.portfolio.value * 100) / 100,
         highlightedStock: 'Total'
       };
     },

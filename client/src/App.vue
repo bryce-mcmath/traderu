@@ -3,7 +3,7 @@
     <Navbar></Navbar>
     <NavigationDrawer></NavigationDrawer>
     <v-content>
-      <Spinner v-if="loading" />
+      <!-- <Spinner v-if="loading" /> -->
       <router-view></router-view>
     </v-content>
     <FooterNav />
@@ -26,7 +26,7 @@ export default Vue.extend({
     Navbar,
     NavigationDrawer,
     FooterNav,
-    Spinner
+    // Spinner
   },
 
   computed: {

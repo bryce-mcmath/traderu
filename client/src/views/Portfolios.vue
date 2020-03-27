@@ -2,7 +2,10 @@
   <main class="view-container">
     <h2>Portfolios</h2>
     <NewPortfolioForm></NewPortfolioForm>
-    <v-expansion-panels :accordion="true" :focusable="true" :flat="true" :dark="darken">
+    <div class="spinner-container" v-if="loading">
+      <Spinner></Spinner>
+    </div>
+    <v-expansion-panels :accordion="true" :focusable="true" :flat="true" :dark="darken" v-if="!loading">
       <v-expansion-panel v-for="(portfolio) in portfolios" :key="portfolio.name">
         <v-expansion-panel-header>{{portfolio.name}}</v-expansion-panel-header>
         <v-expansion-panel-content>
@@ -16,11 +19,12 @@
 <script>
 import { mapActions } from 'vuex';
 import Portfolio from '../components/portfolio/Portfolio.vue';
+import Spinner from '../components/spinner/Spinner.vue'
 import NewPortfolioForm from '../components/new_portfolio_form/NewPortfolioForm.vue';
 
 export default {
   name: 'Portfolios',
-  components: { Portfolio, NewPortfolioForm },
+  components: { Portfolio, NewPortfolioForm, Spinner },
   created() {
     //@TODO: think of better logic for this
     //Don't want to reload if current,
@@ -42,6 +46,9 @@ export default {
     },
     darken() {
       return this.$store.state.ui.dark;
+    },
+    loading(){
+      return this.$store.state.ui.ajaxInProgress;
     }
   }
 };
@@ -53,5 +60,11 @@ export default {
 }
 .v-expansion-panels {
   margin-top: 20px;
+}
+.spinner-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
 }
 </style>
