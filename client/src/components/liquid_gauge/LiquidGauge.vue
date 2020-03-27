@@ -1,9 +1,10 @@
 <template>
   <svg
     :id="id"
-    width="960"
-    height="500"
-    viewBox="0 0 960 500"
+    width="100"
+    height="100"
+    viewBox="0 0 100 100"
+    v-bind:class="[{ 'liquid-gauge--dark': dark }, 'liquid-gauge']"
     preserveAspectRatio="xMidYMid meet"
   ></svg>
 </template>
@@ -31,7 +32,7 @@
           maxValue: 100, // gauge maximum value
           circleThickness: 0.2, // outer circle thickness as percentage of radius
           circleFillGap: 0.05, // size of gap between outer circle and wave circle as percentage of outer circles radius
-          circleColor: '#178BCA',
+          circleColor: 'rgb(110, 194, 114)',
           waveHeight: 0.05, // wave height as percentage of radius of wave circle
           waveCount: 1, // number of full waves per width of wave circle
           waveRiseTime: 1000, // time in milliseconds for wave to rise from 0 to final height
@@ -39,20 +40,24 @@
           waveRise: true, // True -> rise to height, False -> fall to height
           waveHeightScaling: true, // Control wave size scaling (biggest wave at 50%)
           waveAnimate: true,
-          waveColor: '#178BCA',
+          waveColor: 'rgb(110, 194, 114)',
           waveOffset: 0, // amount to initially offset wave 0 = no offset 1 = offset of one full wave
           textVertPosition: 0.5, // height at which to display percentage text: 0 = bottom, 1 = top
           textSize: 1, // relative height of text to display in wave circle 1 = 50%
           valueCountUp: true, // If true, displayed value counts up from 0 to final value upon loading
           displayPercent: true, // If true, % symbol is displayed after value
-          textColor: '#045681', // when wave does not overlap it
-          waveTextColor: '#A4DBf8' // when wave overlaps it
+          waveTextColor: 'rgb(173, 243, 177)' // when wave overlaps it
         }
       };
     },
     computed: {
       dark() {
         return this.$store.state.ui.dark;
+      },
+      textColor() {
+        return this.dark
+          ? '$dark-bg-secondary-text-color'
+          : '$light-bg-secondary-text-color'; // when wave does not overlap
       }
     },
     methods: {
@@ -61,6 +66,7 @@
         value = this.percentile,
         config = this.liquidGaugeSettings
       ) {
+        config.textColor = this.textColor;
         const gauge = d3.select('#' + elementId);
         const height = parseInt(gauge.style('height'));
         const width = parseInt(gauge.style('width'));
