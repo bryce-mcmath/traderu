@@ -11,7 +11,7 @@
 <script lang="ts">
   import * as d3 from 'd3';
   import Vue from 'vue';
-
+  import { D3Coord } from '../../utils/types';
   export default Vue.extend({
     name: 'LiquidGauge',
     props: {
@@ -35,13 +35,13 @@
           waveHeight: 0.05, // wave height as percentage of radius of wave circle
           waveCount: 1, // number of full waves per width of wave circle
           waveRiseTime: 1000, // time in milliseconds for wave to rise from 0 to final height
-          waveAnimateTime: 1000, // time in milliseconds for full wave to enter wave circle
+          waveAnimateTime: 1500, // time in milliseconds for full wave to enter wave circle
           waveRise: true, // True -> rise to height, False -> fall to height
           waveHeightScaling: true, // Control wave size scaling (biggest wave at 50%)
           waveAnimate: true,
           waveColor: '#178BCA',
           waveOffset: 0, // amount to initially offset wave 0 = no offset 1 = offset of one full wave
-          textVertPosition: 0.3, // height at which to display percentage text: 0 = bottom, 1 = top
+          textVertPosition: 0.5, // height at which to display percentage text: 0 = bottom, 1 = top
           textSize: 1, // relative height of text to display in wave circle 1 = 50%
           valueCountUp: true, // If true, displayed value counts up from 0 to final value upon loading
           displayPercent: true, // If true, % symbol is displayed after value
@@ -57,7 +57,7 @@
     },
     methods: {
       loadLiquidFillGauge(
-        elementId = 'gauge',
+        elementId = this.id,
         value = this.percentile,
         config = this.liquidGaugeSettings
       ) {
@@ -74,6 +74,7 @@
           config.maxValue;
 
         let waveHeightScale;
+
         if (config.waveHeightScaling) {
           waveHeightScale = d3
             .scaleLinear()
@@ -87,7 +88,7 @@
         }
 
         const textPixels = (config.textSize * radius) / 2;
-        let textFinalValue = parseFloat(value).toFixed(2);
+        const textFinalValue = parseFloat(value).toFixed(2);
         const textStartValue = config.valueCountUp
           ? config.minValue
           : textFinalValue;
@@ -206,22 +207,22 @@
               ')'
           );
 
-        // The clipping wave area.
+        // The clipping wave area
         const clipArea = d3
-          .area()
+          .area<D3Coord>()
           .x(function(d) {
-            return waveScaleX(d[0]);
+            return waveScaleX(d.x);
           })
           .y0(function(d) {
             return waveScaleY(
               Math.sin(
                 Math.PI * 2 * config.waveOffset * -1 +
                   Math.PI * 2 * (1 - config.waveCount) +
-                  d[1] * 2 * Math.PI
+                  d.y * 2 * Math.PI
               )
             );
           })
-          .y1(function(d) {
+          .y1(function() {
             return fillCircleRadius * 2 + waveHeight;
           });
 
@@ -229,6 +230,7 @@
           .append('defs')
           .append('clipPath')
           .attr('id', 'clipWave' + elementId);
+
         const wave = waveGroup
           .append('path')
           .datum(data)
@@ -311,8 +313,6 @@
           );
         }
 
-        if (config.waveAnimate) animateWave();
-
         function animateWave() {
           wave.attr(
             'transform',
@@ -330,6 +330,8 @@
               animateWave();
             });
         }
+
+        if (config.waveAnimate) animateWave();
       }
     },
     mounted() {
