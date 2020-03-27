@@ -12,9 +12,9 @@
     "start": "ts-node ./server/dist/index.js",
     "dev": "nodemon ./server/dist/index.js",
     "ts": "npx lerna run ts",
-    "test": "BUILD_ENV=test npx lerna run test",
-    "migrate:test-db": "BUILD_ENV=test node ./server/dist/db/reset.js",
-    "migrate:prod-db": "BUILD_ENV=production node ./server/dist/db/reset.js",
+    "test": "cross-env BUILD_ENV=test npx lerna run test",
+    "migrate:test-db": "cross-env BUILD_ENV=test node ./server/dist/db/reset.js",
+    "migrate:prod-db": "cross-env BUILD_ENV=production node ./server/dist/db/reset.js",
     "jsdoc": "npx lerna run jsdoc"
   },
   "repository": {
@@ -28,6 +28,7 @@
   },
   "homepage": "https://traderu.io",
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "lerna": "^3.20.2",
     "nodemon": "^2.0.2"
   },
