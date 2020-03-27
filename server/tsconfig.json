@@ -10,6 +10,7 @@
 		"rootDir": "./src",
 		"lib": ["esnext", "dom"],
 		"types": [
+			"supertest",
 			"express",
 			"node",
 			"pg",
@@ -18,7 +19,8 @@
 			"bcryptjs",
 			"jsonwebtoken",
 			"gravatar",
-			"express-validator"
+			"express-validator",
+			"jest"
 		]
 	},
 	"exclude": ["node_modules", ".npm"]
