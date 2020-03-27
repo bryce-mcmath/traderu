@@ -64,15 +64,13 @@ export default {
     font-size: 1.5em;
     background-color: rgb(75, 189, 84);
   }
+  h1{
+    font-size: 4em;
+    font-family: $primary-font;
+    width: 85%;
+  }
 }
 
-#CTA-register {
-  width: 40vw;
-  height: 100px;
-  margin: 20px;
-  font-family: $primary-font;
-  font-size: 1.5em;
-}
 .main-text{
   font-size: 2.5em !important;
   width: 85%;
@@ -81,10 +79,6 @@ export default {
 .buffer{
   height: 150px !important;
 }
-h1{
-  font-size: 4em;
-  font-family: $primary-font;
-  width: 85%;
-}
+
 
 </style>

@@ -11,7 +11,7 @@
       <span class="percent-performance"
         >Percent Change: {{ valuePercent }}%</span
       >
-      <span class="value-performance">Value: ${{ portfolio.value }}</span>
+      <span class="value-performance">Value: ${{ Math.round(portfolio.value * 100) / 100 }}</span>
     </div>
   </div>
 </template>
@@ -24,9 +24,8 @@
         const portfolioCapital = this.$store.state.apiData
           .initialPortfolioCapital;
         //Calculate percent change formula
-        return (
-          ((this.portfolio.value - portfolioCapital) * 100) / portfolioCapital
-        );
+        const percentChange = ((this.portfolio.value - portfolioCapital) * 100) / portfolioCapital
+        return Math.round(percentChange * 100) / 100;
       }
     }
   };

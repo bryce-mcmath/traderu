@@ -26,10 +26,9 @@ export default {
   name: 'Portfolios',
   components: { Portfolio, NewPortfolioForm, Spinner },
   created() {
-    //@TODO: think of better logic for this
-    //Don't want to reload if current,
-    //But need to make sure new portfolios get added
-    this.setUserPortfolios();
+    //If user portfolios not loaded yet, load them
+    if(!this.$store.state.apiData.userPortfolios["portfolios"])
+      this.setUserPortfolios();
   },
   props: {
     dark: {
