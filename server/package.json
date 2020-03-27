@@ -9,6 +9,14 @@
 		"ts": "tsc -p .",
 		"jsdoc": "./node_modules/.bin/jsdoc . -c ./jsdocs.json -R ../README.md"
 	},
+	"jest": {
+		"testEnvironment": "node",
+		"coveragePathIgnorePatterns": [
+			"/node_modules/",
+			"/src/",
+			"/static/"
+		]
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/bryce-mcmath/traderu.git"
@@ -52,8 +60,10 @@
 		"express-validator": "^6.4.0",
 		"gravatar": "^1.8.0",
 		"helmet": "^3.21.2",
+		"jest": "^25.2.3",
 		"jsonwebtoken": "^8.5.1",
 		"pg": "^7.18.1",
+		"supertest": "^4.0.2",
 		"xss-clean": "^0.1.1"
 	},
 	"devDependencies": {
