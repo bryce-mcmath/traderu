@@ -7,11 +7,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e --mode test",
     "lint": "vue-cli-service lint",
-    "jsdoc": "./node_modules/.bin/jsdoc . -c ./jsdocs.json -R ../README.md",
-    "test": "npm run test:unit"
+    "jsdoc": "./node_modules/.bin/jsdoc . -c ./jsdocs.json -R ../README.md"
   },
   "dependencies": {
     "@types/d3": "^5.7.2",
