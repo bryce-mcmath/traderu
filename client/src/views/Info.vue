@@ -10,7 +10,7 @@
           class="info-display"
         />
         <aside class="main-text">
-          <p>Trade stocks and cryptocurrencies.</p>
+          <p>Trade stocks and crypto.</p>
           <p>Compete with friends.</p>
           <p>All with live data.</p>
         </aside>
@@ -63,7 +63,7 @@
     }
 
     img.info-display {
-      margin: 16px 12px 0 12px;
+      margin: 2vh 3vw 0 2vw;
       width: 60%;
     }
 
@@ -75,6 +75,19 @@
       font-size: 6vw;
       background-color: rgb(75, 189, 84);
     }
+
+    h1 {
+      font-size: 8vw;
+      font-family: $primary-font;
+      width: 95%;
+    }
+
+    h2 {
+      font-size: 6vw;
+      width: 75%;
+      margin-left: 0;
+      margin-top: 1vh;
+    }
   }
 
   #CTA-register {
@@ -85,26 +98,19 @@
   }
 
   .main-text {
-    font-size: 4vw !important;
+    font-size: 5vw !important;
     width: 80%;
 
     p {
       margin: 0;
+
+      &:last-child {
+        margin-bottom: 6vw;
+      }
     }
   }
 
   .buffer {
     height: 12vh !important;
-  }
-
-  h1 {
-    font-size: 8vw;
-    font-family: $primary-font;
-    width: 95%;
-  }
-
-  h2 {
-    font-size: 5vw;
-    width: 75%;
   }
 </style>
