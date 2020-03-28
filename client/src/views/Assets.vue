@@ -260,11 +260,6 @@
           ''
         );
       },
-      showDifference(asset) {
-        const diff =
-          asset.prices[0].price - asset.prices[asset.prices.length - 1].price;
-        window.console.log(`Diff for ${asset.name}: `, diff);
-      },
       selectAsset(assetItem) {
         const increase =
           assetItem.prices[0] - assetItem.prices[assetItem.prices.length - 1] >
