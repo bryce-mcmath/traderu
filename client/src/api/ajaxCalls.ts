@@ -142,13 +142,21 @@ export default {
     );
     return axios.delete(`/api/portfolios/${id}`);
   },
-
-  async makeTransaction(transactionObj, portfolioId) {
+  async makeStockTransaction(transactionObj, portfolioId) {
     axios.defaults.headers.common['x-auth-token'] = localStorage.getItem(
       'token'
     );
     return axios.post(
       `/api/portfolios/${portfolioId}/stock-transaction`,
+      transactionObj
+    );
+  },
+  async makeCryptoTransaction(transactionObj, portfolioId) {
+    axios.defaults.headers.common['x-auth-token'] = localStorage.getItem(
+      'token'
+    );
+    return axios.post(
+      `/api/portfolios/${portfolioId}/crypto-transaction`,
       transactionObj
     );
   }

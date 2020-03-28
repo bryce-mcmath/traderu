@@ -36,7 +36,7 @@ export default new Vuex.Store({
       // Multi component use
       dark: false,
       ajaxInProgress: false,
-      activePortfolio: {name:null, i:-1, id:null},
+      activePortfolio: { name: null, panelIndex: -1, id: null },
       // For navigation drawer
       showDrawer: false,
       // For login component
@@ -240,6 +240,7 @@ export default new Vuex.Store({
           })
           .catch(err => {
             window.console.error('setCurrentAsset:', err);
+            commit('setCurrentAsset', null);
           })
           .finally(() => {
             commit('setAjaxInProgress', false);
@@ -254,6 +255,7 @@ export default new Vuex.Store({
           })
           .catch(err => {
             window.console.error('setCurrentAsset:', err);
+            commit('setCurrentAsset', null);
           })
           .finally(() => {
             commit('setAjaxInProgress', false);
@@ -264,12 +266,12 @@ export default new Vuex.Store({
     async setUserPortfolios({ commit }) {
       commit('setAjaxInProgress', true);
       return fetchPortfolioData()
-        .then(portfolios => {
-          console.log(portfolios)
-          commit('setUserPortfolios', portfolios);
+        .then(data => {
+          commit('setUserPortfolios', data.portfolios);
+          return data.portfolios;
         })
         .catch(err => {
-          window.console.error('setUserPortfolios:', err);
+          commit('setUserPortfolios', []);
         })
         .finally(() => {
           commit('setAjaxInProgress', false);

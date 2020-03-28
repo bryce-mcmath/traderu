@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :dark="dark" v-model="registerDialog" fullscreen hide-overlay>
+  <v-dialog :dark="dark" v-model="registerDialog">
     <template v-slot:activator="{ on }">
       <v-btn :dark="dark" v-on="on">Register</v-btn>
     </template>
