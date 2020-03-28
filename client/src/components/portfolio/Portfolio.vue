@@ -356,11 +356,15 @@
       stocksData() {
         return this.$store.state.apiData.stocksData;
       },
+      cryptosData(){
+        return this.$store.state.apiData.cryptosData;
+      },
       width() {
         return window.innerWidth / 1.4;
       },
       pieData() {
         const stocks = this.portfolio.stocks.filter(stock => stock && stock.quantity);
+        const cryptos = this.portfolio.cryptos.filter(crypto => crypto && crypto.quantity);
         const stockValues = stocks.map(stock => {
           //most recent price from stock with same name
           const price = this.stocksData.find(
@@ -372,8 +376,19 @@
             value: stock.quantity * price
           };
         });
+        const cryptoValues = cryptos.map(crypto => {
+          //most recent price from stock with same name
+          const price = this.cryptosData.find(
+            nestedCrypto => nestedCrypto.name === crypto.name
+          ).prices[0].price;
+          return {
+            name: crypto.name,
+            symbol: crypto.symbol,
+            value: crypto.quantity * price
+          };
+        });
         return [
-          ...stockValues,
+          ...stockValues, ...cryptoValues,
           { symbol: 'CASH', name: 'CASH', value: this.portfolio.cash }
         ];
       }
