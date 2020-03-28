@@ -111,6 +111,6 @@
   }
 
   .buffer {
-    height: 12vh !important;
+    height: 3vh !important;
   }
 </style>

@@ -61,12 +61,12 @@ export default new Vuex.Store({
     },
     apiData: {
       currentAsset: null,
-      stocksData: {},
-      cryptoData: {},
-      allRankingsData: {},
+      stocksData: [],
+      cryptoData: [],
+      allRankingsData: [],
       initialPortfolioCapital: 100000,
       userPortfolios: [],
-      localRankingsData: {}
+      localRankingsData: []
     }
   },
   mutations: {
