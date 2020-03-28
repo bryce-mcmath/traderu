@@ -173,7 +173,7 @@ export default new Vuex.Store({
     },
 
     async setCryptosData({ commit, state }) {
-      //Only update stocks if not already in state
+      //Only update crypto if not already in state
       if (Object.keys(state.apiData.cryptosData).length !== 0) return;
 
       commit('setAjaxInProgress', true);

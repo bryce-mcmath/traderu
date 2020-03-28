@@ -34,10 +34,6 @@ import NewPortfolioForm from '../components/new_portfolio_form/NewPortfolioForm.
 export default {
   name: 'Portfolios',
   components: { Portfolio, NewPortfolioForm, Spinner },
-  created() {
-    //If user portfolios not loaded yet, load them
-    if (!this.$store.state.apiData.userPortfolios) this.setUserPortfolios();
-  },
   props: {
     dark: {
       type: Boolean,
@@ -46,16 +42,16 @@ export default {
   },
   methods: {
     ...mapActions(['setUserPortfolios']),
-    setActive(name, i, id) {
+    setActive(name, panelIndex, id) {
       // @TODO: expansion panels are being a real pain, they
       // aren't playing nice with vuex at all, this
       // is a mess. It works, but should Probably switch to something else
       if (this.active.name === name) {
-        this.activePortfolio = { name: null, i: -1, id: null };
-        this.active = { name: null, i: -1, id: null };
+        this.activePortfolio = { name: null, panelIndex: -1, id: null };
+        this.active = { name: null, panelIndex: -1, id: null };
       } else {
-        this.activePortfolio = { name, i, id };
-        this.active = { name, i, id };
+        this.activePortfolio = { name, panelIndex, id };
+        this.active = { name, panelIndex, id };
       }
     }
   },
@@ -72,7 +68,7 @@ export default {
     activePortfolio: {
       get() {
         return this.$store.state.ui.activePortfolio.name
-          ? this.$store.state.ui.activePortfolio.i
+          ? this.$store.state.ui.activePortfolio.panelIndex
           : -1;
       },
       set() {
@@ -85,8 +81,12 @@ export default {
       // active: {name: null, i: -1, id:null}
       active: this.$store.state.ui.activePortfolio.name
         ? this.$store.state.ui.activePortfolio
-        : { name: null, i: -1, id: null }
+        : { name: null, panelIndex: -1, id: null }
     };
+  },
+  created() {
+    // If no portfolios loaded, load em
+    if (this.portfolios.length <= 0) this.setUserPortfolios();
   }
 };
 </script>

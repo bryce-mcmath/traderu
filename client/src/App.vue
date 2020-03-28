@@ -19,7 +19,7 @@ import FooterNavButton from '@/components/footer_nav_button/FooterNavButton.vue'
 import FooterNav from './components/footer_nav/FooterNav.vue';
 import Spinner from './components/spinner/Spinner.vue';
 import Dialog from './components/dialog/Dialog.vue';
-import { mapMutations, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default Vue.extend({
   name: 'App',
@@ -51,8 +51,7 @@ export default Vue.extend({
       'checkUserAuth',
       'setStocksData',
       'setCryptosData',
-      'setRankingsData',
-      'setUserPortfolios'
+      'setRankingsData'
     ])
   },
   created: function() {
