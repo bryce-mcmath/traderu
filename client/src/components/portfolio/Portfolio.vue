@@ -12,7 +12,11 @@
       </div>
     </v-card>
     <v-card class="value-card">
-      <h2>Portfolio value</h2>
+      <h2>Value Trajectory</h2>
+      <p v-if="portfolio.values.length < 4">
+        More data will be shown here after you purchase some assets and time has
+        passed!
+      </p>
       <svg
         :id="`line-chart-${portfolio.name}`"
         :width="width * 1.1"
@@ -30,11 +34,10 @@
           :percentile="percentile"
         />
       </div>
+      <v-btn class="ranking-card__btn" :to="`/leaderboard/${this.portfolio.id}`"
+        >Leaderboard Position</v-btn
+      >
     </v-card>
-
-    <v-btn :to="`/leaderboard/${this.portfolio.id}`"
-      >Leaderboard Position</v-btn
-    >
 
     <v-btn id="delete-portfolio" color="red" @click.stop="dialog = true"
       >Delete Portfolio</v-btn
@@ -77,9 +80,9 @@
   export default {
     components: { Spinner, LiquidGauge },
     mounted() {
-      // STOCK BREAKDOWN CHART
+      // Asset Breakdown
       this.makePie();
-      //VALUE OVER TIME
+      // Value Trajectory
       this.makeLineChart();
     },
     data() {
@@ -106,7 +109,7 @@
           '%';
       },
 
-      handleMouseOut(d, i) {
+      handleMouseOut() {
         this.highlightedStock = 'Total';
         this.stockValue = Math.round(this.portfolio.value * 100) / 100;
         this.stockPercent = '';
@@ -320,17 +323,20 @@
 
     computed: {
       rank() {
-        return (
-          (this.$store.state.portfolio && this.$store.state.portfolio.rank) ||
-          137
+        // Ranking data is sorted so their rank is their index + 1
+        const index = this.$store.state.apiData.allRankingsData.findIndex(
+          x => x.portfolioId === this.portfolio.portfolioId
         );
+        return index + 1;
       },
       percentile() {
-        return (
-          (this.$store.state.portfolio &&
-            this.$store.state.portfolio.percentile) ||
-          76
-        );
+        // Regular formula is P = R / (n + 1)
+        // If you were in the top 2 percent, you would get 0.02 from this formula
+        // We don't want a decimal, and we want to show a higher percentile the better they do
+        // So formula becomes P = 100 - ( R / (n + 1) ) * 100
+        // We are also only taking one decimal place, hence the toFixed and parseFloat
+        const n = this.$store.state.apiData.allRankingsData.length;
+        return parseFloat((100 - (this.rank / (n + 1)) * 100).toFixed(1));
       },
       formattedValue() {
         return new Intl.NumberFormat('en-US', {
@@ -372,7 +378,12 @@
         ];
       }
     },
-    props: ['portfolio']
+    props: {
+      portfolio: {
+        type: Object,
+        default: null
+      }
+    }
   };
 </script>
 

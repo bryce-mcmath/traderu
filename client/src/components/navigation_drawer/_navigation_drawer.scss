@@ -1,6 +1,9 @@
 aside.v-navigation-drawer {
   z-index: 6;
+  position: fixed;
   background: $light-bg;
+  height: 100vh;
+
   .v-list-item {
     align-items: center;
     justify-content: center;

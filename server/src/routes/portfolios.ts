@@ -195,6 +195,7 @@ portfolios.post(
 						value
 					}
 				);
+				console.log('all well on the backend')
 				res.json({ response });
 			} catch (error) {
 				console.error(

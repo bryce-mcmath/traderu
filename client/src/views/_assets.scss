@@ -6,9 +6,18 @@
   margin-bottom: 100px;
 
   .symbol-text-input {
+    @include light-pressed;
     background-color: white;
-    border-style: solid;
-    border-color: lightgray;
+    height: 5vh;
+    font-family: $primary-font;
+    color: grey;
+    text-shadow: none;
+    padding: 0 2vw;
+  }
+
+  h3.asset-title {
+    margin-bottom: 1vh;
+    margin-top: 2vh;
   }
 
   h1 {

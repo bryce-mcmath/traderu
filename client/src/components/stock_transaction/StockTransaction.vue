@@ -163,6 +163,9 @@
         }
       },
       submitTransaction() {
+        if(!this.$store.state.ui.activePortfolio.id){
+          return console.log('Function here to handle no active portfolio')
+        }
         AjaxCalls.makeTransaction(
           {
             stock: {

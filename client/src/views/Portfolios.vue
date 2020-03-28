@@ -39,15 +39,22 @@ export default {
   methods: {
     ...mapActions(['setUserPortfolios']),
     setActive(name, i, id){
-      // console.log(name,i)
-      if(this.activePortfolio.name === name){
+      // @TODO: expansion panels are being a real pain, they 
+      // aren't playing nice with vuex at all, this
+      // is a mess. It works, but should Probably switch to something else
+      if(this.active.name === name){
+        this.activePortfolio = {name:null, i:-1, id: null};
         this.active = {name:null, i:-1, id: null};
       } else {
+        this.activePortfolio = {name, i, id};
         this.active = {name, i, id};
       }
     }
   },
   computed: {
+    darken(){
+      return this.$store.state.ui.dark;
+    },
     portfolios() {
       return this.$store.state.apiData.userPortfolios['portfolios'];
     },
@@ -75,18 +82,5 @@ export default {
 </script>
 
 <style lang="scss">
-  .v-expansion-panel {
-    margin-top: 20px;
-  }
-  .spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 160px;
-  }
-  .v-expansion-panel-content__wrap {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
+  @import 'portfolios';
 </style>

@@ -76,6 +76,44 @@ export default {
     return error;
   },
 
+  async fetchCryptosData() {
+    //Local route for quicker workflow during development
+    // return axios.get('http://localhost:8002/api/cryptos')
+    return axios.get('/api/cryptos').then(res => {
+      return res.data.map(cryptoObject => {
+        return {
+          name: cryptoObject.name,
+          symbol: cryptoObject.symbol,
+          prices: cryptoObject.cryptodata.map(crypto => ({
+            time: crypto.time,
+            price: Number(crypto.data['4a. close (USD)'])
+          }))
+        };
+      });
+    });
+  },
+
+  async fetchCryptoData(symbol) {
+    let error;
+    const daily = await axios
+      .get(`/api/cryptos/${symbol}/daily`)
+      .then(res => res.data)
+      .catch(err => (error = err));
+    const weekly = await axios
+      .get(`/api/cryptos/${symbol}/weekly`)
+      .then(res => res.data)
+      .catch(err => (error = err));
+
+    if (!error) {
+      return {
+        daily,
+        weekly
+      };
+    }
+
+    return error;
+  },
+
   async fetchRankingsData() {
     //Local route for quicker workflow during development
     // return axios.get('http://localhost:8002/api/leaderboard')
@@ -106,12 +144,7 @@ export default {
   },
 
   async makeTransaction(transactionObj, portfolioId) {
-    // axios.defaults.headers.common['x-auth-token'] = localStorage.getItem(
-    //   'token'
-    // );
-    // return axios.post(
-    //   `/api/portfolios/${portfolioId}/stock-transaction`,
-    //   transactionObj
-    // );
+    console.log(transactionObj, portfolioId)
+    return axios.post(`api/portfolios/${portfolioId}/stock-transaction`, transactionObj);
   }
 };
