@@ -30,6 +30,17 @@
         <h3 class="mt-4">PLACE AN ORDER</h3>
         <v-container>
           <v-row justify="space-around">
+            <label>Select portfolio for transaction: </label>
+            <v-select
+              :items="portfolioSelectArray"
+              item-text="name"
+              item-value="id"
+              v-model="portfolioSelectedId"
+              background-color="white"
+              outlined
+            ></v-select>
+          </v-row>
+          <v-row justify="space-around">
             <v-col>
               <label>Price</label>
               <v-text-field background-color="white" outlined></v-text-field>
@@ -141,6 +152,20 @@
         } else {
           return '00';
         }
+      },
+      portfolioSelectArray() {
+        const userPortfolios = this.$store.apiData.userPortfolios;
+        if (userPortfolios.portfolios && userPortfolios.portfolios.length) {
+          return this.$store.apiData.userPortfolios.portfolios;
+        } else {
+          return [
+            {
+              id: '000',
+              name:
+                'No portfolios available. Please create in the portfolios section first.'
+            }
+          ];
+        }
       }
     },
     data: () => ({
@@ -148,6 +173,7 @@
         { text: 'Buy', value: 'buy' },
         { text: 'Sell', value: 'sell' }
       ],
+      portfolioSelectedId: '',
       transactionSelected: '',
       searchSymbol: '',
       assetSelected: '',
@@ -163,19 +189,27 @@
         }
       },
       submitTransaction() {
-        AjaxCalls.makeTransaction(
-          {
-            stock: {
-              symbol: this.assetSelected.symbol,
-              price: String(this.assetSelected.prices.pop().price)
+        const portolioId = this.portfolioSelectedId;
+        if (!portolioId) {
+          this.$store.commit('setDialogText', {
+            title: 'Unable to make transaction',
+            content: 'No valid portolio selected'
+          });
+        } else {
+          AjaxCalls.makeTransaction(
+            {
+              stock: {
+                symbol: portolioId,
+                price: String(this.assetSelected.prices.pop().price)
+              },
+              type: this.transactionSelected,
+              quantity: this.quantity
             },
-            type: this.transactionSelected,
-            quantity: this.quantity
-          },
-          this.portfolioId
-        )
-          .then(res => window.console.log(res))
-          .catch(err => window.console.log(err));
+            this.portfolioId
+          )
+            .then(res => window.console.log(res))
+            .catch(err => window.console.log(err));
+        }
       }
     }
   });
