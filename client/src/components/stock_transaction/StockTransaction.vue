@@ -27,41 +27,60 @@
           line-width="3"
           padding="16"
         ></v-sparkline>
-        <h3 class="mt-4">PLACE AN ORDER</h3>
-        <v-container>
-          <v-row justify="space-around">
-            <v-col>
-              <label>Price</label>
-              <v-text-field background-color="white" outlined></v-text-field>
-            </v-col>
-            <v-col>
-              <label>Transaction</label>
+        <div v-if="portfolioSelectArray.length">
+          <h3 class="mt-4">PLACE AN ORDER</h3>
+          <v-container>
+            <v-row justify="space-around">
+              <label>Select portfolio for transaction: </label>
               <v-select
-                :items="transactionsSelectArray"
-                item-text="text"
-                item-value="value"
-                v-model="transactionSelected"
+                :items="portfolioSelectArray"
+                item-text="name"
+                item-value="id"
+                v-model="portfolioSelectedId"
                 background-color="white"
                 outlined
               ></v-select>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <label>Quantity</label>
-              <v-text-field
-                onkeypress="return event.key === 'Enter' || (Number(event.key) >= 0 && Number(event.key) <= 9)"
-                type="number"
-                v-model="quantity"
-                background-color="white"
-                outlined
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-btn class="mt-8" @click="submitTransaction">Place Order</v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
+            </v-row>
+            <v-row justify="space-around">
+              <v-col>
+                <label>Price</label>
+                <v-text-field
+                  background-color="white"
+                  v-model="purchasePrice"
+                  type="number"
+                  outlined
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <label>Transaction</label>
+                <v-select
+                  :items="transactionsSelectArray"
+                  item-text="text"
+                  item-value="value"
+                  v-model="transactionSelected"
+                  background-color="white"
+                  outlined
+                ></v-select>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <label>Quantity</label>
+                <v-text-field
+                  type="number"
+                  v-model="quantity"
+                  background-color="white"
+                  outlined
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-btn class="mt-8" @click="submitTransaction"
+                  >Place Order</v-btn
+                >
+              </v-col>
+            </v-row>
+          </v-container>
+        </div>
       </div>
       <div v-else>
         <div v-if="stocksData.length">
@@ -98,10 +117,7 @@
         <div class="cp" v-else-if="searchSymbol">
           <h3>Search markets for symbol "{{ searchSymbol.toUpperCase() }}"</h3>
         </div>
-        <div v-else
-          >No assets to show at this time. Add some and we'll display the data
-          here.</div
-        >
+        <div v-else>No assets to show at this time.</div>
       </div>
     </div>
   </div>
@@ -109,6 +125,7 @@
 
 <script lang="ts">
   import Vue from 'vue';
+  import { mapActions } from 'vuex';
   import AjaxCalls from '../../api/ajaxCalls';
 
   export default Vue.extend({
@@ -135,11 +152,12 @@
       darkSparkline() {
         return this.$store.state.ui.dark ? 'white' : 'black';
       },
-      portfolioId() {
-        if (this.$store.state.user) {
-          return this.$store.state.user.id;
+      portfolioSelectArray() {
+        if (Array.isArray(this.$store.state.apiData.userPortfolios)) {
+          this.setUserPortfolios();
+          return [];
         } else {
-          return '00';
+          return this.$store.state.apiData.userPortfolios.portfolios;
         }
       }
     },
@@ -148,13 +166,18 @@
         { text: 'Buy', value: 'buy' },
         { text: 'Sell', value: 'sell' }
       ],
+      portfolioSelectedId: '',
       transactionSelected: '',
       searchSymbol: '',
       assetSelected: '',
-      quantity: ''
+      quantity: '',
+      purchasePrice: ''
     }),
     methods: {
       selectAsset(assetItem) {
+        if (this.portfolioSelectArray.length) {
+          this.portfolioSelectedId = this.portfolioSelectArray[0].id;
+        }
         this.assetSelected = assetItem;
       },
       handleSymbolInput() {
@@ -162,24 +185,84 @@
           this.assetSelected = '';
         }
       },
-      submitTransaction() {
-        if(!this.$store.state.ui.activePortfolio.id){
-          return console.log('Function here to handle no active portfolio')
+      transactionValidation() {
+        let valid = true;
+        const errTemplate = {
+          title: 'Error',
+          content: ''
+        };
+
+        if (
+          !this.portfolioSelectedId &&
+          !isNaN(Number(this.portfolioSelectedId))
+        ) {
+          valid = false;
+          errTemplate.content = 'No portfolio selected';
         }
-        AjaxCalls.makeTransaction(
-          {
-            stock: {
-              symbol: this.assetSelected.symbol,
-              price: String(this.assetSelected.prices.pop().price)
+
+        if (!this.purchasePrice && !isNaN(Number(this.purchasePrice))) {
+          valid = false;
+          errTemplate.content = 'Price must be a number';
+        }
+
+        if (!this.quantity && !isNaN(Number(this.quantity))) {
+          valid = false;
+          errTemplate.content = 'Quantity must be a number';
+        }
+
+        if (!this.transactionSelected) {
+          valid = false;
+          errTemplate.content = 'Transaction must be selected';
+        }
+
+        this.$store.commit('setDialogText', errTemplate);
+        this.$store.commit('setShowDialog', !valid);
+
+        return valid;
+      },
+      submitTransaction() {
+        const portfolioId = this.portfolioSelectedId;
+        if (this.transactionValidation()) {
+          AjaxCalls.makeTransaction(
+            {
+              stock: {
+                symbol: this.assetSelected.symbol,
+                price: String(this.purchasePrice)
+              },
+              type: this.transactionSelected,
+              quantity: Number(this.quantity)
             },
-            type: this.transactionSelected,
-            quantity: this.quantity
-          },
-          this.portfolioId
-        )
-          .then(res => window.console.log(res))
-          .catch(err => window.console.log(err));
-      }
+            portfolioId
+          )
+            .then(res => {
+              res.data === 'error'
+                ? this.transactionNotification(false)
+                : this.transactionNotification(true);
+            })
+            .catch(err => this.transactionNotification(false));
+        }
+      },
+      transactionNotification(transactionSuccess) {
+        if (transactionSuccess) {
+          this.$store.commit('setDialogText', {
+            title: 'Success!',
+            content: 'Transaction made successfully',
+            primaryBtn: 'Ok'
+          });
+          this.$store.commit('setShowDialog', true);
+          this.purchasePrice = '';
+          this.quantity = '';
+        } else {
+          this.$store.commit('setDialogText', {
+            title: 'Error',
+            content:
+              'There was an issue processing your transaction. Please try again later.',
+            primaryBtn: 'Ok'
+          });
+          this.$store.commit('setShowDialog', true);
+        }
+      },
+      ...mapActions(['setUserPortfolios'])
     }
   });
 </script>

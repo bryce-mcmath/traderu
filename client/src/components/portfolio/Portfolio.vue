@@ -360,7 +360,7 @@
         return window.innerWidth / 1.4;
       },
       pieData() {
-        const stocks = this.portfolio.stocks.filter(stock => stock);
+        const stocks = this.portfolio.stocks.filter(stock => stock && stock.quantity);
         const stockValues = stocks.map(stock => {
           //most recent price from stock with same name
           const price = this.stocksData.find(

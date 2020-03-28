@@ -58,9 +58,6 @@ export default {
     portfolios() {
       return this.$store.state.apiData.userPortfolios['portfolios'];
     },
-    // methods: {
-    //   ...mapActions(['setUserPortfolios'])
-    // },
     loading(){
       return this.$store.state.ui.ajaxInProgress;
     },
@@ -75,7 +72,8 @@ export default {
   },
   data(){
     return {
-      active: {name: null, i: -1, id:null}
+      // active: {name: null, i: -1, id:null}
+      active: this.$store.state.ui.activePortfolio.name ? this.$store.state.ui.activePortfolio : {name: null, i: -1, id:null}
     }
   }
   };

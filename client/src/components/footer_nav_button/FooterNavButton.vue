@@ -6,6 +6,7 @@
       { 'footer-nav-button--dark': dark },
       { 'footer-nav-button--active': active }
     ]"
+    :disabled="disabled"
   >
     <i :class="icon + ' footer-nav-button__icon'"></i>
   </v-btn>
@@ -34,6 +35,11 @@ export default {
     active: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    disabled(){
+      return (this.label === "Portfolios" && !this.$store.state.user) 
     }
   }
 };
