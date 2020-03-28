@@ -13,6 +13,7 @@
     "jsdoc": "./node_modules/.bin/jsdoc . -c ./jsdocs.json -R ../README.md"
   },
   "dependencies": {
+    "@coingecko/cryptoformat": "^0.3.4",
     "@types/d3": "^5.7.2",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",

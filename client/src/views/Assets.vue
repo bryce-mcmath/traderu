@@ -12,11 +12,21 @@
       <div class="assets-container">
         <div v-if="assetSelected">
           <h4>{{ assetSelected.name }}</h4>
-          <h5 v-bind:style="{ color: assetSelected.highlight }">{{
-            formattedValue(
-              assetSelected.prices[assetSelected.prices.length - 1].price
-            )
-          }}</h5>
+          <h5
+            v-bind:style="{
+              color:
+                assetSelected.prices[0].price -
+                  assetSelected.prices[assetSelected.prices.length - 1].price >
+                0
+                  ? '#75ff83'
+                  : '#ff073a'
+            }"
+            >{{
+              format(
+                assetSelected.prices[assetSelected.prices.length - 1].price
+              )
+            }}</h5
+          >
           <v-sparkline
             :value="
               assetSelected.prices
@@ -24,7 +34,13 @@
                 .slice()
                 .reverse()
             "
-            :color="assetSelected.highlight"
+            v-bind:color="
+              assetSelected.prices[0].price -
+                assetSelected.prices[assetSelected.prices.length - 1].price >
+              0
+                ? '#75ff83'
+                : '#ff073a'
+            "
             line-width="3"
             padding="16"
           ></v-sparkline>
@@ -79,17 +95,18 @@
                   >
                     <v-list-item-content>
                       <v-list-item-title v-text="item.name"></v-list-item-title>
+                      {{ showDifference(item) }}
                       <v-list-item-subtitle
                         v-bind:style="{
                           color:
-                            item.prices[0] -
-                              item.prices[item.prices.length - 1] >
+                            item.prices[0].price -
+                              item.prices[item.prices.length - 1].price >
                             0
                               ? '#75ff83'
                               : '#ff073a'
                         }"
                         >{{
-                          formattedValue(item.prices[0].price)
+                          format(item.prices[0].price)
                         }}</v-list-item-subtitle
                       >
                     </v-list-item-content>
@@ -102,7 +119,8 @@
                             .reverse()
                         "
                         v-bind:color="
-                          item.prices[0] - item.prices[item.prices.length - 1] >
+                          item.prices[0].price -
+                            item.prices[item.prices.length - 1].price >
                           0
                             ? '#75ff83'
                             : '#ff073a'
@@ -126,17 +144,18 @@
                   >
                     <v-list-item-content>
                       <v-list-item-title v-text="item.name"></v-list-item-title>
+                      {{ showDifference(item) }}
                       <v-list-item-subtitle
                         v-bind:style="{
                           color:
-                            item.prices[0] -
-                              item.prices[item.prices.length - 1] >
+                            item.prices[0].price -
+                              item.prices[item.prices.length - 1].price >
                             0
                               ? '#75ff83'
                               : '#ff073a'
                         }"
                         >{{
-                          formattedValue(item.prices[0].price)
+                          format(item.prices[0].price)
                         }}</v-list-item-subtitle
                       >
                     </v-list-item-content>
@@ -149,7 +168,8 @@
                             .reverse()
                         "
                         v-bind:color="
-                          item.prices[0] - item.prices[item.prices.length - 1] >
+                          item.prices[0].price -
+                            item.prices[item.prices.length - 1].price >
                           0
                             ? '#75ff83'
                             : '#ff073a'
@@ -178,7 +198,7 @@
 
 <script>
   import AjaxCalls from '@/api/ajaxCalls';
-
+  import { formatCurrency } from '@coingecko/cryptoformat';
   export default {
     name: 'Assets',
     computed: {
@@ -234,12 +254,16 @@
       quantity: ''
     }),
     methods: {
-      formattedValue(val) {
-        return new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-          maximumSignificantDigits: 10
-        }).format(Math.round(val * 100) / 100);
+      format(val) {
+        return formatCurrency(val, 'USD', 'en').replace(
+          /^(\d+\.\d*?[1-9])0+$/,
+          ''
+        );
+      },
+      showDifference(asset) {
+        const diff =
+          asset.prices[0].price - asset.prices[asset.prices.length - 1].price;
+        window.console.log(`Diff for ${asset.name}: `, diff);
       },
       selectAsset(assetItem) {
         const increase =
