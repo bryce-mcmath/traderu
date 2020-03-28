@@ -1,28 +1,34 @@
 .portfolio-container {
-  margin-bottom: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto 12vh auto;
+  width: 100%;
 }
-h2{
+
+h2 {
   margin: 20px;
 }
-.spinner-container{
-  margin: 'auto'
+
+.spinner-container {
+  margin: 'auto';
 }
-#delete-portfolio{
+
+#delete-portfolio {
   margin-top: 50px;
 }
-.arc>path:hover{
+
+.arc > path:hover {
   filter: brightness(80%) !important;
   pointer-events: all;
 }
-#portfolioValue{
+
+#portfolioValue {
   font-size: 2em;
 }
 
-#pieStockInfo{
-  position: relative;
+#pieStockInfo {
+  position: absolute;
   height: 100px;
   display: flex;
   flex-direction: column;
@@ -34,25 +40,77 @@ h2{
   }
 }
 
-.tick{
+.tick {
   font-family: $primary-font;
   font-size: 2em;
 }
 
-.tick>line {
+.tick > line {
   stroke: lightgrey;
   stroke-opacity: 0.5;
 }
 
-.axis-label{
+.axis-label {
   font-family: $primary-font;
   fill: currentColor;
 }
 
-text{
+text {
   pointer-events: none;
   font-family: $primary-font;
 }
-.v-expansion-panel-header--active{
-  font-size: 1.5em;
+
+.v-card.breakdown-card {
+  width: 90%;
+  margin: 3vh auto 3vh auto;
+  height: auto;
+  padding-bottom: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    margin: 2vh auto 0 auto;
+    text-align: center;
+  }
+}
+
+.v-card.value-card {
+  width: 90%;
+  margin: 3vh auto 3vh auto;
+  height: auto;
+  padding: 8px;
+
+  h2 {
+    margin: 2vh auto 0 auto;
+    text-align: center;
+  }
+}
+
+.v-card.ranking-card {
+  width: 90%;
+  margin: 3vh auto 3vh auto;
+  height: 30vh;
+
+  h2 {
+    margin: 2vh auto;
+    text-align: center;
+  }
+
+  .ranking-card__info-container {
+    height: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    h1 {
+      margin: 0;
+      margin-left: 4vw;
+      font-size: 12vw;
+    }
+    .ranking-card__gauge {
+      width: 100px;
+      height: 100px;
+    }
+  }
 }

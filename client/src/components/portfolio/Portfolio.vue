@@ -1,23 +1,36 @@
 <template>
   <main class="portfolio-container">
-    <h1>Value</h1>
-    <p id="portfolioValue">${{ Math.round(portfolio.value * 100) / 100 }}</p>
-    <h2>Stocks Breakdown</h2>
-    <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
-    <div id="pieStockInfo" v-bind:style="{ bottom: width / 2 + 50 + 'px' }">
-      <h5>{{ highlightedStock }}</h5>
-      <p>Value: ${{ stockValue }}</p>
-      <p>{{ stockPercent }}</p>
-    </div>
-    <h2>Portfolio value</h2>
-    <svg
-      :id="`line-chart-${portfolio.name}`"
-      :width="width * 1.1"
-      :height="width"
-      v-if="portfolio.values.length > 3"
-    />
-
-    <LiquidGauge :id="'liqgauge'" :percentile="76" />
+    <h1>Portfolio Value</h1>
+    <p id="portfolioValue">{{ formattedValue }}</p>
+    <v-card class="breakdown-card">
+      <h2>Asset Breakdown</h2>
+      <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
+      <div id="pieStockInfo" v-bind:style="{ bottom: width / 2 - 50 + 'px' }">
+        <h5>{{ highlightedStock }}</h5>
+        <p>{{ formattedStockValue }}</p>
+        <p>{{ stockPercent }}</p>
+      </div>
+    </v-card>
+    <v-card class="value-card">
+      <h2>Portfolio value</h2>
+      <svg
+        :id="`line-chart-${portfolio.name}`"
+        :width="width * 1.1"
+        :height="width"
+        v-if="portfolio.values.length > 3"
+      />
+    </v-card>
+    <v-card class="ranking-card">
+      <h2>Rank and Percentile</h2>
+      <div class="ranking-card__info-container">
+        <h1>#{{ rank }}</h1>
+        <LiquidGauge
+          class="ranking-card__gauge"
+          :id="'liqgauge'"
+          :percentile="percentile"
+        />
+      </div>
+    </v-card>
 
     <v-btn :to="`/leaderboard/${this.portfolio.id}`"
       >Leaderboard Position</v-btn
@@ -68,6 +81,14 @@
       this.makePie();
       //VALUE OVER TIME
       this.makeLineChart();
+    },
+    data() {
+      return {
+        dialog: false,
+        stockPercent: '',
+        stockValue: this.portfolio.value,
+        highlightedStock: 'Total'
+      };
     },
     methods: {
       deletePortfolio() {
@@ -206,7 +227,7 @@
             ]),
           xAxis = d3
             .axisBottom(xScale)
-            //Ticks is a hint, not exact. Frustrating, but better to go under than over 
+            //Ticks is a hint, not exact. Frustrating, but better to go under than over
             .ticks(4)
             .tickSizeOuter(0),
           yAxis = d3
@@ -255,7 +276,7 @@
           .attr('x', 0 - HEIGHT / 2)
           .attr('dy', '1em')
           .style('text-anchor', 'middle')
-          .text('Value (Dollars)');
+          .text('Value (USD)');
 
         //Add x gridlines
         vis
@@ -296,16 +317,33 @@
           .attr('fill', 'none');
       }
     },
-    data() {
-      return {
-        dialog: false,
-        stockPercent: '',
-        stockValue: Math.round(this.portfolio.value * 100) / 100,
-        highlightedStock: 'Total'
-      };
-    },
 
     computed: {
+      rank() {
+        return (
+          (this.$store.state.portfolio && this.$store.state.portfolio.rank) ||
+          137
+        );
+      },
+      percentile() {
+        return (
+          (this.$store.state.portfolio &&
+            this.$store.state.portfolio.percentile) ||
+          76
+        );
+      },
+      formattedValue() {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        }).format(Math.round(this.portfolio.value * 100) / 100);
+      },
+      formattedStockValue() {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        }).format(Math.round(this.stockValue * 100) / 100);
+      },
       deleting() {
         return this.$store.state.ui.ajaxInProgress;
       },
@@ -334,11 +372,6 @@
         ];
       }
     },
-    // data() {
-    //   return {
-    //     dialog: false
-    //   };
-    // },
     props: ['portfolio']
   };
 </script>

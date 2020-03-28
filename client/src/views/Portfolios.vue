@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import Portfolio from '../components/portfolio/Portfolio.vue';
-import Spinner from '../components/spinner/Spinner.vue'
-import NewPortfolioForm from '../components/new_portfolio_form/NewPortfolioForm.vue';
+  import { mapActions } from 'vuex';
+  import Portfolio from '../components/portfolio/Portfolio.vue';
+  import Spinner from '../components/spinner/Spinner.vue';
+  import NewPortfolioForm from '../components/new_portfolio_form/NewPortfolioForm.vue';
 
 export default {
   name: 'Portfolios',
@@ -51,9 +51,9 @@ export default {
     portfolios() {
       return this.$store.state.apiData.userPortfolios['portfolios'];
     },
-    darken() {
-      return this.$store.state.ui.dark;
-    },
+    // methods: {
+    //   ...mapActions(['setUserPortfolios'])
+    // },
     loading(){
       return this.$store.state.ui.ajaxInProgress;
     },
@@ -71,21 +71,22 @@ export default {
       active: {name: null, i: -1, id:null}
     }
   }
-};
+  };
 </script>
 
-<style lang="scss" scoped>
-.view-container--alt {
-  margin-bottom: 150px !important;
-}
-.v-expansion-panels {
-  margin-top: 20px;
-}
-.spinner-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 160px;
-}
-
+<style lang="scss">
+  .v-expansion-panel {
+    margin-top: 20px;
+  }
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 160px;
+  }
+  .v-expansion-panel-content__wrap {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
 </style>
