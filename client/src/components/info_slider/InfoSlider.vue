@@ -1,77 +1,75 @@
 <template>
-  <v-card color="black" dark flat tile>
+  <v-card class="info-slider-card" :dark="dark" flat tile>
     <v-window v-model="onboarding">
       <v-window-item>
-        <v-card color="transparent" height="82vh">
-          <v-row align="start" justify="center">
+        <v-card color="transparent">
+          <div class="slide-phone-container">
             <!-- <v-img src="@/assets/phone.png" aspect-ratio="1.7" height="100px"></v-img> -->
             <v-img
               src="@/assets/phone.png"
-              max-width="40vw"
+              max-height="34vh"
               aspect-ratio=".532"
+              contain
+              class="phone-img"
             ></v-img>
-          </v-row>
+          </div>
 
-          <v-row align="end" justify="center">
-            <h2>Phone image with cool portfolio graph</h2>
-            <p
-              >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Accusamus blanditiis in molestiae iusto ut enim eum eligendi unde
-              dolorum veniam. Veritatis molestias enim quaerat corrupti sit vel
-              ratione, quos possimus.</p
-            >
-          </v-row>
-        </v-card>
-      </v-window-item>
-
-      <v-window-item>
-        <v-card color="transparent" height="82vh">
-          <v-row align="start" justify="center">
-            <!-- <v-img src="@/assets/phone.png" aspect-ratio="1.7" height="100px"></v-img> -->
-            <v-img
-              src="@/assets/phone.png"
-              max-width="40vw"
-              aspect-ratio=".532"
-            ></v-img>
-          </v-row>
-
-          <v-row align="end" justify="center">
-            <h2>Phone image with stock/crypto nav</h2>
+          <div class="slide-text-container">
+            <h2>Trade a variety of assets</h2>
             <p
               >Lorem ipsum dolor sit amet consectetur adipisicing elit. Error
-              eaque et inventore atque consequuntur maiores quibusdam, cumque
-              consequatur commodi eius est explicabo quos non eos dignissimos.
-              Quibusdam consequuntur quidem quo.</p
+              eaque et inventore atque consequuntur maiores quibusdam.</p
             >
-          </v-row>
+          </div>
         </v-card>
       </v-window-item>
 
       <v-window-item>
-        <v-card color="transparent" height="82vh">
-          <v-row align="start" justify="center">
-            <!-- <v-img src="@/assets/phone.png" aspect-ratio="1.7" height="100px"></v-img> -->
+        <v-card color="transparent">
+          <div class="slide-phone-container">
             <v-img
               src="@/assets/phone.png"
-              max-width="40vw"
+              max-height="34vh"
               aspect-ratio=".532"
+              contain
+              class="phone-img"
             ></v-img>
-          </v-row>
+          </div>
 
-          <v-row align="end" justify="center">
-            <h2>Phone image with leaderboard</h2>
+          <div class="slide-text-container">
+            <h2>Analyze your portfolio</h2>
+            <p
+              >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Accusamus blanditiis in molestiae iusto ut enim eum eligendi.</p
+            >
+          </div>
+        </v-card>
+      </v-window-item>
+
+      <v-window-item>
+        <v-card color="transparent">
+          <div class="slide-phone-container">
+            <v-img
+              src="@/assets/phone.png"
+              max-height="34vh"
+              aspect-ratio=".532"
+              contain
+              class="phone-img"
+            ></v-img>
+          </div>
+
+          <div class="slide-text-container">
+            <h2>Measure up</h2>
             <p
               >Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia,
-              a eaque alias voluptatum necessitatibus nesciunt dolores accusamus
-              sequi nisi hic, asperiores totam distinctio iusto, possimus amet
-              earum culpa. Laboriosam, molestias!</p
+              a eaque alias voluptatum necessitatibus nesciunt dolores</p
             >
-          </v-row>
+          </div>
         </v-card>
       </v-window-item>
     </v-window>
 
-    <v-card-actions class="justify-space-between">
+    <v-card-actions class="slide-controls">
       <v-btn text @click="prev">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
@@ -98,7 +96,11 @@
     data() {
       return { length: 3, onboarding: 0 };
     },
-
+    computed: {
+      dark() {
+        return this.$store.state.ui.dark;
+      }
+    },
     methods: {
       next() {
         this.onboarding =

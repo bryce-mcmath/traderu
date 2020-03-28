@@ -1,20 +1,38 @@
-.row {
-  margin-left: 20px;
-  margin-right: 20px;
-  padding: 40px;
-}
-.v-image {
-  // margin-top:20px;
-  margin-bottom: 20px;
-}
-p {
-  color: white !important;
-  text-shadow: none !important;
-  font-family: $primary-font !important;
-}
-h2 {
-  font-family: $primary-font !important;
-  text-shadow: none !important;
-  color: white !important;
-  margin-bottom: 20px !important;
+.info-slider-card {
+  height: 78vh;
+
+  .slide-phone-container {
+    @include center-content;
+
+    height: 36vh;
+
+    .phone-img {
+      padding-top: 12px;
+      max-height: 34vh;
+    }
+  }
+
+  .slide-text-container {
+    @include center-content;
+    height: 32vh;
+    flex-direction: column;
+    padding: 12px 12px;
+    padding-top: 0;
+
+    h2 {
+      text-align: center;
+      font-size: 20px;
+      width: 100%;
+      margin: 0;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+  div.v-card__actions.slide-controls {
+    display: flex;
+    justify-content: space-between;
+  }
 }

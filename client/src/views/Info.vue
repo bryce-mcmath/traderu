@@ -56,14 +56,14 @@
     background-position: 43% 0%;
     background-size: auto 100vh;
     height: 78vh;
-    padding-left: 10px;
+    padding-left: 6px;
 
     &--dark {
       background-image: url('../assets/info-background--dark.png');
     }
 
     img.info-display {
-      margin: 18px auto 0 auto;
+      margin: 16px 12px 0 12px;
       width: 60%;
     }
 
@@ -72,7 +72,7 @@
       height: 100px;
       margin: 0;
       font-family: $primary-font;
-      font-size: 1.5em;
+      font-size: 6vw;
       background-color: rgb(75, 189, 84);
     }
   }
@@ -81,11 +81,11 @@
     width: 40vw;
     height: 100px;
     font-family: $primary-font;
-    font-size: 1.5em;
+    font-size: 3vw;
   }
 
   .main-text {
-    font-size: 22px !important;
+    font-size: 4vw !important;
     width: 80%;
 
     p {
@@ -98,13 +98,13 @@
   }
 
   h1 {
-    font-size: 36px;
+    font-size: 8vw;
     font-family: $primary-font;
     width: 95%;
   }
 
   h2 {
-    font-size: 24px;
+    font-size: 5vw;
     width: 75%;
   }
 </style>
