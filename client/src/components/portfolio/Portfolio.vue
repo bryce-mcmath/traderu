@@ -34,11 +34,10 @@
           :percentile="percentile"
         />
       </div>
+      <v-btn class="ranking-card__btn" :to="`/leaderboard/${this.portfolio.id}`"
+        >Leaderboard Position</v-btn
+      >
     </v-card>
-
-    <v-btn :to="`/leaderboard/${this.portfolio.id}`"
-      >Leaderboard Position</v-btn
-    >
 
     <v-btn id="delete-portfolio" color="red" @click.stop="dialog = true"
       >Delete Portfolio</v-btn
@@ -81,9 +80,9 @@
   export default {
     components: { Spinner, LiquidGauge },
     mounted() {
-      // STOCK BREAKDOWN CHART
+      // Asset Breakdown
       this.makePie();
-      //VALUE OVER TIME
+      // Value Trajectory
       this.makeLineChart();
     },
     data() {
@@ -334,8 +333,9 @@
         // If you were in the top 2 percent, you would get 0.02 from this formula
         // We don't want a decimal, and we want to show a higher percentile the better they do
         // So formula becomes P = 100 - ( R / (n + 1) ) * 100
+        // We are also only taking one decimal place, hence the toFixed and parseFloat
         const n = this.$store.state.apiData.allRankingsData.length;
-        return 100 - (this.rank / (n + 1)) * 100;
+        return parseFloat((100 - (this.rank / (n + 1)) * 100).toFixed(1));
       },
       formattedValue() {
         return new Intl.NumberFormat('en-US', {

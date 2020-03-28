@@ -60,6 +60,15 @@ text {
   font-family: $primary-font;
 }
 
+.v-card.v-sheet.theme--light {
+  background: $light-bg;
+  @include light-unpressed;
+}
+
+.v-card.v-sheet.theme--dark {
+  background: $dark-bg;
+}
+
 .v-card.breakdown-card {
   width: 90%;
   margin: 3vh auto 3vh auto;
@@ -91,11 +100,20 @@ text {
 .v-card.ranking-card {
   width: 90%;
   margin: 3vh auto 3vh auto;
-  height: 30vh;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
   h2 {
     margin: 2vh auto;
     text-align: center;
+  }
+
+  .ranking-card__btn {
+    @include light-unpressed;
+    margin: 4vh;
   }
 
   .ranking-card__info-container {
@@ -103,6 +121,8 @@ text {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    width: 100%;
+
     h1 {
       margin: 0;
       margin-left: 4vw;
@@ -112,5 +132,11 @@ text {
       width: 100px;
       height: 100px;
     }
+  }
+}
+
+.v-card.ranking-card.theme--dark {
+  .ranking-card__btn {
+    @include dark-unpressed;
   }
 }

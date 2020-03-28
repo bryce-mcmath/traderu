@@ -48,7 +48,7 @@
       }
     },
     methods: {
-      ...mapActions(['checkUserAuth', 'setStocksData'])
+      ...mapActions(['checkUserAuth', 'setStocksData', 'setRankingsData'])
     },
     created: function() {
       // check for a valid token whenever they visit
