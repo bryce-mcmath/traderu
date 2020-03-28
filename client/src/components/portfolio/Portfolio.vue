@@ -175,6 +175,7 @@
 
       makeLineChart() {
         const rawData = this.portfolio.values;
+        if(rawData.length < 4) return;
         //Format time values to just dates for this graph
         const data = rawData.map(value => ({
           ...value,

@@ -5,9 +5,9 @@
     <div class="spinner-container" v-if="loading">
       <Spinner></Spinner>
     </div>
-    <v-expansion-panels :accordion="true" :focusable="true" :flat="true" :dark="darken" v-if="!loading">
-      <v-expansion-panel v-for="(portfolio) in portfolios" :key="portfolio.name">
-        <v-expansion-panel-header>{{portfolio.name}}</v-expansion-panel-header>
+    <v-expansion-panels :accordion="true" :focusable="true" :flat="true" :dark="darken" v-if="!loading" v-model="activePortfolio">
+      <v-expansion-panel v-for="(portfolio, i) in portfolios" :key="portfolio.name">
+        <v-expansion-panel-header v-on:click="() => setActive(portfolio.name, i)">{{portfolio.name}}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <Portfolio :portfolio="portfolio" />
         </v-expansion-panel-content>
@@ -37,7 +37,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setUserPortfolios'])
+    ...mapActions(['setUserPortfolios']),
+    setActive(name, i){
+      // console.log(name,i)
+      if(this.activePortfolio.name === name){
+        this.active = {name:null, i:-1};
+      } else {
+        this.active = {name, i};
+      }
+    }
   },
   computed: {
     portfolios() {
@@ -48,6 +56,19 @@ export default {
     },
     loading(){
       return this.$store.state.ui.ajaxInProgress;
+    },
+    activePortfolio: {
+      get(){
+        return this.$store.state.ui.activePortfolio.name ? this.$store.state.ui.activePortfolio.i : -1;
+      },
+      set(){
+        this.$store.commit('setActivePortfolio', this.active)
+      }
+    }
+  },
+  data(){
+    return {
+      active: {name: null, i: -1}
     }
   }
 };
@@ -66,4 +87,5 @@ export default {
   align-items: center;
   height: 160px;
 }
+
 </style>

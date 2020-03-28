@@ -34,6 +34,7 @@ export default new Vuex.Store({
       // Multi component use
       dark: false,
       ajaxInProgress: false,
+      activePortfolio: {name:null, i:-1},
       // For navigation drawer
       showDrawer: false,
       showStocksDrawer: false,
@@ -96,6 +97,9 @@ export default new Vuex.Store({
     },
     setCurrentAsset(state, payload) {
       state.apiData.currentAsset = payload;
+    },
+    setActivePortfolio(state, payload) {
+      state.ui.activePortfolio = payload;
     },
     setUserPortfolios(state, payload) {
       state.apiData.userPortfolios = payload;
