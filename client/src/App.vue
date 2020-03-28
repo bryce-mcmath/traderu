@@ -45,12 +45,18 @@
       }
     },
     methods: {
-      ...mapActions(['checkUserAuth', 'setStocksData', 'setRankingsData'])
+      ...mapActions([
+        'checkUserAuth',
+        'setStocksData',
+        'setCryptosData',
+        'setRankingsData'
+      ])
     },
     created: function() {
       // check for a valid token whenever they visit
       this.checkUserAuth();
       this.setStocksData();
+      this.setCryptosData();
       this.setRankingsData();
     }
   });
