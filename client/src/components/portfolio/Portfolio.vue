@@ -1,21 +1,24 @@
 <template>
   <main class="portfolio-container">
-    <h1>Value</h1>
+    <h1>Portfolio Value</h1>
     <p id="portfolioValue">${{ Math.round(portfolio.value * 100) / 100 }}</p>
-    <h2>Stocks Breakdown</h2>
+
+    <h2>Asset Breakdown</h2>
     <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
     <div id="pieStockInfo" v-bind:style="{ bottom: width / 2 + 50 + 'px' }">
       <h5>{{ highlightedStock }}</h5>
-      <p>Value: ${{ stockValue }}</p>
+      <p>${{ stockValue }}</p>
       <p>{{ stockPercent }}</p>
     </div>
-    <h2>Portfolio value</h2>
-    <svg
-      :id="`line-chart-${portfolio.name}`"
-      :width="width * 1.1"
-      :height="width"
-      v-if="portfolio.values.length > 3"
-    />
+    <v-card class="value-card">
+      <h2>Portfolio value</h2>
+      <svg
+        :id="`line-chart-${portfolio.name}`"
+        :width="width * 1.1"
+        :height="width"
+        v-if="portfolio.values.length > 3"
+      />
+    </v-card>
     <v-card class="ranking-card">
       <h2>Leaderboard Stats</h2>
       <div class="ranking-card__info-container">
@@ -289,7 +292,7 @@
           .attr('x', 0 - HEIGHT / 2)
           .attr('dy', '1em')
           .style('text-anchor', 'middle')
-          .text('Value (Dollars)');
+          .text('Value (USD)');
 
         //Add x gridlines
         vis

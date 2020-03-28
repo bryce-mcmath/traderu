@@ -55,22 +55,73 @@ text {
   font-family: $primary-font;
 }
 
+.v-card.value-card {
+  width: 90%;
+  margin: 3vh auto 3vh auto;
+  height: auto;
+  padding: 8px;
+
+  h2 {
+    margin: 2vh auto 0 auto;
+    text-align: center;
+  }
+
+  .value-card__info-container {
+    height: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .value-card__stats {
+      font-size: 4vw;
+      width: 40vw;
+      height: 100%;
+
+      > ul {
+        list-style: none;
+        padding: 0;
+        line-height: 6vw;
+      }
+    }
+
+    .value-card__gauge {
+      width: 100px;
+      height: 100px;
+    }
+  }
+}
+
 .v-card.ranking-card {
   width: 90%;
-  margin: auto;
+  margin: 3vh auto 3vh auto;
+  height: 30vh;
+
+  h2 {
+    margin: 2vh auto;
+    text-align: center;
+  }
 
   .ranking-card__info-container {
+    height: auto;
     display: flex;
     justify-content: space-around;
     align-items: center;
 
     .ranking-card__stats {
-      font-size: 5vw;
+      font-size: 4vw;
       width: 40vw;
+      height: 100%;
+
+      > ul {
+        list-style: none;
+        padding: 0;
+        line-height: 6vw;
+      }
     }
 
     .ranking-card__gauge {
-      width: 30vw;
+      width: 100px;
+      height: 100px;
     }
   }
 }
