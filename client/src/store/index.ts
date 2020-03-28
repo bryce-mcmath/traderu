@@ -97,8 +97,8 @@ export default new Vuex.Store({
       state.apiData.cryptosData = payload;
     },
     setSymbol(state, payload) {
-      state.ui.symbol.stock = payload.stock;
-      state.ui.symbol.crypto = payload.crypto;
+      state.ui.symbol.isStock = payload.isStock;
+      state.ui.symbol.isCrypto = payload.isCrypto;
       state.ui.symbol.text = payload.text;
     },
     setCurrentAsset(state, payload) {
