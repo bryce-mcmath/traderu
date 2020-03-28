@@ -1,27 +1,28 @@
 .portfolio-container {
-  margin-bottom: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto 12vh auto;
+  width: 100%;
 }
-h2{
+h2 {
   margin: 20px;
 }
-.spinner-container{
-  margin: 'auto'
+.spinner-container {
+  margin: 'auto';
 }
-#delete-portfolio{
+#delete-portfolio {
   margin-top: 50px;
 }
-.arc>path:hover{
+.arc > path:hover {
   filter: brightness(80%) !important;
   pointer-events: all;
 }
-#portfolioValue{
+#portfolioValue {
   font-size: 2em;
 }
 
-#pieStockInfo{
+#pieStockInfo {
   position: relative;
   height: 100px;
   display: flex;
@@ -34,22 +35,42 @@ h2{
   }
 }
 
-.tick{
+.tick {
   font-family: $primary-font;
   font-size: 2em;
 }
 
-.tick>line {
+.tick > line {
   stroke: lightgrey;
   stroke-opacity: 0.5;
 }
 
-.axis-label{
+.axis-label {
   font-family: $primary-font;
   fill: currentColor;
 }
 
-text{
+text {
   pointer-events: none;
   font-family: $primary-font;
+}
+
+.v-card.ranking-card {
+  width: 90%;
+  margin: auto;
+
+  .ranking-card__info-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .ranking-card__stats {
+      font-size: 5vw;
+      width: 40vw;
+    }
+
+    .ranking-card__gauge {
+      width: 30vw;
+    }
+  }
 }

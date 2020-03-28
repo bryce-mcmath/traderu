@@ -16,8 +16,21 @@
       :height="width"
       v-if="portfolio.values.length > 3"
     />
-
-    <LiquidGauge :id="'liqgauge'" :percentile="76" />
+    <v-card class="ranking-card">
+      <h2>Leaderboard Stats</h2>
+      <div class="ranking-card__info-container">
+        <div class="ranking-card__stats">
+          <ul v-for="ranking in leaderboardData" v-bind:key="ranking.id">
+            <li>{{ `#${ranking.rank} - ${ranking.name}` }}</li>
+          </ul>
+        </div>
+        <LiquidGauge
+          class="ranking-card__gauge"
+          :id="'liqgauge'"
+          :percentile="76"
+        />
+      </div>
+    </v-card>
 
     <v-btn :to="`/leaderboard/${this.portfolio.id}`"
       >Leaderboard Position</v-btn
@@ -68,6 +81,28 @@
       this.makePie();
       //VALUE OVER TIME
       this.makeLineChart();
+    },
+    data() {
+      return {
+        leaderboardData: {
+          own: {
+            rank: 221,
+            name: this.portfolio.name
+          },
+          above: {
+            rank: 220,
+            name: 'Better Portfolio'
+          },
+          below: {
+            rank: 222,
+            name: 'Worse Portfolio'
+          }
+        },
+        dialog: false,
+        stockPercent: '',
+        stockValue: Math.round(this.portfolio.value * 100) / 100,
+        highlightedStock: 'Total'
+      };
     },
     methods: {
       deletePortfolio() {
@@ -205,7 +240,7 @@
             ]),
           xAxis = d3
             .axisBottom(xScale)
-            //Ticks is a hint, not exact. Frustrating, but better to go under than over 
+            //Ticks is a hint, not exact. Frustrating, but better to go under than over
             .ticks(4)
             .tickSizeOuter(0),
           yAxis = d3
@@ -294,14 +329,6 @@
           .attr('stroke-width', 4)
           .attr('fill', 'none');
       }
-    },
-    data() {
-      return {
-        dialog: false,
-        stockPercent: '',
-        stockValue: Math.round(this.portfolio.value * 100) / 100,
-        highlightedStock: 'Total'
-      };
     },
 
     computed: {

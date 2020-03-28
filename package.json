@@ -11,7 +11,7 @@
     "lerna-install": "npx lerna bootstrap",
     "build": "npx lerna run build",
     "start": "ts-node ./server/dist/server.js",
-    "dev": "nodemon ./server/dist/server.js",
+    "dev": "cross-env BUILD_ENV=test nodemon ./server/dist/server.js",
     "ts": "npx lerna run ts",
     "test": "cross-env BUILD_ENV=test lerna run test",
     "migrate:test-db": "cross-env BUILD_ENV=test node ./server/dist/db/reset.js",
