@@ -34,7 +34,7 @@ export default new Vuex.Store({
       // Multi component use
       dark: false,
       ajaxInProgress: false,
-      activePortfolio: {name:null, i:-1},
+      activePortfolio: {name:null, i:-1, id:null},
       // For navigation drawer
       showDrawer: false,
       showStocksDrawer: false,

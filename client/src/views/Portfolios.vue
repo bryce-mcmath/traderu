@@ -7,7 +7,7 @@
     </div>
     <v-expansion-panels :accordion="true" :focusable="true" :flat="true" :dark="darken" v-if="!loading" v-model="activePortfolio">
       <v-expansion-panel v-for="(portfolio, i) in portfolios" :key="portfolio.name">
-        <v-expansion-panel-header v-on:click="() => setActive(portfolio.name, i)">{{portfolio.name}}</v-expansion-panel-header>
+        <v-expansion-panel-header v-on:click="() => setActive(portfolio.name, i, portfolio.id)">{{portfolio.name}}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <Portfolio :portfolio="portfolio" />
         </v-expansion-panel-content>
@@ -38,12 +38,12 @@ export default {
   },
   methods: {
     ...mapActions(['setUserPortfolios']),
-    setActive(name, i){
+    setActive(name, i, id){
       // console.log(name,i)
       if(this.activePortfolio.name === name){
-        this.active = {name:null, i:-1};
+        this.active = {name:null, i:-1, id: null};
       } else {
-        this.active = {name, i};
+        this.active = {name, i, id};
       }
     }
   },
@@ -68,7 +68,7 @@ export default {
   },
   data(){
     return {
-      active: {name: null, i: -1}
+      active: {name: null, i: -1, id:null}
     }
   }
 };
