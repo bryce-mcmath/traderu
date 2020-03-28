@@ -9,6 +9,8 @@ const {
   fetchRankingsData,
   fetchStocksData,
   fetchStockData,
+  fetchCryptosData,
+  fetchCryptoData,
   postPortfolio,
   fetchPortfolioData,
   register
@@ -36,7 +38,6 @@ export default new Vuex.Store({
       ajaxInProgress: false,
       // For navigation drawer
       showDrawer: false,
-      showStocksDrawer: false,
       // For login component
       loginEmail: '',
       loginPassword: '',
@@ -51,7 +52,11 @@ export default new Vuex.Store({
         dialogSecondaryCallback: ''
       },
       // For search
-      stockSymbol: '',
+      symbol: {
+        isStock: false,
+        isCrypto: false,
+        text: ''
+      },
       // For register component
       registerName: '',
       registerEmail: '',
@@ -62,7 +67,7 @@ export default new Vuex.Store({
     apiData: {
       currentAsset: null,
       stocksData: [],
-      cryptoData: [],
+      cryptosData: [],
       allRankingsData: [],
       initialPortfolioCapital: 100000,
       userPortfolios: [],
@@ -76,9 +81,6 @@ export default new Vuex.Store({
     toggleDrawer(state) {
       state.ui.showDrawer = !state.ui.showDrawer;
     },
-    toggleStocksDrawer(state) {
-      state.ui.showStocksDrawer = !state.ui.showStocksDrawer;
-    },
     setUser(state, payload) {
       state.user = Vue.set(this.state, 'user', payload);
     },
@@ -91,8 +93,13 @@ export default new Vuex.Store({
     setApiStocksData(state, payload) {
       state.apiData.stocksData = payload;
     },
-    setStockSymbol(state, payload) {
-      state.ui.stockSymbol = payload;
+    setApiCryptosData(state, payload) {
+      state.apiData.cryptosData = payload;
+    },
+    setSymbol(state, payload) {
+      state.ui.symbol.stock = payload.stock;
+      state.ui.symbol.crypto = payload.crypto;
+      state.ui.symbol.text = payload.text;
     },
     setCurrentAsset(state, payload) {
       state.apiData.currentAsset = payload;
@@ -157,7 +164,19 @@ export default new Vuex.Store({
       fetchStocksData()
         .then(closeValues => commit('setApiStocksData', closeValues))
         .catch(err => {
-          window.console.error('getAPIStockData:', err);
+          window.console.error('Error fetching stocks:', err);
+        });
+    },
+
+    async setCryptosData({ commit, state }) {
+      //Only update stocks if not already in state
+      if (Object.keys(state.apiData.cryptosData).length !== 0) return;
+
+      commit('setAjaxInProgress', true);
+      fetchCryptosData()
+        .then(closeValues => commit('setApiCryptosData', closeValues))
+        .catch(err => {
+          window.console.error('Error fetching crypto:', err);
         });
     },
 
@@ -208,17 +227,34 @@ export default new Vuex.Store({
     },
 
     async setCurrentAsset({ commit, state }) {
-      commit('setAjaxInProgress', true);
-      return fetchStockData(state.ui.stockSymbol)
-        .then(asset => {
-          commit('setCurrentAsset', asset);
-        })
-        .catch(err => {
-          window.console.error('setUserPortfolios:', err);
-        })
-        .finally(() => {
-          commit('setAjaxInProgress', false);
-        });
+      // If the symbol is for a stock, fetch from the stock route
+      if (state.ui.symbol.isStock) {
+        commit('setAjaxInProgress', true);
+        return fetchStockData(state.ui.symbol.text)
+          .then(asset => {
+            commit('setCurrentAsset', asset);
+          })
+          .catch(err => {
+            window.console.error('setCurrentAsset:', err);
+          })
+          .finally(() => {
+            commit('setAjaxInProgress', false);
+          });
+
+        // If the symbol is for a cryptocurrency, fetch from the crypto route
+      } else if (state.ui.symbol.isCrypto) {
+        commit('setAjaxInProgress', true);
+        return fetchCryptoData(state.ui.symbol.text)
+          .then(asset => {
+            commit('setCurrentAsset', asset);
+          })
+          .catch(err => {
+            window.console.error('setCurrentAsset:', err);
+          })
+          .finally(() => {
+            commit('setAjaxInProgress', false);
+          });
+      }
     },
 
     async setUserPortfolios({ commit }) {
