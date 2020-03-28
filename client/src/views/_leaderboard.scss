@@ -1,0 +1,22 @@
+main {
+  margin-bottom: 100px;
+}
+.v-list {
+  background-color: rgba(0, 0, 0, 0);
+  margin-bottom: 150px;
+}
+
+h1,
+h2 {
+  text-align: center;
+  margin-top: 10px;
+  font-family: $primary-font;
+}
+
+hr {
+  height: 12px;
+  border: 0;
+  box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+  width: 80vw;
+  margin: auto;
+}

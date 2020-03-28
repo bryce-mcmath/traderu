@@ -63,18 +63,5 @@
 </script>
 
 <style lang="scss">
-  .v-expansion-panel {
-    margin-top: 20px;
-  }
-  .spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 160px;
-  }
-  .v-expansion-panel-content__wrap {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
+  @import 'portfolios';
 </style>

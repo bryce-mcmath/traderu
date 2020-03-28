@@ -237,5 +237,5 @@
 </script>
 
 <style lang="scss" scoped>
-  @import './assets';
+  @import 'assets';
 </style>
