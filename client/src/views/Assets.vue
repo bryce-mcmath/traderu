@@ -12,12 +12,11 @@
       <div class="assets-container">
         <div v-if="assetSelected">
           <h4>{{ assetSelected.name }}</h4>
-          <h5
-            >Price:
-            {{
+          <h5 v-bind:style="{ color: assetSelected.highlight }">{{
+            formattedValue(
               assetSelected.prices[assetSelected.prices.length - 1].price
-            }}</h5
-          >
+            )
+          }}</h5>
           <v-sparkline
             :value="
               assetSelected.prices
@@ -25,7 +24,7 @@
                 .slice()
                 .reverse()
             "
-            :color="darkSparkline"
+            :color="assetSelected.highlight"
             line-width="3"
             padding="16"
           ></v-sparkline>
@@ -81,7 +80,17 @@
                     <v-list-item-content>
                       <v-list-item-title v-text="item.name"></v-list-item-title>
                       <v-list-item-subtitle
-                        >Price: {{ item.prices[0].price }}</v-list-item-subtitle
+                        v-bind:style="{
+                          color:
+                            item.prices[0] -
+                              item.prices[item.prices.length - 1] >
+                            0
+                              ? '#75ff83'
+                              : '#ff073a'
+                        }"
+                        >{{
+                          formattedValue(item.prices[0].price)
+                        }}</v-list-item-subtitle
                       >
                     </v-list-item-content>
                     <v-list-item-content>
@@ -92,7 +101,12 @@
                             .slice()
                             .reverse()
                         "
-                        :color="darkSparkline"
+                        v-bind:color="
+                          item.prices[0] - item.prices[item.prices.length - 1] >
+                          0
+                            ? '#75ff83'
+                            : '#ff073a'
+                        "
                         line-width="3"
                         padding="16"
                       ></v-sparkline>
@@ -113,7 +127,17 @@
                     <v-list-item-content>
                       <v-list-item-title v-text="item.name"></v-list-item-title>
                       <v-list-item-subtitle
-                        >Price: {{ item.prices[0].price }}</v-list-item-subtitle
+                        v-bind:style="{
+                          color:
+                            item.prices[0] -
+                              item.prices[item.prices.length - 1] >
+                            0
+                              ? '#75ff83'
+                              : '#ff073a'
+                        }"
+                        >{{
+                          formattedValue(item.prices[0].price)
+                        }}</v-list-item-subtitle
                       >
                     </v-list-item-content>
                     <v-list-item-content>
@@ -124,7 +148,12 @@
                             .slice()
                             .reverse()
                         "
-                        :color="darkSparkline"
+                        v-bind:color="
+                          item.prices[0] - item.prices[item.prices.length - 1] >
+                          0
+                            ? '#75ff83'
+                            : '#ff073a'
+                        "
                         line-width="3"
                         padding="16"
                       ></v-sparkline>
@@ -186,9 +215,6 @@
       dark() {
         return this.$store.state.ui.dark;
       },
-      darkSparkline() {
-        return this.$store.state.ui.dark ? 'white' : 'black';
-      },
       portfolioId() {
         if (this.$store.state.user) {
           return this.$store.state.user.id;
@@ -208,7 +234,18 @@
       quantity: ''
     }),
     methods: {
+      formattedValue(val) {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          maximumSignificantDigits: 10
+        }).format(Math.round(val * 100) / 100);
+      },
       selectAsset(assetItem) {
+        const increase =
+          assetItem.prices[0] - assetItem.prices[assetItem.prices.length - 1] >
+          0;
+        assetItem.highlight = increase ? '#75ff83' : '#ff073a';
         this.assetSelected = assetItem;
       },
       handleSymbolInput() {
