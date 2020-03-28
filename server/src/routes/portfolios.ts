@@ -195,7 +195,11 @@ portfolios.post(
 						value
 					}
 				);
-				res.json({ response });
+				if (response.command === 'UPDATE') {
+					res.send('success');
+				} else {
+					res.send('error');
+				}
 			} catch (error) {
 				console.error(
 					'Error in POST -> /portfolios/:portfolio_id/stock-transaction',
