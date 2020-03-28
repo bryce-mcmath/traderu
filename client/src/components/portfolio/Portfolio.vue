@@ -1,13 +1,13 @@
 <template>
   <main class="portfolio-container">
     <h1>Portfolio Value</h1>
-    <p id="portfolioValue">${{ Math.round(portfolio.value * 100) / 100 }}</p>
+    <p id="portfolioValue">{{ formattedValue }}</p>
     <v-card class="breakdown-card">
       <h2>Asset Breakdown</h2>
       <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
       <div id="pieStockInfo" v-bind:style="{ bottom: width / 2 - 50 + 'px' }">
         <h5>{{ highlightedStock }}</h5>
-        <p>${{ stockValue }}</p>
+        <p>{{ formattedValue }}</p>
         <p>{{ stockPercent }}</p>
       </div>
     </v-card>
@@ -21,17 +21,13 @@
       />
     </v-card>
     <v-card class="ranking-card">
-      <h2>Leaderboard Stats</h2>
+      <h2>Rank and Percentile</h2>
       <div class="ranking-card__info-container">
-        <div class="ranking-card__stats">
-          <ul v-for="ranking in leaderboardData" v-bind:key="ranking.id">
-            <li>{{ `#${ranking.rank} - ${ranking.name}` }}</li>
-          </ul>
-        </div>
+        <h1>#{{ rank }}</h1>
         <LiquidGauge
           class="ranking-card__gauge"
           :id="'liqgauge'"
-          :percentile="76"
+          :percentile="percentile"
         />
       </div>
     </v-card>
@@ -88,20 +84,6 @@
     },
     data() {
       return {
-        leaderboardData: {
-          own: {
-            rank: 221,
-            name: this.portfolio.name
-          },
-          above: {
-            rank: 220,
-            name: 'Better Portfolio'
-          },
-          below: {
-            rank: 222,
-            name: 'Worse Portfolio'
-          }
-        },
         dialog: false,
         stockPercent: '',
         stockValue: Math.round(this.portfolio.value * 100) / 100,
@@ -336,6 +318,25 @@
     },
 
     computed: {
+      rank() {
+        return (
+          (this.$store.state.portfolio && this.$store.state.portfolio.rank) ||
+          137
+        );
+      },
+      percentile() {
+        return (
+          (this.$store.state.portfolio &&
+            this.$store.state.portfolio.percentile) ||
+          76
+        );
+      },
+      formattedValue() {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        }).format(Math.round(this.portfolio.value * 100) / 100);
+      },
       deleting() {
         return this.$store.state.ui.ajaxInProgress;
       },
