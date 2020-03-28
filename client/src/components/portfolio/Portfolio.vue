@@ -2,14 +2,15 @@
   <main class="portfolio-container">
     <h1>Portfolio Value</h1>
     <p id="portfolioValue">${{ Math.round(portfolio.value * 100) / 100 }}</p>
-
-    <h2>Asset Breakdown</h2>
-    <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
-    <div id="pieStockInfo" v-bind:style="{ bottom: width / 2 + 50 + 'px' }">
-      <h5>{{ highlightedStock }}</h5>
-      <p>${{ stockValue }}</p>
-      <p>{{ stockPercent }}</p>
-    </div>
+    <v-card class="breakdown-card">
+      <h2>Asset Breakdown</h2>
+      <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
+      <div id="pieStockInfo" v-bind:style="{ bottom: width / 2 - 50 + 'px' }">
+        <h5>{{ highlightedStock }}</h5>
+        <p>${{ stockValue }}</p>
+        <p>{{ stockPercent }}</p>
+      </div>
+    </v-card>
     <v-card class="value-card">
       <h2>Portfolio value</h2>
       <svg

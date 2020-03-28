@@ -5,25 +5,30 @@
   margin: 0 auto 12vh auto;
   width: 100%;
 }
+
 h2 {
   margin: 20px;
 }
+
 .spinner-container {
   margin: 'auto';
 }
+
 #delete-portfolio {
   margin-top: 50px;
 }
+
 .arc > path:hover {
   filter: brightness(80%) !important;
   pointer-events: all;
 }
+
 #portfolioValue {
   font-size: 2em;
 }
 
 #pieStockInfo {
-  position: relative;
+  position: absolute;
   height: 100px;
   display: flex;
   flex-direction: column;
@@ -55,6 +60,22 @@ text {
   font-family: $primary-font;
 }
 
+.v-card.breakdown-card {
+  width: 90%;
+  margin: 3vh auto 3vh auto;
+  height: auto;
+  padding-bottom: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    margin: 2vh auto 0 auto;
+    text-align: center;
+  }
+}
+
 .v-card.value-card {
   width: 90%;
   margin: 3vh auto 3vh auto;
@@ -64,30 +85,6 @@ text {
   h2 {
     margin: 2vh auto 0 auto;
     text-align: center;
-  }
-
-  .value-card__info-container {
-    height: auto;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    .value-card__stats {
-      font-size: 4vw;
-      width: 40vw;
-      height: 100%;
-
-      > ul {
-        list-style: none;
-        padding: 0;
-        line-height: 6vw;
-      }
-    }
-
-    .value-card__gauge {
-      width: 100px;
-      height: 100px;
-    }
   }
 }
 
