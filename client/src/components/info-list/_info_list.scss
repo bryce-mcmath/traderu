@@ -1,17 +1,21 @@
-h2{
-  font-size: 2.5em;
-}
-p{
-  font-size: 1.75em;
-}
 main {
-  width: 90vw;
+  width: 93vw;
   margin: auto;
-}
-.card {
-  margin-top: 35px;
-}
-i{
-  font-size: 1em;
-  padding-right: 30px;
+
+  .card {
+    margin: 0;
+    margin-top: 35px;
+    h2 {
+      width: 100%;
+      font-size: 7vw;
+      margin: 0;
+      i {
+        font-size: 7vw;
+        padding-right: 3vw;
+      }
+    }
+    p {
+      font-size: 6vw;
+    }
+  }
 }

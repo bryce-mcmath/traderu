@@ -94,7 +94,7 @@
   }
 
   .buffer {
-    height: 150px !important;
+    height: 12vh !important;
   }
 
   h1 {
