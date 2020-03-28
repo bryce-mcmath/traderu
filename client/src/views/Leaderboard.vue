@@ -19,7 +19,7 @@
 <script>
   import LeaderboardListItem from '../components/leaderboard_list_item/LeaderboardListItem.vue';
   import Spinner from '../components/spinner/Spinner.vue';
-  import { mapMutations, mapActions } from 'vuex';
+  import { mapActions } from 'vuex';
 
   export default {
     name: 'Leaderboard',

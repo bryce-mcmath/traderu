@@ -11,8 +11,8 @@
     <div class="card">
       <h2><i class="fas fa-balance-scale-left"></i>Trade assets</h2>
       <p>
-        Choose from over a hundred of stocks and cryptocurrencies. With more
-        coming!
+        Choose from over a hundred stocks and cryptocurrencies. With more on the
+        way!
       </p>
     </div>
     <div class="card">

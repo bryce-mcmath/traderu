@@ -25,12 +25,10 @@
 
 <script>
   // @ is an alias to /src
-  import StocksListDrawer from '../components/stocks_list_drawer/StocksListDrawer.vue';
   import InfoSlider from '../components/info_slider/InfoSlider.vue';
   import RegisterDialog from '../components/register_dialog/RegisterDialog.vue';
   import InfoList from '../components/info-list/InfoList.vue';
-  import Vuex from 'vuex';
-  import { mapMutations, mapActions } from 'vuex';
+  import { mapActions } from 'vuex';
 
   export default {
     name: 'Info',

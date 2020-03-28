@@ -109,7 +109,7 @@
           '%';
       },
 
-      handleMouseOut(d, i) {
+      handleMouseOut() {
         this.highlightedStock = 'Total';
         this.stockValue = Math.round(this.portfolio.value * 100) / 100;
         this.stockPercent = '';
