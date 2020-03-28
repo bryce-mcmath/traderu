@@ -86,7 +86,7 @@ export default {
           symbol: cryptoObject.symbol,
           prices: cryptoObject.cryptodata.map(crypto => ({
             time: crypto.time,
-            price: Number(crypto.data['4. close'])
+            price: Number(crypto.data['4a. close (USD)'])
           }))
         };
       });

@@ -5,11 +5,10 @@
         class="symbol-text-input mt-2"
         type="text"
         v-model="searchSymbol"
-        placeholder="Search or filter by symbol/name"
+        placeholder="Filter by symbol or name..."
         @input="handleSymbolInput"
         @click="handleSymbolInput"
       />
-      <h3 class="title">Assets</h3>
       <div class="assets-container">
         <div v-if="assetSelected">
           <h4>{{ assetSelected.name }}</h4>
@@ -69,36 +68,71 @@
           </v-container>
         </div>
         <div v-else>
-          <div v-if="stocksData.length">
-            <v-list :dark="dark" one-line>
-              <v-list-item-group color="primary">
-                <v-list-item
-                  v-for="(item, i) in stocksData"
-                  :key="i"
-                  @click="selectAsset(item)"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title v-text="item.name"></v-list-item-title>
-                    <v-list-item-subtitle
-                      >Price: {{ item.prices[0].price }}</v-list-item-subtitle
-                    >
-                  </v-list-item-content>
-                  <v-list-item-content>
-                    <v-sparkline
-                      :value="
-                        item.prices
-                          .map(stockObj => stockObj.price)
-                          .slice()
-                          .reverse()
-                      "
-                      :color="darkSparkline"
-                      line-width="3"
-                      padding="16"
-                    ></v-sparkline>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
+          <div v-if="stocksData.length || cryptosData.length">
+            <div v-if="stocksData.length">
+              <h3 class="asset-title">Stocks</h3>
+              <v-list :dark="dark" one-line>
+                <v-list-item-group color="primary">
+                  <v-list-item
+                    v-for="(item, i) in stocksData"
+                    :key="i"
+                    @click="selectAsset(item)"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title v-text="item.name"></v-list-item-title>
+                      <v-list-item-subtitle
+                        >Price: {{ item.prices[0].price }}</v-list-item-subtitle
+                      >
+                    </v-list-item-content>
+                    <v-list-item-content>
+                      <v-sparkline
+                        :value="
+                          item.prices
+                            .map(stockObj => stockObj.price)
+                            .slice()
+                            .reverse()
+                        "
+                        :color="darkSparkline"
+                        line-width="3"
+                        padding="16"
+                      ></v-sparkline>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </div>
+            <div v-if="cryptosData.length">
+              <h3 class="asset-title">Cryptocurrencies</h3>
+              <v-list :dark="dark" one-line>
+                <v-list-item-group color="primary">
+                  <v-list-item
+                    v-for="(item, i) in cryptosData"
+                    :key="i"
+                    @click="selectAsset(item)"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title v-text="item.name"></v-list-item-title>
+                      <v-list-item-subtitle
+                        >Price: {{ item.prices[0].price }}</v-list-item-subtitle
+                      >
+                    </v-list-item-content>
+                    <v-list-item-content>
+                      <v-sparkline
+                        :value="
+                          item.prices
+                            .map(cryptoObj => cryptoObj.price)
+                            .slice()
+                            .reverse()
+                        "
+                        :color="darkSparkline"
+                        line-width="3"
+                        padding="16"
+                      ></v-sparkline>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </div>
           </div>
           <div class="cp" v-else-if="searchSymbol">
             <h3>No results for symbol "{{ searchSymbol.toUpperCase() }}"</h3>
