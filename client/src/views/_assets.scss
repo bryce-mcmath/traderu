@@ -1,9 +1,31 @@
-.stocks-container {
+.assets-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   margin: 16px;
   margin-bottom: 100px;
+
+  hr.break {
+    @include light-unpressed;
+    border: 0;
+    height: 3vw;
+    width: 90vw;
+    margin: 2vh 0;
+  }
+
+  .transaction-form {
+    width: 90vw;
+  }
+
+  .back-btn-container {
+    @include light-unpressed;
+    @include center-content;
+    border-radius: 2vw;
+    padding: 3vw;
+    width: 15vw;
+    height: 12vw;
+    margin-bottom: 2vh;
+  }
 
   .symbol-text-input {
     @include light-pressed;
@@ -13,6 +35,7 @@
     color: grey;
     text-shadow: none;
     padding: 0 2vw;
+    width: 100%;
   }
 
   h3.asset-title {
