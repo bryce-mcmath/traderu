@@ -11,31 +11,38 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>Name</v-list-item-title>
-            <v-input>
-              <input v-model="registerName" placeholder="Name" type="text" required />
-            </v-input>
+              <v-text-field
+                v-model="registerName"
+                label="Name"
+                filled
+                :rules="[rules.required]"
+              ></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Email</v-list-item-title>
-            <v-input>
-              <input v-model="registerEmail" placeholder="Email" type="email" required />
-            </v-input>
+            <v-text-field
+              v-model="registerEmail"
+              label="Email"
+              filled
+              :rules="[rules.required]"
+          ></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Password</v-list-item-title>
-            <v-input>
-              <input
-                v-model="registerPassword"
-                placeholder="Password"
-                type="password"
-                minlength="6"
-                required
-              />
-            </v-input>
+            <v-text-field
+              v-model="registerPassword"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show ? 'text' : 'password'"
+              label="Password"
+              hint="At least 8 characters"
+              :rules="[rules.min, rules.required]"
+              counter
+              filled
+              @click:append="show = !show"
+              minlength="8"
+            ></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -43,7 +50,7 @@
             <v-btn
               @click="submitRegisterUser"
               :loading="loading"
-              :disabled="loading || !registerName || !registerEmail || !registerPassword"
+              :disabled="loading || !registerName || !registerEmail || !registerPassword || registerPassword.length < 8"
             >Submit</v-btn>
           </v-list-item-content>
         </v-list-item>
@@ -61,7 +68,12 @@ export default Vue.extend({
   data() {
     return {
       registerDialog: false,
-      gettingLocation: false
+      gettingLocation: false,
+      show: false,
+      rules: {
+        required: value => !!value || 'Required.',
+        min: v => v.length >= 8 || 'Min 8 characters',
+      },  
     };
   },
   computed: {

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :dark="dark" v-model="loginDialog" fullscreen hide-overlay>
+  <v-dialog :dark="dark" v-model="loginDialog">
     <template v-slot:activator="{ on }">
       <v-btn :dark="dark" v-on="on">Login</v-btn>
     </template>
@@ -10,23 +10,27 @@
       <v-list three-line subheader>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Email</v-list-item-title>
-            <v-input>
-              <input v-model="loginEmail" placeholder="Email" type="email" />
-            </v-input>
+            <v-text-field
+              v-model="loginEmail"
+              label="Email"
+              filled
+              :rules="[rules.required]"
+          ></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Password</v-list-item-title>
-            <v-input>
-              <input
-                class="input rb"
-                v-model="loginPassword"
-                placeholder="Password"
-                type="password"
-              />
-            </v-input>
+            <v-text-field
+              v-model="loginPassword"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show ? 'text' : 'password'"
+              label="Password"
+              :rules="[rules.required, rules.min]"
+              hint="At least 8 characters"
+              counter
+              filled
+              @click:append="show = !show"
+            ></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -50,7 +54,12 @@ export default Vue.extend({
   name: 'LoginDialog',
   data() {
     return {
-      loginDialog: false
+      loginDialog: false,
+      show: false,
+      rules: {
+          required: value => !!value || 'Required.',
+          min: v => v.length >= 8 || 'Min 8 characters',
+        },
     };
   },
   computed: {
