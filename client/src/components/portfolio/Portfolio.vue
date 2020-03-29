@@ -82,26 +82,30 @@
 
   export default {
     components: { Spinner, LiquidGauge },
+
     mounted() {
       // Asset Breakdown
       this.makePie();
       // Value Trajectory
       this.makeLineChart();
     },
+
     props: {
       portfolio: {
         type: Object,
         default: null
       }
     },
+
     data() {
       return {
         dialog: false,
-        stockPercent: '',
-        stockValue: this.portfolio.value,
-        highlightedStock: 'Total'
+        assetPercent: '',
+        assetValue: this.portfolio.value,
+        highlightedAsset: 'Total'
       };
     },
+
     computed: {
       rank() {
         // Ranking data is sorted so their rank is their index + 1
@@ -110,6 +114,7 @@
         );
         return index + 1;
       },
+
       percentile() {
         // Regular formula is P = R / (n + 1)
         // If you were in the top 2 percent, you would get 0.02 from this formula
@@ -119,30 +124,37 @@
         const n = this.$store.state.apiData.allRankingsData.length;
         return parseFloat((100 - (this.rank / (n + 1)) * 100).toFixed(1));
       },
+
       formattedValue() {
         return new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD'
         }).format(Math.round(this.portfolio.value * 100) / 100);
       },
+
       formattedStockValue() {
         return new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD'
         }).format(Math.round(this.stockValue * 100) / 100);
       },
+
       deleting() {
         return this.$store.state.ui.ajaxInProgress;
       },
+
       stocksData() {
         return this.$store.state.apiData.stocksData;
       },
+
       cryptosData() {
         return this.$store.state.apiData.cryptosData;
       },
+
       width() {
         return window.innerWidth / 1.4;
       },
+
       pieData() {
         const cryptos = this.getAssetData(
           this.portfolio.cryptos,
@@ -159,13 +171,20 @@
         ];
       }
     },
+
     methods: {
+      deletePortfolio() {
+        AjaxCalls.deletePortfolio(this.portfolio.id)
+          .then(() => this.setUserPortfolios())
+          .then(() => (this.dialog = false));
+      },
+
       getAssetData(assets, assetsData) {
         assets = assets.filter(asset => asset && asset.quantity);
         const assetValues = assets.map(asset => {
           //most recent price from stock with same name
           const price = assetsData.find(foundAsset => {
-            console.log(foundAsset);
+            window.console.log(foundAsset);
             return foundAsset.name === asset.name;
           }).prices[0].price;
           return {
@@ -178,18 +197,18 @@
       },
 
       handleMouseOver(d, i) {
-        const stockData = this.pieData[i];
-        this.highlightedStock = stockData.name;
-        this.stockValue = Math.round(stockData.value * 100) / 100;
-        this.stockPercent =
-          Math.round((stockData.value * 10000) / this.portfolio.value) / 100 +
+        const assetData = this.pieData[i];
+        this.highlightedAsset = assetData.name;
+        this.assetValue = Math.round(assetData.value * 100) / 100;
+        this.assetPercent =
+          Math.round((assetData.value * 10000) / this.portfolio.value) / 100 +
           '%';
       },
 
       handleMouseOut() {
-        this.highlightedStock = 'Total';
-        this.stockValue = Math.round(this.portfolio.value * 100) / 100;
-        this.stockPercent = '';
+        this.highlightedAsset = 'Total';
+        this.assetValue = Math.round(this.portfolio.value * 100) / 100;
+        this.assetPercent = '';
       },
 
       makePie() {
