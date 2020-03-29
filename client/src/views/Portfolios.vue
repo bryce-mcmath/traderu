@@ -31,7 +31,17 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <NewPortfolioForm></NewPortfolioForm>
+    <NewPortfolioForm v-if="user"></NewPortfolioForm>
+    <aside class="logged-out" v-else
+      ><h2>You're not logged in!</h2>
+      <p>
+        You won't be able to create a portfolio until you sign up or login.
+      </p>
+      <div class="cta-buttons">
+        <LoginDialog />
+        <RegisterDialog />
+      </div>
+    </aside>
   </main>
 </template>
 
@@ -40,10 +50,18 @@
   import Portfolio from '../components/portfolio/Portfolio.vue';
   import Spinner from '../components/spinner/Spinner.vue';
   import NewPortfolioForm from '../components/new_portfolio_form/NewPortfolioForm.vue';
+  import RegisterDialog from '../components/register_dialog/RegisterDialog.vue';
+  import LoginDialog from '../components/login_dialog/LoginDialog.vue';
 
   export default {
     name: 'Portfolios',
-    components: { Portfolio, NewPortfolioForm, Spinner },
+    components: {
+      Portfolio,
+      NewPortfolioForm,
+      Spinner,
+      RegisterDialog,
+      LoginDialog
+    },
     methods: {
       ...mapActions(['setUserPortfolios']),
       setActive(name, panelIndex, id) {
@@ -78,6 +96,9 @@
         set() {
           this.$store.commit('setActivePortfolio', this.active);
         }
+      },
+      user() {
+        return this.$store.state.user;
       }
     },
     data() {

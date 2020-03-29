@@ -19,13 +19,6 @@ const routes = [
   {
     path: '/portfolios',
     name: 'Portfolios',
-    beforeEnter(to, from, next){
-      if(localStorage.getItem('token')){
-        next();
-      } else {
-        next('/')
-      }
-    },
     component: () =>
       import(/* webpackChunkName: "portfolios" */ '../views/Portfolios.vue')
   },
