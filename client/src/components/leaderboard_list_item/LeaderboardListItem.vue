@@ -36,7 +36,7 @@
     },
     methods: {
       format(val) {
-        return formatCurrency(val, 'USD', 'en');
+        return formatCurrency(val, 'USD', 'en').replace(/\.([^0]+)0+$/, '.$1');
       }
     }
   };
