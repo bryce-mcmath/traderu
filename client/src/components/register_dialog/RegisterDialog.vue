@@ -26,6 +26,7 @@
               label="Email"
               filled
               :rules="[rules.required]"
+              type="email"
           ></v-text-field>
           </v-list-item-content>
         </v-list-item>
