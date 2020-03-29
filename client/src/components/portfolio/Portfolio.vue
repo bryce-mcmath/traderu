@@ -15,7 +15,7 @@
         <p>{{ assetPercent }}</p>
       </div>
     </v-card>
-    <v-card class="value-card">
+    <v-card class="value-card" id="chart-container">
       <h2>Value Trajectory</h2>
       <p v-if="portfolio.values.length < 4">
         More data will be shown here after you purchase some assets and time has
@@ -113,6 +113,7 @@
   import { mapActions, mapMutations } from 'vuex';
   import Spinner from '../spinner/Spinner.vue';
   import LiquidGauge from '../liquid_gauge/LiquidGauge.vue';
+  import { makeLineChart } from '../../utils/d3'
   import VuemorphicToggle from '../vuemorphic_toggle/VuemorphicToggle.vue';
 
   export default {
@@ -121,8 +122,11 @@
     mounted() {
       // Asset Breakdown
       this.makePie();
-      // Value Trajectory
-      this.makeLineChart();
+      const dataOptions = {
+        timeParseString: "%Y-%m-%d",
+        data: this.portfolio.values.map(dataPoint => ({date:dataPoint.date_time.split('T')[0], value: dataPoint.value}))
+      }
+      makeLineChart(this.width, this.width*1.1, {top: 55, left: 120, bottom: 55, right: 60}, dataOptions, `#line-chart-${this.portfolio.name}`, 4);
     },
 
     props: {
@@ -237,14 +241,10 @@
         assets = assets.filter(asset => asset && asset.quantity);
         const assetValues = assets.map(asset => {
           //most recent price from stock with same name
-          const price = assetsData.find(foundAsset => {
-            return foundAsset.name === asset.name;
-          }).prices[0].price;
-          return {
-            name: asset.name,
-            symbol: asset.symbol,
-            value: asset.quantity * price
-          };
+          const price = assetsData.find(
+            foundAsset => foundAsset.name === asset.name
+          ).prices[0].price;
+          return {name: asset.name, symbol:asset.symbol, value: asset.quantity * price}
         });
         return assetValues;
       },
@@ -345,129 +345,8 @@
           });
       },
 
-      makeLineChart() {
-        const rawData = this.portfolio.values;
-        if (rawData.length < 4) return;
-        //Format time values to just dates for this graph
-        const data = rawData.map(value => ({
-          ...value,
-          date: value.date_time.split('T')[0]
-        }));
-        const parseTime = d3.timeParse('%Y-%m-%d');
-
-        const vis = d3.select(`#line-chart-${this.portfolio.name}`),
-          WIDTH = vis.attr('width'),
-          HEIGHT = vis.attr('height'),
-          MARGINS = {
-            top: 55,
-            right: 20,
-            bottom: 55,
-            left: 80
-          },
-          xScale = d3
-            .scaleTime()
-            .range([MARGINS.left, WIDTH - MARGINS.right])
-            .domain(d3.extent(data, d => parseTime(d.date))),
-          yScale = d3
-            .scaleLinear()
-            .range([HEIGHT - MARGINS.top, MARGINS.bottom])
-            //Going from min to max, 0 to max might be better
-            .domain([
-              d3.min(data, d => d.value) * 0.9,
-              d3.max(data, d => d.value) * 1.1
-            ]),
-          xAxis = d3
-            .axisBottom(xScale)
-            //Ticks is a hint, not exact. Frustrating, but better to go under than over
-            .ticks(4)
-            .tickSizeOuter(0),
-          yAxis = d3
-            .axisLeft(yScale)
-            .ticks(5)
-            .tickSizeOuter(0);
-
-        function makeXGridlines() {
-          return d3.axisBottom(xScale);
-        }
-
-        // gridlines in y axis function
-        function makeYGridlines() {
-          return d3.axisLeft(yScale);
-        }
-
-        //Append and move down x axis
-        vis
-          .append('svg:g')
-          .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
-          .call(xAxis);
-
-        //Append and move y axis past margin
-        vis
-          .append('svg:g')
-          .attr('transform', 'translate(' + MARGINS.left + ',0)')
-          .call(yAxis);
-
-        //X axis label
-        vis
-          .append('text')
-          .attr('class', 'axis-label')
-          .attr(
-            'transform',
-            'translate(' + WIDTH / 2 + ' ,' + (HEIGHT + MARGINS.top) + ')'
-          )
-          .style('text-anchor', 'middle')
-          .text('Date');
-
-        //Y-axis label
-        vis
-          .append('text')
-          .attr('class', 'axis-label')
-          .attr('transform', 'rotate(-90)')
-          .attr('y', 0)
-          .attr('x', 0 - HEIGHT / 2)
-          .attr('dy', '1em')
-          .style('text-anchor', 'middle')
-          .text('Value (USD)');
-
-        //Add x gridlines
-        vis
-          .append('g')
-          .attr('class', 'grid')
-          .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
-          .call(
-            makeXGridlines()
-              .tickSize(-(HEIGHT - MARGINS.bottom - MARGINS.top))
-              .tickFormat('')
-              .tickSizeOuter(0)
-          );
-
-        // add the Y gridlines
-        vis
-          .append('g')
-          .attr('class', 'grid')
-          .attr('transform', 'translate(' + MARGINS.left + ', 0)')
-          .call(
-            makeYGridlines()
-              .tickSize(-(WIDTH - MARGINS.left - MARGINS.right))
-              .tickFormat('')
-              .tickSizeOuter(0)
-          );
-        //Make line
-        const lineGen = d3
-          .line()
-          .x(d => xScale(parseTime(d.date)))
-          .y(d => {
-            return yScale(d.value);
-          });
-
-        vis
-          .append('svg:path')
-          .attr('d', lineGen(data))
-          .attr('stroke', 'grey')
-          .attr('stroke-width', 4)
-          .attr('fill', 'none');
-      }
-    }
+  
+    },
   };
 </script>
 

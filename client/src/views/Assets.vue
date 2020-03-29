@@ -1,223 +1,109 @@
 <template>
   <main class="view-container">
-    <div
-      v-bind:class="['assets-container', { 'assets-container--dark': dark }]"
-    >
-      <div v-if="assetSelected">
-        <button @click="assetSelected = ''" class="back-btn-container">
-          <i class="fas fa-arrow-left"></i>
-        </button>
-
-        <h4>{{ assetSelected.name }}</h4>
-        <h5
-          v-bind:style="{
-            color:
-              assetSelected.prices[0].price -
-                assetSelected.prices[assetSelected.prices.length - 1].price >
-              0
-                ? '#75ff83'
-                : '#ff073a'
-          }"
-        >
-          {{ format(assetSelected.prices[0].price) }}
-        </h5>
-        <v-sparkline
-          :value="
-            assetSelected.prices
-              .map(stockObj => stockObj.price)
-              .slice()
-              .reverse()
-          "
-          v-bind:color="
-            assetSelected.prices[0].price -
-              assetSelected.prices[assetSelected.prices.length - 1].price >
-            0
-              ? '#75ff83'
-              : '#ff073a'
-          "
-          line-width="3"
-          padding="16"
-        ></v-sparkline>
-
-        <div v-if="portfolioSelectArray.length">
-          <hr class="break" />
-          <v-container class="transaction-form">
-            <h3 class="mt-4">PLACE AN ORDER</h3>
-            <v-row class="transaction-form__portfolio-select">
-              <label>Select portfolio for transaction:</label>
-              <v-select
-                :items="portfolioSelectArray"
-                item-text="name"
-                item-value="id"
-                v-model="portfolioSelectedId"
-                background-color="white"
-                outlined
-              ></v-select>
-            </v-row>
-            <v-row class="transaction-form__price-type">
-              <v-col>
-                <label>Price</label>
-                <v-text-field
-                  background-color="white"
-                  outlined
-                  disabled
-                  :value="
-                    (assetSelected.isStock && format(stockPrice)) ||
-                      (assetSelected.isCrypto && format(cryptoPrice))
-                  "
-                ></v-text-field>
-              </v-col>
-              <v-col>
-                <label>Transaction</label>
-                <v-select
-                  :items="transactionsSelectArray"
-                  item-text="text"
-                  item-value="value"
-                  v-model="transactionSelected"
-                  background-color="white"
-                  outlined
-                ></v-select>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <label>Quantity</label>
-                <v-text-field
-                  onkeypress="return event.key === 'Enter' || (Number(event.key) >= 0 && Number(event.key) <= 9)"
-                  type="number"
-                  v-model="quantity"
-                  background-color="white"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col>
-                <v-btn class="mt-8" @click="submitTransaction"
-                  >Place Order</v-btn
-                >
-              </v-col>
-            </v-row>
-          </v-container>
+    <div class="stocks-container">
+      <input
+        class="symbol-text-input mt-2"
+        type="text"
+        v-model="searchSymbol"
+        placeholder="Filter by symbol or name..."
+        @input="handleSymbolInput"
+        @click="handleSymbolInput"
+      />
+      <div class="assets-container">
+        <div v-if="assetSelected">
+          <SingleAsset
+            :assetSelected="assetSelected"
+            :portfolioSelectArray="portfolioSelectArray"
+          />
         </div>
         <div v-else>
-          <h3
-            >You have not yet created a portfolio, so you will not be able to
-            purchase assets.</h3
-          >
-        </div>
-      </div>
-      <div v-else>
-        <input
-          class="symbol-text-input mt-2"
-          type="text"
-          v-model="searchSymbol"
-          placeholder="Filter by symbol or name..."
-          @input="handleSymbolInput"
-          @click="handleSymbolInput"
-        />
-        <div v-if="stocksData.length || cryptosData.length">
-          <div v-if="stocksData.length">
-            <h3 class="asset-title">Stocks</h3>
-            <v-list :dark="dark" one-line>
-              <v-list-item-group color="primary">
-                <v-list-item
-                  v-for="(item, i) in stocksData"
-                  :key="i"
-                  @click="selectAsset(item, 'stock')"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title v-text="item.name"></v-list-item-title>
-                    <!-- {{ showDifference(item) }} -->
-                    <v-list-item-subtitle
-                      v-bind:style="{
-                        color:
+          <div v-if="stocksData.length || cryptosData.length">
+            <div v-if="stocksData.length">
+              <h3 class="asset-title">Stocks</h3>
+              <v-list :dark="dark" one-line>
+                <v-list-item-group color="primary">
+                  <v-list-item
+                    v-for="(item, i) in stocksData"
+                    :key="i"
+                    @click="selectAsset(item, 'stock')"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title v-text="item.name"></v-list-item-title>
+                      <!-- {{ showDifference(item) }} -->
+                      <v-list-item-subtitle
+                        v-bind:style="{
+                          color:
+                            item.prices[0].price -
+                              item.prices[item.prices.length - 1].price >
+                            0
+                              ? '#75ff83'
+                              : '#ff073a'
+                        }"
+                      >
+                        {{ format(item.prices[0].price) }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                    <v-list-item-content>
+                      <v-sparkline
+                        :value="
+                          item.prices
+                            .map(stockObj => stockObj.price)
+                            .slice()
+                            .reverse()
+                        "
+                        v-bind:color="
                           item.prices[0].price -
                             item.prices[item.prices.length - 1].price >
                           0
                             ? '#75ff83'
                             : '#ff073a'
-                      }"
-                    >
-                      {{ format(item.prices[0].price) }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                  <v-list-item-content>
-                    <v-sparkline
-                      :value="
-                        item.prices
-                          .map(stockObj => stockObj.price)
-                          .slice()
-                          .reverse()
-                      "
-                      v-bind:color="
-                        item.prices[0].price -
-                          item.prices[item.prices.length - 1].price >
-                        0
-                          ? '#75ff83'
-                          : '#ff073a'
-                      "
-                      line-width="3"
-                      padding="16"
-                    ></v-sparkline>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
+                        "
+                        line-width="3"
+                        padding="16"
+                      ></v-sparkline>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </div>
+            <div v-if="cryptosData.length">
+              <h3 class="asset-title">Cryptocurrencies</h3>
+              <v-list :dark="dark" one-line>
+                <v-list-item-group color="primary">
+                  <v-list-item
+                    v-for="(item, i) in cryptosData"
+                    :key="i"
+                    @click="selectAsset(item, 'crypto')"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title v-text="item.name"></v-list-item-title>
+                      <!-- {{ showDifference(item) }} -->
+                      <v-list-item-subtitle
+                        v-bind:style="{
+                          color:
+                            item.prices[0].price -
+                              item.prices[item.prices.length - 1].price >
+                            0
+                              ? '#75ff83'
+                              : '#ff073a'
+                        }"
+                      >
+                        {{ format(item.prices[0].price) }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                    <v-list-item-content> </v-list-item-content>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </div>
           </div>
-          <div v-if="cryptosData.length">
-            <h3 class="asset-title">Cryptocurrencies</h3>
-            <v-list :dark="dark" one-line>
-              <v-list-item-group color="primary">
-                <v-list-item
-                  v-for="(item, i) in cryptosData"
-                  :key="i"
-                  @click="selectAsset(item, 'crypto')"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title v-text="item.name"></v-list-item-title>
-                    <!-- {{ showDifference(item) }} -->
-                    <v-list-item-subtitle
-                      v-bind:style="{
-                        color:
-                          item.prices[0].price -
-                            item.prices[item.prices.length - 1].price >
-                          0
-                            ? '#75ff83'
-                            : '#ff073a'
-                      }"
-                    >
-                      {{ format(item.prices[0].price) }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                  <v-list-item-content>
-                    <v-sparkline
-                      :value="
-                        item.prices
-                          .map(cryptoObj => cryptoObj.price)
-                          .slice()
-                          .reverse()
-                      "
-                      v-bind:color="
-                        item.prices[0].price -
-                          item.prices[item.prices.length - 1].price >
-                        0
-                          ? '#75ff83'
-                          : '#ff073a'
-                      "
-                      line-width="3"
-                      padding="16"
-                    ></v-sparkline>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
+          <div class="cp" v-else-if="searchSymbol">
+            <h3>No results for symbol "{{ searchSymbol.toUpperCase() }}"</h3>
           </div>
-        </div>
-        <div class="cp" v-else-if="searchSymbol">
-          <h3>No results for symbol "{{ searchSymbol.toUpperCase() }}"</h3>
-        </div>
-        <div v-else>
-          No stocks to show at this time. Once we've added some we'll display
-          the data here.
+          <div v-else>
+            No stocks to show at this time. Once we've added some we'll display
+            the data here.
+          </div>
         </div>
       </div>
     </div>
@@ -228,10 +114,14 @@
   import { formatCurrency } from '@coingecko/cryptoformat';
   import { mapActions, mapMutations } from 'vuex';
   import ajaxCalls from '../api/ajaxCalls';
+  import { makeLineChart } from '../utils/d3';
+  import SingleAsset from '../components/single_asset/SingleAsset.vue';
   const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
-
   export default {
     name: 'Assets',
+    components: {
+      SingleAsset
+    },
     computed: {
       user() {
         return this.$store.state.user;
@@ -322,7 +212,6 @@
       selectAsset(assetItem, assetType) {
         if (assetType === 'stock') assetItem.isStock = true;
         if (assetType === 'crypto') assetItem.isCrypto = true;
-
         const increase =
           assetItem.prices[0].price -
             assetItem.prices[assetItem.prices.length - 1].price >
@@ -339,7 +228,6 @@
         if (!this.portfolio.id) {
           return console.log('Handle no selected portfolio here');
         }
-
         if (this.assetSelected.isStock && !this.assetSelected.isCrypto) {
           makeStockTransaction(
             {
@@ -386,25 +274,20 @@
           title: 'Error',
           content: ''
         };
-
         if (!this.portfolio.id && !isNaN(Number(this.portfolio.id))) {
           valid = false;
           errTemplate.content = 'No portfolio selected';
         }
-
         if (!this.quantity && !isNaN(Number(this.quantity))) {
           valid = false;
           errTemplate.content = 'Quantity must be a number';
         }
-
         if (!this.transactionSelected) {
           valid = false;
           errTemplate.content = 'Transaction must be selected';
         }
-
         this.$store.commit('setDialogText', errTemplate);
         this.$store.commit('setShowDialog', !valid);
-
         return valid;
       },
       transactionNotification(transactionSuccess) {
