@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import ajaxCalls from '@/api/ajaxCalls';
 import axios from 'axios';
-import router from '@/router/index';
 
 const {
   checkAuth,
@@ -340,7 +339,6 @@ export default new Vuex.Store({
       commit('setUser', null);
       commit('setUserPortfolios', []);
       commit('setApiLocalRankingsData', {});
-      router.push('/');
     }
   },
   modules: {}

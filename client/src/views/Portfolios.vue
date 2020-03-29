@@ -10,28 +10,33 @@
     <div class="spinner-container" v-if="loading">
       <Spinner></Spinner>
     </div>
-    <v-expansion-panels
-      :accordion="true"
-      :focusable="true"
-      :flat="true"
-      :dark="dark"
-      v-else
-      v-model="activePortfolio"
-    >
-      <v-expansion-panel
-        v-for="(portfolio, i) in portfolios"
-        :key="portfolio.name"
+    <div v-else-if="!user" class="mt-2 mb-2">
+      <h3>You are not logged into an account.</h3>
+      <h3>Log in to view and create portfolios.</h3>
+    </div>
+    <div v-else>
+      <v-expansion-panels
+        :accordion="true"
+        :focusable="true"
+        :flat="true"
+        :dark="dark"
+        v-model="activePortfolio"
       >
-        <v-expansion-panel-header
-          v-on:click="() => setActive(portfolio.name, i, portfolio.id)"
-          >{{ portfolio.name }}</v-expansion-panel-header
+        <v-expansion-panel
+          v-for="(portfolio, i) in portfolios"
+          :key="portfolio.name"
         >
-        <v-expansion-panel-content>
-          <Portfolio :portfolio="portfolio" />
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-    <NewPortfolioForm></NewPortfolioForm>
+          <v-expansion-panel-header
+            v-on:click="() => setActive(portfolio.name, i, portfolio.id)"
+            >{{ portfolio.name }}</v-expansion-panel-header
+          >
+          <v-expansion-panel-content>
+            <Portfolio :portfolio="portfolio" />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+      <NewPortfolioForm></NewPortfolioForm>
+    </div>
   </main>
 </template>
 
@@ -57,9 +62,20 @@
           this.activePortfolio = { name, panelIndex, id };
           this.active = { name, panelIndex, id };
         }
+      },
+      setUpPortfoliosLocal() {
+        if (this.user && this.portfolios.length <= 0) this.setUserPortfolios();
+      }
+    },
+    watch: {
+      user(val) {
+        this.setUpPortfoliosLocal();
       }
     },
     computed: {
+      user() {
+        return this.$store.state.user;
+      },
       dark() {
         return this.$store.state.ui.dark;
       },
@@ -90,7 +106,7 @@
     },
     created() {
       // If no portfolios loaded, load em
-      if (this.portfolios.length <= 0) this.setUserPortfolios();
+      this.setUpPortfoliosLocal();
     }
   };
 </script>
