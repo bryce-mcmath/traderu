@@ -9,12 +9,43 @@
     @include light-unpressed;
     border: 0;
     height: 3vw;
-    width: 90vw;
+    width: 100%;
     margin: 2vh 0;
   }
 
   .transaction-form {
-    width: 90vw;
+    width: 100%;
+
+    button.v-btn {
+      height: 7vh;
+      margin: 3.5vh 0 0 0 !important;
+    }
+
+    .transaction-form__portfolio-select {
+      width: 100%;
+      margin: auto;
+    }
+
+    .transaction-form__price-type {
+      width: 100%;
+      margin: 0;
+
+      > .col {
+        margin: 0;
+        padding: 0;
+
+        > .v-select {
+          height: 10vh;
+        }
+
+        &:first-child {
+          padding-right: 1vw;
+        }
+        &:last-child {
+          padding-left: 1vw;
+        }
+      }
+    }
   }
 
   .back-btn-container {
@@ -66,6 +97,22 @@
     background-color: white;
     height: 55px;
     overflow: hidden;
+  }
+
+  &--dark {
+    hr.break {
+      @include dark-unpressed;
+    }
+
+    .back-btn-container {
+      @include dark-unpressed;
+      @include center-content;
+    }
+
+    .symbol-text-input {
+      @include dark-pressed;
+      background-color: $dark-bg;
+    }
   }
 }
 

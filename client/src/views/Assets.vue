@@ -1,8 +1,10 @@
 <template>
   <main class="view-container">
-    <div class="assets-container">
+    <div
+      v-bind:class="['assets-container', { 'assets-container--dark': dark }]"
+    >
       <div v-if="assetSelected">
-        <button @click="this.assetSelected = ''" class="back-btn-container">
+        <button @click="assetSelected = ''" class="back-btn-container">
           <i class="fas fa-arrow-left"></i>
         </button>
 
@@ -41,7 +43,7 @@
           <hr class="break" />
           <v-container class="transaction-form">
             <h3 class="mt-4">PLACE AN ORDER</h3>
-            <v-row justify="space-around">
+            <v-row class="transaction-form__portfolio-select">
               <label>Select portfolio for transaction:</label>
               <v-select
                 :items="portfolioSelectArray"
@@ -52,7 +54,7 @@
                 outlined
               ></v-select>
             </v-row>
-            <v-row justify="space-around">
+            <v-row class="transaction-form__price-type">
               <v-col>
                 <label>Price</label>
                 <v-text-field
