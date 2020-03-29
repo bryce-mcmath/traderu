@@ -29,4 +29,29 @@
     width: 90%;
     background-color: inherit;
   }
+
+  &--dark {
+    h2 {
+      margin: 4vw 0 1vw 5vw;
+      align-self: flex-start;
+    }
+
+    h3 {
+      margin: 4vw 0 1vw 0;
+      text-align: center;
+    }
+
+    hr.break {
+      @include dark-unpressed;
+      border: 0;
+      height: 3vw;
+      width: 90vw;
+      margin: auto;
+    }
+
+    .v-list {
+      width: 90%;
+      background-color: inherit;
+    }
+  }
 }

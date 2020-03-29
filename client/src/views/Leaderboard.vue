@@ -1,5 +1,10 @@
 <template>
-  <main class="view-container leaderboard-container">
+  <main
+    v-bind:class="[
+      'view-container leaderboard-container',
+      { 'leaderboard-container--dark': dark }
+    ]"
+  >
     <h2>Leaderboard</h2>
     <hr class="break" />
     <h3>Individuals</h3>

@@ -1,8 +1,8 @@
 <template>
   <v-card class="leaderboard__list-item">
     <div class="user-info row">
-      <span class="rank">{{ portfolio.rank + 1 }}</span>
-      <span class="username">User:{{ portfolio.username }}</span>
+      <span class="user-info__rank">#{{ portfolio.rank + 1 }}</span>
+      <h3 class="user-info__name">{{ portfolio.username }}</h3>
       <div class="user-info__img-container">
         <img class="avatar" :src="portfolio.avatar" />
       </div>
