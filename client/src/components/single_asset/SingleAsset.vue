@@ -1,130 +1,121 @@
 <template>
-  <main class="view-container">
-    <div class="stocks-container">
-      <input
-        class="symbol-text-input mt-2"
-        type="text"
-        v-model="searchSymbol"
-        placeholder="Filter by symbol or name..."
-        @input="handleSymbolInput"
-        @click="handleSymbolInput"
-      />
-      <div class="assets-container">
-        <div v-if="assetSelected">
-          <SingleAsset :assetSelected="assetSelected" :portfolioSelectArray="portfolioSelectArray"/>
-        </div>
-        <div v-else>
-          <div v-if="stocksData.length || cryptosData.length">
-            <div v-if="stocksData.length">
-              <h3 class="asset-title">Stocks</h3>
-              <v-list :dark="dark" one-line>
-                <v-list-item-group color="primary">
-                  <v-list-item
-                    v-for="(item, i) in stocksData"
-                    :key="i"
-                    @click="selectAsset(item, 'stock')"
-                  >
-                    <v-list-item-content>
-                      <v-list-item-title v-text="item.name"></v-list-item-title>
-                      <!-- {{ showDifference(item) }} -->
-                      <v-list-item-subtitle
-                        v-bind:style="{
-                          color:
-                            item.prices[0].price -
-                              item.prices[item.prices.length - 1].price >
-                            0
-                              ? '#75ff83'
-                              : '#ff073a'
-                        }"
-                      >
-                        {{
-                        format(item.prices[0].price)
-                        }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-list-item-content>
-                      <v-sparkline
-                        :value="
-                          item.prices
-                            .map(stockObj => stockObj.price)
-                            .slice()
-                            .reverse()
-                        "
-                        v-bind:color="
-                          item.prices[0].price -
-                            item.prices[item.prices.length - 1].price >
-                          0
-                            ? '#75ff83'
-                            : '#ff073a'
-                        "
-                        line-width="3"
-                        padding="16"
-                      ></v-sparkline>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list>
-            </div>
-            <div v-if="cryptosData.length">
-              <h3 class="asset-title">Cryptocurrencies</h3>
-              <v-list :dark="dark" one-line>
-                <v-list-item-group color="primary">
-                  <v-list-item
-                    v-for="(item, i) in cryptosData"
-                    :key="i"
-                    @click="selectAsset(item, 'crypto')"
-                  >
-                    <v-list-item-content>
-                      <v-list-item-title v-text="item.name"></v-list-item-title>
-                      <!-- {{ showDifference(item) }} -->
-                      <v-list-item-subtitle
-                        v-bind:style="{
-                          color:
-                            item.prices[0].price -
-                              item.prices[item.prices.length - 1].price >
-                            0
-                              ? '#75ff83'
-                              : '#ff073a'
-                        }"
-                      >
-                        {{
-                        format(item.prices[0].price)
-                        }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-list-item-content>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list>
-            </div>
-          </div>
-          <div class="cp" v-else-if="searchSymbol">
-            <h3>No results for symbol "{{ searchSymbol.toUpperCase() }}"</h3>
-          </div>
-          <div v-else>
-            No stocks to show at this time. Once we've added some we'll display
-            the data here.
-          </div>
-        </div>
-      </div>
+  <div>
+    <h4>{{ assetSelected.name }}</h4>
+    <h5
+      v-bind:style="{
+        color:
+          assetSelected.prices[0].price -
+            assetSelected.prices[assetSelected.prices.length - 1].price >
+          0
+            ? '#75ff83'
+            : '#ff073a'
+      }"
+    >
+      {{ format(assetSelected.prices[0].price) }}
+    </h5>
+    <div id="chart-container" :width="chartWidth" :height="chartHeight">
+      <h2>Asset Price</h2>
+      <svg id="assetChart3" :width="chartWidth" :height="chartHeight"/>
     </div>
-  </main>
+
+    <div v-if="portfolioSelectArray.length">
+      <h3 class="mt-4">PLACE AN ORDER</h3>
+      <v-container>
+        <v-row justify="space-around">
+          <label>Select portfolio for transaction:</label>
+          <v-select
+            :items="portfolioSelectArray"
+            item-text="name"
+            item-value="id"
+            v-model="portfolioSelectedId"
+            background-color="white"
+            outlined
+          ></v-select>
+        </v-row>
+        <v-row justify="space-around">
+          <v-col>
+            <label>Price</label>
+            <v-text-field
+              background-color="white"
+              outlined
+              disabled
+              :value="
+                (assetSelected.isStock && format(stockPrice)) ||
+                  (assetSelected.isCrypto && format(cryptoPrice))
+              "
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <label>Transaction</label>
+            <v-select
+              :items="transactionsSelectArray"
+              item-text="text"
+              item-value="value"
+              v-model="transactionSelected"
+              background-color="white"
+              outlined
+            ></v-select>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <label>Quantity</label>
+            <v-text-field
+              onkeypress="return event.key === 'Enter' || (Number(event.key) >= 0 && Number(event.key) <= 9)"
+              type="number"
+              v-model="quantity"
+              background-color="white"
+              outlined
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-btn class="mt-8" @click="submitTransaction">Place Order</v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+    <div v-else>
+      <h3
+        >You have not yet created a portfolio, so you will not be able to
+        purchase assets.</h3
+      >
+    </div>
+  </div>
 </template>
 
 <script>
 import { formatCurrency } from '@coingecko/cryptoformat';
 import { mapActions, mapMutations } from 'vuex';
-import ajaxCalls from '../api/ajaxCalls';
-import { makeLineChart } from '../utils/d3'
-import SingleAsset from '../components/single_asset/SingleAsset.vue';
+import ajaxCalls from '../../api/ajaxCalls';
+import { makeLineChart } from '../../utils/d3.js'
 const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
 
 export default {
-  name: 'Assets',
-  components: {
-    SingleAsset
+  mounted(){
+    //DEFAULTING TO JUST ACB
+    if(this.assetSelected.isStock){
+      let data = this.assetSelected.prices;
+      //grab most recent date from the time string
+      const date = data[0].time.split(' ')[0];
+      data = data.filter(dataPoint => dataPoint.time.split(' ')[0] === date)
+      const dataOptions = {
+        //Grab just the time portion of the datetime
+        data: data.map(dataPoint => ({value: dataPoint.price, date: dataPoint.time.split(' ')[1]})),
+        timeParseString: '%H:%M:%S'
+      }
+      makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 80, bottom: 55, right: 40}, dataOptions, `#assetChart3`);
+    } else if(this.assetSelected.isCrypto){
+      //Use 1 yr of data
+      const data = this.assetSelected.prices.slice(0,365);
+      const dataOptions = {
+        //Grab just the time portion of the datetime
+        data: data.map(dataPoint => ({value: dataPoint.price, date: dataPoint.time})),
+        timeParseString: '%Y-%m-%d'
+      }
+      makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 80, bottom: 55, right: 40}, dataOptions, `#assetChart3`);
+    }
   },
+  props: ["assetSelected", "portfolioSelectArray"],
   computed: {
     portfolio() {
       return this.$store.state.ui.activePortfolio;
@@ -184,12 +175,12 @@ export default {
       { text: 'Buy', value: 'buy' },
       { text: 'Sell', value: 'sell' }
     ],
-    portfolioSelectArray: '',
     portfolioSelectedId: '',
     transactionSelected: '',
     searchSymbol: '',
-    assetSelected: '',
-    quantity: ''
+    quantity: '',
+    chartWidth: window.innerWidth * 0.9,
+    chartHeight: (window.innerWidth * 0.9) * 0.5,
   }),
   watch: {
     portfolioSelectedId: function(id) {
@@ -204,17 +195,6 @@ export default {
         /^(\d+\.\d*?[1-9])0+$/,
         ''
       );
-    },
-    selectAsset(assetItem, assetType) {
-      if (assetType === 'stock') assetItem.isStock = true;
-      if (assetType === 'crypto') assetItem.isCrypto = true;
-
-      const increase =
-        assetItem.prices[0].price -
-          assetItem.prices[assetItem.prices.length - 1].price >
-        0;
-      // console.log(assetItem)
-      this.assetSelected = assetItem;
     },
     handleSymbolInput() {
       if (this.assetSelected) {
@@ -311,18 +291,13 @@ export default {
         });
         this.$store.commit('setShowDialog', true);
       }
-    },
-    async getUserPortfolios() {
-      await this.setUserPortfolios();
-      this.portfolioSelectArray = this.$store.state.apiData.userPortfolios;
     }
   },
-  created() {
-    this.getUserPortfolios();
-  }
+
 };
+
 </script>
 
 <style lang="scss" scoped>
-@import 'assets';
+  @import 'single_asset';
 </style>
