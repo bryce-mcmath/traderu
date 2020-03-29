@@ -100,6 +100,18 @@
           .then(() => (this.dialog = false));
       },
 
+      getAssetData(assets, assetsData){
+        assets = assets.filter(asset => asset && asset.quantity);
+        const assetValues = assets.map(asset => {
+          //most recent price from stock with same name
+          const price = assetsData.find(
+            foundAsset => {console.log(foundAsset); return foundAsset.name === asset.name}
+          ).prices[0].price;
+          return {name: asset.name, symbol:asset.symbol, value: asset.quantity * price}
+        });
+        return assetValues;
+      },
+
       handleMouseOver(d, i) {
         const stockData = this.pieData[i];
         this.highlightedStock = stockData.name;
@@ -116,6 +128,7 @@
       },
 
       makePie() {
+        console.log("PIEDATA IS ", this.pieData)
         const data = this.pieData.map(obj => Number(obj.value));
         const labels = this.pieData.map(obj => obj.symbol);
 
@@ -363,32 +376,11 @@
         return window.innerWidth / 1.4;
       },
       pieData() {
-        const stocks = this.portfolio.stocks.filter(stock => stock && stock.quantity);
-        const cryptos = this.portfolio.cryptos.filter(crypto => crypto && crypto.quantity);
-        const stockValues = stocks.map(stock => {
-          //most recent price from stock with same name
-          const price = this.stocksData.find(
-            nestedStock => nestedStock.name === stock.name
-          ).prices[0].price;
-          return {
-            name: stock.name,
-            symbol: stock.symbol,
-            value: stock.quantity * price
-          };
-        });
-        const cryptoValues = cryptos.map(crypto => {
-          //most recent price from stock with same name
-          const price = this.cryptosData.find(
-            nestedCrypto => nestedCrypto.name === crypto.name
-          ).prices[0].price;
-          return {
-            name: crypto.name,
-            symbol: crypto.symbol,
-            value: crypto.quantity * price
-          };
-        });
+        const cryptos = this.getAssetData(this.portfolio.cryptos, this.cryptosData)
+        const stocks = this.getAssetData(this.portfolio.stocks, this.stocksData)
         return [
-          ...stockValues, ...cryptoValues,
+          ...stocks, 
+          ...cryptos,
           { symbol: 'CASH', name: 'CASH', value: this.portfolio.cash }
         ];
       }
