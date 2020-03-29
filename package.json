@@ -36,5 +36,6 @@
     "cross-env": "^7.0.2",
     "lerna": "^3.20.2",
     "nodemon": "^2.0.2"
-  }
+  },
+  "dependencies": {}
 }
