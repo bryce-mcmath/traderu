@@ -15,9 +15,18 @@
     </h5>
     <div id="chart-container" :width="chartWidth" :height="chartHeight">
       <h2>Asset Price</h2>
+      <div class="spinner-container" v-if="waiting">
+          <v-progress-circular size="120" :indeterminate="true"></v-progress-circular>
+      </div>
       <svg id="assetChart3" :width="chartWidth" :height="chartHeight"/>
     </div>
-
+    <v-select
+      :items="chartOptions"
+      label="Standard"
+      dense
+      :value="defaultSelectValue"
+      @input="updateChart"
+    ></v-select>
     <div v-if="portfolioSelectArray.length">
       <h3 class="mt-4">PLACE AN ORDER</h3>
       <v-container>
@@ -87,7 +96,8 @@
 import { formatCurrency } from '@coingecko/cryptoformat';
 import { mapActions, mapMutations } from 'vuex';
 import ajaxCalls from '../../api/ajaxCalls';
-import { makeLineChart, changeLineColor } from '../../utils/d3.js'
+import { makeLineChart } from '../../utils/d3.js'
+import * as d3 from 'd3';
 const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
 
 export default {
@@ -105,7 +115,7 @@ export default {
       makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 100, bottom: 55, right: 40}, dataOptions, `#assetChart3`);
     } else if(this.assetSelected.isCrypto){
       //Use 1 yr of data
-      const data = this.assetSelected.prices.slice(0,365);
+      const data = this.assetSelected.prices.slice(0,90);
       const dataOptions = {
         //Grab just the time portion of the datetime
         data: data.map(dataPoint => ({value: dataPoint.price, date: dataPoint.time})),
@@ -116,6 +126,12 @@ export default {
   },
   props: ["assetSelected", "portfolioSelectArray"],
   computed: {
+    chartOptions(){
+      return this.assetSelected.isStock ? ['Day', '3-month', '1-year'] : ['3-month', '1-year']
+    },
+    defaultSelectValue(){
+      return this.assetSelected.isStock ? 'Day' : '3-month'
+    },
     portfolio() {
       return this.$store.state.ui.activePortfolio;
     },
@@ -180,6 +196,7 @@ export default {
     quantity: '',
     chartWidth: window.innerWidth * 0.9,
     chartHeight: (window.innerWidth * 0.9) * 0.5,
+    waiting: false
   }),
   watch: {
     portfolioSelectedId: function(id) {
@@ -194,6 +211,61 @@ export default {
         /^(\d+\.\d*?[1-9])0+$/,
         ''
       );
+    },
+    async updateChart(e){
+      d3.select('#assetChart3').html('')
+      this.waiting = true;
+      let data;
+      if(this.assetSelected.isStock){
+        data = await ajaxCalls.fetchStockData(this.assetSelected.symbol);
+      }
+      else {
+        data = await ajaxCalls.fetchCryptoData(this.assetSelected.symbol);
+      }
+      this.waiting = false;
+      if(e === '3-month'){
+        if(this.assetSelected.isStock){
+          data = data.daily.stockData.map(stock => ({...stock, data: stock.data["4. close"]})).slice(0,90);
+        }
+        else {
+          console.log(data)
+          data = data.daily.cryptoData.map(crypto => ({...crypto, data: crypto.data["4b. close (USD)"]})).slice(0,90)
+        }
+        const dataOptions = {
+          //Grab just the time portion of the datetime
+          data: data.map(dataPoint => ({value: dataPoint.data, date: dataPoint.time})),
+          timeParseString: '%Y-%m-%d'
+        }
+        makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 100, bottom: 55, right: 40}, dataOptions, `#assetChart3`);
+      }
+      if(e === '1-year'){
+        console.log(data)
+        if(this.assetSelected.isStock){
+          data = data.weekly.stockData.map(stock => ({...stock, data: stock.data["4. close"]})).slice(0,52);
+        }
+        else {
+          console.log(data)
+          data = data.weekly.cryptoData.map(crypto => ({...crypto, data: crypto.data["4b. close (USD)"]})).slice(0,52)
+        }
+        const dataOptions = {
+          //Grab just the time portion of the datetime
+          data: data.map(dataPoint => ({value: dataPoint.data, date: dataPoint.time})),
+          timeParseString: '%Y-%m-%d'
+        }
+        makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 100, bottom: 55, right: 40}, dataOptions, `#assetChart3`, 6);
+      }
+      if(e === 'Day'){
+        data = data.intraday.stockData.map(stock => ({...stock, data: stock.data["4. close"]}))
+        const date = data[0].time.split(' ')[0];
+        data = data.filter(dataPoint => dataPoint.time.split(' ')[0] === date)
+        const dataOptions = {
+          //Grab just the time portion of the datetime
+          data: data.map(dataPoint => ({value: dataPoint.data, date: dataPoint.time.split(' ')[1]})),
+          timeParseString: '%H:%M:%S'
+        }
+        makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 100, bottom: 55, right: 40}, dataOptions, `#assetChart3`);
+      }
+
     },
     handleSymbolInput() {
       if (this.assetSelected) {
