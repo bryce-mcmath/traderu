@@ -1,6 +1,8 @@
 .leaderboard-container {
   .v-card.leaderboard__list-item {
     @include light-unpressed;
+    @include center-content;
+    flex-direction: column;
     width: 100%;
     margin: 4vh 0;
 
@@ -14,7 +16,7 @@
       justify-content: space-between;
 
       h3.user-info__name {
-        margin-left: 20vw;
+        margin-left: 17vw;
       }
 
       span.user-info__rank {
@@ -26,7 +28,7 @@
       .user-info__img-container {
         @include center-content;
         @include light-unpressed;
-        margin: 3vw;
+        margin: 0 7vw 0 0;
         border-radius: 50%;
         height: 15vw;
         width: 15vw;
@@ -39,12 +41,31 @@
         }
       }
     }
+
+    .performance-info {
+      justify-content: space-around;
+      margin: 2vw;
+      font-size: 3vh;
+
+      > * {
+        @include light-pressed;
+        padding: 1vh 3vw;
+        border-radius: 3vw;
+      }
+
+      &__percent {
+        margin-left: 15vw;
+        font-weight: bold;
+      }
+
+      &__value {
+        margin-right: 15vw;
+      }
+    }
   }
 
   .row {
-    justify-content: center;
-    display: flex;
-    align-items: center;
+    @include center-content;
     width: 100%;
   }
 
@@ -54,6 +75,11 @@
       .user-info {
         .user-info__img-container {
           @include dark-unpressed;
+        }
+      }
+      .performance-info {
+        > * {
+          @include dark-pressed;
         }
       }
     }

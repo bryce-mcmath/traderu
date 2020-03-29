@@ -7,14 +7,14 @@
         <img class="avatar" :src="portfolio.avatar" />
       </div>
     </div>
-    <div class="portfolio-info row"> Portfolio: {{ portfolio.portfolio }} </div>
+    <h3 class="portfolio-info row"> Portfolio: {{ portfolio.portfolio }} </h3>
     <div class="performance-info row">
-      <span class="percent-performance"
-        >Percent Change: {{ valuePercent }}%</span
+      <span
+        class="performance-info__percent"
+        v-bind:style="{ color: valuePercent >= 0 ? '#75ff83' : '#ff073a' }"
+        >{{ valuePercent }}%</span
       >
-      <span class="value-performance"
-        >Value: {{ format(portfolio.value) }}</span
-      >
+      <span class="performance-info__value">{{ format(portfolio.value) }}</span>
     </div>
   </v-card>
 </template>
