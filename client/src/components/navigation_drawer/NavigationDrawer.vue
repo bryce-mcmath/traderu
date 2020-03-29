@@ -6,12 +6,15 @@
     :value="showDrawer"
     @input="drawerEvent"
     :dark="dark"
-    v-bind:class="[{ 'v-navigation-drawer--dark': dark }, { 'v-navigation-drawer--light': !dark }]"
+    v-bind:class="[
+      { 'v-navigation-drawer--dark': dark },
+      { 'v-navigation-drawer--light': !dark }
+    ]"
   >
     <v-list-item v-if="user">
       <div class="profile">
         <img class="profile__avatar" :src="user.avatar" />
-        <h3 class="profile__name">{{user.name}}</h3>
+        <h3 class="profile__name">{{ user.name }}</h3>
       </div>
     </v-list-item>
 
@@ -59,14 +62,14 @@
       </v-list-item>
 
       <!-- Settings -->
-      <v-list-item link :to="'/'">
+      <!-- <v-list-item link :to="'/'">
         <v-list-item-icon>
           <v-icon>fas fa-cogs</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-btn>Settings</v-btn>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
     </v-list>
 
     <v-list dense nav v-if="!user">
@@ -104,62 +107,62 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
-import LoginDialog from '@/components/login_dialog/LoginDialog.vue';
-import RegisterDialog from '@/components/register_dialog/RegisterDialog.vue';
+  import Vuex from 'vuex';
+  import LoginDialog from '@/components/login_dialog/LoginDialog.vue';
+  import RegisterDialog from '@/components/register_dialog/RegisterDialog.vue';
 
-export default {
-  name: 'NavigationDrawer',
-  components: {
-    LoginDialog,
-    RegisterDialog
-  },
-  data() {
-    return {
-      drawerState: null
-    };
-  },
-  computed: {
-    showDrawer() {
-      return this.$store.state.ui.showDrawer;
+  export default {
+    name: 'NavigationDrawer',
+    components: {
+      LoginDialog,
+      RegisterDialog
     },
-    user() {
-      return this.$store.state.user;
+    data() {
+      return {
+        drawerState: null
+      };
     },
-    dark() {
-      return this.$store.state.ui.dark;
-    }
-  },
-  methods: {
-    drawerEvent(e) {
-      if (!e) this.$store.commit('setDrawer', false);
+    computed: {
+      showDrawer() {
+        return this.$store.state.ui.showDrawer;
+      },
+      user() {
+        return this.$store.state.user;
+      },
+      dark() {
+        return this.$store.state.ui.dark;
+      }
     },
-    logout() {
-      this.$store
-        .dispatch('submitLogout')
-        .then(() => {
-          this.$store.commit('setDialogText', {
-            title: 'Logout Successful',
-            content: "We'll miss you buddy.",
-            primaryBtn: 'Ok',
-            secondaryBtn: null,
-            secondaryCallback: null
+    methods: {
+      drawerEvent(e) {
+        if (!e) this.$store.commit('setDrawer', false);
+      },
+      logout() {
+        this.$store
+          .dispatch('submitLogout')
+          .then(() => {
+            this.$store.commit('setDialogText', {
+              title: 'Logout Successful',
+              content: "We'll miss you buddy.",
+              primaryBtn: 'Ok',
+              secondaryBtn: null,
+              secondaryCallback: null
+            });
+            this.$store.commit('setShowDialog', true);
+          })
+          .catch(err => {
+            this.$store.commit('setDialogText', {
+              title: 'Logout failed. Wait, what? Logout failed?!',
+              content: err[0],
+              primaryBtn: 'Ok'
+            });
+            this.$store.commit('setShowDialog', true);
           });
-          this.$store.commit('setShowDialog', true);
-        })
-        .catch(err => {
-          this.$store.commit('setDialogText', {
-            title: 'Logout failed. Wait, what? Logout failed?!',
-            content: err[0],
-            primaryBtn: 'Ok'
-          });
-          this.$store.commit('setShowDialog', true);
-        });
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss">
-@import 'navigation_drawer';
+  @import 'navigation_drawer';
 </style>
