@@ -6,7 +6,7 @@
     viewBox="0 0 100 100"
     v-bind:class="[{ 'liquid-gauge--dark': dark }, 'liquid-gauge']"
     preserveAspectRatio="xMidYMid meet"
-  ></svg>
+  />
 </template>
 
 <script lang="ts">
@@ -23,6 +23,11 @@
       percentile: {
         type: Number,
         default: 74
+      }
+    },
+    computed: {
+      dark() {
+        return this.$store.state.ui.dark;
       }
     },
     data() {
@@ -46,19 +51,10 @@
           textSize: 1, // relative height of text to display in wave circle 1 = 50%
           valueCountUp: true, // If true, displayed value counts up from 0 to final value upon loading
           displayPercent: true, // If true, % symbol is displayed after value
-          waveTextColor: 'rgb(173, 243, 177)' // when wave overlaps it
+          waveTextColor: 'rgb(173, 243, 177)', // when wave overlaps it
+          textColor: 'grey'
         }
       };
-    },
-    computed: {
-      dark() {
-        return this.$store.state.ui.dark;
-      },
-      textColor() {
-        return this.dark
-          ? '$dark-bg-secondary-text-color'
-          : '$light-bg-secondary-text-color'; // when wave does not overlap
-      }
     },
     methods: {
       loadLiquidFillGauge(
@@ -66,7 +62,6 @@
         value = this.percentile,
         config = this.liquidGaugeSettings
       ) {
-        config.textColor = this.textColor;
         const gauge = d3.select('#' + elementId);
         const height = parseInt(gauge.style('height'));
         const width = parseInt(gauge.style('width'));
@@ -94,7 +89,7 @@
         }
 
         const textPixels = (config.textSize * radius) / 2;
-        const textFinalValue = parseFloat(value).toFixed(2);
+        const textFinalValue = parseFloat(value).toFixed(1);
         const textStartValue = config.valueCountUp
           ? config.minValue
           : textFinalValue;

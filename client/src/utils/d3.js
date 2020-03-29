@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=8 ) =>  {
+export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4 ) =>  {
         if(dataOptions.data.length < 4) return;
         // //Format time values to just dates for this graph
         // const date = rawData[0].dateTime.split(' ')[0];
@@ -30,7 +30,7 @@ export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=8 
             .tickSizeOuter(0),
           yAxis = d3
             .axisLeft(yScale)
-            .ticks(8)
+            .ticks(5)
             .tickSizeOuter(0);
 
         function makeXGridlines() {

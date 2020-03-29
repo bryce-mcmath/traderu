@@ -11,7 +11,10 @@
       />
       <div class="assets-container">
         <div v-if="assetSelected">
-          <SingleAsset :assetSelected="assetSelected" :portfolioSelectArray="portfolioSelectArray"/>
+          <SingleAsset
+            :assetSelected="assetSelected"
+            :portfolioSelectArray="portfolioSelectArray"
+          />
         </div>
         <div v-else>
           <div v-if="stocksData.length || cryptosData.length">
@@ -37,9 +40,7 @@
                               : '#ff073a'
                         }"
                       >
-                        {{
-                        format(item.prices[0].price)
-                        }}
+                        {{ format(item.prices[0].price) }}
                       </v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-content>
@@ -87,13 +88,10 @@
                               : '#ff073a'
                         }"
                       >
-                        {{
-                        format(item.prices[0].price)
-                        }}
+                        {{ format(item.prices[0].price) }}
                       </v-list-item-subtitle>
                     </v-list-item-content>
-                    <v-list-item-content>
-                    </v-list-item-content>
+                    <v-list-item-content> </v-list-item-content>
                   </v-list-item>
                 </v-list-item-group>
               </v-list>
@@ -113,216 +111,223 @@
 </template>
 
 <script>
-import { formatCurrency } from '@coingecko/cryptoformat';
-import { mapActions, mapMutations } from 'vuex';
-import ajaxCalls from '../api/ajaxCalls';
-import { makeLineChart } from '../utils/d3'
-import SingleAsset from '../components/single_asset/SingleAsset.vue';
-const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
+  import { formatCurrency } from '@coingecko/cryptoformat';
+  import { mapActions, mapMutations } from 'vuex';
+  import ajaxCalls from '../api/ajaxCalls';
+  import { makeLineChart } from '../utils/d3';
+  import SingleAsset from '../components/single_asset/SingleAsset.vue';
+  const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
 
-export default {
-  name: 'Assets',
-  components: {
-    SingleAsset
-  },
-  computed: {
-    portfolio() {
-      return this.$store.state.ui.activePortfolio;
+  export default {
+    name: 'Assets',
+    components: {
+      SingleAsset
     },
-    stockPrice() {
-      if (this.assetSelected) {
-        const asset = this.stocksData.find(
-          stock => stock.name === this.assetSelected.name
-        );
-        return asset.prices[0].price;
-      }
-      return null;
-    },
-    cryptoPrice() {
-      if (this.assetSelected) {
-        const asset = this.cryptosData.find(
-          crypto => crypto.name === this.assetSelected.name
-        );
-        return asset.prices[0].price;
-      }
-      return null;
-    },
-    stocksData() {
-      const stocksData = this.$store.state.apiData.stocksData;
-      const searchSymbol = String(this.searchSymbol);
-      if (this.searchSymbol) {
-        return stocksData.filter(element => {
-          return (
-            element.symbol.indexOf(searchSymbol.toUpperCase()) > -1 ||
-            element.name.toLowerCase().indexOf(searchSymbol.toLowerCase()) > -1
+    computed: {
+      user() {
+        return this.$store.state.user;
+      },
+      portfolio() {
+        return this.$store.state.ui.activePortfolio;
+      },
+      stockPrice() {
+        if (this.assetSelected) {
+          const asset = this.stocksData.find(
+            stock => stock.name === this.assetSelected.name
           );
-        });
-      } else {
-        return stocksData;
-      }
-    },
-    cryptosData() {
-      const cryptosData = this.$store.state.apiData.cryptosData;
-      const searchSymbol = String(this.searchSymbol);
-      if (this.searchSymbol) {
-        return cryptosData.filter(element => {
-          return (
-            element.symbol.indexOf(searchSymbol.toUpperCase()) > -1 ||
-            element.name.toLowerCase().indexOf(searchSymbol.toLowerCase()) > -1
+          return asset.prices[0].price;
+        }
+        return null;
+      },
+      cryptoPrice() {
+        if (this.assetSelected) {
+          const asset = this.cryptosData.find(
+            crypto => crypto.name === this.assetSelected.name
           );
-        });
-      } else {
-        return cryptosData;
+          return asset.prices[0].price;
+        }
+        return null;
+      },
+      stocksData() {
+        const stocksData = this.$store.state.apiData.stocksData;
+        const searchSymbol = String(this.searchSymbol);
+        if (this.searchSymbol) {
+          return stocksData.filter(element => {
+            return (
+              element.symbol.indexOf(searchSymbol.toUpperCase()) > -1 ||
+              element.name.toLowerCase().indexOf(searchSymbol.toLowerCase()) >
+                -1
+            );
+          });
+        } else {
+          return stocksData;
+        }
+      },
+      cryptosData() {
+        const cryptosData = this.$store.state.apiData.cryptosData;
+        const searchSymbol = String(this.searchSymbol);
+        if (this.searchSymbol) {
+          return cryptosData.filter(element => {
+            return (
+              element.symbol.indexOf(searchSymbol.toUpperCase()) > -1 ||
+              element.name.toLowerCase().indexOf(searchSymbol.toLowerCase()) >
+                -1
+            );
+          });
+        } else {
+          return cryptosData;
+        }
+      },
+      dark() {
+        return this.$store.state.ui.dark;
       }
     },
-    dark() {
-      return this.$store.state.ui.dark;
-    }
-  },
-  data: () => ({
-    transactionsSelectArray: [
-      { text: 'Buy', value: 'buy' },
-      { text: 'Sell', value: 'sell' }
-    ],
-    portfolioSelectArray: '',
-    portfolioSelectedId: '',
-    transactionSelected: '',
-    searchSymbol: '',
-    assetSelected: '',
-    quantity: ''
-  }),
-  watch: {
-    portfolioSelectedId: function(id) {
-      this.setActivePortfolio(this.portfolioSelectArray.find(x => x.id === id));
-    }
-  },
-  methods: {
-    ...mapActions(['setUserPortfolios']),
-    ...mapMutations(['setActivePortfolio']),
-    format(val) {
-      return formatCurrency(val, 'USD', 'en').replace(
-        /^(\d+\.\d*?[1-9])0+$/,
-        ''
-      );
+    data: () => ({
+      transactionsSelectArray: [
+        { text: 'Buy', value: 'buy' },
+        { text: 'Sell', value: 'sell' }
+      ],
+      portfolioSelectArray: '',
+      portfolioSelectedId: '',
+      transactionSelected: '',
+      searchSymbol: '',
+      assetSelected: '',
+      quantity: ''
+    }),
+    watch: {
+      portfolioSelectedId: function(id) {
+        this.setActivePortfolio(
+          this.portfolioSelectArray.find(x => x.id === id)
+        );
+      },
+      user() {
+        this.getUserPortfolios();
+      }
     },
-    selectAsset(assetItem, assetType) {
-      if (assetType === 'stock') assetItem.isStock = true;
-      if (assetType === 'crypto') assetItem.isCrypto = true;
+    methods: {
+      ...mapActions(['setUserPortfolios']),
+      ...mapMutations(['setActivePortfolio']),
+      format(val) {
+        return formatCurrency(val, 'USD', 'en').replace(/\.([^0]+)0+$/, '.$1');
+      },
+      selectAsset(assetItem, assetType) {
+        if (assetType === 'stock') assetItem.isStock = true;
+        if (assetType === 'crypto') assetItem.isCrypto = true;
 
-      const increase =
-        assetItem.prices[0].price -
-          assetItem.prices[assetItem.prices.length - 1].price >
-        0;
-      // console.log(assetItem)
-      this.assetSelected = assetItem;
-    },
-    handleSymbolInput() {
-      if (this.assetSelected) {
-        this.assetSelected = '';
-      }
-    },
-    submitTransaction() {
-      if (!this.portfolio.id) {
-        return console.log('Handle no selected portfolio here');
-      }
+        const increase =
+          assetItem.prices[0].price -
+            assetItem.prices[assetItem.prices.length - 1].price >
+          0;
+        assetItem.increase = increase;
+        this.assetSelected = assetItem;
+      },
+      handleSymbolInput() {
+        if (this.assetSelected) {
+          this.assetSelected = '';
+        }
+      },
+      submitTransaction() {
+        if (!this.portfolio.id) {
+          return console.log('Handle no selected portfolio here');
+        }
 
-      if (this.assetSelected.isStock && !this.assetSelected.isCrypto) {
-        makeStockTransaction(
-          {
-            stock: {
-              symbol: this.assetSelected.symbol,
-              price: String(this.assetSelected.prices[0].price)
+        if (this.assetSelected.isStock && !this.assetSelected.isCrypto) {
+          makeStockTransaction(
+            {
+              stock: {
+                symbol: this.assetSelected.symbol,
+                price: String(this.assetSelected.prices[0].price)
+              },
+              type: this.transactionSelected,
+              quantity: Number(this.quantity)
             },
-            type: this.transactionSelected,
-            quantity: Number(this.quantity)
-          },
-          this.portfolio.id
-        )
-          .then(res => {
-            res.data === 'error'
-              ? this.transactionNotification(false)
-              : this.transactionNotification(true);
-            this.setUserPortfolios();
-          })
-          .catch(() => this.transactionNotification(false));
-      } else if (this.assetSelected.isCrypto && !this.assetSelected.isStock) {
-        makeCryptoTransaction(
-          {
-            crypto: {
-              symbol: this.assetSelected.symbol,
-              price: String(this.assetSelected.prices[0].price)
+            this.portfolio.id
+          )
+            .then(res => {
+              res.data === 'error'
+                ? this.transactionNotification(false)
+                : this.transactionNotification(true);
+              this.setUserPortfolios();
+            })
+            .catch(() => this.transactionNotification(false));
+        } else if (this.assetSelected.isCrypto && !this.assetSelected.isStock) {
+          makeCryptoTransaction(
+            {
+              crypto: {
+                symbol: this.assetSelected.symbol,
+                price: String(this.assetSelected.prices[0].price)
+              },
+              type: this.transactionSelected,
+              quantity: Number(this.quantity)
             },
-            type: this.transactionSelected,
-            quantity: Number(this.quantity)
-          },
-          this.portfolio.id
-        )
-          .then(res => {
-            res.data === 'error'
-              ? this.transactionNotification(false)
-              : this.transactionNotification(true);
-            this.setUserPortfolios();
-          })
-          .catch(() => this.transactionNotification(false));
-      }
-    },
-    transactionValidation() {
-      let valid = true;
-      const errTemplate = {
-        title: 'Error',
-        content: ''
-      };
-
-      if (!this.portfolio.id && !isNaN(Number(this.portfolio.id))) {
-        valid = false;
-        errTemplate.content = 'No portfolio selected';
-      }
-
-      if (!this.quantity && !isNaN(Number(this.quantity))) {
-        valid = false;
-        errTemplate.content = 'Quantity must be a number';
-      }
-
-      if (!this.transactionSelected) {
-        valid = false;
-        errTemplate.content = 'Transaction must be selected';
-      }
-
-      this.$store.commit('setDialogText', errTemplate);
-      this.$store.commit('setShowDialog', !valid);
-
-      return valid;
-    },
-    transactionNotification(transactionSuccess) {
-      if (transactionSuccess) {
-        this.$store.commit('setDialogText', {
-          title: 'Success!',
-          content: 'Transaction successful',
-          primaryBtn: 'Ok'
-        });
-        this.$store.commit('setShowDialog', true);
-        this.quantity = '';
-      } else {
-        this.$store.commit('setDialogText', {
+            this.portfolio.id
+          )
+            .then(res => {
+              res.data === 'error'
+                ? this.transactionNotification(false)
+                : this.transactionNotification(true);
+              this.setUserPortfolios();
+            })
+            .catch(() => this.transactionNotification(false));
+        }
+      },
+      transactionValidation() {
+        let valid = true;
+        const errTemplate = {
           title: 'Error',
-          content:
-            'There was an issue processing your transaction. Please try again later.',
-          primaryBtn: 'Ok'
-        });
-        this.$store.commit('setShowDialog', true);
+          content: ''
+        };
+
+        if (!this.portfolio.id && !isNaN(Number(this.portfolio.id))) {
+          valid = false;
+          errTemplate.content = 'No portfolio selected';
+        }
+
+        if (!this.quantity && !isNaN(Number(this.quantity))) {
+          valid = false;
+          errTemplate.content = 'Quantity must be a number';
+        }
+
+        if (!this.transactionSelected) {
+          valid = false;
+          errTemplate.content = 'Transaction must be selected';
+        }
+
+        this.$store.commit('setDialogText', errTemplate);
+        this.$store.commit('setShowDialog', !valid);
+
+        return valid;
+      },
+      transactionNotification(transactionSuccess) {
+        if (transactionSuccess) {
+          this.$store.commit('setDialogText', {
+            title: 'Success!',
+            content: 'Transaction successful',
+            primaryBtn: 'Ok'
+          });
+          this.$store.commit('setShowDialog', true);
+          this.quantity = '';
+        } else {
+          this.$store.commit('setDialogText', {
+            title: 'Error',
+            content:
+              'There was an issue processing your transaction. Please try again later.',
+            primaryBtn: 'Ok'
+          });
+          this.$store.commit('setShowDialog', true);
+        }
+      },
+      async getUserPortfolios() {
+        if (this.user) await this.setUserPortfolios();
+        this.portfolioSelectArray = this.$store.state.apiData.userPortfolios;
       }
     },
-    async getUserPortfolios() {
-      await this.setUserPortfolios();
-      this.portfolioSelectArray = this.$store.state.apiData.userPortfolios;
+    created() {
+      this.getUserPortfolios();
     }
-  },
-  created() {
-    this.getUserPortfolios();
-  }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-@import 'assets';
+  @import 'assets';
 </style>

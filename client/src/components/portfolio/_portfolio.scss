@@ -2,8 +2,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto 12vh auto;
+  margin: 0 auto 0 auto;
   width: 100%;
+
+  > hr.break:first-child {
+    margin-top: 2vh;
+  }
+
+  h1 {
+    margin-top: 2vh;
+  }
 }
 
 h2 {
@@ -14,26 +22,23 @@ h2 {
   margin: 'auto';
 }
 
-#delete-portfolio {
-  margin-top: 50px;
-}
-
 .arc > path:hover {
   filter: brightness(80%) !important;
   pointer-events: all;
 }
 
-#portfolioValue {
+.portfolio-value {
   font-size: 2em;
 }
 
-#pieStockInfo {
+.pie-asset-info {
   position: absolute;
   height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 1.2em;
+
   p {
     padding: 0;
     margin: 0;
@@ -87,9 +92,9 @@ text {
 
 .v-card.value-card {
   width: 90%;
-  margin: 3vh auto 3vh auto;
   height: auto;
-  padding: 8px;
+  padding: 0 5vw;
+  margin: 3vh auto 3vh auto;
 
   h2 {
     margin: 2vh auto 0 auto;
@@ -100,6 +105,7 @@ text {
 .v-card.ranking-card {
   width: 90%;
   margin: 3vh auto 3vh auto;
+  padding: 0 3vw;
   height: auto;
   display: flex;
   align-items: center;
@@ -128,6 +134,7 @@ text {
       margin-left: 4vw;
       font-size: 12vw;
     }
+
     .ranking-card__gauge {
       width: 100px;
       height: 100px;
@@ -138,5 +145,42 @@ text {
 .v-card.ranking-card.theme--dark {
   .ranking-card__btn {
     @include dark-unpressed;
+  }
+}
+
+.v-card.settings-card {
+  width: 90%;
+  margin: 3vh auto 3vh auto;
+  height: auto;
+  padding: 5vw;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+
+  h2 {
+    margin: 0 auto 0 auto;
+    text-align: center;
+  }
+
+  .settings-card__toggles-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    justify-content: space-around;
+    align-content: center;
+    gap: 2vh;
+    margin: 2vh;
+  }
+
+  .settings-card__btns-container {
+    @include center-content;
+    justify-content: space-around;
+    flex-direction: column;
+    .settings-card__delete-btn,
+    .settings-card__save-btn {
+      width: 70%;
+      font-size: 3.2vw;
+      margin: 2vh 0;
+    }
   }
 }

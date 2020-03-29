@@ -1,31 +1,87 @@
-img{
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-}
-.container{
-  display: flex;
-  flex-flow: column;
-  border: 1px solid black;
-  width: 80vw;
-  border-radius: 20px;
-  position:relative;
-  margin-bottom: 15px;
-}
-.row{
-  justify-content: center;
-  display: flex;
-  align-items: center;
-}
-.performance-info>span{
-  padding: 5px;
-}
+.leaderboard-container {
+  .v-card.leaderboard__list-item {
+    @include light-unpressed;
+    @include center-content;
+    flex-direction: column;
+    width: 100%;
+    margin: 4vh 0;
 
-.username{
-  font-size: 1.6em;
-}
-.rank{
-  position: absolute;
-  left: 5px;
-  top:5px;
+    &:first-child {
+      margin-top: 0;
+    }
+
+    .user-info {
+      padding: 2vh 0 0 0;
+      display: flex;
+      justify-content: space-between;
+
+      h3.user-info__name {
+        margin-left: 17vw;
+      }
+
+      span.user-info__rank {
+        position: absolute;
+        left: 5vw;
+        top: 3vw;
+      }
+
+      .user-info__img-container {
+        @include center-content;
+        @include light-unpressed;
+        margin: 0 7vw 0 0;
+        border-radius: 50%;
+        height: 15vw;
+        width: 15vw;
+
+        img {
+          position: absolute;
+          height: 13vw;
+          width: 13vw;
+          border-radius: 50%;
+        }
+      }
+    }
+
+    .performance-info {
+      justify-content: space-around;
+      margin: 2vw;
+      font-size: 3vh;
+
+      > * {
+        @include light-pressed;
+        padding: 1vh 3vw;
+        border-radius: 3vw;
+      }
+
+      &__percent {
+        margin-left: 15vw;
+        font-weight: bold;
+      }
+
+      &__value {
+        margin-right: 15vw;
+      }
+    }
+  }
+
+  .row {
+    @include center-content;
+    width: 100%;
+  }
+
+  &--dark {
+    .v-card.leaderboard__list-item {
+      @include dark-unpressed;
+      .user-info {
+        .user-info__img-container {
+          @include dark-unpressed;
+        }
+      }
+      .performance-info {
+        > * {
+          @include dark-pressed;
+        }
+      }
+    }
+  }
 }

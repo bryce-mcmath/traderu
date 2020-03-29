@@ -2,7 +2,9 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn block v-on="on" :dark="darken">New Portfolio</v-btn>
+        <v-btn class="new-portfolio-btn" block v-on="on" :dark="darken"
+          >New Portfolio</v-btn
+        >
       </template>
       <div class="spinner-container" v-if="creating">
         <Spinner></Spinner>
@@ -15,7 +17,11 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Portfolio name" v-model="portfolioName" required></v-text-field>
+                <v-text-field
+                  label="Portfolio name"
+                  v-model="portfolioName"
+                  required
+                ></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -34,7 +40,7 @@
 
 <script>
   import { mapActions } from 'vuex';
-  import Spinner from '../spinner/Spinner.vue'
+  import Spinner from '../spinner/Spinner.vue';
 
   export default {
     data: () => ({
@@ -45,22 +51,25 @@
       Spinner
     },
     methods: {
-      save(){
-        this.createPortfolio(this.portfolioName)
-        .then(async () => {
+      save() {
+        this.createPortfolio(this.portfolioName).then(async () => {
           await this.setUserPortfolios();
           this.dialog = false;
         });
       },
-      ...mapActions(['setUserPortfolios', 'createPortfolio']),
+      ...mapActions(['setUserPortfolios', 'createPortfolio'])
     },
     computed: {
-      creating(){
+      creating() {
         return this.$store.state.ui.ajaxInProgress;
       },
-      darken(){
-        return this.$store.state.ui.dark
+      darken() {
+        return this.$store.state.ui.dark;
       }
     }
   };
 </script>
+
+<style lang="scss" scoped>
+  @import 'new_portfolio_form';
+</style>

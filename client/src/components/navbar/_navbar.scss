@@ -13,6 +13,7 @@
   height: 10vh;
   box-shadow: 0 5px 5px #ccc;
   background-color: $light-bg;
+  width: 100vw;
 
   .v-btn.v-btn--icon {
     @include light-unpressed;

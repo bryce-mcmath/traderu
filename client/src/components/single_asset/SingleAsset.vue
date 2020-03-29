@@ -103,7 +103,7 @@ export default {
         data: data.map(dataPoint => ({value: dataPoint.price, date: dataPoint.time.split(' ')[1]})),
         timeParseString: '%H:%M:%S'
       }
-      makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 80, bottom: 55, right: 40}, dataOptions, `#assetChart3`);
+      makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 100, bottom: 55, right: 40}, dataOptions, `#assetChart3`);
     } else if(this.assetSelected.isCrypto){
       //Use 1 yr of data
       const data = this.assetSelected.prices.slice(0,365);
@@ -112,7 +112,7 @@ export default {
         data: data.map(dataPoint => ({value: dataPoint.price, date: dataPoint.time})),
         timeParseString: '%Y-%m-%d'
       }
-      makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 80, bottom: 55, right: 40}, dataOptions, `#assetChart3`);
+      makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 100, bottom: 55, right: 40}, dataOptions, `#assetChart3`);
     }
   },
   props: ["assetSelected", "portfolioSelectArray"],

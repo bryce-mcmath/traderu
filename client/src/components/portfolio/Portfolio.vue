@@ -1,14 +1,18 @@
 <template>
   <main class="portfolio-container">
+    <hr class="break" />
     <h1>Portfolio Value</h1>
-    <p id="portfolioValue">{{ formattedValue }}</p>
+    <p class="portfolio-value">{{ formattedValue }}</p>
     <v-card class="breakdown-card">
       <h2>Asset Breakdown</h2>
       <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
-      <div id="pieStockInfo" v-bind:style="{ bottom: width / 2 - 50 + 'px' }">
-        <h5>{{ highlightedStock }}</h5>
-        <p>{{ formattedStockValue }}</p>
-        <p>{{ stockPercent }}</p>
+      <div
+        class="pie-asset-info"
+        v-bind:style="{ bottom: width / 2 - 50 + 'px' }"
+      >
+        <h5>{{ highlightedAsset }}</h5>
+        <p>{{ formattedAssetValue }}</p>
+        <p>{{ assetPercent }}</p>
       </div>
     </v-card>
     <v-card class="value-card" id="chart-container">
@@ -26,22 +30,55 @@
     </v-card>
     <v-card class="ranking-card">
       <h2>Rank and Percentile</h2>
-      <div class="ranking-card__info-container">
+      <div v-if="rank !== 0" class="ranking-card__info-container">
         <h1>#{{ rank }}</h1>
         <LiquidGauge
           class="ranking-card__gauge"
-          :id="'liqgauge'"
+          :id="`gauge-${portfolio.id}`"
           :percentile="percentile"
         />
       </div>
-      <v-btn class="ranking-card__btn" :to="`/leaderboard/${this.portfolio.id}`"
+      <div v-else class="ranking-card__info-container">
+        <h3>Error retrieving rank and percentile data.</h3>
+      </div>
+      <v-btn class="ranking-card__btn" :to="`/leaderboard/${portfolio.id}`"
         >Leaderboard Position</v-btn
       >
     </v-card>
 
-    <v-btn id="delete-portfolio" color="red" @click.stop="dialog = true"
-      >Delete Portfolio</v-btn
-    >
+    <v-card class="settings-card">
+      <h2>Portfolio Settings</h2>
+
+      <div class="settings-card__toggles-container">
+        <h3>Public:</h3>
+        <VuemorphicToggle
+          :eventToEmit="'togglepublic'"
+          @togglepublic="togglePublic"
+          :type="'bool'"
+          :active="isPublic"
+          :options="{ left: '#ff073a', right: '#75ff83' }"
+        />
+        <h3>Notifications:</h3>
+        <VuemorphicToggle
+          :eventToEmit="'togglenotifications'"
+          @togglenotifications="toggleNotifications"
+          :type="'bool'"
+          :active="user.notifications"
+          :options="{ left: '#ff073a', right: '#75ff83' }"
+        />
+      </div>
+      <div class="settings-card__btns-container">
+        <v-btn class="settings-card__save-btn" color="#75ff83"
+          >Save Settings</v-btn
+        >
+        <v-btn
+          class="settings-card__delete-btn"
+          color="red"
+          @click.stop="dialog = true"
+          >Delete Portfolio</v-btn
+        >
+      </div>
+    </v-card>
 
     <v-dialog v-model="dialog" max-width="290">
       <div class="spinner-container" v-if="deleting">
@@ -73,13 +110,15 @@
 <script>
   import * as d3 from 'd3';
   import AjaxCalls from '../../api/ajaxCalls';
-  import { mapActions } from 'vuex';
+  import { mapActions, mapMutations } from 'vuex';
   import Spinner from '../spinner/Spinner.vue';
   import LiquidGauge from '../liquid_gauge/LiquidGauge.vue';
   import { makeLineChart } from '../../utils/d3'
+  import VuemorphicToggle from '../vuemorphic_toggle/VuemorphicToggle.vue';
 
   export default {
-    components: { Spinner, LiquidGauge },
+    components: { Spinner, LiquidGauge, VuemorphicToggle },
+
     mounted() {
       // Asset Breakdown
       this.makePie();
@@ -89,22 +128,116 @@
       }
       makeLineChart(this.width, this.width*1.1, {top: 55, left: 120, bottom: 55, right: 60}, dataOptions, `#line-chart-${this.portfolio.name}`, 4);
     },
+
+    props: {
+      portfolio: {
+        type: Object,
+        default: null
+      }
+    },
+
     data() {
       return {
         dialog: false,
-        stockPercent: '',
-        stockValue: this.portfolio.value,
-        highlightedStock: 'Total'
+        assetPercent: '',
+        assetValue: this.portfolio.value,
+        highlightedAsset: 'Total',
+        isPublic: false
       };
     },
+
+    computed: {
+      user: {
+        get() {
+          return this.$store.state.user;
+        },
+        set(val) {
+          this.setUser(val);
+        }
+      },
+      rank() {
+        // Ranking data is sorted so their rank is their index + 1
+        const index = this.$store.state.apiData.allRankingsData.findIndex(
+          x => x.portfolioid === this.portfolio.id
+        );
+        return index + 1;
+      },
+
+      percentile() {
+        // Regular formula is P = R / (n + 1)
+        // If you were in the top 2 percent, you would get 0.02 from this formula
+        // We don't want a decimal, and we want to show a higher percentile the better they do
+        // So formula becomes P = 100 - ( R / (n + 1) ) * 100
+        // We are also only taking one decimal place, hence the toFixed and parseFloat
+        const n = this.$store.state.apiData.allRankingsData.length;
+        return parseFloat((100 - (this.rank / (n + 1)) * 100).toFixed(1));
+      },
+
+      formattedValue() {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        }).format(Math.round(this.portfolio.value * 100) / 100);
+      },
+
+      formattedAssetValue() {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD'
+        }).format(Math.round(this.assetValue * 100) / 100);
+      },
+
+      deleting() {
+        return this.$store.state.ui.ajaxInProgress;
+      },
+
+      stocksData() {
+        return this.$store.state.apiData.stocksData;
+      },
+
+      cryptosData() {
+        return this.$store.state.apiData.cryptosData;
+      },
+
+      width() {
+        return window.innerWidth / 1.4;
+      },
+
+      pieData() {
+        const cryptos = this.getAssetData(
+          this.portfolio.cryptos,
+          this.cryptosData
+        );
+        const stocks = this.getAssetData(
+          this.portfolio.stocks,
+          this.stocksData
+        );
+        return [
+          ...stocks,
+          ...cryptos,
+          { symbol: 'CASH', name: 'CASH', value: this.portfolio.cash }
+        ];
+      }
+    },
+
     methods: {
+      ...mapActions(['setUserPortfolios']),
+      ...mapMutations(['setUser']),
+      toggleNotifications() {
+        window.console.log(this.user.notifications);
+        this.user = { ...this.user, notifications: !this.user.notifications };
+      },
+      togglePublic() {
+        window.console.log(this.isPublic);
+        this.isPublic = !this.isPublic;
+      },
       deletePortfolio() {
         AjaxCalls.deletePortfolio(this.portfolio.id)
           .then(() => this.setUserPortfolios())
           .then(() => (this.dialog = false));
       },
 
-      getAssetData(assets, assetsData){
+      getAssetData(assets, assetsData) {
         assets = assets.filter(asset => asset && asset.quantity);
         const assetValues = assets.map(asset => {
           //most recent price from stock with same name
@@ -117,18 +250,18 @@
       },
 
       handleMouseOver(d, i) {
-        const stockData = this.pieData[i];
-        this.highlightedStock = stockData.name;
-        this.stockValue = Math.round(stockData.value * 100) / 100;
-        this.stockPercent =
-          Math.round((stockData.value * 10000) / this.portfolio.value) / 100 +
+        const assetData = this.pieData[i];
+        this.highlightedAsset = assetData.name;
+        this.assetValue = Math.round(assetData.value * 100) / 100;
+        this.assetPercent =
+          Math.round((assetData.value * 10000) / this.portfolio.value) / 100 +
           '%';
       },
 
       handleMouseOut() {
-        this.highlightedStock = 'Total';
-        this.stockValue = Math.round(this.portfolio.value * 100) / 100;
-        this.stockPercent = '';
+        this.highlightedAsset = 'Total';
+        this.assetValue = Math.round(this.portfolio.value * 100) / 100;
+        this.assetPercent = '';
       },
 
       makePie() {
@@ -211,68 +344,9 @@
             return labels[i];
           });
       },
-      ...mapActions(['setUserPortfolios']),
 
   
     },
-
-    computed: {
-      rank() {
-        // Ranking data is sorted so their rank is their index + 1
-        const index = this.$store.state.apiData.allRankingsData.findIndex(
-          x => x.portfolioId === this.portfolio.portfolioId
-        );
-        return index + 1;
-      },
-      percentile() {
-        // Regular formula is P = R / (n + 1)
-        // If you were in the top 2 percent, you would get 0.02 from this formula
-        // We don't want a decimal, and we want to show a higher percentile the better they do
-        // So formula becomes P = 100 - ( R / (n + 1) ) * 100
-        // We are also only taking one decimal place, hence the toFixed and parseFloat
-        const n = this.$store.state.apiData.allRankingsData.length;
-        return parseFloat((100 - (this.rank / (n + 1)) * 100).toFixed(1));
-      },
-      formattedValue() {
-        return new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD'
-        }).format(Math.round(this.portfolio.value * 100) / 100);
-      },
-      formattedStockValue() {
-        return new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD'
-        }).format(Math.round(this.stockValue * 100) / 100);
-      },
-      deleting() {
-        return this.$store.state.ui.ajaxInProgress;
-      },
-      stocksData() {
-        return this.$store.state.apiData.stocksData;
-      },
-      cryptosData(){
-        return this.$store.state.apiData.cryptosData;
-      },
-      width() {
-        return window.innerWidth / 1.4;
-      },
-      pieData() {
-        const cryptos = this.getAssetData(this.portfolio.cryptos, this.cryptosData)
-        const stocks = this.getAssetData(this.portfolio.stocks, this.stocksData)
-        return [
-          ...stocks, 
-          ...cryptos,
-          { symbol: 'CASH', name: 'CASH', value: this.portfolio.cash }
-        ];
-      }
-    },
-    props: {
-      portfolio: {
-        type: Object,
-        default: null
-      }
-    }
   };
 </script>
 
