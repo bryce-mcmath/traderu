@@ -55,20 +55,6 @@
     margin: auto;
   }
 
-  aside.logged-out {
-    margin: 4vw;
-
-    h2 {
-      margin: 0;
-    }
-
-    .cta-buttons {
-      display: flex;
-      justify-content: space-around;
-      margin: 0 10vw;
-    }
-  }
-
   &--dark {
     hr.break {
       @include dark-unpressed;

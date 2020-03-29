@@ -172,6 +172,15 @@ text {
     margin: 2vh;
   }
 
-  .settings-card__delete-btn {
+  .settings-card__btns-container {
+    @include center-content;
+    justify-content: space-around;
+    flex-direction: column;
+    .settings-card__delete-btn,
+    .settings-card__save-btn {
+      width: 70%;
+      font-size: 3.2vw;
+      margin: 2vh 0;
+    }
   }
 }

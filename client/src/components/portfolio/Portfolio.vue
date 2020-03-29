@@ -52,27 +52,32 @@
       <div class="settings-card__toggles-container">
         <h3>Public:</h3>
         <VuemorphicToggle
-          :eventToEmit="'togglepub'"
-          @togglepub="togglePublic(portfolio.id)"
+          :eventToEmit="'togglepublic'"
+          @togglepublic="togglePublic"
           :type="'bool'"
-          :active="portfolio.isPublic"
+          :active="isPublic"
           :options="{ left: '#ff073a', right: '#75ff83' }"
         />
         <h3>Notifications:</h3>
         <VuemorphicToggle
-          :eventToEmit="'togglenotications'"
-          @togglepub="toggleNotifications()"
+          :eventToEmit="'togglenotifications'"
+          @togglenotifications="toggleNotifications"
           :type="'bool'"
           :active="user.notifications"
           :options="{ left: '#ff073a', right: '#75ff83' }"
         />
       </div>
-      <v-btn
-        class="settings-card__delete-btn"
-        color="red"
-        @click.stop="dialog = true"
-        >Delete Portfolio</v-btn
-      >
+      <div class="settings-card__btns-container">
+        <v-btn class="settings-card__save-btn" color="#75ff83"
+          >Save Settings</v-btn
+        >
+        <v-btn
+          class="settings-card__delete-btn"
+          color="red"
+          @click.stop="dialog = true"
+          >Delete Portfolio</v-btn
+        >
+      </div>
     </v-card>
 
     <v-dialog v-model="dialog" max-width="290">
@@ -105,7 +110,7 @@
 <script>
   import * as d3 from 'd3';
   import AjaxCalls from '../../api/ajaxCalls';
-  import { mapActions } from 'vuex';
+  import { mapActions, mapMutations } from 'vuex';
   import Spinner from '../spinner/Spinner.vue';
   import LiquidGauge from '../liquid_gauge/LiquidGauge.vue';
   import VuemorphicToggle from '../vuemorphic_toggle/VuemorphicToggle.vue';
@@ -132,13 +137,19 @@
         dialog: false,
         assetPercent: '',
         assetValue: this.portfolio.value,
-        highlightedAsset: 'Total'
+        highlightedAsset: 'Total',
+        isPublic: false
       };
     },
 
     computed: {
-      user() {
-        return this.$store.state.user;
+      user: {
+        get() {
+          return this.$store.state.user;
+        },
+        set(val) {
+          this.setUser(val);
+        }
       },
       rank() {
         // Ranking data is sorted so their rank is their index + 1
@@ -206,6 +217,16 @@
     },
 
     methods: {
+      ...mapActions(['setUserPortfolios']),
+      ...mapMutations(['setUser']),
+      toggleNotifications() {
+        window.console.log(this.user.notifications);
+        this.user = { ...this.user, notifications: !this.user.notifications };
+      },
+      togglePublic() {
+        window.console.log(this.isPublic);
+        this.isPublic = !this.isPublic;
+      },
       deletePortfolio() {
         AjaxCalls.deletePortfolio(this.portfolio.id)
           .then(() => this.setUserPortfolios())
@@ -445,9 +466,7 @@
           .attr('stroke', 'grey')
           .attr('stroke-width', 4)
           .attr('fill', 'none');
-      },
-
-      ...mapActions(['setUserPortfolios'])
+      }
     }
   };
 </script>

@@ -10,29 +10,28 @@
     <div class="spinner-container" v-if="loading">
       <Spinner></Spinner>
     </div>
-    <div v-if="user">
-      <v-expansion-panels
-        :accordion="true"
-        :focusable="true"
-        :flat="true"
-        :dark="dark"
-        v-model="activePortfolio"
+
+    <v-expansion-panels
+      :accordion="true"
+      :focusable="true"
+      :flat="true"
+      :dark="dark"
+      v-model="activePortfolio"
+      v-if="user"
+    >
+      <v-expansion-panel
+        v-for="(portfolio, i) in portfolios"
+        :key="portfolio.name"
       >
-        <v-expansion-panel
-          v-for="(portfolio, i) in portfolios"
-          :key="portfolio.name"
+        <v-expansion-panel-header
+          v-on:click="() => setActive(portfolio.name, i, portfolio.id)"
+          >{{ portfolio.name }}</v-expansion-panel-header
         >
-          <v-expansion-panel-header
-            v-on:click="() => setActive(portfolio.name, i, portfolio.id)"
-            >{{ portfolio.name }}</v-expansion-panel-header
-          >
-          <v-expansion-panel-content>
-            <Portfolio :portfolio="portfolio" />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
-      <NewPortfolioForm></NewPortfolioForm>
-    </div>
+        <v-expansion-panel-content>
+          <Portfolio :portfolio="portfolio" />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
     <aside v-else class="logged-out"
       ><h2>You're not logged in!</h2>
       <p>
@@ -43,6 +42,7 @@
         <RegisterDialog />
       </div>
     </aside>
+    <NewPortfolioForm v-if="user"></NewPortfolioForm>
   </main>
 </template>
 
