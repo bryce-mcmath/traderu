@@ -303,6 +303,9 @@
         this.setActivePortfolio(
           this.portfolioSelectArray.find(x => x.id === id)
         );
+      },
+      user() {
+        this.getUserPortfolios();
       }
     },
     methods: {
@@ -423,7 +426,7 @@
       }
     },
     created() {
-      if (this.user) this.getUserPortfolios();
+      this.getUserPortfolios();
     }
   };
 </script>

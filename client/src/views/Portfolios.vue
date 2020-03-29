@@ -68,7 +68,7 @@
       }
     },
     watch: {
-      user(val) {
+      user() {
         this.setUpPortfoliosLocal();
       }
     },
