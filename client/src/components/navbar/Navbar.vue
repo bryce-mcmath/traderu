@@ -5,7 +5,7 @@
       @toggledark="toggleDarkMode"
       :type="'icon'"
       :active="dark"
-      :options="{ left: 'fas fa-sun', right: 'fas fa-sun' }"
+      :options="{ left: 'fas fa-moon', right: 'fas fa-sun' }"
     ></VuemorphicToggle>
     <img class="brand" v-if="!dark" src="@/assets/logo.png" />
     <img class="brand" v-if="dark" src="@/assets/logo--dark-mode.png" />

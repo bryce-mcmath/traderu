@@ -51,9 +51,21 @@
 
       <div class="settings-card__toggles-container">
         <h3>Public:</h3>
-        <VuemorphicToggle />
+        <VuemorphicToggle
+          :eventToEmit="'togglepub'"
+          @togglepub="togglePublic(portfolio.id)"
+          :type="'bool'"
+          :active="portfolio.isPublic"
+          :options="{ left: '#ff073a', right: '#75ff83' }"
+        />
         <h3>Notifications:</h3>
-        <VuemorphicToggle />
+        <VuemorphicToggle
+          :eventToEmit="'togglenotications'"
+          @togglepub="toggleNotifications()"
+          :type="'bool'"
+          :active="user.notifications"
+          :options="{ left: '#ff073a', right: '#75ff83' }"
+        />
       </div>
       <v-btn
         class="settings-card__delete-btn"
@@ -125,6 +137,9 @@
     },
 
     computed: {
+      user() {
+        return this.$store.state.user;
+      },
       rank() {
         // Ranking data is sorted so their rank is their index + 1
         const index = this.$store.state.apiData.allRankingsData.findIndex(

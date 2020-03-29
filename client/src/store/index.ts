@@ -82,6 +82,13 @@ export default new Vuex.Store({
     toggleDrawer(state) {
       state.ui.showDrawer = !state.ui.showDrawer;
     },
+    toggleNotification(state) {
+      state.user.notifications = !state.user.notifications;
+    },
+    togglePublic(state, payload) {
+      state.apiData.userPortfolios[payload].public = !state.apiData
+        .userPortfolios[payload].public;
+    },
     setUser(state, payload) {
       state.user = Vue.set(this.state, 'user', payload);
     },
