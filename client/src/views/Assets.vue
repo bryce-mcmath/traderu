@@ -228,6 +228,9 @@
   export default {
     name: 'Assets',
     computed: {
+      user() {
+        return this.$store.state.user;
+      },
       portfolio() {
         return this.$store.state.ui.activePortfolio;
       },
@@ -300,6 +303,9 @@
         this.setActivePortfolio(
           this.portfolioSelectArray.find(x => x.id === id)
         );
+      },
+      user() {
+        this.getUserPortfolios();
       }
     },
     methods: {
@@ -416,7 +422,7 @@
         }
       },
       async getUserPortfolios() {
-        await this.setUserPortfolios();
+        if (this.user) await this.setUserPortfolios();
         this.portfolioSelectArray = this.$store.state.apiData.userPortfolios;
       }
     },

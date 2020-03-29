@@ -10,29 +10,30 @@
     <div class="spinner-container" v-if="loading">
       <Spinner></Spinner>
     </div>
-    <v-expansion-panels
-      :accordion="true"
-      :focusable="true"
-      :flat="true"
-      :dark="dark"
-      v-else
-      v-model="activePortfolio"
-    >
-      <v-expansion-panel
-        v-for="(portfolio, i) in portfolios"
-        :key="portfolio.name"
+    <div v-if="user">
+      <v-expansion-panels
+        :accordion="true"
+        :focusable="true"
+        :flat="true"
+        :dark="dark"
+        v-model="activePortfolio"
       >
-        <v-expansion-panel-header
-          v-on:click="() => setActive(portfolio.name, i, portfolio.id)"
-          >{{ portfolio.name }}</v-expansion-panel-header
+        <v-expansion-panel
+          v-for="(portfolio, i) in portfolios"
+          :key="portfolio.name"
         >
-        <v-expansion-panel-content>
-          <Portfolio :portfolio="portfolio" />
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-    <NewPortfolioForm v-if="user"></NewPortfolioForm>
-    <aside class="logged-out" v-else
+          <v-expansion-panel-header
+            v-on:click="() => setActive(portfolio.name, i, portfolio.id)"
+            >{{ portfolio.name }}</v-expansion-panel-header
+          >
+          <v-expansion-panel-content>
+            <Portfolio :portfolio="portfolio" />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+      <NewPortfolioForm></NewPortfolioForm>
+    </div>
+    <aside v-else class="logged-out"
       ><h2>You're not logged in!</h2>
       <p>
         You won't be able to create a portfolio until you sign up or login.
@@ -65,9 +66,6 @@
     methods: {
       ...mapActions(['setUserPortfolios']),
       setActive(name, panelIndex, id) {
-        // @TODO: expansion panels are being a real pain, they
-        // aren't playing nice with vuex at all, this
-        // is a mess. It works, but should Probably switch to something else
         if (this.active.name === name) {
           this.activePortfolio = { name: null, panelIndex: -1, id: null };
           this.active = { name: null, panelIndex: -1, id: null };
@@ -75,9 +73,20 @@
           this.activePortfolio = { name, panelIndex, id };
           this.active = { name, panelIndex, id };
         }
+      },
+      setUpPortfoliosLocal() {
+        if (this.user && this.portfolios.length <= 0) this.setUserPortfolios();
+      }
+    },
+    watch: {
+      user() {
+        this.setUpPortfoliosLocal();
       }
     },
     computed: {
+      user() {
+        return this.$store.state.user;
+      },
       dark() {
         return this.$store.state.ui.dark;
       },
@@ -96,9 +105,6 @@
         set() {
           this.$store.commit('setActivePortfolio', this.active);
         }
-      },
-      user() {
-        return this.$store.state.user;
       }
     },
     data() {
@@ -111,7 +117,7 @@
     },
     created() {
       // If no portfolios loaded, load em
-      if (this.portfolios.length <= 0) this.setUserPortfolios();
+      this.setUpPortfoliosLocal();
     }
   };
 </script>
