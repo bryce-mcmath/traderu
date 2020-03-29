@@ -36,10 +36,7 @@
     },
     methods: {
       format(val) {
-        window.console.log(val);
-        if (val) {
-          return formatCurrency(val.toFixed());
-        }
+        return formatCurrency(val, 'USD', 'en');
       }
     }
   };

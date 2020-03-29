@@ -1,7 +1,7 @@
 <template>
   <main class="view-container leaderboard-container">
     <h2>Leaderboard</h2>
-    <hr />
+    <hr class="break" />
     <h3>Individuals</h3>
     <div class="spinner-container" v-if="showSpinner">
       <Spinner></Spinner>

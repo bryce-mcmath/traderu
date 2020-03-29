@@ -2,6 +2,11 @@
   @include light-unpressed;
   width: 100%;
   margin: 4vh 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
   .user-info__img-container {
     @include center-content;
     @include light-unpressed;

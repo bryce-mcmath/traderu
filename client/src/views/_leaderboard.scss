@@ -4,22 +4,23 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-  margin: 0;
+  margin-top: 0;
+  margin-left: 0;
 
   h2 {
-    margin: 4vw 0 4vw 5vw;
+    margin: 4vw 0 1vw 5vw;
     align-self: flex-start;
   }
 
   h3 {
-    margin: 4vw 0;
+    margin: 4vw 0 1vw 0;
     text-align: center;
   }
 
-  hr {
+  hr.break {
     @include light-unpressed;
     border: 0;
-    height: 12px;
+    height: 3vw;
     width: 90vw;
     margin: auto;
   }
