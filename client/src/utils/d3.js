@@ -20,8 +20,8 @@ export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4 
             .range([height - margins.top, margins.bottom])
             //Going from min to max, 0 to max might be better
             .domain([
-              d3.min(dataOptions.data, d => d.value) * 0.9,
-              d3.max(dataOptions.data, d => d.value) * 1.1
+              d3.min(dataOptions.data, d => Number(d.value)) * 0.9,
+              d3.max(dataOptions.data, d => Number(d.value)) * 1.1
             ]),
           xAxis = d3
             .axisBottom(xScale)
@@ -106,7 +106,6 @@ export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4 
           .y(d => {
             return yScale(d.value);
           });
-          console.log(dataOptions)
         const strokeColour = dataOptions.data[dataOptions.data.length - 1].value - dataOptions.data[0].value > 0 ?
           "#ff073a" :
           "#75ff83";
