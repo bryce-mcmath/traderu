@@ -4,6 +4,10 @@
   align-items: center;
   margin: 0 auto 12vh auto;
   width: 100%;
+
+  h1 {
+    margin-top: 2vh;
+  }
 }
 
 h2 {
@@ -14,20 +18,16 @@ h2 {
   margin: 'auto';
 }
 
-#delete-portfolio {
-  margin-top: 50px;
-}
-
 .arc > path:hover {
   filter: brightness(80%) !important;
   pointer-events: all;
 }
 
-#portfolioValue {
+.portfolio-value {
   font-size: 2em;
 }
 
-.pieAssetInfo {
+.pie-asset-info {
   position: absolute;
   height: 100px;
   display: flex;
@@ -87,9 +87,8 @@ text {
 
 .v-card.value-card {
   width: 90%;
-  margin: 3vh auto 3vh auto;
   height: auto;
-  padding: 8px;
+  padding: 0 5vw;
 
   h2 {
     margin: 2vh auto 0 auto;
@@ -139,5 +138,23 @@ text {
 .v-card.ranking-card.theme--dark {
   .ranking-card__btn {
     @include dark-unpressed;
+  }
+}
+
+.v-card.settings-card {
+  width: 90%;
+  margin: 3vh auto 3vh auto;
+  height: auto;
+  padding: 8px;
+
+  h2 {
+    margin: 2vh auto 0 auto;
+    text-align: center;
+  }
+
+  .settings-card__toggles-container {
+  }
+
+  .settings-card__delete-btn {
   }
 }

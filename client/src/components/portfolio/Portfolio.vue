@@ -1,12 +1,13 @@
 <template>
   <main class="portfolio-container">
+    <hr class="break" />
     <h1>Portfolio Value</h1>
-    <p id="portfolioValue">{{ formattedValue }}</p>
+    <p class="portfolio-value">{{ formattedValue }}</p>
     <v-card class="breakdown-card">
       <h2>Asset Breakdown</h2>
       <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
       <div
-        class="pieAssetInfo"
+        class="pie-asset-info"
         v-bind:style="{ bottom: width / 2 - 50 + 'px' }"
       >
         <h5>{{ highlightedAsset }}</h5>
@@ -45,9 +46,19 @@
       >
     </v-card>
 
-    <v-btn id="delete-portfolio" color="red" @click.stop="dialog = true"
-      >Delete Portfolio</v-btn
-    >
+    <v-card class="settings-card">
+      <h2>Portfolio Settings</h2>
+
+      <div class="settings-card__toggles-container">
+        <h3>Error retrieving rank and percentile data.</h3>
+      </div>
+      <v-btn
+        class="settings-card__delete-btn"
+        color="red"
+        @click.stop="dialog = true"
+        >Delete Portfolio</v-btn
+      >
+    </v-card>
 
     <v-dialog v-model="dialog" max-width="290">
       <div class="spinner-container" v-if="deleting">
@@ -82,6 +93,7 @@
   import { mapActions } from 'vuex';
   import Spinner from '../spinner/Spinner.vue';
   import LiquidGauge from '../liquid_gauge/LiquidGauge.vue';
+  import VuemorphicToggle from '../vuemorphic_toggle/VuemorphicToggle.vue';
 
   export default {
     components: { Spinner, LiquidGauge },
