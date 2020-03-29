@@ -271,6 +271,7 @@ export default new Vuex.Store({
           return data.portfolios;
         })
         .catch(err => {
+          window.console.error('Error in setUserPortfolios: ', err);
           commit('setUserPortfolios', []);
         })
         .finally(() => {

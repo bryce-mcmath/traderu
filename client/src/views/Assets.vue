@@ -316,6 +316,7 @@
           assetItem.prices[0].price -
             assetItem.prices[assetItem.prices.length - 1].price >
           0;
+        assetItem.increase = increase;
         this.assetSelected = assetItem;
       },
       handleSymbolInput() {
