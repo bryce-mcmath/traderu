@@ -7,7 +7,9 @@
       <v-btn icon :dark="dark" @click="loginDialog = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
+
       <v-list three-line subheader>
+        <h3>Login</h3>
         <v-list-item>
           <v-list-item-content>
             <v-text-field
@@ -16,7 +18,7 @@
               filled
               :rules="[rules.required]"
               type="email"
-          ></v-text-field>
+            ></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -30,6 +32,7 @@
               hint="At least 8 characters"
               counter
               filled
+              @keydown.enter="submitLoginAuth"
               @click:append="show = !show"
             ></v-text-field>
           </v-list-item-content>
@@ -58,9 +61,9 @@ export default Vue.extend({
       loginDialog: false,
       show: false,
       rules: {
-          required: value => !!value || 'Required.',
-          min: v => v.length >= 8 || 'Min 8 characters',
-        },
+        required: value => !!value || 'Required.',
+        min: v => v.length >= 8 || 'Min 8 characters'
+      }
     };
   },
   computed: {
@@ -96,11 +99,7 @@ export default Vue.extend({
           this.$store.commit('setDialogText', {
             title: 'Login Successful',
             content: 'You are now logged in',
-            primaryBtn: 'Ok',
-            secondaryBtn: 'Logout',
-            secondaryCallback: () => {
-              this.$store.commit('submitLogout');
-            }
+            primaryBtn: 'Ok'
           });
           this.$store.commit('setShowDialog', true);
         })

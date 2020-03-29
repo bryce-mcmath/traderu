@@ -7,16 +7,12 @@
       <v-btn icon :dark="dark" @click="registerDialog = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
+
       <v-list three-line subheader>
+        <h3>Register</h3>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Name</v-list-item-title>
-              <v-text-field
-                v-model="registerName"
-                label="Name"
-                filled
-                :rules="[rules.required]"
-              ></v-text-field>
+            <v-text-field v-model="registerName" label="Name" filled :rules="[rules.required]"></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -27,7 +23,7 @@
               filled
               :rules="[rules.required]"
               type="email"
-          ></v-text-field>
+            ></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -41,6 +37,7 @@
               :rules="[rules.min, rules.required]"
               counter
               filled
+              @keydown.enter="submitRegisterUser"
               @click:append="show = !show"
               minlength="8"
             ></v-text-field>
@@ -73,8 +70,8 @@ export default Vue.extend({
       show: false,
       rules: {
         required: value => !!value || 'Required.',
-        min: v => v.length >= 8 || 'Min 8 characters',
-      },  
+        min: v => v.length >= 8 || 'Min 8 characters'
+      }
     };
   },
   computed: {
@@ -148,11 +145,7 @@ export default Vue.extend({
           this.$store.commit('setDialogText', {
             title: 'Registration Successful',
             content: 'You are now registered. Time to create a portfolio!',
-            primaryBtn: 'Ok',
-            secondaryBtn: 'Logout',
-            secondaryCallback: () => {
-              this.$store.dispatch('submitLogout');
-            }
+            primaryBtn: 'Ok'
           });
           this.$store.commit('setShowDialog', true);
         })
