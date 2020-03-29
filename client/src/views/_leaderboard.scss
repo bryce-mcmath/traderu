@@ -1,22 +1,31 @@
-main {
-  margin-bottom: 100px;
-}
-.v-list {
-  background-color: rgba(0, 0, 0, 0);
-  margin-bottom: 150px;
-}
+.leaderboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
 
-h1,
-h2 {
-  text-align: center;
-  margin-top: 10px;
-  font-family: $primary-font;
-}
+  h2 {
+    margin: 4vw 0 4vw 5vw;
+    align-self: flex-start;
+  }
 
-hr {
-  height: 12px;
-  border: 0;
-  box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
-  width: 80vw;
-  margin: auto;
+  h3 {
+    margin: 4vw 0;
+    text-align: center;
+  }
+
+  hr {
+    @include light-unpressed;
+    border: 0;
+    height: 12px;
+    width: 90vw;
+    margin: auto;
+  }
+
+  .v-list {
+    width: 90%;
+    background-color: inherit;
+  }
 }

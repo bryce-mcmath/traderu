@@ -1,12 +1,12 @@
 <template>
-  <main class="view-container">
-    <h1>Leaderboard</h1>
+  <main class="view-container leaderboard-container">
+    <h2>Leaderboard</h2>
     <hr />
-    <h2>Individuals</h2>
+    <h3>Individuals</h3>
     <div class="spinner-container" v-if="showSpinner">
       <Spinner></Spinner>
     </div>
-    <v-list :dark="darken">
+    <v-list :dark="dark">
       <LeaderboardListItem
         :portfolio="portfolio"
         v-for="(portfolio, i) in rankData"
@@ -34,31 +34,35 @@
       showSpinner() {
         return this.$store.state.ui.ajaxInProgress;
       },
-      darken() {
+      dark() {
         return this.$store.state.ui.dark;
       },
       rankData() {
         if (!Array.isArray(this.$store.state.apiData.allRankingsData)) return;
+
         //For /:id, only return portfolios around given ID
         if (this.$route.params.id) {
           //Add on array index as rank
           const rankings = this.$store.state.apiData.allRankingsData.map(
-            (rank, i) => ({ ...rank, rank: i })
+            (ranking, i) => ({ ...ranking, rank: i })
           );
+
           //Get array index of portfolio with given ID
           const portfolioIndex = rankings.indexOf(
             rankings.find(
               ranking => ranking.portfolioid == this.$route.params.id
             )
           );
+
           if (portfolioIndex === 0) {
             return rankings.slice(portfolioIndex, portfolioIndex + 2);
           }
           return rankings.slice(portfolioIndex - 1, portfolioIndex + 2);
         }
+
         //Return all portfolios otherwise
-        return this.$store.state.apiData.allRankingsData.map((rank, i) => ({
-          ...rank,
+        return this.$store.state.apiData.allRankingsData.map((ranking, i) => ({
+          ...ranking,
           rank: i
         }));
       }

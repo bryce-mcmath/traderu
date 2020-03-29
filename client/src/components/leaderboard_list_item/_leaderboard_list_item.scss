@@ -1,31 +1,32 @@
-img{
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
+.v-card.leaderboard__list-item {
+  @include light-unpressed;
+  width: 100%;
+  margin: 4vh 0;
+  .user-info__img-container {
+    @include center-content;
+    @include light-unpressed;
+    border-radius: 50%;
+    height: 12vw;
+    width: 12vw;
+
+    img {
+      position: absolute;
+      height: 10vw;
+      width: 10vw;
+      border-radius: 50%;
+    }
+  }
 }
-.container{
-  display: flex;
-  flex-flow: column;
-  border: 1px solid black;
-  width: 80vw;
-  border-radius: 20px;
-  position:relative;
-  margin-bottom: 15px;
-}
-.row{
+
+.row {
   justify-content: center;
   display: flex;
   align-items: center;
-}
-.performance-info>span{
-  padding: 5px;
+  width: 100%;
 }
 
-.username{
-  font-size: 1.6em;
-}
-.rank{
+.rank {
   position: absolute;
   left: 5px;
-  top:5px;
+  top: 5px;
 }
