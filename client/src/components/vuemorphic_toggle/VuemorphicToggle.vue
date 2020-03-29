@@ -67,13 +67,13 @@
 
       left() {
         return this.type === 'bool'
-          ? `0 4px 16px 8px ${this.options.left}`
+          ? `0 1px 20px -1px ${this.options.left}`
           : '0 4px 16px 8px rgba(0, 0, 0, 0.15)';
       },
 
       right() {
         return this.type === 'bool'
-          ? `0 4px 16px 8px ${this.options.right}`
+          ? `0 1px 20px -1px ${this.options.right}`
           : '0 4px 16px 8px rgba(0, 0, 0, 0.15)';
       }
     },
