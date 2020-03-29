@@ -5,10 +5,13 @@
     <v-card class="breakdown-card">
       <h2>Asset Breakdown</h2>
       <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
-      <div id="pieStockInfo" v-bind:style="{ bottom: width / 2 - 50 + 'px' }">
-        <h5>{{ highlightedStock }}</h5>
-        <p>{{ formattedStockValue }}</p>
-        <p>{{ stockPercent }}</p>
+      <div
+        class="pieAssetInfo"
+        v-bind:style="{ bottom: width / 2 - 50 + 'px' }"
+      >
+        <h5>{{ highlightedAsset }}</h5>
+        <p>{{ formattedAssetValue }}</p>
+        <p>{{ assetPercent }}</p>
       </div>
     </v-card>
     <v-card class="value-card">
@@ -132,11 +135,11 @@
         }).format(Math.round(this.portfolio.value * 100) / 100);
       },
 
-      formattedStockValue() {
+      formattedAssetValue() {
         return new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD'
-        }).format(Math.round(this.stockValue * 100) / 100);
+        }).format(Math.round(this.assetValue * 100) / 100);
       },
 
       deleting() {
@@ -184,7 +187,6 @@
         const assetValues = assets.map(asset => {
           //most recent price from stock with same name
           const price = assetsData.find(foundAsset => {
-            window.console.log(foundAsset);
             return foundAsset.name === asset.name;
           }).prices[0].price;
           return {
@@ -212,7 +214,6 @@
       },
 
       makePie() {
-        console.log('PIEDATA IS ', this.pieData);
         const data = this.pieData.map(obj => Number(obj.value));
         const labels = this.pieData.map(obj => obj.symbol);
 
