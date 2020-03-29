@@ -87,12 +87,11 @@
 import { formatCurrency } from '@coingecko/cryptoformat';
 import { mapActions, mapMutations } from 'vuex';
 import ajaxCalls from '../../api/ajaxCalls';
-import { makeLineChart } from '../../utils/d3.js'
+import { makeLineChart, changeLineColor } from '../../utils/d3.js'
 const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
 
 export default {
   mounted(){
-    //DEFAULTING TO JUST ACB
     if(this.assetSelected.isStock){
       let data = this.assetSelected.prices;
       //grab most recent date from the time string

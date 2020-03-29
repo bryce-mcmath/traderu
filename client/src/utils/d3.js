@@ -106,11 +106,14 @@ export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4 
           .y(d => {
             return yScale(d.value);
           });
-
+          console.log(dataOptions)
+        const strokeColour = dataOptions.data[dataOptions.data.length - 1].value - dataOptions.data[0].value > 0 ?
+          "#ff073a" :
+          "#75ff83";
         vis
           .append('svg:path')
           .attr('d', lineGen(dataOptions.data))
-          .attr('stroke', 'grey')
+          .attr('stroke', strokeColour)
           .attr('stroke-width', 4)
           .attr('fill', 'none');
         
