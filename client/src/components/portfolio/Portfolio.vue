@@ -50,7 +50,10 @@
       <h2>Portfolio Settings</h2>
 
       <div class="settings-card__toggles-container">
-        <h3>Error retrieving rank and percentile data.</h3>
+        <h3>Public:</h3>
+        <VuemorphicToggle />
+        <h3>Notifications:</h3>
+        <VuemorphicToggle />
       </div>
       <v-btn
         class="settings-card__delete-btn"
@@ -96,7 +99,7 @@
   import VuemorphicToggle from '../vuemorphic_toggle/VuemorphicToggle.vue';
 
   export default {
-    components: { Spinner, LiquidGauge },
+    components: { Spinner, LiquidGauge, VuemorphicToggle },
 
     mounted() {
       // Asset Breakdown
