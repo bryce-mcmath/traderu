@@ -35,6 +35,9 @@
     methods: {
       ...mapActions(['setRankingsData'])
     },
+    created(){
+      this.setRankingsData();
+    },
     computed: {
       showSpinner() {
         return this.$store.state.ui.ajaxInProgress;
@@ -43,7 +46,7 @@
         return this.$store.state.ui.dark;
       },
       rankData() {
-        if (!Array.isArray(this.$store.state.apiData.allRankingsData)) return;
+        // if (!Array.isArray(this.$store.state.apiData.allRankingsData)) return;
 
         //For /:id, only return portfolios around given ID
         if (this.$route.params.id) {

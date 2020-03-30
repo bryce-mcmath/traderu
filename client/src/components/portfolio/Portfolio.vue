@@ -5,7 +5,7 @@
     <p class="portfolio-value">{{ formattedValue }}</p>
     <v-card class="breakdown-card">
       <h2>Asset Breakdown</h2>
-      <svg :id="`pie-chart-${portfolio.name}`" :width="width" :height="width" />
+      <svg :id="`pie-chart-${portfolio.id}`" :width="width" :height="width" />
       <div
         class="pie-asset-info"
         v-bind:style="{ bottom: width / 2 - 50 + 'px' }"
@@ -22,7 +22,7 @@
         passed!
       </p>
       <svg
-        :id="`line-chart-${portfolio.name}`"
+        :id="`line-chart-${portfolio.id}`"
         :width="width * 1.1"
         :height="width"
         v-if="portfolio.values.length > 3"
@@ -128,7 +128,7 @@
         timeParseString: "%Y-%m-%d",
         data
       }
-      makeLineChart(this.width, this.width*1.1, {top: 55, left: 120, bottom: 55, right: 60}, dataOptions, `#line-chart-${this.portfolio.name}`, 4, true);
+      makeLineChart(this.width, this.width*1.1, {top: 55, left: 120, bottom: 55, right: 60}, dataOptions, `#line-chart-${this.portfolio.id}`, 4, true);
     },
 
     props: {
@@ -270,7 +270,7 @@
         const data = this.pieData.map(obj => Number(obj.value));
         const labels = this.pieData.map(obj => obj.symbol);
 
-        const svg = d3.select(`#pie-chart-${this.portfolio.name}`),
+        const svg = d3.select(`#pie-chart-${this.portfolio.id}`),
           width = svg.attr('width'),
           height = svg.attr('height'),
           radius = Math.min(width, height) / 2.1,
@@ -322,7 +322,7 @@
         // Filter for the outside glow
         const filter = defs
           .append('filter')
-          .attr('id', `pie-chart-${this.portfolio.name}-glow`);
+          .attr('id', `pie-chart-${this.portfolio.id}-glow`);
         filter
           .append('feGaussianBlur')
           .attr('stdDeviation', '3.5')
@@ -330,9 +330,9 @@
         const feMerge = filter.append('feMerge');
         feMerge.append('feMergeNode').attr('in', 'coloredBlur');
         feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
-        d3.select(`#pie-chart-${this.portfolio.name}`)
+        d3.select(`#pie-chart-${this.portfolio.id}`)
           .selectAll('path')
-          .style('filter', `url(#pie-chart-${this.portfolio.name}-glow)`);
+          .style('filter', `url(#pie-chart-${this.portfolio.id}-glow)`);
 
         arcs
           .append('text')

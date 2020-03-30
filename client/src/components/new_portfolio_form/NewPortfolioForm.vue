@@ -57,7 +57,7 @@
           this.dialog = false;
         });
       },
-      ...mapActions(['setUserPortfolios', 'createPortfolio'])
+      ...mapActions(['setUserPortfolios', 'createPortfolio', 'setRankingsData'])
     },
     computed: {
       creating() {
