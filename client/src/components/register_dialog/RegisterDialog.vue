@@ -48,7 +48,7 @@
             <v-btn
               @click="submitRegisterUser"
               :loading="loading"
-              :disabled="loading || !registerName || !registerEmail || !registerPassword || registerPassword.length < 8"
+              :disabled="!allowRegisterSubmit"
             >Submit</v-btn>
           </v-list-item-content>
         </v-list-item>
@@ -112,6 +112,15 @@ export default Vue.extend({
     },
     dark() {
       return this.$store.state.ui.dark;
+    },
+    allowRegisterSubmit() {
+      return (
+        !this.loading &&
+        this.registerName &&
+        this.registerEmail &&
+        this.registerPassword &&
+        this.registerPassword.length > 7
+      );
     }
   },
   methods: {
@@ -145,31 +154,26 @@ export default Vue.extend({
       });
       this.$store.commit('setShowDialog', true);
     },
+    registrationSuccess() {
+      this.registerDialog = false;
+      this.$store.commit('setDialogText', {
+        title: 'Registration Successful',
+        content: 'You are now registered. Time to create a portfolio!',
+        primaryBtn: 'Ok'
+      });
+      this.$store.commit('setShowDialog', true);
+    },
     async submitRegisterUser() {
-      if (
-        this.loading ||
-        !this.registerName ||
-        !this.registerEmail ||
-        !this.registerPassword ||
-        this.registerPassword.length < 8
-      ) {
-        this.registrationError();
-      } else {
-        this.$store
-          .dispatch('submitRegister')
-          .then(() => {
-            this.registerDialog = false;
-            this.$store.commit('setDialogText', {
-              title: 'Registration Successful',
-              content: 'You are now registered. Time to create a portfolio!',
-              primaryBtn: 'Ok'
-            });
-            this.$store.commit('setShowDialog', true);
-          })
-          .catch(err => {
-            this.registrationError(err);
-          });
-      }
+      if (!this.allowRegisterSubmit) return;
+
+      this.$store
+        .dispatch('submitRegister')
+        .then(() => {
+          this.registrationSuccess();
+        })
+        .catch(err => {
+          this.registrationError(err);
+        });
     }
   },
   mounted() {

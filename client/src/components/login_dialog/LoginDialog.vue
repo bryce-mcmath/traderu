@@ -39,11 +39,7 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-content>
-            <v-btn
-              @click="submitLoginAuth"
-              :loading="loading"
-              :disabled="loading || !loginEmail || !loginPassword"
-            >Submit</v-btn>
+            <v-btn @click="submitLoginAuth" :loading="loading" :disabled="!allowLoginSubmit">Submit</v-btn>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -88,29 +84,39 @@ export default Vue.extend({
     },
     dark() {
       return this.$store.state.ui.dark;
+    },
+    allowLoginSubmit() {
+      return !this.loading && this.loginEmail && this.loginPassword;
     }
   },
   methods: {
     submitLoginAuth() {
+      if (!this.allowLoginSubmit) return;
       this.$store
         .dispatch('submitLoginAuth')
         .then(() => {
-          this.loginDialog = false;
-          this.$store.commit('setDialogText', {
-            title: 'Login Successful',
-            content: 'You are now logged in',
-            primaryBtn: 'Ok'
-          });
-          this.$store.commit('setShowDialog', true);
+          this.loginSuccess();
         })
         .catch(err => {
-          this.$store.commit('setDialogText', {
-            title: 'Login failed',
-            content: err[0],
-            primaryBtn: 'Ok'
-          });
-          this.$store.commit('setShowDialog', true);
+          this.loginError(err);
         });
+    },
+    loginSuccess() {
+      this.loginDialog = false;
+      this.$store.commit('setDialogText', {
+        title: 'Login Successful',
+        content: 'You are now logged in',
+        primaryBtn: 'Ok'
+      });
+      this.$store.commit('setShowDialog', true);
+    },
+    loginError(err) {
+      this.$store.commit('setDialogText', {
+        title: 'Login failed',
+        content: err,
+        primaryBtn: 'Ok'
+      });
+      this.$store.commit('setShowDialog', true);
     }
   }
 });

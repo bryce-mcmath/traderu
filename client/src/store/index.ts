@@ -322,24 +322,27 @@ export default new Vuex.Store({
       const { loginEmail, loginPassword } = state.ui;
       commit('setAjaxInProgress', true);
 
-      loginAuth(loginEmail, loginPassword)
-        .then(async response => {
-          // Clear inputs
-          commit('setLoginEmail', '');
-          commit('setLoginPassword', '');
-          if (response.response) {
-            // There is an error
-            commit('setErrors', errorUnwrapper(response));
-          } else {
-            // Set JWT in local storage, checkUserAuth to get user data and verify token
-            localStorage.setItem('token', response.token);
-            axios.defaults.headers.common[authTokenHeader] = response.token;
-            await dispatch('checkUserAuth');
-          }
-        })
-        .finally(() => {
-          commit('setAjaxInProgress', false);
-        });
+      return new Promise((resolve, reject) =>
+        loginAuth(loginEmail, loginPassword)
+          .then(async response => {
+            // Clear inputs
+            commit('setLoginEmail', '');
+            commit('setLoginPassword', '');
+            if (response.response) {
+              // There is an error
+              reject(errorUnwrapper(response));
+            } else {
+              // Set JWT in local storage, checkUserAuth to get user data and verify token
+              localStorage.setItem('token', response.token);
+              axios.defaults.headers.common[authTokenHeader] = response.token;
+              await dispatch('checkUserAuth');
+              resolve();
+            }
+          })
+          .finally(() => {
+            commit('setAjaxInProgress', false);
+          })
+      );
     },
 
     async submitLogout({ commit }) {
