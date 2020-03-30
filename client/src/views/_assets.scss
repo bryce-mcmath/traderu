@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: flex-start;
   margin: 16px;
-  margin-bottom: 100px;
+  margin-bottom: 3vh;
 
   hr.break {
     @include light-unpressed;
@@ -11,6 +11,22 @@
     height: 3vw;
     width: 100%;
     margin: 2vh 0;
+  }
+
+  .asset-list {
+    @include light-pressed;
+
+    &__item {
+      margin: 3vw 3vw;
+      @include light-unpressed;
+      &:first-child {
+        margin-top: 1vh;
+      }
+
+      &:last-child {
+        margin-bottom: 1vh;
+      }
+    }
   }
 
   .transaction-form {
@@ -78,7 +94,6 @@
   .placeholder-graph {
     width: 100%;
     height: 300px;
-
     background-color: white;
   }
 
@@ -94,9 +109,42 @@
     overflow: hidden;
   }
 
+  .asset-list.theme--dark {
+    @include dark-pressed;
+
+    &__item {
+      margin: 3vw 3vw;
+      @include dark-unpressed;
+      &:first-child {
+        margin-top: 1vh;
+      }
+
+      &:last-child {
+        margin-bottom: 1vh;
+      }
+    }
+  }
+
   &--dark {
     hr.break {
       @include dark-unpressed;
+    }
+
+    .asset-list,
+    .asset-list.theme--dark {
+      @include dark-pressed;
+
+      &__item {
+        margin: 3vw 3vw;
+        @include dark-unpressed;
+        &:first-child {
+          margin-top: 1vh;
+        }
+
+        &:last-child {
+          margin-bottom: 1vh;
+        }
+      }
     }
 
     .back-btn-container {

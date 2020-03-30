@@ -19,7 +19,6 @@
     </div>
     <InfoSlider />
     <InfoList />
-    <div class="buffer"></div>
   </main>
 </template>
 

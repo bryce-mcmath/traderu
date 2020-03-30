@@ -1,6 +1,8 @@
 <template>
   <main class="view-container">
-    <div class="assets-container">
+    <div
+      v-bind:class="[{ 'assets-container--dark': dark }, 'assets-container']"
+    >
       <div v-if="assetSelected">
         <button class="back-btn" @click="assetSelected = ''">
           <i class="fas fa-arrow-left"></i>
@@ -23,9 +25,10 @@
         <div v-if="stocksData.length || cryptosData.length">
           <div v-if="stocksData.length">
             <h3 class="asset-title">Stocks</h3>
-            <v-list :dark="dark" one-line>
+            <v-list class="asset-list" :dark="dark" one-line>
               <v-list-item-group color="primary">
                 <v-list-item
+                  class="asset-list__item"
                   v-for="(item, i) in stocksData"
                   :key="i"
                   @click="selectAsset(item, 'stock')"
@@ -71,9 +74,10 @@
           </div>
           <div v-if="cryptosData.length">
             <h3 class="asset-title">Cryptocurrencies</h3>
-            <v-list :dark="dark" one-line>
+            <v-list class="asset-list" :dark="dark" one-line>
               <v-list-item-group color="primary">
                 <v-list-item
+                  class="asset-list__item"
                   v-for="(item, i) in cryptosData"
                   :key="i"
                   @click="selectAsset(item, 'crypto')"
@@ -94,7 +98,25 @@
                       {{ format(item.prices[0].price) }}
                     </v-list-item-subtitle>
                   </v-list-item-content>
-                  <v-list-item-content> </v-list-item-content>
+                  <v-list-item-content>
+                    <v-sparkline
+                      :value="
+                        item.prices
+                          .map(cryptoObj => cryptoObj.price)
+                          .slice()
+                          .reverse()
+                      "
+                      v-bind:color="
+                        item.prices[0].price -
+                          item.prices[item.prices.length - 1].price >
+                        0
+                          ? '#75ff83'
+                          : '#ff073a'
+                      "
+                      line-width="3"
+                      padding="16"
+                    ></v-sparkline>
+                  </v-list-item-content>
                 </v-list-item>
               </v-list-item-group>
             </v-list>
