@@ -122,11 +122,13 @@
     mounted() {
       // Asset Breakdown
       this.makePie();
+      const data = this.portfolio.values.map(dataPoint => ({date:dataPoint.date_time.split('T')[0], value: dataPoint.value}))
+                  .sort((a,b) => new Date(a.date) - new Date(b.date))
       const dataOptions = {
         timeParseString: "%Y-%m-%d",
-        data: this.portfolio.values.map(dataPoint => ({date:dataPoint.date_time.split('T')[0], value: dataPoint.value}))
+        data
       }
-      makeLineChart(this.width, this.width*1.1, {top: 55, left: 120, bottom: 55, right: 60}, dataOptions, `#line-chart-${this.portfolio.name}`, 4);
+      makeLineChart(this.width, this.width*1.1, {top: 55, left: 120, bottom: 55, right: 60}, dataOptions, `#line-chart-${this.portfolio.name}`, 4, true);
     },
 
     props: {
