@@ -44,6 +44,23 @@
             outlined
           ></v-select>
         </v-row>
+        <v-row justify="space-between" v-if="portfolio.id">
+          <v-col>
+
+            <v-chip
+              class="ma-2"
+              color="red"
+              text-color="white"
+            > CASH: {{portfolio.cash}}
+            </v-chip>
+            <v-chip
+              class="ma-2"
+              color="red"
+              text-color="white"
+            > ASSETS OWNED: {{OwnedAssetquantity}}
+            </v-chip>
+          </v-col>
+        </v-row>
         <v-row justify="space-between">
           <v-col>
             <label>Price</label>
@@ -104,6 +121,9 @@
   const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
 
   export default {
+    created(){
+      this.setActivePortfolio({ name: null, id: null });
+    },
     mounted() {
       if (this.assetSelected.isStock) {
         let data = this.assetSelected.prices;
@@ -208,6 +228,18 @@
       },
       dark() {
         return this.$store.state.ui.dark;
+      },
+      OwnedAssetquantity(){
+        
+        if(this.assetSelected.isStock){
+          const stocks = this.portfolio.stocks.filter(stock => stock);
+          const stock = stocks.find(stock => stock.name === this.assetSelected.name)
+          return stock ? stock.quantity : 0;
+        } else {
+          const cryptos = this.portfolio.cryptos.filter(crypto => crypto);
+          const crypto = cryptos.find(crypto => crypto.name === this.assetSelected.name)
+          return crypto ? crypto.quantity : 0;
+        }
       }
     },
     data: () => ({
@@ -423,6 +455,11 @@
       },
       transactionNotification(transactionSuccess) {
         if (transactionSuccess) {
+          //WORKING HERE
+          if(this.assetSelected.isStock){
+            const stocks = this.portfolio.stocks.filter(stock => stock);
+            const stock = stocks.find(stock => stock.name === this.assetSelected.name)
+          }
           this.$store.commit('setDialogText', {
             title: 'Success!',
             content: 'Transaction successful',
