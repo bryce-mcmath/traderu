@@ -196,7 +196,8 @@ export default {
     quantity: '',
     chartWidth: window.innerWidth * 0.9,
     chartHeight: (window.innerWidth * 0.9) * 0.5,
-    waiting: false
+    waiting: false,
+    assetData: null
   }),
   watch: {
     portfolioSelectedId: function(id) {
@@ -215,12 +216,14 @@ export default {
     async updateChart(e){
       d3.select('#assetChart3').html('')
       this.waiting = true;
-      let data;
-      if(this.assetSelected.isStock){
+      let data = this.assetData;
+      if(this.assetSelected.isStock && !data){
         data = await ajaxCalls.fetchStockData(this.assetSelected.symbol);
+        this.assetData = data;
       }
-      else {
+      else if(this.assetSelected.isCrypto && !data){
         data = await ajaxCalls.fetchCryptoData(this.assetSelected.symbol);
+        this.assetData = data;
       }
       this.waiting = false;
       if(e === '3-month'){
@@ -228,7 +231,6 @@ export default {
           data = data.daily.stockData.map(stock => ({...stock, data: stock.data["4. close"]})).slice(0,90);
         }
         else {
-          console.log(data)
           data = data.daily.cryptoData.map(crypto => ({...crypto, data: crypto.data["4b. close (USD)"]})).slice(0,90)
         }
         const dataOptions = {
@@ -239,12 +241,10 @@ export default {
         makeLineChart(this.chartHeight, this.chartWidth, {top: 55, left: 100, bottom: 55, right: 40}, dataOptions, `#assetChart3`);
       }
       if(e === '1-year'){
-        console.log(data)
         if(this.assetSelected.isStock){
           data = data.weekly.stockData.map(stock => ({...stock, data: stock.data["4. close"]})).slice(0,52);
         }
         else {
-          console.log(data)
           data = data.weekly.cryptoData.map(crypto => ({...crypto, data: crypto.data["4b. close (USD)"]})).slice(0,52)
         }
         const dataOptions = {

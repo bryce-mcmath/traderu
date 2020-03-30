@@ -39,7 +39,7 @@ portfolios.get('/', auth, async (req: IAuthRequest, res: Response) => {
 		res.status(500).json({
 			errors: [
 				{
-					msg:
+					message:
 						'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 				}
 			]
@@ -84,7 +84,7 @@ portfolios.post(
 				res.status(500).json({
 					errors: [
 						{
-							msg:
+							message:
 								'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 						}
 					]
@@ -120,7 +120,7 @@ portfolios.delete(
 			res.status(500).json({
 				errors: [
 					{
-						msg:
+						message:
 							'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 					}
 				]
@@ -175,7 +175,7 @@ portfolios.post(
 					return res.status(400).json({
 						errors: [
 							{
-								msg:
+								message:
 									"We're sorry, a stock with that symbol does not exist in our database"
 							}
 						]
@@ -208,7 +208,7 @@ portfolios.post(
 				res.status(500).json({
 					errors: [
 						{
-							msg:
+							message:
 								'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 						}
 					]
@@ -265,7 +265,7 @@ portfolios.post(
 					return res.status(400).json({
 						errors: [
 							{
-								msg:
+								message:
 									"We're sorry, a crypto with that symbol does not exist in our database"
 							}
 						]
@@ -294,7 +294,7 @@ portfolios.post(
 				res.status(500).json({
 					errors: [
 						{
-							msg:
+							message:
 								'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 						}
 					]

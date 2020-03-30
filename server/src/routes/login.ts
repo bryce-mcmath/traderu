@@ -42,7 +42,7 @@ login.post(
 					res
 						// Status Code 400: Bad Request
 						.status(400)
-						.json({ errors: [{ msg: 'Invalid email or password' }] })
+						.json({ errors: [{ message: 'Invalid email or password' }] })
 				);
 			}
 
@@ -58,7 +58,7 @@ login.post(
 					res
 						// Status Code 400: Bad Request
 						.status(400)
-						.json({ errors: [{ msg: 'Invalid email or password' }] })
+						.json({ errors: [{ message: 'Invalid email or password' }] })
 				);
 			}
 
@@ -90,7 +90,7 @@ login.post(
 			res.status(500).json({
 				errors: [
 					{
-						msg:
+						message:
 							'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 					}
 				]
