@@ -12,7 +12,7 @@ I'm Bryce, I started programming while I was in engineering at UVic, and I've fo
 
 ### Jon
 
-Hi, I'm Jon. I have a degree in Mathematics from Queen's. Since then I've taught Mathematics as a career and done web development as a hobby, and I'm now looking to switch the two.
+Hi, I'm Jon. I completed a degree in math from Queen's university, and have been teaching math since as a job and programming as a hobby, and I decided to go to the lighthouse labs bootcamp to move into a web development career.
 
 ### Wilson
 
@@ -32,9 +32,18 @@ Let's try it out.
 
 ## Viewing as Guest
 
+
+
+
+
 <!-- Jon as Narrator, Bryce as User -->
 
 ## Viewing Power User
+
+
+
+
+
 
 <!-- Wilson -->
 
@@ -46,7 +55,7 @@ Our front-end was built using the entire Vue suite, including Vuex (equivalent t
 
 ### API Interaction, Back End
 
-On top of our own API, we used a few others. Our bread and butter is the AlphaVantage API which we use for our stock and cryptocurrency data. To store the massive amounts of data we need, we learned to use the JSONB capabilities of Postgres. To limit our API usage, we pull the data once a day and query our own database when we need to update the app. I wrote timed scripts to do so, and passed them off to Bryce to make them Cron Jobs.
+For the backend, our main data source was an API called AlphaVantage API which we use for our stock and cryptocurrency data. To store the massive amounts of data we need, we learned to use the JSONB capabilities of Postgres. To limit our API usage, we pull the data once a day and query our own database when we need to update the app. I wrote timed scripts to do so. -> Bryce, deployment and project structure
 
 <!-- Bryce -->
 
@@ -70,4 +79,4 @@ Thank you for checking out our app. We don't have time to cover everything we di
 
 ### Jon
 
-Thanks everyone. If we don't see you later, have a good rest of your day.
+Thanks everyone. We would love to talk to you after the presentations to talk about our app and answer any questions
