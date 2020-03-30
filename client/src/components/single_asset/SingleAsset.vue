@@ -457,8 +457,25 @@
         if (transactionSuccess) {
           //WORKING HERE
           if(this.assetSelected.isStock){
-            const stocks = this.portfolio.stocks.filter(stock => stock);
-            const stock = stocks.find(stock => stock.name === this.assetSelected.name)
+            const stocks = this.portfolio.stocks.map(stock => {
+              if(stock.name === this.assetSelected.name){
+                if(this.transactionSelected === 'sell')
+                  stock.quantity = Number(stock.quantity) - Number(this.quantity)
+                else
+                  stock.quantity = Number(stock.quantity) + Number(this.quantity)
+              }
+              return stock;
+            });
+          } else if(this.assetSelected.isCrypto){
+            const cryptos = this.portfolio.cryptos.map(crypto => {
+              if(crypto.name === this.assetSelected.name){
+                if(this.transactionSelected === 'sell')
+                  crypto.quantity = Number(crypto.quantity) - Number(this.quantity)
+                else
+                  crypto.quantity = Number(crypto.quantity) + Number(this.quantity)
+              }
+              return crypto;
+            });
           }
           this.$store.commit('setDialogText', {
             title: 'Success!',
