@@ -12,7 +12,7 @@ I'm Bryce, I started programming while I was in engineering at UVic, and I've fo
 
 ### Jon
 
-Hi, I'm Jon. I have a degree in Mathematics from Queen's. Since then I've taught Mathematics as a career and done web development as a hobby, and I'm now looking to switch the two.
+Hi, I'm Jon. I completed a degree in math from Queen's university, and have been teaching math since as a job and programming as a hobby, and I decided to go to the lighthouse labs bootcamp to move into a web development career.
 
 ### Wilson
 
@@ -51,6 +51,11 @@ Let's try it out.
 8. Back to portfolios.
 9. Look at updated portfolio pie graph.
 10. Hand off
+
+
+
+
+
 
 <!-- Wilson -->
 

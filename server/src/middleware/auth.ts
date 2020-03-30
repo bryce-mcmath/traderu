@@ -9,7 +9,7 @@ const auth = (req: IAuthRequest, res: Response, next: NextFunction) => {
 	// Check if no token
 	if (!token) {
 		return res
-			.status(401)
+			.status(200)
 			.json({ errors: [{ message: 'No token, authorization denied' }] });
 	}
 
@@ -20,7 +20,7 @@ const auth = (req: IAuthRequest, res: Response, next: NextFunction) => {
 		req.user = decoded.user;
 		next();
 	} catch (error) {
-		res.status(401).json({ errors: [{ message: 'Invalid token' }] });
+		res.status(200).json({ errors: [{ message: 'Invalid token' }] });
 	}
 };
 
