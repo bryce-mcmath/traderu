@@ -19,11 +19,10 @@
       v-if="user"
     >
       <v-expansion-panel
-        v-for="(portfolio, i) in portfolios"
+        v-for="(portfolio) in portfolios"
         :key="portfolio.name"
       >
         <v-expansion-panel-header
-          v-on:click="() => setActive(portfolio.name, i, portfolio.id)"
           >{{ portfolio.name }}</v-expansion-panel-header
         >
         <v-expansion-panel-content>
