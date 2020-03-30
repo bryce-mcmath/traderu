@@ -32,9 +32,25 @@ Let's try it out.
 
 ## Viewing as Guest
 
+1. Info (Landing page, introduction to app), dark mode (Fully toggle-able, on every page, for sore eyes.)
+2. Assets (We'll talk more about this later), filter (Filter stocks based on both name and ticker symbol simultaneously)
+3. Leaderboard (We have a leaderboard showing who's the Warren Buffet of stock simulations. Let's go to our portfolios now.)
+4. Portfolios (But we're not logged in, so let's login and see what other features we have.)
+
 <!-- Jon as Narrator, Bryce as User -->
 
-## Viewing Power User
+## Viewing as Power User
+
+1. Login (show hamburger menu)
+2. Navigate to portfolios
+3. Open top portfolio, scroll through graphs (pie => value => rank)
+4. Brief mention of public/notifications
+5. Open second portfolio, have it be all cash
+6. Navigate to assets
+7. Buy 2000 Ford
+8. Back to portfolios.
+9. Look at updated portfolio pie graph.
+10. Hand off
 
 <!-- Wilson -->
 
@@ -46,17 +62,11 @@ Our front-end was built using the entire Vue suite, including Vuex (equivalent t
 
 ### API Interaction, Back End
 
-On top of our own API, we used a few others. Our bread and butter is the AlphaVantage API which we use for our stock and cryptocurrency data. To store the massive amounts of data we need, we learned to use the JSONB capabilities of Postgres. To limit our API usage, we pull the data once a day and query our own database when we need to update the app. I wrote timed scripts to do so, and passed them off to Bryce to make them Cron Jobs.
+To build our backend API, we used a few others. Our bread and butter is the AlphaVantage API which we used to pull in our stock and cryptocurrency data. To store the massive amounts of data we need, we learned to use the JSONB capabilities of Postgres. To limit our API usage, we pull the data once a day and query our own database when we need to update the app. I wrote timed scripts to do so. And now Bryce can tell you about our project structure and deployment
 
 <!-- Bryce -->
 
 ### Devops Stuff / Styling
-
-- Show ERD
-- Show AWS Console
-- Test Suites and Codecov
-- Lerna Commands
-- Sass Mixins for theme and mode
 
 ## Closing Remarks
 
@@ -70,4 +80,4 @@ Thank you for checking out our app. We don't have time to cover everything we di
 
 ### Jon
 
-Thanks everyone. If we don't see you later, have a good rest of your day.
+Thanks everyone.
