@@ -59,7 +59,7 @@ register.post(
 				if (existingUser) {
 					res
 						.status(400)
-						.json({ errors: [{ msg: 'That email has already been taken' }] });
+						.json({ errors: [{ message: 'That email has already been taken' }] });
 				} else {
 					const hash = await bcrypt.hash(password, salt);
 
@@ -123,7 +123,7 @@ register.post(
 				res.status(500).json({
 					errors: [
 						{
-							msg:
+							message:
 								'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 						}
 					]

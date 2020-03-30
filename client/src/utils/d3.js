@@ -9,7 +9,6 @@ export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4,
         //   value: value.price,
         //   date: value.dateTime
         // }));
-        console.log(dataOptions.timeParseString)
         const parseTime = d3.timeParse(dataOptions.timeParseString);
         const vis = d3.select(id),
           xScale = d3
@@ -122,7 +121,6 @@ export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4,
             "#ff073a" :
             "#75ff83";
         }
-        console.log(dataOptions.data)
 
         vis
           .append('svg:path')

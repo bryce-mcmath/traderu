@@ -25,7 +25,7 @@ leaderboard.get('/', async (req: Request, res: Response) => {
 		res.status(500).json({
 			errors: [
 				{
-					msg:
+					message:
 						'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 				}
 			]
@@ -49,7 +49,7 @@ leaderboard.get('/:portfolio_id', async (req: Request, res: Response) => {
 		res.status(500).json({
 			errors: [
 				{
-					msg:
+					message:
 						'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
 				}
 			]
