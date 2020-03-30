@@ -66,6 +66,8 @@
                       "
                       line-width="3"
                       padding="16"
+                      auto-draw
+                      :auto-draw-duration="700"
                     ></v-sparkline>
                   </v-list-item-content>
                 </v-list-item>
@@ -115,6 +117,8 @@
                       "
                       line-width="3"
                       padding="16"
+                      auto-draw
+                      :auto-draw-duration="700"
                     ></v-sparkline>
                   </v-list-item-content>
                 </v-list-item>
