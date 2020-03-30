@@ -7,7 +7,9 @@
       <v-btn icon :dark="dark" @click="loginDialog = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
+
       <v-list three-line subheader>
+        <h3 class="dialog-header">Login</h3>
         <v-list-item>
           <v-list-item-content>
             <v-text-field
@@ -16,7 +18,7 @@
               filled
               :rules="[rules.required]"
               type="email"
-          ></v-text-field>
+            ></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -30,6 +32,7 @@
               hint="At least 8 characters"
               counter
               filled
+              @keydown.enter="submitLoginAuth"
               @click:append="show = !show"
             ></v-text-field>
           </v-list-item-content>
@@ -39,8 +42,9 @@
             <v-btn
               @click="submitLoginAuth"
               :loading="loading"
-              :disabled="loading || !loginEmail || !loginPassword"
-            >Submit</v-btn>
+              :disabled="!allowLoginSubmit"
+              >Submit</v-btn
+            >
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -49,74 +53,80 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Dialog from '@/components/dialog/Dialog.vue';
-export default Vue.extend({
-  name: 'LoginDialog',
-  data() {
-    return {
-      loginDialog: false,
-      show: false,
-      rules: {
+  import Vue from 'vue';
+  import Dialog from '@/components/dialog/Dialog.vue';
+  export default Vue.extend({
+    name: 'LoginDialog',
+    data() {
+      return {
+        loginDialog: false,
+        show: false,
+        rules: {
           required: value => !!value || 'Required.',
-          min: v => v.length >= 8 || 'Min 8 characters',
+          min: v => v.length >= 8 || 'Min 8 characters'
+        }
+      };
+    },
+    computed: {
+      loginEmail: {
+        get() {
+          return this.$store.state.ui.loginEmail;
         },
-    };
-  },
-  computed: {
-    loginEmail: {
-      get() {
-        return this.$store.state.ui.loginEmail;
+        set(value) {
+          this.$store.commit('setLoginEmail', value);
+        }
       },
-      set(value) {
-        this.$store.commit('setLoginEmail', value);
+      loginPassword: {
+        get() {
+          return this.$store.state.ui.loginPassword;
+        },
+        set(value) {
+          this.$store.commit('setLoginPassword', value);
+        }
+      },
+      loading() {
+        return this.$store.state.ui.ajaxInProgress;
+      },
+      dark() {
+        return this.$store.state.ui.dark;
+      },
+      allowLoginSubmit() {
+        return !this.loading && this.loginEmail && this.loginPassword;
       }
     },
-    loginPassword: {
-      get() {
-        return this.$store.state.ui.loginPassword;
+    methods: {
+      submitLoginAuth() {
+        if (!this.allowLoginSubmit) return;
+        this.$store
+          .dispatch('submitLoginAuth')
+          .then(() => {
+            this.loginSuccess();
+          })
+          .catch(err => {
+            this.loginError(err);
+          });
       },
-      set(value) {
-        this.$store.commit('setLoginPassword', value);
-      }
-    },
-    loading() {
-      return this.$store.state.ui.ajaxInProgress;
-    },
-    dark() {
-      return this.$store.state.ui.dark;
-    }
-  },
-  methods: {
-    submitLoginAuth() {
-      this.$store
-        .dispatch('submitLoginAuth')
-        .then(() => {
-          this.loginDialog = false;
-          this.$store.commit('setDialogText', {
-            title: 'Login Successful',
-            content: 'You are now logged in',
-            primaryBtn: 'Ok',
-            secondaryBtn: 'Logout',
-            secondaryCallback: () => {
-              this.$store.commit('submitLogout');
-            }
-          });
-          this.$store.commit('setShowDialog', true);
-        })
-        .catch(err => {
-          this.$store.commit('setDialogText', {
-            title: 'Login failed',
-            content: err[0],
-            primaryBtn: 'Ok'
-          });
-          this.$store.commit('setShowDialog', true);
+      loginSuccess() {
+        this.loginDialog = false;
+        this.$store.commit('setDialogText', {
+          title: 'Login Successful',
+          content: 'You are now logged in',
+          primaryBtn: 'Ok'
         });
+        this.$store.commit('setShowDialog', true);
+      },
+      loginError(err) {
+        this.$store.commit('setDialogText', {
+          title: 'Login failed',
+          content: err,
+          primaryBtn: 'Ok'
+        });
+        this.$store.commit('setShowDialog', true);
+      }
     }
-  }
-});
+  });
 </script>
 
 <style lang="scss">
-@import 'login_dialog';
+  @import 'login_dialog';
 </style>

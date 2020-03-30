@@ -1,23 +1,25 @@
-aside.v-navigation-drawer {
+.v-dialog {
   background: $light-bg;
   .v-list-item {
+    padding: 0 4vw;
+
     .v-list-item__icon {
       margin: auto;
     }
-  }
 
-  .v-list-item__content {
-    button.v-btn.v-size--default {
-      margin-left: 12px;
-      padding: 0;
-      width: 100px;
+    .v-list-item__content {
+      button.v-btn.v-size--default {
+        margin-left: 0;
+        padding: 0;
 
-      span.v-btn__content {
-        width: 100px;
-        font-size: 12px;
-        display: block;
+        span.v-btn__content {
+        }
       }
     }
+  }
+
+  h3.dialog-header {
+    margin: 2vh 4vw 0 4vw;
   }
 
   &--dark {

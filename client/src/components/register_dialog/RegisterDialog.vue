@@ -7,10 +7,11 @@
       <v-btn icon :dark="dark" @click="registerDialog = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
+
       <v-list three-line subheader>
+        <h3 class="dialog-header">Register</h3>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>Name</v-list-item-title>
             <v-text-field
               v-model="registerName"
               label="Name"
@@ -41,6 +42,7 @@
               :rules="[rules.min, rules.required]"
               counter
               filled
+              @keydown.enter="submitRegisterUser"
               @click:append="show = !show"
               minlength="8"
             ></v-text-field>
@@ -51,13 +53,7 @@
             <v-btn
               @click="submitRegisterUser"
               :loading="loading"
-              :disabled="
-                loading ||
-                  !registerName ||
-                  !registerEmail ||
-                  !registerPassword ||
-                  registerPassword.length < 8
-              "
+              :disabled="!allowRegisterSubmit"
               >Submit</v-btn
             >
           </v-list-item-content>
@@ -122,13 +118,22 @@
       },
       dark() {
         return this.$store.state.ui.dark;
+      },
+      allowRegisterSubmit() {
+        return (
+          !this.loading &&
+          this.registerName &&
+          this.registerEmail &&
+          this.registerPassword &&
+          this.registerPassword.length > 7
+        );
       }
     },
     methods: {
       getLocation() {
         if (!('geolocation' in navigator)) {
           this.gettingLocation = false;
-          window.console.log('Geolocation not available on this device');
+          window.console.log('Geolocation not avail');
           return;
         }
         navigator.geolocation.getCurrentPosition(
@@ -147,29 +152,33 @@
           }
         );
       },
+      registrationError(err) {
+        this.$store.commit('setDialogText', {
+          title: 'Registration failed',
+          content: err || 'One or more required fields is missing',
+          primaryBtn: 'Ok'
+        });
+        this.$store.commit('setShowDialog', true);
+      },
+      registrationSuccess() {
+        this.registerDialog = false;
+        this.$store.commit('setDialogText', {
+          title: 'Registration Successful',
+          content: 'You are now registered. Time to create a portfolio!',
+          primaryBtn: 'Ok'
+        });
+        this.$store.commit('setShowDialog', true);
+      },
       async submitRegisterUser() {
+        if (!this.allowRegisterSubmit) return;
+
         this.$store
           .dispatch('submitRegister')
           .then(() => {
-            this.registerDialog = false;
-            this.$store.commit('setDialogText', {
-              title: 'Registration Successful',
-              content: 'You are now registered. Time to create a portfolio!',
-              primaryBtn: 'Ok',
-              secondaryBtn: 'Logout',
-              secondaryCallback: () => {
-                this.$store.dispatch('submitLogout');
-              }
-            });
-            this.$store.commit('setShowDialog', true);
+            this.registrationSuccess();
           })
           .catch(err => {
-            this.$store.commit('setDialogText', {
-              title: 'Registration failed',
-              content: err[0],
-              primaryBtn: 'Ok'
-            });
-            this.$store.commit('setShowDialog', true);
+            this.registrationError(err);
           });
       }
     },
