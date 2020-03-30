@@ -398,6 +398,7 @@
             this.portfolio.id
           )
             .then(res => {
+              console.log(res.data)
               res.data === 'error'
                 ? this.transactionNotification(false)
                 : this.transactionNotification(true);
@@ -417,7 +418,7 @@
             this.portfolio.id
           )
             .then(res => {
-              res.data === 'error'
+              res.data.response.error
                 ? this.transactionNotification(false)
                 : this.transactionNotification(true);
               this.setUserPortfolios();
