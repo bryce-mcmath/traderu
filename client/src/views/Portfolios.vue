@@ -16,7 +16,6 @@
       :focusable="true"
       :flat="true"
       :dark="dark"
-      v-model="activePortfolio"
       v-if="user"
     >
       <v-expansion-panel
@@ -65,15 +64,6 @@
     },
     methods: {
       ...mapActions(['setUserPortfolios']),
-      setActive(name, panelIndex, id) {
-        if (this.active.name === name) {
-          this.activePortfolio = { name: null, panelIndex: -1, id: null };
-          this.active = { name: null, panelIndex: -1, id: null };
-        } else {
-          this.activePortfolio = { name, panelIndex, id };
-          this.active = { name, panelIndex, id };
-        }
-      },
       setUpPortfoliosLocal() {
         if (this.user && this.portfolios.length <= 0) this.setUserPortfolios();
       }
@@ -96,24 +86,6 @@
       loading() {
         return this.$store.state.ui.ajaxInProgress;
       },
-      activePortfolio: {
-        get() {
-          return this.$store.state.ui.activePortfolio.name
-            ? this.$store.state.ui.activePortfolio.panelIndex
-            : -1;
-        },
-        set() {
-          this.$store.commit('setActivePortfolio', this.active);
-        }
-      }
-    },
-    data() {
-      return {
-        // active: {name: null, i: -1, id:null}
-        active: this.$store.state.ui.activePortfolio.name
-          ? this.$store.state.ui.activePortfolio
-          : { name: null, panelIndex: -1, id: null }
-      };
     },
     created() {
       // If no portfolios loaded, load em
