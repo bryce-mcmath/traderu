@@ -14,7 +14,7 @@
       {{ format(assetSelected.prices[0].price) }}
     </h5>
     <div id="chart-container" :width="chartWidth" :height="chartHeight">
-      <h2>Asset Price</h2>
+      <h3>Asset Price</h3>
       <div class="spinner-container" v-if="waiting">
           <v-progress-circular size="120" :indeterminate="true"></v-progress-circular>
       </div>
