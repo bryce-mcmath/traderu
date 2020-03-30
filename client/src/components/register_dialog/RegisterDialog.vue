@@ -137,26 +137,39 @@ export default Vue.extend({
         }
       );
     },
+    registrationError(err) {
+      this.$store.commit('setDialogText', {
+        title: 'Registration failed',
+        content: err || 'One or more required fields is missing',
+        primaryBtn: 'Ok'
+      });
+      this.$store.commit('setShowDialog', true);
+    },
     async submitRegisterUser() {
-      this.$store
-        .dispatch('submitRegister')
-        .then(() => {
-          this.registerDialog = false;
-          this.$store.commit('setDialogText', {
-            title: 'Registration Successful',
-            content: 'You are now registered. Time to create a portfolio!',
-            primaryBtn: 'Ok'
+      if (
+        this.loading ||
+        !this.registerName ||
+        !this.registerEmail ||
+        !this.registerPassword ||
+        this.registerPassword.length < 8
+      ) {
+        this.registrationError();
+      } else {
+        this.$store
+          .dispatch('submitRegister')
+          .then(() => {
+            this.registerDialog = false;
+            this.$store.commit('setDialogText', {
+              title: 'Registration Successful',
+              content: 'You are now registered. Time to create a portfolio!',
+              primaryBtn: 'Ok'
+            });
+            this.$store.commit('setShowDialog', true);
+          })
+          .catch(err => {
+            this.registrationError(err);
           });
-          this.$store.commit('setShowDialog', true);
-        })
-        .catch(err => {
-          this.$store.commit('setDialogText', {
-            title: 'Registration failed',
-            content: err[0],
-            primaryBtn: 'Ok'
-          });
-          this.$store.commit('setShowDialog', true);
-        });
+      }
     }
   },
   mounted() {
