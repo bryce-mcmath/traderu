@@ -11,12 +11,12 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>Name</v-list-item-title>
-              <v-text-field
-                v-model="registerName"
-                label="Name"
-                filled
-                :rules="[rules.required]"
-              ></v-text-field>
+            <v-text-field
+              v-model="registerName"
+              label="Name"
+              filled
+              :rules="[rules.required]"
+            ></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -27,7 +27,7 @@
               filled
               :rules="[rules.required]"
               type="email"
-          ></v-text-field>
+            ></v-text-field>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -51,8 +51,15 @@
             <v-btn
               @click="submitRegisterUser"
               :loading="loading"
-              :disabled="loading || !registerName || !registerEmail || !registerPassword || registerPassword.length < 8"
-            >Submit</v-btn>
+              :disabled="
+                loading ||
+                  !registerName ||
+                  !registerEmail ||
+                  !registerPassword ||
+                  registerPassword.length < 8
+              "
+              >Submit</v-btn
+            >
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -61,117 +68,117 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import Dialog from '@/components/dialog/Dialog.vue';
+  import Vue from 'vue';
+  import Dialog from '@/components/dialog/Dialog.vue';
 
-export default Vue.extend({
-  name: 'RegisterDialog',
-  data() {
-    return {
-      registerDialog: false,
-      gettingLocation: false,
-      show: false,
-      rules: {
-        required: value => !!value || 'Required.',
-        min: v => v.length >= 8 || 'Min 8 characters',
-      },  
-    };
-  },
-  computed: {
-    registerName: {
-      get() {
-        return this.$store.state.ui.registerName;
-      },
-      set(value) {
-        this.$store.commit('setRegisterName', value);
-      }
+  export default Vue.extend({
+    name: 'RegisterDialog',
+    data() {
+      return {
+        registerDialog: false,
+        gettingLocation: false,
+        show: false,
+        rules: {
+          required: value => !!value || 'Required.',
+          min: v => v.length >= 8 || 'Min 8 characters'
+        }
+      };
     },
-    registerEmail: {
-      get() {
-        return this.$store.state.ui.registerEmail;
-      },
-      set(value) {
-        this.$store.commit('setRegisterEmail', value);
-      }
-    },
-    registerPassword: {
-      get() {
-        return this.$store.state.ui.registerPassword;
-      },
-      set(value) {
-        this.$store.commit('setRegisterPassword', value);
-      }
-    },
-    registerLocation: {
-      get() {
-        return this.$store.state.ui.registerLocation;
-      },
-      set(value) {
-        this.$store.commit('setRegisterLocation', value);
-      }
-    },
-    loading() {
-      return this.$store.state.ui.ajaxInProgress;
-    },
-    dark() {
-      return this.$store.state.ui.dark;
-    }
-  },
-  methods: {
-    getLocation() {
-      if (!('geolocation' in navigator)) {
-        this.gettingLocation = false;
-        window.console.log('Geolocation not avail');
-        return;
-      }
-      navigator.geolocation.getCurrentPosition(
-        pos => {
-          this.registerLocation = {
-            latitude: pos.coords.latitude.toString(),
-            longitude: pos.coords.longitude.toString()
-          };
-          this.gettingLocation = false;
-          return;
+    computed: {
+      registerName: {
+        get() {
+          return this.$store.state.ui.registerName;
         },
-        err => {
+        set(value) {
+          this.$store.commit('setRegisterName', value);
+        }
+      },
+      registerEmail: {
+        get() {
+          return this.$store.state.ui.registerEmail;
+        },
+        set(value) {
+          this.$store.commit('setRegisterEmail', value);
+        }
+      },
+      registerPassword: {
+        get() {
+          return this.$store.state.ui.registerPassword;
+        },
+        set(value) {
+          this.$store.commit('setRegisterPassword', value);
+        }
+      },
+      registerLocation: {
+        get() {
+          return this.$store.state.ui.registerLocation;
+        },
+        set(value) {
+          this.$store.commit('setRegisterLocation', value);
+        }
+      },
+      loading() {
+        return this.$store.state.ui.ajaxInProgress;
+      },
+      dark() {
+        return this.$store.state.ui.dark;
+      }
+    },
+    methods: {
+      getLocation() {
+        if (!('geolocation' in navigator)) {
           this.gettingLocation = false;
-          window.console.error('Error getting geolocation');
+          window.console.log('Geolocation not available on this device');
           return;
         }
-      );
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            this.registerLocation = {
+              latitude: pos.coords.latitude.toString(),
+              longitude: pos.coords.longitude.toString()
+            };
+            this.gettingLocation = false;
+            return;
+          },
+          err => {
+            this.gettingLocation = false;
+            window.console.log('Geolocation refused');
+            return;
+          }
+        );
+      },
+      async submitRegisterUser() {
+        this.$store
+          .dispatch('submitRegister')
+          .then(() => {
+            this.registerDialog = false;
+            this.$store.commit('setDialogText', {
+              title: 'Registration Successful',
+              content: 'You are now registered. Time to create a portfolio!',
+              primaryBtn: 'Ok',
+              secondaryBtn: 'Logout',
+              secondaryCallback: () => {
+                this.$store.dispatch('submitLogout');
+              }
+            });
+            this.$store.commit('setShowDialog', true);
+          })
+          .catch(err => {
+            this.$store.commit('setDialogText', {
+              title: 'Registration failed',
+              content: err[0],
+              primaryBtn: 'Ok'
+            });
+            this.$store.commit('setShowDialog', true);
+          });
+      }
     },
-    async submitRegisterUser() {
-      this.$store
-        .dispatch('submitRegister')
-        .then(() => {
-          this.registerDialog = false;
-          this.$store.commit('setDialogText', {
-            title: 'Registration Successful',
-            content: 'You are now registered. Time to create a portfolio!',
-            primaryBtn: 'Ok',
-            secondaryBtn: 'Logout',
-            secondaryCallback: () => {
-              this.$store.dispatch('submitLogout');
-            }
-          });
-          this.$store.commit('setShowDialog', true);
-        })
-        .catch(err => {
-          this.$store.commit('setDialogText', {
-            title: 'Registration failed',
-            content: err[0],
-            primaryBtn: 'Ok'
-          });
-          this.$store.commit('setShowDialog', true);
-        });
+    mounted() {
+      this.getLocation();
     }
-  },
-  mounted() {
-    this.getLocation();
-  }
-});
+  });
 </script>
 
 <style lang="scss">
-@import 'register_dialog';
+  @import 'register_dialog';
 </style>

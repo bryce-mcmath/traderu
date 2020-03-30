@@ -1,8 +1,6 @@
 .spinner-container {
   position: relative;
-  top: 120px;
-  display: flex;
-  justify-content: center;
+  top: 10vh;
+  @include center-content;
   height: 0;
-
 }

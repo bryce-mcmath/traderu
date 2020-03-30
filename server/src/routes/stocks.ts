@@ -67,7 +67,6 @@ stocks.get(
 	async (req: Request, res: Response) => {
 		try {
 			const stock = await getStockIntraday(req.params.symbol);
-			console.log(stock);
 			const stockDataOrganized = Object.entries(stock.rows[0].stockdata)
 				.sort((a, b) => {
 					return new Date(b[0]).valueOf() - new Date(a[0]).valueOf();

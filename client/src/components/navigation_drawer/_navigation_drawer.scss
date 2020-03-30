@@ -7,6 +7,12 @@ aside.v-navigation-drawer {
   .v-list-item {
     align-items: center;
     justify-content: center;
+    margin: 3vh 1vw;
+
+    &:first-child {
+      margin-top: 1vh;
+    }
+
     .v-list-item__icon {
       margin: auto;
     }

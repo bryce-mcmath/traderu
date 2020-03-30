@@ -17,26 +17,21 @@
     width: 100%;
 
     button.v-btn {
-      height: 7vh;
-      margin: 3.5vh 0 0 0 !important;
     }
 
     .transaction-form__portfolio-select {
       width: 100%;
-      margin: auto;
+      padding: 0;
     }
 
     .transaction-form__price-type {
       width: 100%;
       margin: 0;
+      padding: 0;
 
       > .col {
         margin: 0;
         padding: 0;
-
-        > .v-select {
-          height: 10vh;
-        }
 
         &:first-child {
           padding-right: 1vw;
@@ -48,7 +43,7 @@
     }
   }
 
-  .back-btn-container {
+  .back-btn {
     @include light-unpressed;
     @include center-content;
     border-radius: 2vw;

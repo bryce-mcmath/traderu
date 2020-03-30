@@ -54,7 +54,6 @@ register.post(
 		} else {
 			try {
 				const { name, email, password, location } = req.body;
-				if (location) console.log(location.latitude, location.longitude);
 				const existingUser = await getUserByEmail(email.toLowerCase());
 
 				if (existingUser) {

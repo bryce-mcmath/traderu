@@ -1,109 +1,111 @@
 <template>
   <main class="view-container">
-    <div class="stocks-container">
-      <input
-        class="symbol-text-input mt-2"
-        type="text"
-        v-model="searchSymbol"
-        placeholder="Filter by symbol or name..."
-        @input="handleSymbolInput"
-        @click="handleSymbolInput"
-      />
-      <div class="assets-container">
-        <div v-if="assetSelected">
-          <SingleAsset
-            :assetSelected="assetSelected"
-            :portfolioSelectArray="portfolioSelectArray"
-          />
-        </div>
-        <div v-else>
-          <div v-if="stocksData.length || cryptosData.length">
-            <div v-if="stocksData.length">
-              <h3 class="asset-title">Stocks</h3>
-              <v-list :dark="dark" one-line>
-                <v-list-item-group color="primary">
-                  <v-list-item
-                    v-for="(item, i) in stocksData"
-                    :key="i"
-                    @click="selectAsset(item, 'stock')"
-                  >
-                    <v-list-item-content>
-                      <v-list-item-title v-text="item.name"></v-list-item-title>
-                      <!-- {{ showDifference(item) }} -->
-                      <v-list-item-subtitle
-                        v-bind:style="{
-                          color:
-                            item.prices[0].price -
-                              item.prices[item.prices.length - 1].price >
-                            0
-                              ? '#75ff83'
-                              : '#ff073a'
-                        }"
-                      >
-                        {{ format(item.prices[0].price) }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-list-item-content>
-                      <v-sparkline
-                        :value="
-                          item.prices
-                            .map(stockObj => stockObj.price)
-                            .slice()
-                            .reverse()
-                        "
-                        v-bind:color="
+    <div class="assets-container">
+      <div v-if="assetSelected">
+        <button class="back-btn" @click="assetSelected = ''">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <SingleAsset
+          :assetSelected="assetSelected"
+          :portfolioSelectArray="portfolioSelectArray"
+        />
+      </div>
+      <div v-else>
+        <input
+          class="symbol-text-input mt-2"
+          type="text"
+          v-model="searchSymbol"
+          placeholder="Filter by symbol or name..."
+          @input="handleSymbolInput"
+          @click="handleSymbolInput"
+        />
+        <hr class="break" />
+        <div v-if="stocksData.length || cryptosData.length">
+          <div v-if="stocksData.length">
+            <h3 class="asset-title">Stocks</h3>
+            <v-list :dark="dark" one-line>
+              <v-list-item-group color="primary">
+                <v-list-item
+                  v-for="(item, i) in stocksData"
+                  :key="i"
+                  @click="selectAsset(item, 'stock')"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                    <!-- {{ showDifference(item) }} -->
+                    <v-list-item-subtitle
+                      v-bind:style="{
+                        color:
                           item.prices[0].price -
                             item.prices[item.prices.length - 1].price >
                           0
                             ? '#75ff83'
                             : '#ff073a'
-                        "
-                        line-width="3"
-                        padding="16"
-                      ></v-sparkline>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list>
-            </div>
-            <div v-if="cryptosData.length">
-              <h3 class="asset-title">Cryptocurrencies</h3>
-              <v-list :dark="dark" one-line>
-                <v-list-item-group color="primary">
-                  <v-list-item
-                    v-for="(item, i) in cryptosData"
-                    :key="i"
-                    @click="selectAsset(item, 'crypto')"
-                  >
-                    <v-list-item-content>
-                      <v-list-item-title v-text="item.name"></v-list-item-title>
-                      <!-- {{ showDifference(item) }} -->
-                      <v-list-item-subtitle
-                        v-bind:style="{
-                          color:
-                            item.prices[0].price -
-                              item.prices[item.prices.length - 1].price >
-                            0
-                              ? '#75ff83'
-                              : '#ff073a'
-                        }"
-                      >
-                        {{ format(item.prices[0].price) }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-list-item-content> </v-list-item-content>
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list>
-            </div>
+                      }"
+                    >
+                      {{ format(item.prices[0].price) }}
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                  <v-list-item-content>
+                    <v-sparkline
+                      :value="
+                        item.prices
+                          .map(stockObj => stockObj.price)
+                          .slice()
+                          .reverse()
+                      "
+                      v-bind:color="
+                        item.prices[0].price -
+                          item.prices[item.prices.length - 1].price >
+                        0
+                          ? '#75ff83'
+                          : '#ff073a'
+                      "
+                      line-width="3"
+                      padding="16"
+                    ></v-sparkline>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
           </div>
-          <div class="cp" v-else-if="searchSymbol">
-            <h3>No results for symbol "{{ searchSymbol.toUpperCase() }}"</h3>
+          <div v-if="cryptosData.length">
+            <h3 class="asset-title">Cryptocurrencies</h3>
+            <v-list :dark="dark" one-line>
+              <v-list-item-group color="primary">
+                <v-list-item
+                  v-for="(item, i) in cryptosData"
+                  :key="i"
+                  @click="selectAsset(item, 'crypto')"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title v-text="item.name"></v-list-item-title>
+                    <!-- {{ showDifference(item) }} -->
+                    <v-list-item-subtitle
+                      v-bind:style="{
+                        color:
+                          item.prices[0].price -
+                            item.prices[item.prices.length - 1].price >
+                          0
+                            ? '#75ff83'
+                            : '#ff073a'
+                      }"
+                    >
+                      {{ format(item.prices[0].price) }}
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                  <v-list-item-content> </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
           </div>
-          <div v-else>
-            No stocks to show at this time. Once we've added some we'll display
-            the data here.
-          </div>
+        </div>
+        <div class="cp" v-else-if="searchSymbol">
+          <h3>No results for symbol "{{ searchSymbol.toUpperCase() }}"</h3>
+        </div>
+        <div v-else>
+          No stocks to show at this time. Once we've added some we'll display
+          the data here.
         </div>
       </div>
     </div>

@@ -7,7 +7,9 @@ export default {
     );
     return axios
       .get('/api/authenticate')
-      .then(response => response.data)
+      .then(response => {
+        return response.data;
+      })
       .catch(err => err);
   },
 
