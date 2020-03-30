@@ -49,4 +49,27 @@
 		}
 	}
 
+	//----------- LEADERBOARD ------------
+	.leaderboard__list-item {
+		.user-info__rank {
+			font-size: 3vw;
+		}
+		.user-info{
+			h3 {
+				font-size: 3vw;
+			}
+			div{
+				width: 10vw !important;
+				height: 10vw !important;
+			}
+			img{
+				width: 8vw !important;
+				height: 8vw !important;
+			}
+		}
+		.portfolio-info{
+			font-size: 3vw;
+		}
+
+	}
 }
