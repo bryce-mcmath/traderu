@@ -36,7 +36,7 @@ export default new Vuex.Store({
       // Multi component use
       dark: false,
       ajaxInProgress: false,
-      activePortfolio: { name: null, panelIndex: -1, id: null },
+      activePortfolio: { name: null, id: null },
       // For navigation drawer
       showDrawer: false,
       // For login component
