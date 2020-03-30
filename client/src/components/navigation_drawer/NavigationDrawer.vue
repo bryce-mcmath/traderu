@@ -162,5 +162,5 @@
 </script>
 
 <style lang="scss">
-  @import 'navigation_drawer';
+  @import './navigation_drawer';
 </style>
