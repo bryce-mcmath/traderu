@@ -11,12 +11,10 @@
       { 'v-navigation-drawer--light': !dark }
     ]"
   >
-    <v-list-item v-if="user">
-      <div class="profile">
-        <img class="profile__avatar" :src="user.avatar" />
-        <h3 class="profile__name">{{ user.name }}</h3>
-      </div>
-    </v-list-item>
+    <div v-if="user" class="profile">
+      <img class="profile__avatar" :src="user.avatar" />
+      <h3 class="profile__name">{{ user.name }}</h3>
+    </div>
 
     <v-divider v-if="user"></v-divider>
 

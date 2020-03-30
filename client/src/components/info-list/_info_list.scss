@@ -8,6 +8,14 @@
     margin: 4vh 2vw;
     padding: 2vw 3vw;
 
+    &:first-child {
+      margin-top: 2vh;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
     h2 {
       width: 100%;
       font-size: 7vw;
