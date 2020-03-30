@@ -9,5 +9,7 @@ CREATE TABLE portfolios (
   buying_power decimal NOT NULL,
   created_at timestamp DEFAULT NOW(),
   deleted_at timestamp,
-  unique (user_id, name)
+  UNIQUE (user_id, name),
+  is_public boolean DEFAULT TRUE
 );
+
