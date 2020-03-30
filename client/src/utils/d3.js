@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4 ) =>  {
+export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4, sort=false ) =>  {
         if(dataOptions.data.length < 4) return;
         // //Format time values to just dates for this graph
         // const date = rawData[0].dateTime.split(' ')[0];
@@ -9,6 +9,7 @@ export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4 
         //   value: value.price,
         //   date: value.dateTime
         // }));
+        console.log(dataOptions.timeParseString)
         const parseTime = d3.timeParse(dataOptions.timeParseString);
         const vis = d3.select(id),
           xScale = d3
@@ -106,9 +107,23 @@ export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4 
           .y(d => {
             return yScale(d.value);
           });
-        const strokeColour = dataOptions.data[dataOptions.data.length - 1].value - dataOptions.data[0].value > 0 ?
-          "#ff073a" :
-          "#75ff83";
+          
+
+        let strokeColour;
+        if(sort){
+          const earliest = dataOptions.data.reduce((a,b) => (new Date(a.date) - new Date(b.date)) < 0 ? a : b);
+          const latest = dataOptions.data.reduce((a,b) => new Date(b.date) - new Date(a.date) < 0 ? a : b);
+
+          strokeColour = latest.value - earliest.value < 0 ?
+            "#ff073a" :
+            "#75ff83";
+        } else {
+          strokeColour = dataOptions.data[dataOptions.data.length - 1].value - dataOptions.data[0].value > 0 ? 
+            "#ff073a" :
+            "#75ff83";
+        }
+        console.log(dataOptions.data)
+
         vis
           .append('svg:path')
           .attr('d', lineGen(dataOptions.data))
