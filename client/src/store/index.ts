@@ -191,10 +191,6 @@ export default new Vuex.Store({
     },
 
     async setRankingsData({ commit, state }) {
-      //Don't update if already loaded
-      if (Object.keys(state.apiData.allRankingsData).length !== 0) {
-        return;
-      }
       commit('setAjaxInProgress', true);
       fetchRankingsData()
         .then(rankData => {
