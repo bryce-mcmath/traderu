@@ -57,7 +57,7 @@
               class="right-row"
               readonly
               :dark="dark"
-              :value="ownedAssetquantity || '0'"
+              :value="ownedAssetQuantity || '0'"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -267,7 +267,7 @@ export default {
     dark() {
       return this.$store.state.ui.dark;
     },
-    OwnedAssetquantity() {
+    ownedAssetQuantity() {
       if (this.assetSelected.isStock) {
         const stocks = this.portfolio.stocks.filter(stock => stock);
         const stock = stocks.find(
