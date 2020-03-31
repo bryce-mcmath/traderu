@@ -324,9 +324,10 @@ export default new Vuex.Store({
             // Clear inputs
             commit('setLoginEmail', '');
             commit('setLoginPassword', '');
+
             if (response.response) {
               // There is an error
-              reject(errorUnwrapper(response));
+              reject();
             } else {
               // Set JWT in local storage, checkUserAuth to get user data and verify token
               localStorage.setItem('token', response.token);

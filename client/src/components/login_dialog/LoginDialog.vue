@@ -118,7 +118,7 @@
       loginError(err) {
         this.$store.commit('setDialogText', {
           title: 'Login failed',
-          content: err,
+          content: 'Unable to login, invalid email or password',
           primaryBtn: 'Ok'
         });
         this.$store.commit('setShowDialog', true);
