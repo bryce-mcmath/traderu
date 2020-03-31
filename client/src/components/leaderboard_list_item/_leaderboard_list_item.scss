@@ -10,104 +10,51 @@
       margin-top: 0;
     }
 
-    .row.user-info {
-      padding: 2vh 0 0 0;
-      display: flex;
-      justify-content: space-between;
-
-      h3.user-info__name {
-        margin-left: 17vw;
-        font-size: 5vw;
-      }
-
-      span.user-info__rank {
-        position: absolute;
-        left: 5vw;
-        top: 3vw;
-      }
-
-      .user-info__img-container {
-        @include center-content;
-        @include light-unpressed;
-        margin: 0 5vw 0 0;
-        border-radius: 50%;
-        height: 15vw;
-        width: 15vw;
-
-        img {
-          position: absolute;
-          height: 13vw;
-          width: 13vw;
-          border-radius: 50%;
-        }
-      }
-    }
-
-    .performance-info {
-      justify-content: space-around;
-      margin: 2vw;
-      font-size: 3vh;
-
-      > * {
-        @include light-pressed;
-        padding: 1vh 3vw;
-        border-radius: 3vw;
-      }
-
-      &__percent {
-        margin-left: 15vw;
-        font-weight: bold;
-      }
-
-      &__value {
-        margin-right: 15vw;
-      }
-    }
-  }
-
-  .row {
-    @include center-content;
-    width: 100%;
-  }
-
-  &.leaderboard-container--dark {
-    .v-card.leaderboard__list-item {
-      @include dark-unpressed;
-      @include center-content;
-      flex-direction: column;
+    .row {
       width: 100%;
-      margin: 4vh 0;
-
-      &:first-child {
-        margin-top: 0;
+      padding: 1vh 2vw 2vh 2vw;
+      align-items: flex-start;
+      .col {
+        margin: auto;
+        padding: 1vh 2vw;
       }
 
-      .row.row.user-info {
-        padding: 2vh 0 0 0;
-        display: flex;
-        justify-content: space-between;
-
-        h3.user-info__name {
-          margin-left: 17vw;
-          font-size: 5vw;
+      &.user-info {
+        .col {
+          &:first-child {
+          }
+          &:last-child {
+            align-self: flex-end;
+          }
         }
 
-        span.user-info__rank {
-          position: absolute;
-          left: 5vw;
-          top: 3vw;
+        .user-info__rank {
+          @include light-unpressed;
+          @include center-content;
+          font-weight: 700;
+          border-radius: 5px;
+          margin: 0;
+        }
+
+        .user-info__names {
+          border-radius: 5px;
+          > * {
+            padding: 0 2vw;
+            margin: 1vh 0;
+            &:first-child {
+              font-size: 3vh;
+            }
+          }
         }
 
         .user-info__img-container {
           @include center-content;
-          @include dark-unpressed;
-          margin: 0 5vw 0 0;
-          border-radius: 50%;
+          @include light-unpressed;
           height: 15vw;
           width: 15vw;
+          border-radius: 50%;
 
-          img {
-            position: absolute;
+          .avatar {
             height: 13vw;
             width: 13vw;
             border-radius: 50%;
@@ -115,24 +62,38 @@
         }
       }
 
-      .performance-info {
+      &.performance-info {
+        align-items: baseline;
         justify-content: space-around;
-        margin: 2vw;
-        font-size: 3vh;
+        .col {
+          @include light-pressed;
+          text-align: center;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
 
-        > * {
-          @include dark-pressed;
-          padding: 1vh 3vw;
-          border-radius: 3vw;
+  &--dark {
+    .v-card.leaderboard__list-item {
+      @include dark-unpressed;
+      @include center-content;
+
+      .row {
+        &.user-info {
+          .user-info__rank {
+            @include dark-unpressed;
+          }
+
+          .user-info__img-container {
+            @include dark-unpressed;
+          }
         }
 
-        &__percent {
-          margin-left: 15vw;
-          font-weight: bold;
-        }
-
-        &__value {
-          margin-right: 15vw;
+        &.performance-info {
+          .col {
+            @include dark-pressed;
+          }
         }
       }
     }
