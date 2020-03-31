@@ -87,3 +87,5 @@ Thank you for checking out our app. We don't have time to cover everything we di
 ### Jon
 
 Thanks everyone.
+
+mention why we chose tech stacks, js, vue
