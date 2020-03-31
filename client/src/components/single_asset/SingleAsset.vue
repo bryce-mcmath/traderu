@@ -226,7 +226,8 @@ export default {
       return this.assetSelected.isStock ? 'Day' : '3-month';
     },
     portfolio() {
-      return this.$store.state.ui.activePortfolio;
+      // return this.$store.state.ui.activePortfolio;
+      return this.$store.state.apiData.userPortfolios.find(portfolio => portfolio.id === this.portfolioSelectedId) || { name: null, id: null };
     },
     stockPrice() {
       if (this.assetSelected) {
@@ -306,7 +307,7 @@ export default {
     transactionSelected: '',
     searchSymbol: '',
     quantity: '',
-    chartWidth: window.innerWidth * 0.9,
+    chartWidth: window.innerWidth * 0.8,
     chartHeight: window.innerWidth * 0.9 * 0.5,
     waiting: false,
     assetData: null
