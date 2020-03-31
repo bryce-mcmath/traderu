@@ -2,7 +2,6 @@
   <v-navigation-drawer
     width="280"
     absolute
-    temporary
     :value="showDrawer"
     @input="drawerEvent"
     :dark="dark"
@@ -67,7 +66,7 @@
         <v-list-item-content>
           <v-btn>Settings</v-btn>
         </v-list-item-content>
-      </v-list-item> -->
+      </v-list-item>-->
     </v-list>
 
     <v-list dense nav v-if="!user">
@@ -105,62 +104,62 @@
 </template>
 
 <script>
-  import Vuex from 'vuex';
-  import LoginDialog from '@/components/login_dialog/LoginDialog.vue';
-  import RegisterDialog from '@/components/register_dialog/RegisterDialog.vue';
+import Vuex from 'vuex';
+import LoginDialog from '@/components/login_dialog/LoginDialog.vue';
+import RegisterDialog from '@/components/register_dialog/RegisterDialog.vue';
 
-  export default {
-    name: 'NavigationDrawer',
-    components: {
-      LoginDialog,
-      RegisterDialog
+export default {
+  name: 'NavigationDrawer',
+  components: {
+    LoginDialog,
+    RegisterDialog
+  },
+  data() {
+    return {
+      drawerState: null
+    };
+  },
+  computed: {
+    showDrawer() {
+      return this.$store.state.ui.showDrawer;
     },
-    data() {
-      return {
-        drawerState: null
-      };
+    user() {
+      return this.$store.state.user;
     },
-    computed: {
-      showDrawer() {
-        return this.$store.state.ui.showDrawer;
-      },
-      user() {
-        return this.$store.state.user;
-      },
-      dark() {
-        return this.$store.state.ui.dark;
-      }
-    },
-    methods: {
-      drawerEvent(e) {
-        if (!e) this.$store.commit('setDrawer', false);
-      },
-      logout() {
-        this.$store
-          .dispatch('submitLogout')
-          .then(() => {
-            this.$store.commit('setDialogText', {
-              title: 'Logout Successful',
-              content: "We'll miss you buddy.",
-              primaryBtn: 'Ok',
-              secondaryBtn: null,
-              secondaryCallback: null
-            });
-            this.$store.commit('setShowDialog', true);
-          })
-          .catch(err => {
-            this.$store.commit('setDialogText', {
-              title: 'Logout failed. Wait, what? Logout failed?!',
-              content: err[0],
-              primaryBtn: 'Ok'
-            });
-            this.$store.commit('setShowDialog', true);
-          });
-      }
+    dark() {
+      return this.$store.state.ui.dark;
     }
-  };
+  },
+  methods: {
+    drawerEvent(e) {
+      if (!e) this.$store.commit('setDrawer', false);
+    },
+    logout() {
+      this.$store
+        .dispatch('submitLogout')
+        .then(() => {
+          this.$store.commit('setDialogText', {
+            title: 'Logout Successful',
+            content: "We'll miss you buddy.",
+            primaryBtn: 'Ok',
+            secondaryBtn: null,
+            secondaryCallback: null
+          });
+          this.$store.commit('setShowDialog', true);
+        })
+        .catch(err => {
+          this.$store.commit('setDialogText', {
+            title: 'Logout failed. Wait, what? Logout failed?!',
+            content: err[0],
+            primaryBtn: 'Ok'
+          });
+          this.$store.commit('setShowDialog', true);
+        });
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-  @import './navigation_drawer';
+@import './navigation_drawer';
 </style>
