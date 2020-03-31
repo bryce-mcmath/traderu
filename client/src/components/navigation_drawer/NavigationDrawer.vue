@@ -10,7 +10,7 @@
       { 'v-navigation-drawer--dark': dark },
       { 'v-navigation-drawer--light': !dark }
     ]"
-    disable-resize-watcher
+    :disable-resize-watcher="true"
   >
     <div v-if="user" class="profile">
       <img class="profile__avatar" :src="user.avatar" />

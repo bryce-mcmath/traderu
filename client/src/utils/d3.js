@@ -163,22 +163,22 @@ export const makeLineChart = (
   d3.selectAll('text').style("font-size", "1.2em")
   d3.selectAll('.tick line').style('opacity', '0.45');
 
-  const aspect = width / height;
-  const parent = d3.select('#chart-container');
-  d3.select(window).on('resize', null)
-  d3.select(window).on('resize', function() {
-    const targetWidth = xTickInterval === 'value' ? Math.round(parent.style('width').slice(0, -2))*0.916 : Math.round(parent.style('width').slice(0, -2));
-    vis.attr('width', targetWidth);
-    vis.attr('height', targetWidth / aspect);
-    vis.html('');
-    makeLineChart(
-      targetWidth / aspect,
-      targetWidth,
-      margins,
-      dataOptions,
-      id,
-      xTickInterval,
-      true
-    );
-  });
+  // const aspect = width / height;
+  // const parent = d3.select('#chart-container');
+  // d3.select(window).on('resize', null)
+  // d3.select(window).on('resize', function() {
+  //   const targetWidth = xTickInterval === 'value' ? Math.round(parent.style('width').slice(0, -2))*0.916 : Math.round(parent.style('width').slice(0, -2));
+  //   vis.attr('width', targetWidth);
+  //   vis.attr('height', targetWidth / aspect);
+  //   vis.html('');
+  //   makeLineChart(
+  //     targetWidth / aspect,
+  //     targetWidth,
+  //     margins,
+  //     dataOptions,
+  //     id,
+  //     xTickInterval,
+  //     true
+  //   );
+  // });
 };
