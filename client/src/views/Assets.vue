@@ -5,14 +5,16 @@
         <button class="back-btn" @click="assetSelected = ''">
           <i class="fas fa-arrow-left"></i>
         </button>
+        <hr class="break" />
         <SingleAsset :assetSelected="assetSelected" :portfolioSelectArray="portfolioSelectArray" />
       </div>
       <div v-else>
         <input
-          class="symbol-text-input mt-2"
+          class="symbol-text-input"
           type="text"
           v-model="searchSymbol"
           placeholder="Filter by symbol or name..."
+          inputmode="search"
           @input="handleSymbolInput"
           @click="handleSymbolInput"
         />
@@ -60,7 +62,7 @@
                       line-width="3"
                       padding="16"
                       auto-draw
-                      :auto-draw-duration="700"
+                      :auto-draw-duration="1000"
                     ></v-sparkline>
                   </v-list-item-content>
                 </v-list-item>
@@ -109,7 +111,7 @@
                       line-width="3"
                       padding="16"
                       auto-draw
-                      :auto-draw-duration="700"
+                      :auto-draw-duration="1000"
                     ></v-sparkline>
                   </v-list-item-content>
                 </v-list-item>
@@ -120,10 +122,10 @@
         <div class="cp" v-else-if="searchSymbol">
           <h3>No results for symbol "{{ searchSymbol.toUpperCase() }}"</h3>
         </div>
-        <div v-else>
+        <p class="no-assets-msg" v-else>
           No stocks to show at this time. Once we've added some we'll display
           the data here.
-        </div>
+        </p>
       </div>
     </div>
   </main>

@@ -19,7 +19,7 @@ import FooterNavButton from '@/components/footer_nav_button/FooterNavButton.vue'
 import FooterNav from './components/footer_nav/FooterNav.vue';
 import Spinner from './components/spinner/Spinner.vue';
 import Dialog from './components/dialog/Dialog.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 
 export default Vue.extend({
   name: 'App',
@@ -52,9 +52,18 @@ export default Vue.extend({
       'setStocksData',
       'setCryptosData',
       'setRankingsData'
-    ])
+    ]),
+    ...mapMutations(['toggleDarkMode'])
   },
   created: function() {
+    if (
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
+      // if they like it dark, they get it dark, we <3 our users
+      this.toggleDarkMode();
+    }
+
     // check for a valid token whenever they visit
     this.checkUserAuth();
     this.setStocksData();

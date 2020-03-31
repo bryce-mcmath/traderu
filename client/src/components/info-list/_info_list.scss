@@ -2,6 +2,7 @@
   background: $light-bg;
   width: 93vw;
   margin: auto;
+  padding: 0 0 3vh 0;
 
   .v-card.info-list__card {
     @include light-pressed;

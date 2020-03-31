@@ -8,7 +8,7 @@ phases:
   build:
     commands:
       - npm run build
-  postbuild:
+  post_build:
     commands:
       - npm run test
 artifacts:

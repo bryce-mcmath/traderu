@@ -4,6 +4,65 @@
   @include center-content;
   height: 0;
 }
+
+// Used for the color of D3 graph
 .light {
-  color: rgb(216, 216, 216);
+  color: $dark-bg-primary-text-color;
+}
+
+.asset-info {
+  @include light-unpressed;
+  margin-bottom: 3vh;
+  padding: 1vh 4vw;
+
+  &--dark {
+    @include dark-unpressed;
+  }
+}
+
+.order-form {
+  @include light-unpressed;
+  padding: 1vh 4vw;
+  margin-bottom: 2vh;
+
+  .container {
+    .row {
+      justify-content: space-between;
+      margin-bottom: 2vh;
+
+      &:first-child {
+        margin-bottom: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .portfolio-select__label {
+        padding-right: 3vw;
+      }
+
+      .col {
+        padding: 0;
+
+        .left-row {
+          padding-right: 3vw;
+        }
+
+        .right-row {
+          padding-left: 3vw;
+        }
+
+        .order-btn {
+          width: 100%;
+          margin: 2vh auto 0 auto;
+          height: 8vh;
+        }
+      }
+    }
+  }
+
+  &--dark {
+    @include dark-unpressed;
+  }
 }

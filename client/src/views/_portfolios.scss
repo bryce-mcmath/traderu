@@ -43,20 +43,21 @@
   }
 
   h2 {
-    margin: 4vw 0 1vw 5vw;
+    margin: 4vh 0 1vh 5vw;
     align-self: flex-start;
+    font-size: 4vh;
   }
 
   hr.break {
     @include light-unpressed;
     border: 0;
-    height: 3vw;
+    height: 2vh;
     width: 90vw;
     margin: auto;
   }
 
   aside.logged-out {
-    margin: 2vh 4vw;
+    margin: 2vh 5vw;
 
     h2 {
       margin: 0;
