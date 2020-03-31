@@ -15,7 +15,7 @@
       <div class="spinner-container" v-if="waiting">
         <v-progress-circular size="120" :indeterminate="true"></v-progress-circular>
       </div>
-      <svg id="assetChart3" :width="chartWidth" :height="chartHeight" />
+      <svg :class="{light: dark}" id="assetChart3" :width="chartWidth" :height="chartHeight" />
     </div>
     <v-select
       :items="chartOptions"
@@ -124,9 +124,10 @@ export default {
       makeLineChart(
         this.chartHeight,
         this.chartWidth,
-        { top: 55, left: 100, bottom: 55, right: 40 },
+        { top: 30, left: 70, bottom: 30, right: 40 },
         dataOptions,
-        `#assetChart3`
+        `#assetChart3`,
+        'Day'
       );
     } else if (this.assetSelected.isCrypto) {
       //Use 1 yr of data
@@ -142,9 +143,10 @@ export default {
       makeLineChart(
         this.chartHeight,
         this.chartWidth,
-        { top: 55, left: 100, bottom: 55, right: 40 },
+        { top: 30, left: 70, bottom: 30, right: 40 },
         dataOptions,
-        `#assetChart3`
+        `#assetChart3`,
+        '3month'
       );
     }
   },
@@ -290,9 +292,10 @@ export default {
         makeLineChart(
           this.chartHeight,
           this.chartWidth,
-          { top: 55, left: 100, bottom: 55, right: 40 },
+          { top: 30, left: 70, bottom: 30, right: 40 },
           dataOptions,
-          `#assetChart3`
+          `#assetChart3`,
+          '3month'
         );
       }
       if (e === '1-year') {
@@ -319,10 +322,10 @@ export default {
         makeLineChart(
           this.chartHeight,
           this.chartWidth,
-          { top: 55, left: 100, bottom: 55, right: 40 },
+          { top: 30, left: 70, bottom: 30, right: 40 },
           dataOptions,
           `#assetChart3`,
-          6
+          '1year'
         );
       }
       if (e === 'Day') {
@@ -343,16 +346,10 @@ export default {
         makeLineChart(
           this.chartHeight,
           this.chartWidth,
-          { top: 55, left: 100, bottom: 55, right: 40 },
+          { top: 55, left: 70, bottom: 55, right: 40 },
           dataOptions,
-          `#assetChart3`
-        );
-        makeLineChart(
-          this.chartHeight,
-          this.chartWidth,
-          { top: 55, left: 100, bottom: 55, right: 40 },
-          dataOptions,
-          `#assetChart3`
+          `#assetChart3`,
+          'day'
         );
       }
     },
@@ -395,6 +392,7 @@ export default {
             type: this.transactionSelected,
             quantity: Number(this.quantity)
           },
+
           this.portfolio.id
         )
           .then(res => {

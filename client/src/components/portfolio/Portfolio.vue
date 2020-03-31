@@ -121,10 +121,10 @@ export default {
     makeLineChart(
       this.width,
       this.width * 1.1,
-      { top: 55, left: 120, bottom: 55, right: 60 },
+      { top: 55, left: 70, bottom: 55, right: 10 },
       dataOptions,
       `#line-chart-${this.portfolio.id}`,
-      4,
+      'value',
       true
     );
   },
