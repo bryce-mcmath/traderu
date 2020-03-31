@@ -12,6 +12,16 @@
             : '#ff073a'
       }"
       >{{ format(assetSelected.prices[0].price) }}</h5>
+      <h5
+        v-bind:style="{
+        color:
+          assetSelected.prices[0].price -
+            assetSelected.prices[1].price >
+          0
+            ? '#75ff83'
+            : '#ff073a'
+      }"
+      >{{ percentDifference(assetSelected.prices[0].price, assetSelected.prices[1].price) }}%</h5>
       <div id="chart-container" :width="chartWidth" :height="chartHeight">
         <div class="spinner-container" v-if="waiting">
           <v-progress-circular size="120" :indeterminate="true"></v-progress-circular>
@@ -314,6 +324,13 @@ export default {
         /^(\d+\.\d*?[1-9])0+$/,
         ''
       );
+    },
+    // |V1 - V1|/((V1+V2)/2) * 100
+    percentDifference(now, prev) {
+      const diff = ((Math.abs(prev - now) / ((prev + now) / 2)) * 100).toFixed(
+        2
+      );
+      return now > prev ? `${diff}` : `-${diff}`;
     },
     async updateChart(e) {
       d3.select('#assetChart3').html('');
