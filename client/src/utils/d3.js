@@ -167,7 +167,7 @@ export const makeLineChart = (
   const parent = d3.select('#chart-container');
   d3.select(window).on('resize', null)
   d3.select(window).on('resize', function() {
-    const targetWidth = Math.round(parent.style('width').slice(0, -2));
+    const targetWidth = xTickInterval === 'value' ? Math.round(parent.style('width').slice(0, -2))*0.916 : Math.round(parent.style('width').slice(0, -2));
     vis.attr('width', targetWidth);
     vis.attr('height', targetWidth / aspect);
     vis.html('');
@@ -178,7 +178,7 @@ export const makeLineChart = (
       dataOptions,
       id,
       xTickInterval,
-         true
+      true
     );
   });
 };
