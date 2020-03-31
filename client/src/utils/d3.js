@@ -1,10 +1,20 @@
 import * as d3 from 'd3';
+import { formatCurrency } from '@coingecko/cryptoformat';
 
 function formattedValue(val) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  }).format(Math.round(val * 100) / 100);
+  val = parseFloat(val.toString().replace(/(\.\d*?[1-9])0+$/g, '$1'));
+  switch (val) {
+    case val > 0.1:
+      val = val.toFixed(2);
+      break;
+    case val > 0.01:
+      val = val.toFixed(3);
+      break;
+    case val > 0.0001:
+      val = val.toFixed(4);
+      break;
+  }
+  return formatCurrency(val, 'USD', 'en').replace(/(\.\d*?[1-9])0+$/g, '$1');
 }
 
 export const makeLineChart = (
@@ -19,22 +29,21 @@ export const makeLineChart = (
   if (dataOptions.data.length < 4) return;
 
   let tickFormat, xAxisTickInterval;
-  console.log(dataOptions.data)
 
-  if(xTickInterval === '1year'){
-    xAxisTickInterval = d3.timeMonth.every(4)
-    tickFormat = d3.timeFormat('%b')
-  } else if(xTickInterval === '3month'){
-    xAxisTickInterval = d3.timeMonth.every(1)
-    tickFormat = d3.timeFormat('%b')
-  } else if(xTickInterval === "Day"){
-    xAxisTickInterval = d3.timeHour.every(2)
-    tickFormat = d3.timeFormat('%H:%M')
+  if (xTickInterval === '1year') {
+    xAxisTickInterval = d3.timeMonth.every(4);
+    tickFormat = d3.timeFormat('%b');
+  } else if (xTickInterval === '3month') {
+    xAxisTickInterval = d3.timeMonth.every(1);
+    tickFormat = d3.timeFormat('%b');
+  } else if (xTickInterval === 'Day') {
+    xAxisTickInterval = d3.timeHour.every(2);
+    tickFormat = d3.timeFormat('%H:%M');
   } else {
-    const dataPoints = dataOptions.data.length;
-    const every = Math.round(dataPoints / 6);
-    xAxisTickInterval = d3.timeDay.every(every)
-    tickFormat = d3.timeFormat('%d %b')
+    const days = dataOptions.data.length;
+    const every = Math.round(days / 4);
+    xAxisTickInterval = d3.timeDay.every(every);
+    tickFormat = d3.timeFormat('%d %b');
   }
   const parseTime = d3.timeParse(dataOptions.timeParseString);
   const vis = d3.select(id),
@@ -93,15 +102,15 @@ export const makeLineChart = (
   //   .text('Date');
 
   //Y-axis label
-    // vis
-    //   .append('text')
-    //   .attr('class', 'axis-label')
-    //   .attr('transform', 'rotate(-90)')
-    //   .attr('y', 0)
-    //   .attr('x', 0 - height / 2)
-    //   .attr('dy', '1em')
-    //   .style('text-anchor', 'middle')
-    //   .text('Value (USD)');
+  // vis
+  //   .append('text')
+  //   .attr('class', 'axis-label')
+  //   .attr('transform', 'rotate(-90)')
+  //   .attr('y', 0)
+  //   .attr('x', 0 - height / 2)
+  //   .attr('dy', '1em')
+  //   .style('text-anchor', 'middle')
+  //   .text('Value (USD)');
 
   //Add x gridlines
   vis
