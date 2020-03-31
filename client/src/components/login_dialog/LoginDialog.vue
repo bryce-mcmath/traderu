@@ -15,6 +15,7 @@
             <v-text-field
               v-model="loginEmail"
               label="Email"
+              autofocus
               filled
               :rules="[rules.required]"
               type="email"

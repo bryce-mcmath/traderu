@@ -1,8 +1,8 @@
 <template>
   <div class="text-center">
-    <v-dialog :value="showDialog" width="500">
+    <v-dialog :dark="dark" :value="showDialog" width="500">
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>{{
+        <v-card-title class="headline" primary-title>{{
           dialogOptions.dialogTitle
         }}</v-card-title>
 
@@ -34,6 +34,9 @@
 <script>
   export default {
     computed: {
+      dark() {
+        return this.$store.state.ui.dark;
+      },
       showDialog() {
         return this.$store.state.ui.showDialog;
       },

@@ -327,7 +327,7 @@ export default new Vuex.Store({
 
             if (response.response) {
               // There is an error
-              reject();
+              reject(response.response);
             } else {
               // Set JWT in local storage, checkUserAuth to get user data and verify token
               localStorage.setItem('token', response.token);
