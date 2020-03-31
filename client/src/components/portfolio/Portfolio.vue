@@ -214,7 +214,7 @@ export default {
       return [
         ...stocks,
         ...cryptos,
-        { symbol: 'CASH', name: 'CASH', value: this.portfolio.cash }
+        { symbol: 'CASH', name: 'Cash', value: this.portfolio.cash }
       ];
     }
   },
@@ -278,11 +278,14 @@ export default {
           .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
       const color = d3.scaleOrdinal([
-        '#EC4F28',
-        '#FCD132',
-        '#B1BA68',
-        '#529E7B',
-        '#516564'
+        '#00876c',
+        '#57a18b',
+        '#8cbcac',
+        '#bed6ce',
+        '#f1c6c6',
+        '#ec9c9d',
+        '#e27076',
+        '#d43d51'
       ]);
 
       // Generate the pie
