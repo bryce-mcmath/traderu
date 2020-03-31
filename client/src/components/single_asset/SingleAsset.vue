@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h4>{{ assetSelected.name }}</h4>
-    <h5
-      v-bind:style="{
+    <section v-bind:class="['asset-info', {'asset-info--dark':dark}]">
+      <h3>{{ assetSelected.name }}</h3>
+      <h5
+        v-bind:style="{
         color:
           assetSelected.prices[0].price -
             assetSelected.prices[assetSelected.prices.length - 1].price >
@@ -10,80 +11,132 @@
             ? '#75ff83'
             : '#ff073a'
       }"
-    >{{ format(assetSelected.prices[0].price) }}</h5>
-    <div id="chart-container" :width="chartWidth" :height="chartHeight">
-      <div class="spinner-container" v-if="waiting">
-        <v-progress-circular size="120" :indeterminate="true"></v-progress-circular>
+      >{{ format(assetSelected.prices[0].price) }}</h5>
+      <div id="chart-container" :width="chartWidth" :height="chartHeight">
+        <div class="spinner-container" v-if="waiting">
+          <v-progress-circular size="120" :indeterminate="true"></v-progress-circular>
+        </div>
+        <svg :class="{light: dark}" id="assetChart3" :width="chartWidth" :height="chartHeight" />
       </div>
-      <svg :class="{light: dark}" id="assetChart3" :width="chartWidth" :height="chartHeight" />
-    </div>
-    <v-select
-      :menu-props="{dark: dark}"
-      :dark="dark"
-      :items="chartOptions"
-      label="Standard"
-      dense
-      :value="defaultSelectValue"
-      @input="updateChart"
-    ></v-select>
-    <div v-if="portfolioSelectArray.length">
-      <h3 class="mt-4">PLACE AN ORDER</h3>
+      <v-select
+        :menu-props="{dark: dark}"
+        :dark="dark"
+        :items="chartOptions"
+        label="Standard"
+        dense
+        :value="defaultSelectValue"
+        @input="updateChart"
+      ></v-select>
+    </section>
+    <div
+      v-bind:class="['order-form', {'order-form--dark': dark}]"
+      v-if="portfolioSelectArray.length"
+    >
+      <h3>Place Order</h3>
       <v-container>
-        <v-row justify="space-between">
-          <label>Select portfolio for transaction:</label>
+        <v-row>
+          <label class="portfolio-select__label">Select portfolio for transaction:</label>
           <v-select
+            :menu-props="{dark: dark}"
             :items="portfolioSelectArray"
             item-text="name"
             item-value="id"
             v-model="portfolioSelectedId"
-            background-color="white"
+            :dark="dark"
             outlined
           ></v-select>
         </v-row>
-        <v-row justify="space-between" v-if="portfolio.id">
+        <v-row v-if="portfolio.id">
           <v-col>
-            <v-chip class="ma-2" color="red" text-color="white">CASH: {{portfolio.cash}}</v-chip>
-            <v-chip class="ma-2" color="red" text-color="white">ASSETS OWNED: {{OwnedAssetquantity}}</v-chip>
+            <label>Funds Available:</label>
+            <v-text-field class="left-row" :dark="dark" readonly :value="format(portfolio.cash)"></v-text-field>
+          </v-col>
+          <v-col>
+            <label class="right-row">Quantity Owned:</label>
+            <v-text-field
+              class="right-row"
+              readonly
+              :dark="dark"
+              :value="ownedAssetquantity || '0'"
+            ></v-text-field>
           </v-col>
         </v-row>
-        <v-row justify="space-between">
+        <v-row>
           <v-col>
-            <label>Price</label>
-            <v-text-field
-              background-color="white"
+            <label>Price:</label>
+            <v-select
+              class="left-row"
+              :menu-props="{dark: dark}"
+              :dark="dark"
               outlined
-              disabled
+              :items="priceOptions"
+              readonly
+              :value="priceSelected"
+              :hint="'Not yet adjustable'"
+              :persistent-hint="true"
+            ></v-select>
+          </v-col>
+          <v-col>
+            <label class="right-row">$:</label>
+            <v-text-field
+              class="right-row"
+              readonly
+              :dark="dark"
+              outlined
+              :hint="'Not yet adjustable'"
+              :persistent-hint="true"
               :value="
                 (assetSelected.isStock && format(stockPrice)) ||
                   (assetSelected.isCrypto && format(cryptoPrice))
               "
             ></v-text-field>
           </v-col>
+        </v-row>
+        <v-row>
           <v-col>
-            <label>Transaction</label>
+            <label>Quantity:</label>
+            <v-text-field
+              class="left-row"
+              onkeypress="return event.key === 'Enter' || (Number(event.key) >= 0 && Number(event.key) <= 9)"
+              type="number"
+              v-model="quantity"
+              :dark="dark"
+              outlined
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <label class="right-row">Transaction:</label>
             <v-select
+              class="right-row"
+              :menu-props="{dark: dark}"
               :items="transactionsSelectArray"
               item-text="text"
               item-value="value"
               v-model="transactionSelected"
-              background-color="white"
+              :dark="dark"
               outlined
             ></v-select>
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
-            <label>Quantity</label>
-            <v-text-field
-              onkeypress="return event.key === 'Enter' || (Number(event.key) >= 0 && Number(event.key) <= 9)"
-              type="number"
-              v-model="quantity"
-              background-color="white"
+          <v-col :cols="6">
+            <label>Duration:</label>
+            <v-select
+              class="left-row"
+              :menu-props="{dark: dark}"
+              :items="durationOptions"
+              readonly
+              :value="durationSelected"
+              :dark="dark"
               outlined
-            ></v-text-field>
+              :hint="'Not yet adjustable'"
+              :persistent-hint="true"
+            ></v-select>
           </v-col>
-          <v-col>
-            <v-btn class="mt-8" @click="submitTransaction">Place Order</v-btn>
+        </v-row>
+        <v-row>
+          <v-col class="right-row">
+            <v-btn class="order-btn" :dark="dark" @click="submitTransaction">Place Order</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -235,6 +288,10 @@ export default {
       { text: 'Buy', value: 'buy' },
       { text: 'Sell', value: 'sell' }
     ],
+    priceOptions: ['Market'],
+    priceSelected: 'Market',
+    durationOptions: ['Instant'],
+    durationSelected: 'Instant',
     portfolioSelectedId: '',
     transactionSelected: '',
     searchSymbol: '',
