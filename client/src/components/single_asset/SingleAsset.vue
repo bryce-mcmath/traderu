@@ -123,7 +123,11 @@
     created(){
       this.setActivePortfolio({ name: null, id: null });
     },
+    destroyed(){
+      d3.select(window).on('resize', null)
+    },
     mounted() {
+      console.log('singleasset mounted')
       if (this.assetSelected.isStock) {
         let data = this.assetSelected.prices;
         //grab most recent date from the time string
@@ -274,6 +278,7 @@
         );
       },
       async updateChart(e) {
+        console.log('update chart')
         d3.select('#assetChart3').html('');
         this.waiting = true;
         let data = this.assetData;
@@ -365,17 +370,10 @@
           makeLineChart(
             this.chartHeight,
             this.chartWidth,
-            { top: 55, left: 70, bottom: 55, right: 40 },
+            { top: 30, left: 70, bottom: 30, right: 40 },
             dataOptions,
             `#assetChart3`,
-            'day'
-          );
-          makeLineChart(
-            this.chartHeight,
-            this.chartWidth,
-            { top: 55, left: 70, bottom: 55, right: 40 },
-            dataOptions,
-            `#assetChart3`
+            'Day'
           );
         }
       },

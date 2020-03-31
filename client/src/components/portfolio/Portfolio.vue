@@ -128,7 +128,11 @@
         timeParseString: "%Y-%m-%d",
         data
       }
+      console.log('portfolio mounted')
       makeLineChart(this.width, this.width*1.1, {top: 55, left: 70, bottom: 55, right: 10}, dataOptions, `#line-chart-${this.portfolio.id}`, 'value', true);
+    },
+    destroyed(){
+      d3.select(window).on('resize', null)
     },
 
     props: {
