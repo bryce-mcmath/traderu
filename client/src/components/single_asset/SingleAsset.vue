@@ -395,6 +395,7 @@ export default {
             type: this.transactionSelected,
             quantity: Number(this.quantity)
           },
+
           this.portfolio.id
         )
           .then(res => {

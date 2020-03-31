@@ -13,6 +13,7 @@
           type="text"
           v-model="searchSymbol"
           placeholder="Filter by symbol or name..."
+          inputmode="search"
           @input="handleSymbolInput"
           @click="handleSymbolInput"
         />
