@@ -18,6 +18,8 @@
       <svg :class="{light: dark}" id="assetChart3" :width="chartWidth" :height="chartHeight" />
     </div>
     <v-select
+      :menu-props="{dark: dark}"
+      :dark="dark"
       :items="chartOptions"
       label="Standard"
       dense

@@ -5,6 +5,7 @@
         <button class="back-btn" @click="assetSelected = ''">
           <i class="fas fa-arrow-left"></i>
         </button>
+        <hr class="break" />
         <SingleAsset :assetSelected="assetSelected" :portfolioSelectArray="portfolioSelectArray" />
       </div>
       <div v-else>

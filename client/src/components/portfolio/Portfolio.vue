@@ -1,8 +1,8 @@
 <template>
   <main class="portfolio-container">
-    <hr class="break" />
     <h1>Portfolio Value</h1>
     <p class="portfolio-value">{{ formattedValue }}</p>
+    <!-- <hr class="break" /> -->
     <v-card class="breakdown-card">
       <h2>Asset Breakdown</h2>
       <svg :id="`pie-chart-${portfolio.id}`" :width="width" :height="width" />
