@@ -198,7 +198,7 @@ portfolios.post(
 				if (response.command === 'UPDATE') {
 					res.send('success');
 				} else {
-					res.send('error');
+					res.json(response);
 				}
 			} catch (error) {
 				console.error(
@@ -285,7 +285,7 @@ portfolios.post(
 					}
 				);
 
-				res.json({ response });
+				res.json(response);
 			} catch (error) {
 				console.error(
 					'Error in POST -> /portfolios/:portfolio_id/crypto-transaction',

@@ -130,7 +130,7 @@ export const makeLineChart = (height, width, margins, dataOptions, id, xTicks=4,
           .attr('fill', 'none');
         
         //Styling. scss not being applied
-        d3.selectAll('text').style("font-size", "1.2em")
+        // d3.selectAll('text').style("font-size", "1.2em")
         d3.selectAll('.tick line').style("opacity", "0.45")
 
         const aspect = width/ height; 

@@ -398,7 +398,6 @@
             this.portfolio.id
           )
             .then(res => {
-              console.log(res.data)
               res.data === 'error'
                 ? this.transactionNotification(false)
                 : this.transactionNotification(true);
