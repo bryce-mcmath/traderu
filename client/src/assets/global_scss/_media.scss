@@ -1,75 +1,78 @@
 @media (max-width: 768px) {
-	.hide-sm {
-		display: none;
-	}
+  .hide-sm {
+    display: none;
+  }
 }
 @media (min-width: 750px) {
-	.hide-sm {
-		display: none;
-	}
-	// -----------  INFO PAGE  ---------------- 
-	.info-content{
-		background-position: 30% 0%;
-		button.v-btn{
-			font-size: 4vw;
-		}
-		img.info-display{
-			width: 40%;
-			float: right;
-			margin-right: 20vw;
-		}
-	}
+  .hide-sm {
+    display: none;
+  }
+  // -----------  INFO PAGE  ----------------
+  .info-content {
+    background-position: 30% 0%;
+    button.v-btn {
+      font-size: 4vw;
+    }
+    img.info-display {
+      width: 40%;
+      float: right;
+      margin-right: 20vw;
+    }
+  }
 
-	.info-slider-card {
-		h2, p {
-			font-size: 3vw !important;
-		}
-	}
+  .info-slider-card {
+    h2,
+    p {
+      font-size: 3vw !important;
+    }
+  }
 
-	.info-list__card {
-		h2, p{
-			font-size: 4vw !important;
-		}
-	}
+  .info-list__card {
+    h2,
+    p {
+      font-size: 4vw !important;
+    }
+  }
 
-	// ----------- ASSETS PAGE -----------
+  // ----------- ASSETS PAGE -----------
 
-	.stocks-container {
-		.v-list-item__title, h4{
-			font-size: 3vw;
-		}
-		.v-list-item__subtitle, h5{
-			font-size: 2vw;
-		}
-		h3.asset-title{
-			font-size: 3vw;
-		}
-		h3 {
-			font-size: 3vw;
-		}
-	}
+  .stocks-container {
+    .v-list-item__title,
+    h4 {
+      font-size: 3vw;
+    }
+    .v-list-item__subtitle,
+    h5 {
+      font-size: 2vw;
+    }
+    h3.asset-title {
+      font-size: 3vw;
+    }
+    h3 {
+      font-size: 3vw;
+    }
+  }
 
-	//----------- LEADERBOARD ------------
-	.leaderboard__list-item {
-		.user-info__rank {
-			font-size: 3vw;
-		}
-		.user-info{
-			h3 {
-				font-size: 3vw;
-			}
-			div{
-				width: 10vw !important;
-				height: 10vw !important;
-			}
-			img{
-				width: 8vw !important;
-				height: 8vw !important;
-			}
-		}
-		.portfolio-info{
-			font-size: 3vw;
-		}
-
-	}
+  //----------- LEADERBOARD ------------
+  .leaderboard__list-item {
+    .user-info__rank {
+      font-size: 3vw;
+    }
+    .user-info {
+      h3 {
+        font-size: 3vw;
+      }
+      div {
+        width: 10vw !important;
+        height: 10vw !important;
+      }
+      img {
+        width: 8vw !important;
+        height: 8vw !important;
+      }
+    }
+    .portfolio-info {
+      font-size: 3vw;
+    }
+  }
 }
