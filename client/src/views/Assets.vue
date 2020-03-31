@@ -9,7 +9,7 @@
       </div>
       <div v-else>
         <input
-          class="symbol-text-input mt-2"
+          class="symbol-text-input"
           type="text"
           v-model="searchSymbol"
           placeholder="Filter by symbol or name..."
@@ -121,10 +121,10 @@
         <div class="cp" v-else-if="searchSymbol">
           <h3>No results for symbol "{{ searchSymbol.toUpperCase() }}"</h3>
         </div>
-        <div v-else>
+        <p class="no-assets-msg" v-else>
           No stocks to show at this time. Once we've added some we'll display
           the data here.
-        </div>
+        </p>
       </div>
     </div>
   </main>
