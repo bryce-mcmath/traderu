@@ -99,7 +99,7 @@ import AjaxCalls from '../../api/ajaxCalls';
 import { mapActions, mapMutations } from 'vuex';
 import Spinner from '../spinner/Spinner.vue';
 import LiquidGauge from '../liquid_gauge/LiquidGauge.vue';
-import { makeLineChart } from '../../utils/d3';
+import { makeLineChart } from '../../utils/d3Graphs';
 import VuemorphicToggle from '../vuemorphic_toggle/VuemorphicToggle.vue';
 
 export default {

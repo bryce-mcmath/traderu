@@ -1,14 +1,16 @@
 <template>
   <div class="text-center">
-    <v-dialog :value="showDialog" width="500">
+    <v-dialog :dark="dark" :value="showDialog" width="500">
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>{{
+        <v-card-title class="headline" primary-title>{{
           dialogOptions.dialogTitle
         }}</v-card-title>
 
-        <v-card-text class="mt-2">{{
-          dialogOptions.dialogContent
-        }}</v-card-text>
+        <v-card-text class="mt-2"
+          ><div v-for="(content, index) in dialogContent" :key="index">{{
+            content
+          }}</div></v-card-text
+        >
 
         <v-divider></v-divider>
 
@@ -30,19 +32,26 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   export default {
-    data() {
-      return {
-        dialog: false
-      };
-    },
     computed: {
+      dark() {
+        return this.$store.state.ui.dark;
+      },
       showDialog() {
         return this.$store.state.ui.showDialog;
       },
       dialogOptions() {
         return this.$store.state.ui.dialogOptions;
+      },
+      dialogContent() {
+        const contentReference = this.$store.state.ui.dialogOptions
+          .dialogContent;
+
+        if (Array.isArray(contentReference)) {
+          return contentReference;
+        } else {
+          return [contentReference];
+        }
       }
     },
     methods: {

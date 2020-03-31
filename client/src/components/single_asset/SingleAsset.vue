@@ -154,7 +154,7 @@
 import { formatCurrency } from '@coingecko/cryptoformat';
 import { mapActions, mapMutations } from 'vuex';
 import ajaxCalls from '../../api/ajaxCalls';
-import { makeLineChart } from '../../utils/d3.js';
+import { makeLineChart } from '../../utils/d3Graphs';
 import * as d3 from 'd3';
 const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
 
@@ -418,9 +418,7 @@ export default {
       }
     },
     submitTransaction() {
-      if (!this.portfolio.id) {
-        return window.console.log('Handle no selected portfolio here');
-      }
+      if (!this.transactionValidation()) return;
 
       if (this.assetSelected.isStock && !this.assetSelected.isCrypto) {
         makeStockTransaction(
@@ -435,12 +433,23 @@ export default {
           this.portfolio.id
         )
           .then(res => {
-            res.data === 'error'
-              ? this.transactionNotification(false)
-              : this.transactionNotification(true);
+            window.console.log('res.data:', res.data);
+            if (res.data === 'success') {
+              window.console.log('#1, res:', res);
+              window.console.log('#1, res.data:', res.data);
+              this.transactionNotification(true);
+            } else {
+              window.console.log('#2, res:', res);
+              window.console.log('#2, res.data:', res.data);
+              window.console.log('#2, res.data.error:', res.data.error);
+              this.transactionNotification(false, res.data.error);
+            }
             this.setUserPortfolios();
           })
-          .catch(() => this.transactionNotification(false));
+          .catch(err => {
+            window.console.log('#3, res:', err);
+            this.transactionNotification(false);
+          });
       } else if (this.assetSelected.isCrypto && !this.assetSelected.isStock) {
         makeCryptoTransaction(
           {
@@ -455,34 +464,63 @@ export default {
           this.portfolio.id
         )
           .then(res => {
-            res.data.response.error
-              ? this.transactionNotification(false)
-              : this.transactionNotification(true);
+            if (res.data === 'success') {
+              window.console.log('#1, res:', res);
+              window.console.log('#1, res.data:', res.data);
+              this.transactionNotification(true);
+            } else {
+              window.console.log('#2, res:', res);
+              window.console.log('#2, res.data:', res.data);
+              window.console.log('#2, res.data.error:', res.data.error);
+              this.transactionNotification(false, res.data.error);
+            }
             this.setUserPortfolios();
           })
-          .catch(() => this.transactionNotification(false));
+          .catch(err => {
+            window.console.log('#3, res:', err);
+            this.transactionNotification(false);
+          });
       }
     },
     transactionValidation() {
       let valid = true;
       const errTemplate = {
         title: 'Error',
-        content: ''
+        content: []
       };
 
       if (!this.portfolio.id && !isNaN(Number(this.portfolio.id))) {
         valid = false;
-        errTemplate.content = 'No portfolio selected';
+        errTemplate.content.push('No portfolio selected.');
       }
 
       if (!this.quantity && !isNaN(Number(this.quantity))) {
         valid = false;
-        errTemplate.content = 'Quantity must be a number';
+        errTemplate.content.push('Quantity must be a number.');
       }
 
       if (!this.transactionSelected) {
         valid = false;
-        errTemplate.content = 'Transaction must be selected';
+        errTemplate.content.push('A transaction type must be selected.');
+      }
+
+      if (
+        this.transactionSelected === 'sell' &&
+        Number(this.OwnedAssetquantity) < Number(this.quantity)
+      ) {
+        valid = false;
+        errTemplate.content.push(
+          'You cannot sell more of an asset than you own. Double check how much you have currently!'
+        );
+      }
+
+      if (
+        this.transactionSelected === 'buy' &&
+        Number(this.portfolio.cash) <
+          Number(this.quantity) * Number(this.assetSelected.prices[0].price)
+      ) {
+        valid = false;
+        errTemplate.content.push('Insufficient funds for transaction.');
       }
 
       this.$store.commit('setDialogText', errTemplate);
@@ -490,7 +528,7 @@ export default {
 
       return valid;
     },
-    transactionNotification(transactionSuccess) {
+    transactionNotification(transactionSuccess, transactionMessage = '') {
       if (transactionSuccess) {
         //WORKING HERE
         if (this.assetSelected.isStock) {
@@ -524,9 +562,11 @@ export default {
         this.$store.commit('setShowDialog', true);
         this.quantity = '';
       } else {
+        console.log('fail');
         this.$store.commit('setDialogText', {
           title: 'Error',
           content:
+            transactionMessage ||
             'There was an issue processing your transaction. Please try again later.',
           primaryBtn: 'Ok'
         });

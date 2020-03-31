@@ -15,6 +15,7 @@
             <v-text-field
               v-model="loginEmail"
               label="Email"
+              autofocus
               filled
               :rules="[rules.required]"
               type="email"
@@ -118,7 +119,7 @@
       loginError(err) {
         this.$store.commit('setDialogText', {
           title: 'Login failed',
-          content: err,
+          content: 'Unable to login, invalid email or password',
           primaryBtn: 'Ok'
         });
         this.$store.commit('setShowDialog', true);
