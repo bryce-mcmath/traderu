@@ -8,7 +8,7 @@
 
 Hello everyone. We'll talk about our project in a minute here but first we'll introduce ourselves.
 
-I'm Bryce, I started programming while I was in engineering at UVic, and I've found it more fulfilling than the jobs I've had since because I get to build things.
+I'm Bryce, I started programming while I was in engineering at UVic, and I've found it more fulfilling than the jobs I've had since, so this program seemed like a good next step for me.
 
 ### Jon
 
@@ -16,7 +16,7 @@ Hi, I'm Jon. I completed a degree in math from Queen's university, and have been
 
 ### Wilson
 
-Hello, I'm Wilson. I'm a graduated from UVic as an engineer and pivoted to web development after, where I worked as a dev for three years.
+Hello, I'm Wilson. I'm a graduate from UVic as an engineer and pivoted to web development after, where I worked as a dev for three years.
 
 ## App Explanation
 
@@ -32,6 +32,8 @@ Let's try it out.
 
 ## Viewing as Guest
 
+<!-- Trim, very brief statements, with pause between -->
+
 1. Info (Landing page, introduction to app), dark mode (Fully toggle-able, on every page, for sore eyes.)
 2. Assets (We'll talk more about this later), filter (Filter stocks based on both name and ticker symbol simultaneously)
 3. Leaderboard (We have a leaderboard showing who's the Warren Buffet of stock simulations. Let's go to our portfolios now.)
@@ -40,6 +42,8 @@ Let's try it out.
 <!-- Jon as Narrator, Bryce as User -->
 
 ## Viewing as Power User
+
+<!-- Trim, very brief statements, with pause between -->
 
 1. Login (show hamburger menu)
 2. Navigate to portfolios
@@ -52,26 +56,23 @@ Let's try it out.
 9. Look at updated portfolio pie graph.
 10. Hand off
 
-
-
-
-
-
 <!-- Wilson -->
 
 ### Vue Suite
 
-Our front-end was built using the entire Vue suite, including Vuex (equivalent to Redux), Vuetify, and Vue Router (equivalent to React Router), utilizing the History API with Vue Router. All of our data and app actions are in our Vuex store, which makes it easy to access state from anywhere. To fetch this data, we rely on AJAX calls to the API routes of our server.
+On the front end we used...
 
 <!-- Jon -->
 
 ### API Interaction, Back End
 
-To build our backend API, we used a few others. Our bread and butter is the AlphaVantage API which we used to pull in our stock and cryptocurrency data. To store the massive amounts of data we need, we learned to use the JSONB capabilities of Postgres. To limit our API usage, we pull the data once a day and query our own database when we need to update the app. I wrote timed scripts to do so. And now Bryce can tell you about our project structure and deployment
+On our backend we used TypeScript, ... which were all new technologies.
 
 <!-- Bryce -->
 
 ### Devops Stuff / Styling
+
+For deployment we used...
 
 ## Closing Remarks
 
