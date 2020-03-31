@@ -127,7 +127,6 @@
       d3.select(window).on('resize', null)
     },
     mounted() {
-      console.log('singleasset mounted')
       if (this.assetSelected.isStock) {
         let data = this.assetSelected.prices;
         //grab most recent date from the time string
@@ -278,7 +277,6 @@
         );
       },
       async updateChart(e) {
-        console.log('update chart')
         d3.select('#assetChart3').html('');
         this.waiting = true;
         let data = this.assetData;

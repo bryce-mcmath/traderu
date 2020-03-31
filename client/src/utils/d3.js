@@ -16,7 +16,6 @@ export const makeLineChart = (
   xTickInterval,
   sort = false
 ) => {
-  console.log('d3js ran')
   if (dataOptions.data.length < 4) return;
 
   let tickFormat, xAxisTickInterval;
@@ -168,7 +167,6 @@ export const makeLineChart = (
   const parent = d3.select('#chart-container');
   d3.select(window).on('resize', null)
   d3.select(window).on('resize', function() {
-    console.log('from here')
     const targetWidth = Math.round(parent.style('width').slice(0, -2));
     vis.attr('width', targetWidth);
     vis.attr('height', targetWidth / aspect);
