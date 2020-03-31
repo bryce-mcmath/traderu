@@ -140,9 +140,10 @@
         makeLineChart(
           this.chartHeight,
           this.chartWidth,
-          { top: 55, left: 100, bottom: 55, right: 40 },
+          { top: 30, left: 70, bottom: 30, right: 40 },
           dataOptions,
-          `#assetChart3`
+          `#assetChart3`,
+          'Day'
         );
       } else if (this.assetSelected.isCrypto) {
         //Use 1 yr of data
@@ -158,9 +159,10 @@
         makeLineChart(
           this.chartHeight,
           this.chartWidth,
-          { top: 55, left: 100, bottom: 55, right: 40 },
+          { top: 30, left: 70, bottom: 30, right: 40 },
           dataOptions,
-          `#assetChart3`
+          `#assetChart3`,
+          '3month'
         );
       }
     },
@@ -307,9 +309,10 @@
           makeLineChart(
             this.chartHeight,
             this.chartWidth,
-            { top: 55, left: 100, bottom: 55, right: 40 },
+            { top: 30, left: 70, bottom: 30, right: 40 },
             dataOptions,
-            `#assetChart3`
+            `#assetChart3`,
+            '3month'
           );
         }
         if (e === '1-year') {
@@ -336,10 +339,10 @@
           makeLineChart(
             this.chartHeight,
             this.chartWidth,
-            { top: 55, left: 100, bottom: 55, right: 40 },
+            { top: 30, left: 70, bottom: 30, right: 40 },
             dataOptions,
             `#assetChart3`,
-            6
+            '1year'
           );
         }
         if (e === 'Day') {
@@ -362,14 +365,15 @@
           makeLineChart(
             this.chartHeight,
             this.chartWidth,
-            { top: 55, left: 100, bottom: 55, right: 40 },
+            { top: 55, left: 70, bottom: 55, right: 40 },
             dataOptions,
-            `#assetChart3`
+            `#assetChart3`,
+            'day'
           );
           makeLineChart(
             this.chartHeight,
             this.chartWidth,
-            { top: 55, left: 100, bottom: 55, right: 40 },
+            { top: 55, left: 70, bottom: 55, right: 40 },
             dataOptions,
             `#assetChart3`
           );

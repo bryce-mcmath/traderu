@@ -128,7 +128,7 @@
         timeParseString: "%Y-%m-%d",
         data
       }
-      makeLineChart(this.width, this.width*1.1, {top: 55, left: 120, bottom: 55, right: 60}, dataOptions, `#line-chart-${this.portfolio.id}`, 4, true);
+      makeLineChart(this.width, this.width*1.1, {top: 55, left: 120, bottom: 55, right: 60}, dataOptions, `#line-chart-${this.portfolio.id}`, 'days', true);
     },
 
     props: {
