@@ -169,30 +169,30 @@ export const makeLineChart = (
     .attr('stroke-width', 4)
     .attr('fill', 'none');
 
-  // Styling. scss not being applied
-  d3.selectAll('text').style("font-size", "1.2em")
+  //Styling. scss not being applied
+  // d3.selectAll('text').style("font-size", "1.2em")
   d3.selectAll('.tick line').style('opacity', '0.45');
 
   // @TODO: The below was the source of the "cannot read property style of null" error
   // Adding the if statement stopped the error from being thrown, but their are still
   // graph resizing issues. Easiest to notice when you open a d3 line chart, and then
   // click the nav drawer. Triggers resize and messes dimensions up
-  // const aspect = width / height;
-  // d3.select(window).on('resize', function() {
-  //   const parent = d3.select('#chart-container');
-  //   if (parent && parent._groups[0][0] !== null) {
-  //     const targetWidth = Math.round(parent.style('width').slice(0, -2));
-  //     vis.attr('width', targetWidth);
-  //     vis.attr('height', targetWidth / aspect);
-  //     vis.html('');
-  //     makeLineChart(
-  //       targetWidth / aspect,
-  //       targetWidth,
-  //       margins,
-  //       dataOptions,
-  //       id,
-  //       xTickInterval
-  //     );
-  //   }
-  // });
+  const aspect = width / height;
+  d3.select(window).on('resize', function() {
+    const parent = d3.select('#chart-container');
+    if (parent && parent._groups[0][0] !== null) {
+      const targetWidth = Math.round(parent.style('width').slice(0, -2));
+      vis.attr('width', targetWidth);
+      vis.attr('height', targetWidth / aspect);
+      vis.html('');
+      makeLineChart(
+        targetWidth / aspect,
+        targetWidth,
+        margins,
+        dataOptions,
+        id,
+        xTickInterval
+      );
+    }
+  });
 };

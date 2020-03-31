@@ -101,12 +101,8 @@ import Spinner from '../spinner/Spinner.vue';
 import LiquidGauge from '../liquid_gauge/LiquidGauge.vue';
 import { makeLineChart } from '../../utils/d3Graphs';
 import VuemorphicToggle from '../vuemorphic_toggle/VuemorphicToggle.vue';
-
 export default {
   components: { Spinner, LiquidGauge, VuemorphicToggle },
-  destroyed(){
-    d3.select(window).on('resize', null)
-  },
   mounted() {
     // Asset Breakdown
     this.makePie();
@@ -130,14 +126,12 @@ export default {
       true
     );
   },
-
   props: {
     portfolio: {
       type: Object,
       default: null
     }
   },
-
   data() {
     return {
       dialog: false,
@@ -147,7 +141,6 @@ export default {
       isPublic: false
     };
   },
-
   computed: {
     user: {
       get() {
@@ -164,7 +157,6 @@ export default {
       );
       return index + 1;
     },
-
     percentile() {
       // Regular formula is P = R / (n + 1)
       // If you were in the top 2 percent, you would get 0.02 from this formula
@@ -174,37 +166,30 @@ export default {
       const n = this.$store.state.apiData.allRankingsData.length;
       return parseFloat((100 - (this.rank / (n + 1)) * 100).toFixed(1));
     },
-
     formattedValue() {
       return new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD'
       }).format(Math.round(this.portfolio.value * 100) / 100);
     },
-
     formattedAssetValue() {
       return new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD'
       }).format(Math.round(this.assetValue * 100) / 100);
     },
-
     deleting() {
       return this.$store.state.ui.ajaxInProgress;
     },
-
     stocksData() {
       return this.$store.state.apiData.stocksData;
     },
-
     cryptosData() {
       return this.$store.state.apiData.cryptosData;
     },
-
     width() {
       return window.innerWidth / 1.4;
     },
-
     pieData() {
       const cryptos = this.getAssetData(
         this.portfolio.cryptos,
@@ -218,7 +203,6 @@ export default {
       ];
     }
   },
-
   methods: {
     ...mapActions(['setUserPortfolios']),
     ...mapMutations(['setUser']),
@@ -233,7 +217,6 @@ export default {
         .then(() => this.setUserPortfolios())
         .then(() => (this.dialog = false));
     },
-
     getAssetData(assets, assetsData) {
       assets = assets.filter(asset => asset && asset.quantity);
       const assetValues = assets.map(asset => {
@@ -249,7 +232,6 @@ export default {
       });
       return assetValues;
     },
-
     handleMouseOver(d, i) {
       const assetData = this.pieData[i];
       this.highlightedAsset = assetData.name;
@@ -258,17 +240,14 @@ export default {
         Math.round((assetData.value * 10000) / this.portfolio.value) / 100 +
         '%';
     },
-
     handleMouseOut() {
       this.highlightedAsset = 'Total';
       this.assetValue = Math.round(this.portfolio.value * 100) / 100;
       this.assetPercent = '';
     },
-
     makePie() {
       const data = this.pieData.map(obj => Number(obj.value));
       const labels = this.pieData.map(obj => obj.symbol);
-
       const svg = d3.select(`#pie-chart-${this.portfolio.id}`),
         width = svg.attr('width'),
         height = svg.attr('height'),
@@ -276,7 +255,6 @@ export default {
         g = svg
           .append('g')
           .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-
       const color = d3.scaleOrdinal([
         '#00876c',
         '#57a18b',
@@ -287,16 +265,13 @@ export default {
         '#e27076',
         '#d43d51'
       ]);
-
       // Generate the pie
       const pie = d3.pie();
-
       // Generate the arcs
       const arc = d3
         .arc()
         .innerRadius(radius / 2)
         .outerRadius(radius);
-
       //Generate groups
       const arcs = g
         .selectAll('arc')
@@ -306,7 +281,6 @@ export default {
         .attr('class', 'arc')
         .on('mouseover', this.handleMouseOver)
         .on('mouseout', this.handleMouseOut);
-
       //Draw arc paths
       arcs
         .append('path')
@@ -314,10 +288,8 @@ export default {
           return color(i);
         })
         .attr('d', arc);
-
       //Container for the gradients
       const defs = svg.append('defs');
-
       // Filter for the outside glow
       const filter = defs
         .append('filter')
@@ -332,7 +304,6 @@ export default {
       d3.select(`#pie-chart-${this.portfolio.id}`)
         .selectAll('path')
         .style('filter', `url(#pie-chart-${this.portfolio.id}-glow)`);
-
       arcs
         .append('text')
         .attr('transform', function(d) {

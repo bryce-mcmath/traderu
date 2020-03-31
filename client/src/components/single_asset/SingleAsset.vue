@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <section v-bind:class="['asset-info', {'asset-info--dark':dark}]">
@@ -167,13 +168,9 @@ import ajaxCalls from '../../api/ajaxCalls';
 import { makeLineChart } from '../../utils/d3Graphs';
 import * as d3 from 'd3';
 const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
-
 export default {
   created() {
     this.setActivePortfolio({ name: null, id: null });
-  },
-  destroyed(){
-    d3.select(window).on('resize', null)
   },
   mounted() {
     if (this.assetSelected.isStock) {
@@ -439,7 +436,6 @@ export default {
     },
     submitTransaction() {
       if (!this.transactionValidation()) return;
-
       if (this.assetSelected.isStock && !this.assetSelected.isCrypto) {
         makeStockTransaction(
           {
@@ -480,7 +476,6 @@ export default {
             type: this.transactionSelected,
             quantity: Number(this.quantity)
           },
-
           this.portfolio.id
         )
           .then(res => {
@@ -508,22 +503,18 @@ export default {
         title: 'Error',
         content: []
       };
-
       if (!this.portfolio.id && !isNaN(Number(this.portfolio.id))) {
         valid = false;
         errTemplate.content.push('No portfolio selected.');
       }
-
       if (!this.quantity && !isNaN(Number(this.quantity))) {
         valid = false;
         errTemplate.content.push('Quantity must be a number.');
       }
-
       if (!this.transactionSelected) {
         valid = false;
         errTemplate.content.push('A transaction type must be selected.');
       }
-
       if (
         this.transactionSelected === 'sell' &&
         Number(this.OwnedAssetquantity) < Number(this.quantity)
@@ -533,7 +524,6 @@ export default {
           'You cannot sell more of an asset than you own. Double check how much you have currently!'
         );
       }
-
       if (
         this.transactionSelected === 'buy' &&
         Number(this.portfolio.cash) <
@@ -542,10 +532,8 @@ export default {
         valid = false;
         errTemplate.content.push('Insufficient funds for transaction.');
       }
-
       this.$store.commit('setDialogText', errTemplate);
       this.$store.commit('setShowDialog', !valid);
-
       return valid;
     },
     transactionNotification(transactionSuccess, transactionMessage = '') {
