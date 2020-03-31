@@ -27,9 +27,14 @@ export const makeLineChart = (
   } else if(xTickInterval === '3month'){
     xAxisTickInterval = d3.timeMonth.every(1)
     tickFormat = d3.timeFormat('%b')
-  } else {
+  } else if(xTickInterval === "Day"){
     xAxisTickInterval = d3.timeHour.every(2)
     tickFormat = d3.timeFormat('%H:%M')
+  } else {
+    const dataPoints = dataOptions.data.length;
+    const every = Math.round(dataPoints / 6);
+    xAxisTickInterval = d3.timeDay.every(every)
+    tickFormat = d3.timeFormat('%d %b')
   }
   const parseTime = d3.timeParse(dataOptions.timeParseString);
   const vis = d3.select(id),

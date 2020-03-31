@@ -20,7 +20,7 @@
           :indeterminate="true"
         ></v-progress-circular>
       </div>
-      <svg id="assetChart3" :width="chartWidth" :height="chartHeight" />
+      <svg :class="{light: dark}" id="assetChart3" :width="chartWidth" :height="chartHeight" />
     </div>
     <v-select
       :items="chartOptions"
