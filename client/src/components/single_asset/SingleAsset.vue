@@ -436,17 +436,34 @@
 
         if (!this.portfolio.id && !isNaN(Number(this.portfolio.id))) {
           valid = false;
-          errTemplate.content.push('No portfolio selected');
+          errTemplate.content.push('No portfolio selected.');
         }
 
         if (!this.quantity && !isNaN(Number(this.quantity))) {
           valid = false;
-          errTemplate.content.push('Quantity must be a number');
+          errTemplate.content.push('Quantity must be a number.');
         }
 
         if (!this.transactionSelected) {
           valid = false;
-          errTemplate.content.push('Transaction must be selected');
+          errTemplate.content.push('Transaction must be selected.');
+        }
+
+        if (
+          this.transactionSelected === 'sell' &&
+          Number(this.OwnedAssetquantity) < Number(this.quantity)
+        ) {
+          valid = false;
+          errTemplate.content.push('Attemping to sell more asset than owned.');
+        }
+
+        if (
+          this.transactionSelected === 'buy' &&
+          Number(this.portfolio.cash) <
+            Number(this.quantity) * Number(this.assetSelected.prices[0].price)
+        ) {
+          valid = false;
+          errTemplate.content.push('Insufficient cash for transaction.');
         }
 
         this.$store.commit('setDialogText', errTemplate);
