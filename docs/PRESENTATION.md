@@ -16,7 +16,7 @@ Hi, I'm Jon. I completed a degree in math from Queen's university, and have been
 
 ### Wilson
 
-Hello, I'm Wilson. I'm a graduate from UVic as an engineer and pivoted to web development after, where I worked as a dev for three years.
+Hello, I'm Wilson. I have degree in Computer Engineering from UVic and pivoted to web development after that, where I worked as a dev for a little while. I'm always interested learning in new web technologies to put to good use.
 
 ## App Explanation
 
@@ -82,7 +82,7 @@ There a few features we didn't have time to get to, mainly trade limits and dura
 
 ### Wilson
 
-Thank you for checking out our app. We don't have time to cover everything we did, but we'd love to talk to you about it more after the presentations are over.
+Thank you for checking out our app. If you thought the app was interesting ask us about all the extra features we have in our session!
 
 ### Jon
 
