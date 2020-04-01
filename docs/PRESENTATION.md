@@ -66,13 +66,13 @@ On the front end we used...
 
 ### API Interaction, Back End
 
-On our backend we used TypeScript, ... which were all new technologies.
+On our backend we used node, express and postgres, and learned typescript to code in. For our data we integrated a stock and cryptocurrency API called alpha vantage, and learned a lot about pstgres and jsonb for storing the large amounts of data.
 
 <!-- Bryce -->
 
 ### Devops Stuff / Styling
 
-For deployment we used...
+For deployment we used an AWS Pipeline, so as soon as we push to master we a build and test process, and if it passes it deploys to an EC2 instance through Elastic Beanstalk and we get a nice couple of cute badges to show our test coverage and build status. For styling, we made custom components and used Sass mixins for our visual effects.
 
 ## Closing Remarks
 
@@ -87,5 +87,3 @@ Thank you for checking out our app. We don't have time to cover everything we di
 ### Jon
 
 Thanks everyone.
-
-mention why we chose tech stacks, js, vue

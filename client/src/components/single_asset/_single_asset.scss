@@ -1,7 +1,7 @@
 .spinner-container {
+  @include center-content;
   position: relative;
   top: 10vh;
-  @include center-content;
   height: 0;
 }
 

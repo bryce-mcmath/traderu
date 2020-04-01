@@ -422,10 +422,10 @@ export default {
         makeLineChart(
           this.chartHeight,
           this.chartWidth,
-          { top: 55, left: 70, bottom: 55, right: 40 },
+          { top: 30, left: 70, bottom: 30, right: 40 },
           dataOptions,
           `#assetChart3`,
-          'day'
+          'Day'
         );
       }
     },
