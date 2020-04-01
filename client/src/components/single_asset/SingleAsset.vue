@@ -227,7 +227,11 @@ export default {
     },
     portfolio() {
       // return this.$store.state.ui.activePortfolio;
-      return this.$store.state.apiData.userPortfolios.find(portfolio => portfolio.id === this.portfolioSelectedId) || { name: null, id: null };
+      return (
+        this.$store.state.apiData.userPortfolios.find(
+          portfolio => portfolio.id === this.portfolioSelectedId
+        ) || { name: null, id: null }
+      );
     },
     stockPrice() {
       if (this.assetSelected) {
@@ -307,8 +311,14 @@ export default {
     transactionSelected: '',
     searchSymbol: '',
     quantity: '',
-    chartWidth: window.innerWidth > 1100 ? window.innerWidth * 0.35 : window.innerWidth * 0.8,
-    chartHeight: window.innerWidth > 1100 ? window.innerWidth * 0.175 : window.innerWidth * 0.4,
+    chartWidth:
+      window.innerWidth > 1100
+        ? window.innerWidth * 0.35
+        : window.innerWidth * 0.8,
+    chartHeight:
+      window.innerWidth > 1100
+        ? window.innerWidth * 0.175
+        : window.innerWidth * 0.4,
     waiting: false,
     assetData: null
   }),
@@ -450,21 +460,14 @@ export default {
           this.portfolio.id
         )
           .then(res => {
-            window.console.log('res.data:', res.data);
-            if (res.data === 'success' || (res.data.command === "UPDATE")) {
-              window.console.log('#1, res:', res);
-              window.console.log('#1, res.data:', res.data);
+            if (res.data === 'success' || res.data.command === 'UPDATE') {
               this.transactionNotification(true);
             } else {
-              window.console.log('#2, res:', res);
-              window.console.log('#2, res.data:', res.data);
-              window.console.log('#2, res.data.error:', res.data.error);
               this.transactionNotification(false, res.data.error);
             }
             this.setUserPortfolios();
           })
           .catch(err => {
-            window.console.log('#3, res:', err);
             this.transactionNotification(false);
           });
       } else if (this.assetSelected.isCrypto && !this.assetSelected.isStock) {
@@ -480,20 +483,14 @@ export default {
           this.portfolio.id
         )
           .then(res => {
-            if (res.data === 'success'){
-              window.console.log('#1, res:', res);
-              window.console.log('#1, res.data:', res.data);
+            if (res.data === 'success') {
               this.transactionNotification(true);
             } else {
-              window.console.log('#2, res:', res);
-              window.console.log('#2, res.data:', res.data);
-              window.console.log('#2, res.data.error:', res.data.error);
               this.transactionNotification(false, res.data.error);
             }
             this.setUserPortfolios();
           })
           .catch(err => {
-            window.console.log('#3, res:', err);
             this.transactionNotification(false);
           });
       }
@@ -571,7 +568,6 @@ export default {
         this.$store.commit('setShowDialog', true);
         this.quantity = '';
       } else {
-        console.log('fail');
         this.$store.commit('setDialogText', {
           title: 'Error',
           content:
