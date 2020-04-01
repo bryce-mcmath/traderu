@@ -47,13 +47,12 @@
 <blockquote>
 <p>Stock and cryptocurrency trading simulator</p>
 </blockquote>
-<p><strong>NOTE: 🚧 Under construction! 🚧 It's nearly final project week at Lighthouse Labs so we've just started chipping away at it.</strong></p>
 <!-- Badges -->
-<p><a href="https://travis-ci.com/bryce-mcmath/traderu"><img src="https://travis-ci.com/bryce-mcmath/traderu.svg?branch=master" alt="Build Status"></a>
-<a href="https://codecov.io/gh/bryce-mcmath/traderu/"><img src="https://img.shields.io/codecov/c/github/bryce-mcmath/traderu/master.svg" alt="code coverage"></a>
+<p><img src="https://codebuild.us-east-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoidkc4a2Q5UFVuTTNNRkVwTERVWnZEbGhkK0g2ZmhVdHN0cWxIS3owaDJ0TndQRHNRUmlLM2VYalhxQzFJTXkxSkFVb2JUdklHNk91aFN2ZjZQLzhTbmswPSIsIml2UGFyYW1ldGVyU3BlYyI6Im85a3kvRDF2V0JjU28vcG4iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&amp;branch=master" alt="Build Status">
+<a href="https://codecov.io/gh/bryce-mcmath/traderu"><img src="https://codecov.io/gh/bryce-mcmath/traderu/branch/development/graph/badge.svg" alt="codecov"></a>
 <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="code style: prettier"></a></p>
-<p>TraderU is a responsive fullstack application made to simulate stock and cryptocurrency trading. It uses multiple publicly available stock and cryptocurrency APIs.</p>
-<p>To learn more and see it in action, read further. Or visit it <a href="https://traderu.io">live</a></p>
+<p><strong>NOTE: To be used on mobile and tablet only, we have not added yet added support for desktop</strong></p>
+<p>TraderU is a progressive web app (PWA) made to simulate stock and cryptocurrency trading. It utilizes several publicly available APIs to do so, most notably <a href="https://www.alphavantage.co/documentation/">AlphaVantage.</a> It's a full stack application designed with a mobile-first approach, deployed with an AWS Pipeline to a live site <a href="https://traderu.io">here.</a></p>
 <h2>Table of contents</h2>
 <ul>
 <li><a href="#usage">Usage</a></li>
@@ -63,7 +62,6 @@
 <li><a href="#installing-and-running">Installing and running</a></li>
 </ul>
 </li>
-<li><a href="#deployment">Deployment</a></li>
 <li><a href="#built-with">Built with</a></li>
 <li><a href="#contributing">Contributing</a></li>
 <li><a href="#meta">Meta</a></li>
@@ -80,71 +78,66 @@
 <!-- Gifs -->
 <h3>Demo:</h3>
 <p><img src="https://github.com/bryce-mcmath/traderu/blob/master/docs/demo.gif?raw=true" alt="Demo"></p>
-<p>The above gif demonstrates basic usage. For more screenshots and other documentation, navigate to the /docs directory from the root of this repo.</p>
+<p>The above gif demonstrates our basic app flow. For more screenshots and other documentation, navigate to the /docs directory from the root of this repo.</p>
 <h2>Getting started</h2>
 <p>These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.</p>
 <h3>Prerequisites</h3>
-<p>If you don't have Nodejs and npm installed, install them from <a href="https://nodejs.org/en/">here.</a>. You'll also want the Vue CLI tool, which you can install like this:</p>
+<p>If you don't have Nodejs and npm installed, install them from <a href="https://nodejs.org/en/">here.</a>. You'll also want the Vue CLI tool, which you can install after you install Node like this:</p>
 <pre class="prettyprint source lang-sh"><code>npm i -g @vue/cli
 </code></pre>
 <h3>Installing and Running</h3>
-<p>Clone this repository to your local machine, and in the root directory:</p>
+<p>Clone this repository to your local machine and then create a .env following the .env.example file</p>
 <h4>Install Dependencies</h4>
+<p>In the root directory:</p>
 <pre class="prettyprint source lang-sh"><code>npm i
 </code></pre>
 <pre class="prettyprint source lang-sh"><code>npm run lerna-install
 </code></pre>
-<h3>Available Client Commands</h3>
-<h4>Compiles and hot-reloads for development</h4>
-<pre class="prettyprint source lang-sh"><code>npm run serve
-</code></pre>
-<h4>Compiles and minifies for production</h4>
+<h3>Available Root Commands</h3>
+<h4>Compiles and minifies both server and client for production</h4>
 <pre class="prettyprint source lang-sh"><code>npm run build
 </code></pre>
-<h4>Run your unit tests</h4>
-<pre class="prettyprint source lang-sh"><code>npm run test:unit
-</code></pre>
-<h4>Run your end-to-end tests</h4>
-<pre class="prettyprint source lang-sh"><code>npm run test:e2e
-</code></pre>
-<h4>Lints and fixes files</h4>
-<pre class="prettyprint source lang-sh"><code>npm run lint
-</code></pre>
-<h4>Customize configuration</h4>
-<p>See <a href="https://cli.vuejs.org/config/">Configuration Reference</a>.</p>
-<h3>Available Server Commands</h3>
-<h4>Hot reload for development</h4>
-<pre class="prettyprint source lang-sh"><code>npm run dev
-</code></pre>
-<h4>Build the server</h4>
-<pre class="prettyprint source lang-sh"><code>npm run build
-</code></pre>
-<h4>Start the server</h4>
+<h4>Start the compiled JS server</h4>
 <pre class="prettyprint source lang-sh"><code>npm run start
 </code></pre>
+<h4>Hot TypeScript server reload for development</h4>
+<pre class="prettyprint source lang-sh"><code>npm run dev
+</code></pre>
+<h4>Run unit and integration tests in both the client and server</h4>
+<pre class="prettyprint source lang-sh"><code>npm run test
+</code></pre>
+<h4>Generate new docs for both the client and server</h4>
+<pre class="prettyprint source lang-sh"><code>npm run jsdoc
+</code></pre>
+<p><strong>NOTE: Our client side JSDoc comments are almost not existent, but our server should generate semi-decent ones. Browse to /docs/jsdoc/server/ and open up index.html in your browser to see the outputted documentation</strong></p>
+<h3>Other available Commands</h3>
+<p>There are more commands than is necessary to list here, refer to package.json files to view them.</p>
 <h2>Built with</h2>
 <ul>
-<li><a href="https://vuejs.org/">Vue</a> - Front-end framework</li>
-<li><a href="">D3.js</a></li>
-<li><a href="https://www.lerna.js.org">Lerna</a> - Tool for managing multiple packages</li>
-<li><a href="https://typescriptlang.org">TypeScript</a> - Javascript superset to add type checking</li>
+<li><a href="https://vuejs.org/">Vue</a> - Front-end framework, used the full suite (Vuex, Vue-Router, Vuetify etc.)</li>
+<li><a href="https://d3js.org/">D3.js</a> - JS Data Visualization framework - our graphs and charts and gauges are built with this</li>
+<li><a href="https://www.lerna.js.org">Lerna</a> - How we're able to run many subdirectory commands with a single root command</li>
+<li><a href="https://typescriptlang.org">TypeScript</a> - Javascript superset to add type checking (Strict mode only used in server)</li>
 <li><a href="https://github.com/axios/axios">axios</a> - Promise-based HTTP client</li>
-<li><a href="https://sass-lang.com/">Sass</a> - CSS pre-compiler to make styling easier</li>
+<li><a href="https://sass-lang.com/">Sass</a> - CSS pre-compiler to make styling way easier</li>
+<li><a href="https://jwt.io/">JSON Web Tokens</a> - For industry standard authentication</li>
 <li><a href="https://nodejs.org/en/">Nodejs</a> - Javascript runtime</li>
 <li><a href="https://expressjs.com/">Express</a> - Framework used for API in Node</li>
 <li><a href="https://www.postgresql.org/">PostgreSQL</a> - Open source object-relational database</li>
-<li><a href="">Jest</a></li>
-<li><a href="">Cypress</a></li>
-<li><a href=""></a></li>
+<li><a href="https://www.postman.com/">Postman Team</a> - For testing and debugging out routes</li>
+<li><a href="https://jestjs.io">Jest</a> - Testing library we used for unit and integration tests</li>
+<li><a href="https://cypress.io">Cypress</a> - End-to-end testing framework we had time to add a few E2E tests with</li>
+<li><a href="https://aws.amazon.com">AWS</a> - Used to deploy our app. The flow works like this: Reach a milestone stable version of development -&gt; merge to master -&gt; Github Hook triggers AWS CodeBuild -&gt; CodeBuild runs install, build, and test stages (see buildspec.yml - Lerna made this very easy) -&gt; If successful, CodeDeploy sends zipped output files to an AWS S3 bucket -&gt; Contents is served with an AWS EC2 instance via AWS Elastic Beanstalk. All for free!</li>
 </ul>
 <h2>Contributing</h2>
 <ol>
-<li>Fork it (<a href="https:%5C/%5C/github.com/bryce-mcmath/foodzebra/fork">https://github.com/bryce-mcmath/foodzebra/fork</a>)</li>
+<li>Fork it (<a href="https:%5C/%5C/github.com/bryce-mcmath/traderu/fork">https://github.com/bryce-mcmath/traderu/fork</a>)</li>
 <li>Create your feature branch (<code>git checkout -b feature/fooBar</code>) or issue branch (<code>git checkout -b issue/brokenThing</code>)</li>
 <li>Commit your changes (<code>git commit -m 'Add some fooBar'</code>)</li>
 <li>Push to the branch (<code>git push origin feature/fooBar</code>)</li>
 <li>Create a new PR</li>
 </ol>
+<p><strong>NOTE: We have a preferred commit message template in docs/NOTES.md if you'd like to use that as well. For tiny changes, don't worry about it</strong></p>
 <h2>Meta</h2>
 <p>Jon Langlois - <a href="https://github.com/jlangy">jlangy</a> - jonathan-langlois@live.ca</p>
 <p>Wilson Wong – <a href="https://github.com/wilwong89">wilwong89</a> – wilwong89@gmail.com</p>
@@ -157,22 +150,37 @@
 <h2>Feature roadmap</h2>
 <h3>In the works</h3>
 <ul>
-<li>Some</li>
-<li>features</li>
+<li>After demo day we'll get back to work on it. Well after the day after demo day. We need to catch up on sleep the day after.</li>
 </ul>
 <h3>Planned</h3>
 <ul>
-<li>Some loftier</li>
-<li>features</li>
+<li>General robustness, more consistent patterns and clean up</li>
+<li>Market close and open</li>
+<li>Order duration algorithm, enable option</li>
+<li>Limit orders, and associated algorithm</li>
+<li>Portfolio settings toggles are permanently changed on save</li>
+<li>Limit on number of accounts per user</li>
+<li>Push notifications</li>
+<li>An simple algorithm to generate trade suggestions, so we have something to notify users of</li>
+<li>Desktop design</li>
+<li>Set E2E tests to run and exit without developer input</li>
+<li>More data, more and better data visualizations</li>
 </ul>
+<p>In no particular order other than the first one is first</p>
 <p><em>If you'd like to add a feature yourself, please see the <a href="#contributing">Contributing</a> guidelines.</em></p>
 <h2>Acknowledgements</h2>
+<p>For making powerful services inexpensive for students:</p>
 <ul>
-<li>We only had two weeks to do this and we used some tools we were interested in but not yet familiar with</li>
-<li>It was probably a blast</li>
-<li>I'm probably very tired again</li>
+<li>AlphaVantage</li>
+<li>ElephantSQL</li>
+<li>AWS</li>
 </ul>
-<h2><img src="https://github.com/bryce-mcmath/traderu/blob/master/docs/traderu.png?raw=true" alt="TraderU"></h2></article>
+<p>For being Vue gurus:</p>
+<ul>
+<li>Gary Jipp</li>
+<li>LinusBorg on the Vue forums</li>
+</ul>
+<h2><img src="https://github.com/bryce-mcmath/traderu/blob/master/docs/logo.png?raw=true" alt="TraderU"></h2></article>
     </section>
 
 
@@ -183,13 +191,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="server.module_server_routes_login.html">server/routes/login</a></li><li><a href="server.module_server_routes_logout.html">server/routes/logout</a></li><li><a href="server.module_server_routes_register.html">server/routes/register</a></li></ul><h3>Global</h3><ul><li><a href="global.html#get/">get/</a></li><li><a href="global.html#get/*">get/*</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="app.module_app_routes_api_authenticate.html">app/routes/api/authenticate</a></li><li><a href="app.module_app_routes_api_cryptos.html">app/routes/api/cryptos</a></li><li><a href="app.module_app_routes_api_leaderboard.html">app/routes/api/leaderboard</a></li><li><a href="app.module_app_routes_api_login.html">app/routes/api/login</a></li><li><a href="app.module_app_routes_api_portfolios.html">app/routes/api/portfolios</a></li><li><a href="app.module_app_routes_api_register.html">app/routes/api/register</a></li><li><a href="app.module_app_routes_api_stocks.html">app/routes/api/stocks</a></li><li><a href="module-app.html">app</a></li><li><a href="module-db.html">db</a></li><li><a href="module-middleware_auth.html">middleware/auth</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Mar 07 2020 16:47:36 GMT-0800 (Pacific Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Wed Apr 01 2020 02:35:44 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,6 +1,6 @@
 /** Express router providing login related routes
- * @module server/routes/api/register
- * @memberof server
+ * @module app/routes/api/register
+ * @memberof app
  * @requires express
  */
 
@@ -59,7 +59,9 @@ register.post(
 				if (existingUser) {
 					res
 						.status(400)
-						.json({ errors: [{ message: 'That email has already been taken' }] });
+						.json({
+							errors: [{ message: 'That email has already been taken' }]
+						});
 				} else {
 					const hash = await bcrypt.hash(password, salt);
 

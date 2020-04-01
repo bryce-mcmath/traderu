@@ -1,6 +1,6 @@
 /** Express router providing login related routes
- * @module server/routes/api/login
- * @memberof server
+ * @module app/routes/api/login
+ * @memberof app
  * @requires express
  */
 require('dotenv').config();

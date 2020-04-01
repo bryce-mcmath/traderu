@@ -1,6 +1,6 @@
 /** Express router providing stock related routes
- * @module server/routes/api/stocks
- * @memberof server
+ * @module app/routes/api/stocks
+ * @memberof app
  * @requires express
  */
 

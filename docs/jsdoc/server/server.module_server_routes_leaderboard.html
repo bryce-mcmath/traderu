@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: server/routes/login</title>
+    <title>JSDoc: Module: server/routes/leaderboard</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: server/routes/login</h1>
+    <h1 class="page-title">Module: server/routes/leaderboard</h1>
 
     
 
@@ -34,7 +34,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Express router providing login related routes</div>
+            <div class="description">Express router providing leaderboard related routes</div>
         
 
         
@@ -69,7 +69,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_login.js.html">routes/login.js</a>, <a href="routes_login.js.html#line4">line 4</a>
+        <a href="routes_leaderboard.js.html">routes/leaderboard.js</a>, <a href="routes_leaderboard.js.html#line2">line 2</a>
     </li></ul></dd>
     
 
@@ -114,7 +114,7 @@
     
 
     
-    <h4 class="name" id="~post/login"><span class="type-signature">(inner) </span>post/login<span class="signature">(path, middleware)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~get/leaderboard"><span class="type-signature">(inner) </span>get/leaderboard<span class="signature">(path, middleware)</span><span class="type-signature"></span></h4>
     
 
     
@@ -122,7 +122,7 @@
 
 
 <div class="description">
-    Route verifying login credentials
+    Route fetching all rankings
 </div>
 
 
@@ -238,7 +238,167 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_login.js.html">routes/login.js</a>, <a href="routes_login.js.html#line16">line 16</a>
+        <a href="routes_leaderboard.js.html">routes/leaderboard.js</a>, <a href="routes_leaderboard.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~get/leaderboard/:portfolio_id"><span class="type-signature">(inner) </span>get/leaderboard/:portfolio_id<span class="signature">(path, middleware)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Route fetching relevant rankings for a given portfolio
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Express path</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>middleware</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Callback function used as middleware</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_leaderboard.js.html">routes/leaderboard.js</a>, <a href="routes_leaderboard.js.html#line36">line 36</a>
     </li></ul></dd>
     
 

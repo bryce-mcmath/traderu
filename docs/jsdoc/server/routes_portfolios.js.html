@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: routes/portfolios.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: routes/portfolios.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+/** Express router providing portfolio related routes
+ * @module app/routes/api/portfolios
+ * @memberof app
+ * @requires express
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const express_1 = tslib_1.__importDefault(require("express"));
+const express_validator_1 = require("express-validator");
+const auth_1 = tslib_1.__importDefault(require("../middleware/auth"));
+const getPortfoliosByUserId_1 = tslib_1.__importDefault(require("../db/selects/getPortfoliosByUserId"));
+const getStockIdBySymbol_1 = tslib_1.__importDefault(require("../db/selects/getStockIdBySymbol"));
+const getCryptoIdBySymbol_1 = tslib_1.__importDefault(require("../db/selects/getCryptoIdBySymbol"));
+const deletePortfolio_1 = tslib_1.__importDefault(require("../db/updates/deletePortfolio"));
+const createPortfolio_1 = tslib_1.__importDefault(require("../db/inserts/createPortfolio"));
+const createPortfolioHistory_1 = tslib_1.__importDefault(require("../db/inserts/createPortfolioHistory"));
+const createStockTransaction_1 = tslib_1.__importDefault(require("../db/inserts/createStockTransaction"));
+const createCryptoTransaction_1 = tslib_1.__importDefault(require("../db/inserts/createCryptoTransaction"));
+const portfolios = express_1.default.Router();
+/**
+ * Route fetching current user's portfolios
+ * @name get/portfolios
+ * @function
+ * @param {String} path - Express path
+ * @param {Function} middleware - Callback function used as middleware
+ */
+portfolios.get('/', auth_1.default, async (req, res) => {
+    try {
+        if (!req.user)
+            throw new Error('Someone is trying to get portfolio info without being properly authenticated');
+        const portfolios = await getPortfoliosByUserId_1.default(req.user.id);
+        res.json({ portfolios });
+    }
+    catch (error) {
+        console.error('Error in GET -> /portfolios:', error);
+        res.status(500).json({
+            errors: [
+                {
+                    message: 'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+                }
+            ]
+        });
+    }
+});
+/**
+ * Route creating new portfolio
+ * @name post/portfolios
+ * @function
+ * @param {String} path - Express path
+ * @param {Function} middleware - Callback function used as middleware
+ */
+portfolios.post('/', auth_1.default, [
+    express_validator_1.check('portfolioName', 'A portfolio name is required')
+        .not()
+        .isEmpty()
+], async (req, res) => {
+    const errors = express_validator_1.validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+    }
+    else {
+        try {
+            if (!req.user)
+                throw new Error('Someone is trying to create a portfolio without being properly authenticated');
+            const newPortfolio = await createPortfolio_1.default(req.user.id, req.body.portfolioName);
+            await createPortfolioHistory_1.default(newPortfolio.id);
+            res.json({ newPortfolio });
+        }
+        catch (error) {
+            console.error('Error in POST -> /portfolios:', error);
+            res.status(500).json({
+                errors: [
+                    {
+                        message: 'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+                    }
+                ]
+            });
+        }
+    }
+});
+/**
+ * Route deleting specific current user portfolio
+ * @name delete/portfolios/:portfolio_id
+ * @function
+ * @param {String} path - Express path
+ * @param {Function} middleware - Callback function used as middleware
+ */
+portfolios.delete('/:portfolio_id', auth_1.default, async (req, res) => {
+    try {
+        if (!req.user)
+            throw new Error('Someone is trying to delete a portfolio without being properly authenticated');
+        const response = await deletePortfolio_1.default(req.user.id, req.params.portfolio_id);
+        res.json({ response });
+    }
+    catch (error) {
+        console.error('Error in DELETE -> /portfolios/:portfolio_id', error);
+        res.status(500).json({
+            errors: [
+                {
+                    message: 'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+                }
+            ]
+        });
+    }
+});
+/**
+ * Route creating new stock transaction
+ * @name post/portfolios/:id/stock-transaction
+ * @function
+ * @param {String} path - Express path
+ * @param {Function} middleware - Callback function used as middleware
+ */
+portfolios.post(
+// @TODO: Better validation for stock.price when that variable type is confirmed
+// @TODO: Need to check how portfolio and other tables are updated in DB either in this route or in createTransaction
+'/:portfolio_id/stock-transaction', auth_1.default, [
+    express_validator_1.check('quantity', 'Quantity must be a positive integer').custom((quantity, { req }) => Number.isInteger(quantity) &amp;&amp; quantity > 0),
+    express_validator_1.check('stock', 'Stock must include string symbol and string price').custom((stock, { req }) => typeof stock.symbol === 'string' &amp;&amp; typeof stock.price === 'string'),
+    express_validator_1.check('stock', 'Stock symbol must be 1 - 5 characters long').custom((stock, { req }) => stock.symbol.length > 0 &amp;&amp; stock.symbol.length &lt; 6),
+    express_validator_1.check('type', 'Must include a valid transaction type').custom((type, { req }) => (typeof type === 'string' &amp;&amp; type.toLowerCase() === 'buy') ||
+        (typeof type === 'string' &amp;&amp; type.toLowerCase() === 'sell'))
+], async (req, res) => {
+    const errors = express_validator_1.validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+    }
+    else {
+        try {
+            if (!req.user)
+                throw new Error('Someone is trying to make a trade without being properly authenticated');
+            const stock_id = await getStockIdBySymbol_1.default(req.body.stock.symbol);
+            if (isNaN(stock_id)) {
+                return res.status(400).json({
+                    errors: [
+                        {
+                            message: "We're sorry, a stock with that symbol does not exist in our database"
+                        }
+                    ]
+                });
+            }
+            const quantity = req.body.quantity;
+            const value = req.body.stock.price * quantity;
+            const type = req.body.type.toLowerCase();
+            const response = await createStockTransaction_1.default(parseInt(req.params.portfolio_id), {
+                stock_id,
+                quantity,
+                type,
+                value
+            });
+            if (response.command === 'UPDATE') {
+                res.send('success');
+            }
+            else {
+                res.json(response);
+            }
+        }
+        catch (error) {
+            console.error('Error in POST -> /portfolios/:portfolio_id/stock-transaction', error);
+            res.status(500).json({
+                errors: [
+                    {
+                        message: 'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+                    }
+                ]
+            });
+        }
+    }
+});
+/**
+ * Route creating new crypto transaction
+ * @name post/portfolios/:id/crypto-transaction
+ * @function
+ * @param {String} path - Express path
+ * @param {Function} middleware - Callback function used as middleware
+ */
+portfolios.post('/:portfolio_id/crypto-transaction', auth_1.default, [
+    express_validator_1.check('quantity', 'Quantity must be a positive number').custom((quantity, { req }) => !isNaN(quantity) &amp;&amp; quantity > 0),
+    express_validator_1.check('crypto', 'Crypto must include string symbol and string price').custom((crypto, { req }) => typeof crypto.symbol === 'string' &amp;&amp; typeof crypto.price === 'string'),
+    express_validator_1.check('crypto', 'Crypto symbol must be 1 - 5 characters long').custom((crypto, { req }) => crypto.symbol.length > 0 &amp;&amp; crypto.symbol.length &lt; 6),
+    express_validator_1.check('type', 'Must include a valid transaction type').custom((type, { req }) => (typeof type === 'string' &amp;&amp; type.toLowerCase() === 'buy') ||
+        (typeof type === 'string' &amp;&amp; type.toLowerCase() === 'sell'))
+], async (req, res) => {
+    const errors = express_validator_1.validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+    }
+    else {
+        try {
+            if (!req.user)
+                throw new Error('Someone is trying to make a trade without being properly authenticated');
+            const crypto_id = await getCryptoIdBySymbol_1.default(req.body.crypto.symbol);
+            if (isNaN(crypto_id)) {
+                return res.status(400).json({
+                    errors: [
+                        {
+                            message: "We're sorry, a crypto with that symbol does not exist in our database"
+                        }
+                    ]
+                });
+            }
+            const quantity = req.body.quantity;
+            const value = req.body.crypto.price * quantity;
+            const type = req.body.type.toLowerCase();
+            const response = await createCryptoTransaction_1.default(parseInt(req.params.portfolio_id), {
+                crypto_id,
+                quantity,
+                type,
+                value
+            });
+            res.json(response);
+        }
+        catch (error) {
+            console.error('Error in POST -> /portfolios/:portfolio_id/crypto-transaction', error);
+            res.status(500).json({
+                errors: [
+                    {
+                        message: 'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
+                    }
+                ]
+            });
+        }
+    }
+});
+module.exports = portfolios;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="app.module_app_routes_api_authenticate.html">app/routes/api/authenticate</a></li><li><a href="app.module_app_routes_api_cryptos.html">app/routes/api/cryptos</a></li><li><a href="app.module_app_routes_api_leaderboard.html">app/routes/api/leaderboard</a></li><li><a href="app.module_app_routes_api_login.html">app/routes/api/login</a></li><li><a href="app.module_app_routes_api_portfolios.html">app/routes/api/portfolios</a></li><li><a href="app.module_app_routes_api_register.html">app/routes/api/register</a></li><li><a href="app.module_app_routes_api_stocks.html">app/routes/api/stocks</a></li><li><a href="module-app.html">app</a></li><li><a href="module-db.html">db</a></li><li><a href="module-middleware_auth.html">middleware/auth</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Wed Apr 01 2020 02:35:44 GMT-0700 (Pacific Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

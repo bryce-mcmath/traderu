@@ -1,6 +1,6 @@
 /** Express router for validating JWTs
- * @module server/routes/api/authenticate
- * @memberof server
+ * @module app/routes/api/authenticate
+ * @memberof app
  * @requires express
  */
 require('dotenv').config();

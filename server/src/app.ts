@@ -1,16 +1,16 @@
 /** Express server app file
- * @module server
+ * @module app
  * @requires express
  * @requires dotenv
  * @requires helmet
  * @requires connect-history-api-fallback
- * @requires server/routes/api/authenticate
- * @requires server/routes/api/cryptos
- * @requires server/routes/api/leaderboard
- * @requires server/routes/api/login
- * @requires server/routes/api/portfolios
- * @requires server/routes/api/register
- * @requires server/routes/api/stocks
+ * @requires app/routes/api/authenticate
+ * @requires app/routes/api/cryptos
+ * @requires app/routes/api/leaderboard
+ * @requires app/routes/api/login
+ * @requires app/routes/api/portfolios
+ * @requires app/routes/api/register
+ * @requires app/routes/api/stocks
  */
 
 require('dotenv').config();
