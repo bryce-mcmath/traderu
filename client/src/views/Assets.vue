@@ -19,6 +19,54 @@
           @click="handleSymbolInput"
         />
         <hr class="break" />
+        <div v-if="ownedData.length">
+          <h3 class="asset-title">Watchlist</h3>
+          <v-list class="asset-list" :dark="dark" one-line>
+            <v-list-item-group color="primary">
+              <v-list-item
+                class="asset-list__item"
+                v-for="(item, i) in ownedData"
+                :key="i"
+                @click="selectAsset(item, cryptosData.includes(item) ? 'crypto' : 'stock')"
+              >
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.name"></v-list-item-title>
+                  <v-list-item-subtitle
+                    v-bind:style="{
+                        color:
+                          item.prices[0].price -
+                            item.prices[item.prices.length - 1].price >
+                          0
+                            ? '#75ff83'
+                            : '#ff073a'
+                      }"
+                  >{{ format(item.prices[0].price) }}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-sparkline
+                    :value="
+                        item.prices
+                          .map(cryptoObj => cryptoObj.price)
+                          .slice()
+                          .reverse()
+                      "
+                    v-bind:color="
+                        item.prices[0].price -
+                          item.prices[item.prices.length - 1].price >
+                        0
+                          ? '#75ff83'
+                          : '#ff073a'
+                      "
+                    line-width="3"
+                    padding="16"
+                    auto-draw
+                    :auto-draw-duration="1000"
+                  ></v-sparkline>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </div>
         <div v-if="stocksData.length || cryptosData.length">
           <div v-if="stocksData.length">
             <h3 class="asset-title">Stocks</h3>
@@ -32,7 +80,6 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title v-text="item.name"></v-list-item-title>
-                    <!-- {{ showDifference(item) }} -->
                     <v-list-item-subtitle
                       v-bind:style="{
                         color:
@@ -81,7 +128,6 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title v-text="item.name"></v-list-item-title>
-                    <!-- {{ showDifference(item) }} -->
                     <v-list-item-subtitle
                       v-bind:style="{
                         color:
@@ -143,13 +189,16 @@ export default {
   components: {
     SingleAsset
   },
+
   computed: {
     user() {
       return this.$store.state.user;
     },
+
     portfolio() {
       return this.$store.state.ui.activePortfolio;
     },
+
     stockPrice() {
       if (this.assetSelected) {
         const asset = this.stocksData.find(
@@ -159,6 +208,7 @@ export default {
       }
       return null;
     },
+
     cryptoPrice() {
       if (this.assetSelected) {
         const asset = this.cryptosData.find(
@@ -168,6 +218,7 @@ export default {
       }
       return null;
     },
+
     stocksData() {
       const stocksData = this.$store.state.apiData.stocksData;
       const searchSymbol = String(this.searchSymbol);
@@ -182,6 +233,7 @@ export default {
         return stocksData;
       }
     },
+
     cryptosData() {
       const cryptosData = this.$store.state.apiData.cryptosData;
       const searchSymbol = String(this.searchSymbol);
@@ -196,10 +248,50 @@ export default {
         return cryptosData;
       }
     },
+
+    ownedData() {
+      let userStocks = [];
+      let userCryptos = [];
+      this.$store.state.apiData.userPortfolios.forEach(p => {
+        if (p.stocks) {
+          userStocks = [
+            ...userStocks,
+            ...this.stocksData.filter(x =>
+              p.stocks.map(y => y.name).includes(x.name)
+            )
+          ];
+        }
+
+        if (p.cryptos) {
+          userCryptos = [
+            ...userCryptos,
+            ...this.cryptosData.filter(x =>
+              p.cryptos.map(y => y.name).includes(x.name)
+            )
+          ];
+        }
+      });
+
+      const ownedData = [...userStocks, ...userCryptos];
+      const searchSymbol = String(this.searchSymbol);
+
+      if (this.searchSymbol) {
+        return ownedData.filter(element => {
+          return (
+            element.symbol.indexOf(searchSymbol.toUpperCase()) > -1 ||
+            element.name.toLowerCase().indexOf(searchSymbol.toLowerCase()) > -1
+          );
+        });
+      } else {
+        return ownedData;
+      }
+    },
+
     dark() {
       return this.$store.state.ui.dark;
     }
   },
+
   data: () => ({
     transactionsSelectArray: [
       { text: 'Buy', value: 'buy' },
@@ -212,6 +304,7 @@ export default {
     assetSelected: '',
     quantity: ''
   }),
+
   watch: {
     portfolioSelectedId: function(id) {
       this.setActivePortfolio(this.portfolioSelectArray.find(x => x.id === id));
@@ -220,15 +313,19 @@ export default {
       this.getUserPortfolios();
     }
   },
+
   methods: {
     ...mapActions(['setUserPortfolios']),
     ...mapMutations(['setActivePortfolio']),
+
     format(val) {
       return formatCurrency(val, 'USD', 'en').replace(/\.([^0]+)0+$/, '.$1');
     },
+
     selectAsset(assetItem, assetType) {
       if (assetType === 'stock') assetItem.isStock = true;
       if (assetType === 'crypto') assetItem.isCrypto = true;
+
       const increase =
         assetItem.prices[0].price -
           assetItem.prices[assetItem.prices.length - 1].price >
@@ -236,6 +333,7 @@ export default {
       assetItem.increase = increase;
       this.assetSelected = assetItem;
     },
+
     handleSymbolInput(e) {
       if (this.assetSelected) {
         this.assetSelected = '';
@@ -243,6 +341,7 @@ export default {
 
       this.searchSymbol = e.target.value;
     },
+
     submitTransaction() {
       if (!this.portfolio.id) {
         return window.console.log('Handle no selected portfolio here');
@@ -287,6 +386,7 @@ export default {
           .catch(() => this.transactionNotification(false));
       }
     },
+
     transactionValidation() {
       let valid = true;
       const errTemplate = {
@@ -309,6 +409,7 @@ export default {
       this.$store.commit('setShowDialog', !valid);
       return valid;
     },
+
     transactionNotification(transactionSuccess) {
       if (transactionSuccess) {
         this.$store.commit('setDialogText', {
@@ -328,11 +429,13 @@ export default {
         this.$store.commit('setShowDialog', true);
       }
     },
+
     async getUserPortfolios() {
       if (this.user) await this.setUserPortfolios();
       this.portfolioSelectArray = this.$store.state.apiData.userPortfolios;
     }
   },
+
   created() {
     this.getUserPortfolios();
   }

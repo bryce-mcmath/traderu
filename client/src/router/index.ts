@@ -14,7 +14,7 @@ const routes = [
     path: '/assets',
     name: 'Assets',
     component: () =>
-      import(/* webpackChunkName: "trade" */ '../views/Assets.vue')
+      import(/* webpackChunkName: "assets" */ '../views/Assets.vue')
   },
   {
     path: '/portfolios',
