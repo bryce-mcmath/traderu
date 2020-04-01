@@ -2,10 +2,6 @@
 
 ## Git Commit Message Formatting
 
-Hey fellas. I think we should try to have a decent commit history on this project for a couple reasons. One, we have to work remote cause of this beervirus nonsense so we can just turn to our left and ask each other what the hell we're doing. Good commits will make that easier to figure out on our own. Two, people might actually look at this repo, and it probably won't make a good impression if all our commits are like "did stuff" and it's 20,000 lines of code. But I have a way to make this way easier for us.
-
-### Step by Step Setup
-
 1. `code ~/.gitmessage.txt`
 2. Add the following to it:
 
@@ -44,49 +40,3 @@ Why:
 ```
 
 5. Now rejoice! Simply use `git commit` rather than `git commit -m "Some lame msg"`
-
-### Stretch goals we come up with
-
-[Use browser preference to determine initial dark mode setting](https://www.freecodecamp.org/news/how-to-detect-a-users-preferred-color-scheme-in-javascript-ec8ee514f1ef/)
-Implement crypto (Not really stretch, but more than MVP)
-Price AI
-Duration AI
-Market close and open
-Location visualization
-Donate real money and get extra capital
-ActuallyEmployed-Level JSDocs
-
-### Good stretch goals other people suggested
-
-[Cron jobs since we already have an AWS pipeline](https://aws.amazon.com/premiumsupport/knowledge-center/cron-job-elastic-beanstalk/)
-[ActuallyEmployed-Level API Documentation](https://swagger.io)
-
-## Neumorphism
-
-### Unpressed
-
-#### Light
-
-box-shadow: -5px 5px 10px #cecece,
-5px -5px 10px #ffffff;
-
-#### Dark
-
-box-shadow: -5px 5px 10px #242424,
-5px -5px 10px #303030;
-
-### Pressed
-
-#### Light
-
-box-shadow: inset -5px 5px 10px #cecece,
-inset 5px -5px 10px #ffffff;
-
-#### Dark
-
-box-shadow: inset -5px 5px 10px #242424,
-inset 5px -5px 10px #303030;
-
-### Making Stretch Easier
-
-If we change our /trade vue route to /assets, we can list all assets in the one view under their respective headers, [like so](https://s.yimg.com/ny/api/res/1.2/5tXNfWiMKGWe5oXwtFQd8w--~A/YXBwaWQ9aGlnaGxhbmRlcjtzbT0xO3c9MTI4MDtoPTk2MA--/http://media.zenfs.com/en-US/homerun/businessinsider.com/b4c63fb7370c5bb4a97110a5c70fd11c). Then we can pop a new view on top when they click an asset, and move our transaction form there (disabled if they aren't logged in.) Then when when we add in crypto and other assets it's just ctrl c ctrl v.

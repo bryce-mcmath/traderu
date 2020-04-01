@@ -1,5 +1,5 @@
 /** Express router providing crypto related routes
- * @module server/routes/cryptos
+ * @module server/routes/api/cryptos
  * @memberof server
  * @requires express
  */

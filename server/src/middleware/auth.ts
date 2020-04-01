@@ -1,8 +1,24 @@
+/**
+ * Decrypts and checks JWT before hitting sensitive routes
+ * @module middleware/auth
+ * @requires dotenv
+ * @requires jsonwebtoken
+ * @requires IAuthRequest
+ */
+
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 import { Response, NextFunction } from 'express';
 import { IAuthRequest } from '../utils/types';
 
+/**
+ * Decrypts and checks JWT, appends user id to req before sending on to the rest of our middleware
+ * @name query
+ * @function
+ * @param {IAuthRequest} req Custom interface extending the Express request object with our expected types
+ * @param {Response} res Express response object
+ * @param {NextFunction} next Express next middleware function
+ */
 const auth = (req: IAuthRequest, res: Response, next: NextFunction) => {
 	// Get token from header
 	const token = req.header('x-auth-token');

@@ -1,5 +1,5 @@
 /** Express router providing portfolio related routes
- * @module server/routes/portfolios
+ * @module server/routes/api/portfolios
  * @memberof server
  * @requires express
  */

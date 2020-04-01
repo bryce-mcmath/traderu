@@ -1,3 +1,18 @@
+/** Express server app file
+ * @module server
+ * @requires express
+ * @requires dotenv
+ * @requires helmet
+ * @requires connect-history-api-fallback
+ * @requires server/routes/api/authenticate
+ * @requires server/routes/api/cryptos
+ * @requires server/routes/api/leaderboard
+ * @requires server/routes/api/login
+ * @requires server/routes/api/portfolios
+ * @requires server/routes/api/register
+ * @requires server/routes/api/stocks
+ */
+
 require('dotenv').config();
 import express, { Express, Request, Response } from 'express';
 import * as helmet from 'helmet';

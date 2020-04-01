@@ -1,5 +1,5 @@
 /** Express router providing leaderboard related routes
- * @module server/routes/leaderboard
+ * @module server/routes/api/leaderboard
  * @memberof server
  * @requires express
  */
