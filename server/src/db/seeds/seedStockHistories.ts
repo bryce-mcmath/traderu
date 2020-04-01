@@ -2899,7 +2899,7 @@ const testStockData = [
 	{ name: 'GoPro', symbol: 'GPRO' }
 ];
 
-const extraStockDataForProduction = [
+const stockData = [
 	{ name: 'Disney', symbol: 'DIS' },
 
 	{ name: 'Apple', symbol: 'AAPL' },
@@ -3008,10 +3008,6 @@ const extraStockDataForProduction = [
 
 	{ name: 'Exxon Mobil', symbol: 'XOM' },
 
-	{ name: 'New Residential Investment', symbol: 'NRZ' },
-
-	{ name: 'Glu Mobile', symbol: 'GLUU' },
-
 	{ name: 'Cisco', symbol: 'CSCO' },
 
 	{ name: 'Berkshire Hathaway', symbol: 'BRK.B' },
@@ -3021,8 +3017,6 @@ const extraStockDataForProduction = [
 	{ name: 'OPKO Health', symbol: 'OPK' },
 
 	{ name: 'Micron Technology', symbol: 'MU' },
-
-	{ name: 'Luckin Coffee', symbol: 'LK' },
 
 	{ name: 'Viking Therapeutics', symbol: 'VKTX' },
 
@@ -3073,10 +3067,6 @@ const extraStockDataForProduction = [
 
 	{ name: 'Costco', symbol: 'COST' },
 
-	{ name: 'iQIYI', symbol: 'IQ' },
-
-	{ name: 'Bilibili', symbol: 'BILI' },
-
 	{ name: 'JPMorgan Chase', symbol: 'JPM' },
 
 	{ name: 'Dropbox', symbol: 'DBX' },
@@ -3087,11 +3077,7 @@ const extraStockDataForProduction = [
 
 	{ name: 'Twilio', symbol: 'TWLO' },
 
-	{ name: 'JD.com', symbol: 'JD' },
-
-	{ name: 'Energy Transfer', symbol: 'ET' },
-
-	{ name: 'AbbVie', symbol: 'ABBV' }
+	{ name: 'Energy Transfer', symbol: 'ET' }
 ];
 
 //returns the query string and params for a single stocks intraday, daily, and weekly data
@@ -3157,4 +3143,4 @@ const runQueries = async (allQueries: IQuery[]) => {
 	process.exit();
 };
 
-runStockQueries(testStockData);
+export default { stockData, runStockQueries };

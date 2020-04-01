@@ -11,6 +11,7 @@
  * @requires app/routes/api/portfolios
  * @requires app/routes/api/register
  * @requires app/routes/api/stocks
+ * @requires app/routes/api/cron
  */
 
 require('dotenv').config();
@@ -31,7 +32,6 @@ app.use(helmet.default());
 app.use(express.json({ limit: '10kb' }));
 
 // API Routes
-
 app.use('/api/register', require('./routes/register'));
 app.use('/api/login', require('./routes/login'));
 app.use('/api/authenticate', require('./routes/authenticate'));
@@ -39,6 +39,7 @@ app.use('/api/stocks', require('./routes/stocks'));
 app.use('/api/cryptos', require('./routes/cryptos'));
 app.use('/api/leaderboard', require('./routes/leaderboard'));
 app.use('/api/portfolios', require('./routes/portfolios'));
+app.use('/api/cron', require('./routes/cron'));
 
 // Initialize client route middleware
 app.use(hist.default());

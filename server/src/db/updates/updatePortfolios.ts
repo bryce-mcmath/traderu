@@ -2,7 +2,7 @@ import db from '../index';
 
 const updatePortfolios = () => {
 	db.query(
-    `
+		`
 UPDATE
   portfolios
 SET
@@ -34,8 +34,8 @@ SET
     WHERE
       --value includes held cash
       portfolio_id = portfolios.id)
-      
-   + portfolios.cash + 
+
+   + portfolios.cash +
   --  same as above but for cryptos
    (
     SELECT

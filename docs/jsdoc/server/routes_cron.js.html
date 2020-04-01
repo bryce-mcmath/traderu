@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: routes/leaderboard.js</title>
+    <title>JSDoc: Source: routes/cron.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: routes/leaderboard.js</h1>
+    <h1 class="page-title">Source: routes/cron.js</h1>
 
     
 
@@ -27,64 +27,37 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>"use strict";
-/** Express router providing leaderboard related routes
- * @module app/routes/api/leaderboard
+/** Express router providing crypto related routes
+ * @module app/routes/api/cron
  * @memberof app
  * @requires express
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const express_1 = tslib_1.__importDefault(require("express"));
-const getAllRankings_1 = tslib_1.__importDefault(require("../db/selects/getAllRankings"));
-const getLocalRankings_1 = tslib_1.__importDefault(require("../db/selects/getLocalRankings"));
-const leaderboard = express_1.default.Router();
+const seedStockHistories_1 = tslib_1.__importDefault(require("../db/seeds/seedStockHistories"));
+const seedCryptoHistories_1 = tslib_1.__importDefault(require("../db/seeds/seedCryptoHistories"));
+const { stockData, runStockQueries } = seedStockHistories_1.default;
+const { cryptoData, runCryptoQueries } = seedCryptoHistories_1.default;
+const cron = express_1.default.Router();
 /**
- * Route fetching all rankings
- * @name get/leaderboard
+ * Route hit by EB worker every 24hour at 3AM
+ * @name post/cron
  * @function
  * @param {String} path - Express path
  * @param {Function} middleware - Callback function used as middleware
  */
-leaderboard.get('/', async (req, res) => {
+cron.post('/', async (req, res) => {
     try {
-        const rankings = await getAllRankings_1.default();
-        res.json({ rankings: rankings.rows });
+        await runCryptoQueries(cryptoData);
+        await runStockQueries(stockData);
+        res.send('Cron job was a success');
     }
     catch (error) {
-        console.error('Error in GET -> /leaderboard:', error);
-        res.status(500).json({
-            errors: [
-                {
-                    message: 'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
-                }
-            ]
-        });
+        res.send(`Cron job was a failure: ${error}`);
     }
 });
-/**
- * Route fetching relevant rankings for a given portfolio
- * @name get/leaderboard/:portfolio_id
- * @function
- * @param {String} path - Express path
- * @param {Function} middleware - Callback function used as middleware
- */
-leaderboard.get('/:portfolio_id', async (req, res) => {
-    try {
-        const rankings = await getLocalRankings_1.default(req.params.portfolio_id);
-        res.json({ rankings: rankings.rows });
-    }
-    catch (error) {
-        console.error('Error in GET -> /leaderboard/:portfolio_id:', error);
-        res.status(500).json({
-            errors: [
-                {
-                    message: 'Sorry! There was an error on our side. We might be serving more users than we can handle right now.'
-                }
-            ]
-        });
-    }
-});
-module.exports = leaderboard;
+module.exports = cron;
 </code></pre>
         </article>
     </section>

@@ -75,4 +75,4 @@ const runQueries = async (allQueries: IQuery[]) => {
 	process.exit();
 };
 
-runCryptoQueries(cryptoData);
+export default { cryptoData, runCryptoQueries };

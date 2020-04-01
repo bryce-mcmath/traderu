@@ -1,7 +1,8 @@
 import db from '../index';
+import updatePortfolios from './updatePortfolios';
 
 const updatePortfolioHistories = () => {
-  db.query(`
+	db.query(`
     INSERT INTO portfolio_histories (portfolio_id, value)
     SELECT
       portfolios.id,
@@ -9,6 +10,6 @@ const updatePortfolioHistories = () => {
     FROM
       portfolios
   `);
-}
+};
 
-updatePortfolioHistories();
+export default updatePortfolioHistories;
