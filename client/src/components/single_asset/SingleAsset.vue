@@ -308,7 +308,7 @@ export default {
     searchSymbol: '',
     quantity: '',
     chartWidth: window.innerWidth > 1100 ? window.innerWidth * 0.35 : window.innerWidth * 0.8,
-    chartHeight: window.innerWidth ? window.innerWidth * 0.175 : window.innerWidth * 0.4,
+    chartHeight: window.innerWidth > 1100 ? window.innerWidth * 0.175 : window.innerWidth * 0.4,
     waiting: false,
     assetData: null
   }),
@@ -480,7 +480,7 @@ export default {
           this.portfolio.id
         )
           .then(res => {
-            if (res.data === 'success'){// || (res.data.command === "UPDATE")) {
+            if (res.data === 'success'){
               window.console.log('#1, res:', res);
               window.console.log('#1, res.data:', res.data);
               this.transactionNotification(true);
