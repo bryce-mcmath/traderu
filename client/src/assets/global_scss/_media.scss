@@ -245,7 +245,7 @@
 @media (min-width: 1500px) {
   // -----------  INFO PAGE  ----------------
   hr.break {
-    margin: 0 !important;
+    margin-bottom: 30px !important;
   }
   div.info-content {
     background-position: 100% 0% !important;
@@ -271,9 +271,9 @@
     }
     margin-bottom: 15vh !important;
   }
-  #single-asset__container {
+
     text {
-      font-size: 1vw;
+      font-size: 0.8vw !important;
     }
-  }
+
 }

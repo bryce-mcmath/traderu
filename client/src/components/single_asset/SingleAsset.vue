@@ -451,7 +451,7 @@ export default {
         )
           .then(res => {
             window.console.log('res.data:', res.data);
-            if (res.data === 'success') {
+            if (res.data === 'success' || (res.data.command === "UPDATE")) {
               window.console.log('#1, res:', res);
               window.console.log('#1, res.data:', res.data);
               this.transactionNotification(true);
@@ -480,7 +480,7 @@ export default {
           this.portfolio.id
         )
           .then(res => {
-            if (res.data === 'success') {
+            if (res.data === 'success'){// || (res.data.command === "UPDATE")) {
               window.console.log('#1, res:', res);
               window.console.log('#1, res.data:', res.data);
               this.transactionNotification(true);
