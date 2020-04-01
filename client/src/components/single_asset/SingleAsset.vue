@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div id="single-asset__container">
     <section v-bind:class="['asset-info', {'asset-info--dark':dark}]">
       <h3>{{ assetSelected.name }}</h3>
       <h5
@@ -307,8 +307,8 @@ export default {
     transactionSelected: '',
     searchSymbol: '',
     quantity: '',
-    chartWidth: window.innerWidth * 0.8,
-    chartHeight: window.innerWidth * 0.9 * 0.5,
+    chartWidth: window.innerWidth > 1100 ? window.innerWidth * 0.35 : window.innerWidth * 0.8,
+    chartHeight: window.innerWidth ? window.innerWidth * 0.175 : window.innerWidth * 0.4,
     waiting: false,
     assetData: null
   }),

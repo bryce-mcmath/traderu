@@ -5,7 +5,7 @@
     <!-- <hr class="break" /> -->
     <v-card class="breakdown-card">
       <h2>Asset Breakdown</h2>
-      <svg :id="`pie-chart-${portfolio.id}`" :width="width" :height="width" />
+      <svg :id="`pie-chart-${portfolio.id}`" :width="width" :height="width" /> 
       <div class="pie-asset-info" v-bind:style="{ bottom: width / 2 - 50 + 'px' }">
         <h5>{{ highlightedAsset }}</h5>
         <p>{{ formattedAssetValue }}</p>
@@ -188,7 +188,7 @@ export default {
       return this.$store.state.apiData.cryptosData;
     },
     width() {
-      return window.innerWidth / 1.4;
+      return window.innerWidth < 1100 ? window.innerWidth/1.4 : window.innerWidth*0.25;
     },
     pieData() {
       const cryptos = this.getAssetData(

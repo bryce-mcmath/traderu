@@ -9,9 +9,10 @@
   }
   // -----------  INFO PAGE  ----------------
   .info-content {
-    background-position: 30% 0%;
+    // background-position: 30% 0%;
     button.v-btn {
-      font-size: 4vw;
+      font-size: 3.5vw !important;
+      height: 10vh !important;
     }
     img.info-display {
       width: 40%;
@@ -26,7 +27,6 @@
       font-size: 3vw !important;
     }
   }
-
   .info-list__card {
     h2,
     p {
@@ -36,7 +36,7 @@
 
   // ----------- ASSETS PAGE -----------
 
-  .stocks-container {
+  .assets-container {
     .v-list-item__title,
     h4 {
       font-size: 3vw;
@@ -60,19 +60,220 @@
     }
     .user-info {
       h3 {
-        font-size: 3vw;
-      }
-      div {
-        width: 10vw !important;
-        height: 10vw !important;
+        font-size: 1.5vw;
       }
       img {
         width: 8vw !important;
         height: 8vw !important;
       }
     }
+    .user-info__img-container{
+      width: 10vw !important;
+      height: 10vw !important;
+    }
     .portfolio-info {
-      font-size: 3vw;
+      font-size: 2vw;
+    }
+  }
+}
+@media (min-width: 1100px) {
+  .hide-sm {
+    display: none;
+  }
+  // -----------  INFO PAGE  ----------------
+  div.info-content {
+    background-position: 20% 0% !important;
+    padding: 2vh 10vw 3vh 10vw !important;
+    button.v-btn {
+      height: 4vw !important;
+    }
+    h1 {
+      font-size: 6vw !important;
+    }
+    h2 {
+      font-size: 4vw !important;
+    }
+    p {
+      font-size: 3vw !important;
+    }
+    img.info-display {
+      width: 40% !important;
+      float: right;
+      margin-right: 20vw !important;
+    }
+  }
+  .info-content {
+    background-position: 100% 0% !important;
+  }
+
+  .info-slider-card {
+    h1 {
+      font-size: 3.5vw !important;
+    }
+    h2 {
+      font-size: 3vw !important;
+    }
+    p {
+      font-size: 1.5vw !important;
+    }
+    .v-resposive__content {
+      width: 100vw !important;
+    }
+  }
+
+  .info-list__card {
+    h2 {
+      font-size: 2.5vw !important;
+    }
+    p {
+      font-size: 1.5vw !important;
+    }
+    i {
+      font-size: 2.5vw !important;
+    }
+  }
+
+  // ----------- ASSETS PAGE -----------
+
+  .assets-container {
+    .v-item-group {
+      width: 90vw;
+      margin: auto;
+    }
+    .asset-list__item {
+      width: 85vw;
+      height: 12vh;
+      margin: auto;
+      margin-bottom: 2vh !important;
+      margin-top: 2vh !important;
+      padding-left: 12vw;
+      padding-right: 12vw;
+    }
+    .v-list-item__title,
+    h4 {
+      font-size: 1.5vw;
+      display: inline;
+    }
+    .v-list-item__subtitle,
+    h5 {
+      font-size: 1.3vw;
+    }
+    h3.asset-title {
+      font-size: 2vw;
+    }
+    h3 {
+      font-size: 2vw;
+    }
+  }
+
+  #single-asset__container {
+    display: flex;
+    justify-content: space-around;
+    .asset-info,
+    .order-form {
+      width: 40vw;
+    }
+    .asset-info {
+      .v-input {
+        margin-top: 5vh;
+      }
+    }
+    text {
+      font-size: 1.5vw;
+    }
+  }
+
+  //---------- PORTFOLIO --------------
+  .portfolio-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    h1,
+    .portfolio-value {
+      width: 100%;
+      text-align: center;
+    }
+    .v-card {
+      width: 35vw;
+      height: 35vw;
+    }
+    .pie-asset-info {
+      bottom: 10vw !important;
+    }
+    text {
+      font-size: 1vw !important;
+    }
+    h1 {
+      font-size: 5vw !important;
+    }
+    .v-btn__content {
+      font-size: 1vw !important;
+    }
+    #gauge-3 {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  //----------- LEADERBOARD ------------
+  .leaderboard__list-item {
+    height: 20vh;
+    .user-info__rank {
+      font-size: 1vw;
+      padding: 10px;
+    }
+    .user-info {
+      height: 6vh;
+      img {
+        width: 5vh !important;
+        height: 5vh !important;
+      }
+    }
+    .user-info__img-container {
+      width: 6vh !important;
+      height: 6vh !important;
+    }
+    .user-info__name {
+      font-size: 1.5vw !important;
+    }
+    h3.portfolio-info{
+      font-size: 1vw !important;
+    }
+  }
+}
+
+@media (min-width: 1500px) {
+  // -----------  INFO PAGE  ----------------
+  hr.break {
+    margin: 0 !important;
+  }
+  div.info-content {
+    background-position: 100% 0% !important;
+    h1 {
+      font-size: 4.5vw !important;
+    }
+    h2 {
+      font-size: 3.5vw !important;
+    }
+    p {
+      font-size: 2.5vw !important;
+    }
+    img.info-display {
+      width: 25% !important;
+    }
+  }
+
+  .portfolios-container, hr {
+    width: 80vw !important;
+    margin: auto !important;
+    .pie-asset-info {
+      bottom: 12vw !important;
+    }
+    margin-bottom: 15vh !important;
+  }
+  #single-asset__container {
+    text {
+      font-size: 1vw;
     }
   }
 }
