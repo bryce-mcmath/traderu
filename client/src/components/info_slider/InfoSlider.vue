@@ -16,10 +16,7 @@
 
           <div class="slide-text-container">
             <h2>Trade a variety of assets</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Error
-              eaque et inventore atque consequuntur maiores quibusdam.
-            </p>
+            <p>With everything from SPY to DogeCoin, we have over a hundred stocks and cryptocurrencies to choose from.</p>
           </div>
         </v-card>
       </v-window-item>
@@ -38,10 +35,7 @@
 
           <div class="slide-text-container">
             <h2>Analyze your portfolio</h2>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Accusamus blanditiis in molestiae iusto ut enim eum eligendi.
-            </p>
+            <p>View charts, graphs, and other data visualizations of your portfolios and their performance over time.</p>
           </div>
         </v-card>
       </v-window-item>
@@ -60,10 +54,7 @@
 
           <div class="slide-text-container">
             <h2>Measure up</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia,
-              a eaque alias voluptatum necessitatibus nesciunt dolores
-            </p>
+            <p>Once a day all our stock and cryptocurrency data is automatically updated, so as the assets you've bought go up in value, so does your position on the leaderboard.</p>
           </div>
         </v-card>
       </v-window-item>
