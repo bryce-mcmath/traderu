@@ -181,4 +181,4 @@ For being Vue gurus:
 - Gary Jipp
 - LinusBorg on the Vue forums
 
-## ![TraderU](https://github.com/bryce-mcmath/traderu/blob/master/docs/logo.png?raw=true)
+## ![TraderU](https://github.com/bryce-mcmath/traderu/blob/master/docs/img/logo.png?raw=true)

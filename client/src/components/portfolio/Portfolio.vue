@@ -5,7 +5,7 @@
     <!-- <hr class="break" /> -->
     <v-card class="breakdown-card">
       <h2>Asset Breakdown</h2>
-      <svg :id="`pie-chart-${portfolio.id}`" :width="width" :height="width" /> 
+      <svg :id="`pie-chart-${portfolio.id}`" :width="width" :height="width" />
       <div class="pie-asset-info" v-bind:style="{ bottom: width / 2 - 50 + 'px' }">
         <h5>{{ highlightedAsset }}</h5>
         <p>{{ formattedAssetValue }}</p>
@@ -63,7 +63,7 @@
         />
       </div>
       <div class="settings-card__btns-container">
-        <v-btn class="settings-card__save-btn" color="#75ff83">Save Settings</v-btn>
+        <v-btn class="settings-card__save-btn" :dark="dark">Save Settings</v-btn>
         <v-btn
           class="settings-card__delete-btn"
           color="red"
@@ -150,6 +150,9 @@ export default {
         this.setUser(val);
       }
     },
+    dark() {
+      return this.$store.state.ui.dark;
+    },
     rank() {
       // Ranking data is sorted so their rank is their index + 1
       const index = this.$store.state.apiData.allRankingsData.findIndex(
@@ -188,7 +191,9 @@ export default {
       return this.$store.state.apiData.cryptosData;
     },
     width() {
-      return window.innerWidth < 1100 ? window.innerWidth/1.4 : window.innerWidth*0.25;
+      return window.innerWidth < 1100
+        ? window.innerWidth / 1.4
+        : window.innerWidth * 0.25;
     },
     pieData() {
       const cryptos = this.getAssetData(
