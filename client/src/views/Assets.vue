@@ -12,7 +12,7 @@
         <input
           class="symbol-text-input"
           type="text"
-          v-model="searchSymbol"
+          v-bind:value="searchSymbol"
           placeholder="Filter by symbol or name..."
           inputmode="search"
           @input="handleSymbolInput"
@@ -120,7 +120,7 @@
           </div>
         </div>
         <div class="cp" v-else-if="searchSymbol">
-          <h3>No results for symbol "{{ searchSymbol.toUpperCase() }}"</h3>
+          <h3>No results for "{{ searchSymbol.toUpperCase() }}"</h3>
         </div>
         <p class="no-assets-msg" v-else>
           No stocks to show at this time. Once we've added some we'll display
@@ -137,6 +137,7 @@ import { mapActions, mapMutations } from 'vuex';
 import ajaxCalls from '../api/ajaxCalls';
 import SingleAsset from '../components/single_asset/SingleAsset.vue';
 const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
+
 export default {
   name: 'Assets',
   components: {
@@ -235,10 +236,12 @@ export default {
       assetItem.increase = increase;
       this.assetSelected = assetItem;
     },
-    handleSymbolInput() {
+    handleSymbolInput(e) {
       if (this.assetSelected) {
         this.assetSelected = '';
       }
+
+      this.searchSymbol = e.target.value;
     },
     submitTransaction() {
       if (!this.portfolio.id) {
