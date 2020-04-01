@@ -54,7 +54,7 @@
 
           <div class="slide-text-container">
             <h2>Measure up</h2>
-            <p>Once a day all our stock and cryptocurrency data is automatically updated, so as the assets you've bought go up in value, so does your position on the leaderboard.</p>
+            <p>Our stock and cryptocurrency data is automatically updated daily, so as the assets you've bought go up in value, your position on the leaderboard will too.</p>
           </div>
         </v-card>
       </v-window-item>

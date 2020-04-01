@@ -168,10 +168,15 @@
         <div class="cp" v-else-if="searchSymbol">
           <h3>No results for "{{ searchSymbol.toUpperCase() }}"</h3>
         </div>
-        <p class="no-assets-msg" v-else>
-          No stocks to show at this time. Once we've added some we'll display
-          the data here.
-        </p>
+        <div v-else>
+          <p class="no-assets-msg" v-if="!loading">
+            No stocks to show at this time. Once we've added some we'll display
+            the data here.
+          </p>
+          <div class="spinner-container" v-if="loading">
+            <Spinner></Spinner>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -182,12 +187,15 @@ import { formatCurrency } from '@coingecko/cryptoformat';
 import { mapActions, mapMutations } from 'vuex';
 import ajaxCalls from '../api/ajaxCalls';
 import SingleAsset from '../components/single_asset/SingleAsset.vue';
+import Spinner from '../components/spinner/Spinner.vue';
+
 const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
 
 export default {
   name: 'Assets',
   components: {
-    SingleAsset
+    SingleAsset,
+    Spinner
   },
 
   computed: {
@@ -257,7 +265,11 @@ export default {
           userStocks = [
             ...userStocks,
             ...this.stocksData.filter(x =>
-              p.stocks.map(y => y.name).includes(x.name)
+              p.stocks
+                .map(y => {
+                  if (y && y.name) return y.name;
+                })
+                .includes(x.name)
             )
           ];
         }
@@ -266,7 +278,11 @@ export default {
           userCryptos = [
             ...userCryptos,
             ...this.cryptosData.filter(x =>
-              p.cryptos.map(y => y.name).includes(x.name)
+              p.cryptos
+                .map(y => {
+                  if (y && y.name) return y.name;
+                })
+                .includes(x.name)
             )
           ];
         }
@@ -285,6 +301,9 @@ export default {
       } else {
         return ownedData;
       }
+    },
+    loading() {
+      return this.$store.state.ui.ajaxInProgress;
     },
 
     dark() {
