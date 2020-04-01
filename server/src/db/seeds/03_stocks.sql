@@ -1,4 +1,19 @@
 INSERT INTO stocks (name, symbol)
-  VALUES ('Aurora Cannabis', 'ACB'), ('GoPro', 'GPRO'), ('Ford', 'F'), ('GE', 'GE'), ('Microsoft', 'MSFT');
-
-
+  VALUES ('Disney', 'DIS'),
+      ('Aurora Cannabis', 'ACB'),
+  ('Ford', 'F'),
+  ('GE', 'GE'),
+  ('Microsoft', 'MSFT'),
+  ('GoPro', 'GPRO'),
+  ('Disney', 'DIS'),
+  ('Apple', 'AAPL'),
+  ('Fitbit', 'FIT'),
+  ('AMD', 'AMD'),
+  ('Tesla', 'TSLA'),
+  ('Bank of America', 'BAC'),
+  ('Facebook', 'FB'),
+  ('Uber', 'UBER'),
+  ('Twitter', 'TWTR'),
+  ('Groupon', 'GRPN'),
+  ('Amazon', 'AMZN'),
+  ('SPDR S&P 500 ETF', 'SPY')

@@ -1,5 +1,6 @@
+
 <template>
-  <div>
+  <div id="single-asset__container">
     <section v-bind:class="['asset-info', {'asset-info--dark':dark}]">
       <h3>{{ assetSelected.name }}</h3>
       <h5
@@ -167,7 +168,6 @@ import ajaxCalls from '../../api/ajaxCalls';
 import { makeLineChart } from '../../utils/d3Graphs';
 import * as d3 from 'd3';
 const { makeStockTransaction, makeCryptoTransaction } = ajaxCalls;
-
 export default {
   created() {
     this.setActivePortfolio({ name: null, id: null });
@@ -226,7 +226,8 @@ export default {
       return this.assetSelected.isStock ? 'Day' : '3-month';
     },
     portfolio() {
-      return this.$store.state.ui.activePortfolio;
+      // return this.$store.state.ui.activePortfolio;
+      return this.$store.state.apiData.userPortfolios.find(portfolio => portfolio.id === this.portfolioSelectedId) || { name: null, id: null };
     },
     stockPrice() {
       if (this.assetSelected) {
@@ -306,8 +307,8 @@ export default {
     transactionSelected: '',
     searchSymbol: '',
     quantity: '',
-    chartWidth: window.innerWidth * 0.9,
-    chartHeight: window.innerWidth * 0.9 * 0.5,
+    chartWidth: window.innerWidth > 1100 ? window.innerWidth * 0.35 : window.innerWidth * 0.8,
+    chartHeight: window.innerWidth > 1100 ? window.innerWidth * 0.175 : window.innerWidth * 0.4,
     waiting: false,
     assetData: null
   }),
@@ -436,7 +437,6 @@ export default {
     },
     submitTransaction() {
       if (!this.transactionValidation()) return;
-
       if (this.assetSelected.isStock && !this.assetSelected.isCrypto) {
         makeStockTransaction(
           {
@@ -451,7 +451,7 @@ export default {
         )
           .then(res => {
             window.console.log('res.data:', res.data);
-            if (res.data === 'success') {
+            if (res.data === 'success' || (res.data.command === "UPDATE")) {
               window.console.log('#1, res:', res);
               window.console.log('#1, res.data:', res.data);
               this.transactionNotification(true);
@@ -477,11 +477,10 @@ export default {
             type: this.transactionSelected,
             quantity: Number(this.quantity)
           },
-
           this.portfolio.id
         )
           .then(res => {
-            if (res.data === 'success') {
+            if (res.data === 'success'){
               window.console.log('#1, res:', res);
               window.console.log('#1, res.data:', res.data);
               this.transactionNotification(true);
@@ -505,22 +504,18 @@ export default {
         title: 'Error',
         content: []
       };
-
       if (!this.portfolio.id && !isNaN(Number(this.portfolio.id))) {
         valid = false;
         errTemplate.content.push('No portfolio selected.');
       }
-
       if (!this.quantity && !isNaN(Number(this.quantity))) {
         valid = false;
         errTemplate.content.push('Quantity must be a number.');
       }
-
       if (!this.transactionSelected) {
         valid = false;
         errTemplate.content.push('A transaction type must be selected.');
       }
-
       if (
         this.transactionSelected === 'sell' &&
         Number(this.OwnedAssetquantity) < Number(this.quantity)
@@ -530,7 +525,6 @@ export default {
           'You cannot sell more of an asset than you own. Double check how much you have currently!'
         );
       }
-
       if (
         this.transactionSelected === 'buy' &&
         Number(this.portfolio.cash) <
@@ -539,10 +533,8 @@ export default {
         valid = false;
         errTemplate.content.push('Insufficient funds for transaction.');
       }
-
       this.$store.commit('setDialogText', errTemplate);
       this.$store.commit('setShowDialog', !valid);
-
       return valid;
     },
     transactionNotification(transactionSuccess, transactionMessage = '') {

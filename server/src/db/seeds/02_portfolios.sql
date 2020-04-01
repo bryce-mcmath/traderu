@@ -1,3 +1,2 @@
 INSERT INTO portfolios(user_id, name, value, cash, buying_power, created_at)
-VALUES (1, 'one', 100,100,100,NOW()),(1, 'two', 200,200,200,NOW()),(1, 'three', 300,300,300,NOW())
-,(1, 'four', 400,400,400,NOW()),(1, 'five', 500,500,500,NOW()),(1, 'six', 600,600,600,NOW());
+VALUES (3, 'Risky', 703922,703922,703922,NOW()),(4, 'Steady', 103675,201036750,103675,NOW()),(5, 'Daily', 971234,971234,971234,NOW());
