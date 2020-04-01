@@ -33,7 +33,7 @@ TraderU is a progressive web app (PWA) made to simulate stock and cryptocurrency
 
 ### Demo:
 
-![Demo](https://github.com/bryce-mcmath/traderu/blob/master/docs/demo.gif?raw=true)
+![Demo](https://github.com/bryce-mcmath/traderu/blob/development/docs/demo.gif?raw=true)
 
 The above gif demonstrates our basic app flow. For more screenshots and other documentation, navigate to the /docs directory from the root of this repo.
 
