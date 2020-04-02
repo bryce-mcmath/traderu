@@ -9,7 +9,8 @@ import axios from 'axios';
 Vue.config.productionTip = false;
 let baseURL = window.location.origin;
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'cypress') {
   window.console.log('Current dev environment:', process.env.NODE_ENV);
   baseURL = 'http://localhost:8080/';
 }

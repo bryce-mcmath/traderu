@@ -55,12 +55,13 @@
             v-model="portfolioSelectedId"
             :dark="dark"
             outlined
+            data-cy="portfolio-select"
           ></v-select>
         </v-row>
         <v-row v-if="portfolio.id">
           <v-col>
             <label>Funds Available:</label>
-            <v-text-field class="left-row" :dark="dark" readonly :value="format(portfolio.cash)"></v-text-field>
+            <v-text-field class="left-row" :dark="dark" readonly :value="format(portfolio.cash)" data-cy="funds-available"></v-text-field>
           </v-col>
           <v-col>
             <label class="right-row">Quantity Owned:</label>
@@ -69,6 +70,7 @@
               readonly
               :dark="dark"
               :value="ownedAssetQuantity || '0'"
+              data-cy="quantity-owned"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -113,6 +115,7 @@
               v-model="quantity"
               :dark="dark"
               outlined
+              data-cy="quantity-select"
             ></v-text-field>
           </v-col>
           <v-col>
@@ -126,6 +129,7 @@
               v-model="transactionSelected"
               :dark="dark"
               outlined
+              data-cy="transaction-select"
             ></v-select>
           </v-col>
         </v-row>
@@ -147,7 +151,7 @@
         </v-row>
         <v-row>
           <v-col class="right-row">
-            <v-btn class="order-btn" :dark="dark" @click="submitTransaction">Place Order</v-btn>
+            <v-btn class="order-btn" :dark="dark" @click="submitTransaction" data-cy="place-order-btn">Place Order</v-btn>
           </v-col>
         </v-row>
       </v-container>
