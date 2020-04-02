@@ -6,7 +6,7 @@
       { 'footer-nav-button--dark': dark },
       { 'footer-nav-button--active': active }
     ]"
-    aria-label="{{`link to ${link}`}}"
+    :aria-label="`link to ${link}`"
   >
     <i :class="icon + ' footer-nav-button__icon'"></i>
   </v-btn>

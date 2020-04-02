@@ -66,7 +66,7 @@
       </v-btn>
       <v-item-group v-model="onboarding" class="text-center" mandatory>
         <v-item v-for="n in length" :key="`btn-${n}`" v-slot:default="{ active, toggle }">
-          <v-btn aria-label="{{`slide-photo-${n}`}}" :input-value="active" icon @click="toggle">
+          <v-btn :aria-label="`slide-photo-${n}`" :input-value="active" icon @click="toggle">
             <v-icon>mdi-record</v-icon>
           </v-btn>
         </v-item>

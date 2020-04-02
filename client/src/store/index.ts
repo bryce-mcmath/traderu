@@ -190,7 +190,7 @@ export default new Vuex.Store({
       commit('setAjaxInProgress', false);
     },
 
-    async setRankingsData({ commit, state }) {
+    async setRankingsData({ commit }) {
       commit('setAjaxInProgress', true);
       fetchRankingsData()
         .then(rankData => {
