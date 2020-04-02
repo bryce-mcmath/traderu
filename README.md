@@ -118,7 +118,7 @@ There are more commands than is necessary to list here, refer to package.json fi
 - [Postman Team](https://www.postman.com/) - For testing and debugging out routes
 - [Jest](https://jestjs.io) - Testing library we used for unit and integration tests
 - [Cypress](https://cypress.io) - End-to-end testing framework we had time to add a few E2E tests with
-- [AWS](https://aws.amazon.com) - Used to deploy our app. The flow works like this: Reach a milestone stable version of development -> merge to master -> Github Hook triggers AWS CodeBuild -> CodeBuild runs install, build, and test stages (see buildspec.yml - Lerna made this very easy) -> If successful, CodeDeploy sends zipped output files to an AWS S3 bucket -> Contents is served with an AWS EC2 instance via AWS Elastic Beanstalk. All for free!
+- [AWS](https://aws.amazon.com) - Used to deploy our app. The flow works like this: Reach a milestone stable version of development -> merge to master -> Github Hook triggers AWS CodeBuild -> CodeBuild runs install, build, and test stages (see buildspec.yml - Lerna made this very easy) -> If successful, CodeDeploy sends zipped output files to an AWS S3 bucket -> Contents is served with an AWS EC2 instance via AWS Elastic Beanstalk
 
 ## Contributing
 
