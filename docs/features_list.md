@@ -11,9 +11,9 @@ In no particular order:
   - Installable
   - Service worker uses sockjs to periodically check for updates and connection
   - Valid webmanifest which displays a nice splash screen with our logo before serving the app like a native app if you add it to your home screen (on Android at least, that's all I've tested)
-  - SSL
   - Offline use without crashing (can't make trades etc. until you have an internet connection ofcourse)
   - App-like UI
+  - Only missing SSL/HTTPS currently
 - JWT and BCrypt for more secure authentication
 - Neumorphic design
 - Initial dark mode set based on detected user preference

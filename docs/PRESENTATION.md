@@ -48,10 +48,9 @@ Let's try it out.
 1. Login (show hamburger menu)
 2. Navigate to portfolios
 3. Open top portfolio, scroll through graphs (pie => value => rank)
-4. Brief mention of public/notifications
-5. Open second portfolio, have it be all cash
 6. Navigate to assets
 7. Buy 2000 Ford
+8. Mention updated info
 8. Back to portfolios.
 9. Look at updated portfolio pie graph.
 10. Hand off
@@ -66,13 +65,15 @@ On the front end we used...
 
 ### API Interaction, Back End
 
-On our backend we used node, express and postgres, and learned typescript to code in. For our data we integrated a stock and cryptocurrency API called alpha vantage, and learned a lot about pstgres and jsonb for storing the large amounts of data.
+On our backend we used node, express, and postgress, and learned typescript to code it in. For our data, we utilized
+a stock and cryptocurrency API called alpha vantage. We learned a lot about postgres and using jsonb to handle the large amounts of
+data we needed efficiently. Next Bryce can tell you about our project structure and deployment
 
 <!-- Bryce -->
 
 ### Devops Stuff / Styling
 
-For deployment we used an AWS Pipeline, so as soon as we push to master we a build and test process, and if it passes it deploys to an EC2 instance through Elastic Beanstalk and we get a nice couple of cute badges to show our test coverage and build status. For styling, we made custom components and used Sass mixins for our visual effects.
+For deployment we used...
 
 ## Closing Remarks
 
@@ -87,3 +88,5 @@ Thank you for checking out our app. If you thought the app was interesting ask u
 ### Jon
 
 Thanks everyone.
+
+If you thought the app was interesting ask us about all the extra features we have in our session!

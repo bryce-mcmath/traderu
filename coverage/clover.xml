@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
 <coverage generated="1585753364537" clover="3.2.0">
   <project timestamp="1585753364538" name="All files">
     <metrics statements="435" coveredstatements="157" conditionals="113" coveredconditionals="3" methods="99" coveredmethods="1" elements="647" coveredelements="161" complexity="0" loc="435" ncloc="435" packages="7" files="27" classes="27"/>
@@ -128,22 +127,6 @@
         <line num="21" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
         <line num="26" count="1" type="stmt"/>
-=======
-<coverage generated="1585860511683" clover="3.2.0">
-  <project timestamp="1585860511683" name="All files">
-    <metrics statements="19" coveredstatements="18" conditionals="10" coveredconditionals="7" methods="9" coveredmethods="8" elements="38" coveredelements="33" complexity="0" loc="19" ncloc="19" packages="3" files="3" classes="3"/>
-    <package name="footer_nav">
-      <metrics statements="7" coveredstatements="7" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
-      <file name="FooterNav.vue" path="/home/jon/lighthouse/projects/traderu/client/src/components/footer_nav/FooterNav.vue">
-        <metrics statements="7" coveredstatements="7" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
-        <line num="39" count="1" type="stmt"/>
-        <line num="48" count="5" type="stmt"/>
-        <line num="51" count="5" type="stmt"/>
-        <line num="52" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="53" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="54" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="55" count="1" type="stmt"/>
->>>>>>> feature/tests
       </file>
     </package>
     <package name="navbar">
@@ -152,7 +135,6 @@
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="22" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
-<<<<<<< HEAD
       </file>
       <file name="getAllStocks.ts" path="C:\Users\bryce\Documents\repos\traderu\server\src\db\selects\getAllStocks.ts">
         <metrics statements="4" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -518,18 +500,6 @@
         <line num="44" count="0" type="stmt"/>
         <line num="46" count="0" type="stmt"/>
         <line num="47" count="0" type="stmt"/>
-=======
-        <line num="24" count="1" type="stmt"/>
-        <line num="31" count="2" type="stmt"/>
-        <line num="34" count="2" type="stmt"/>
-      </file>
-    </package>
-    <package name="vuemorphic_toggle">
-      <metrics statements="7" coveredstatements="6" conditionals="4" coveredconditionals="1" methods="5" coveredmethods="4"/>
-      <file name="VuemorphicToggle.vue" path="/home/jon/lighthouse/projects/traderu/client/src/components/vuemorphic_toggle/VuemorphicToggle.vue">
-        <metrics statements="7" coveredstatements="6" conditionals="4" coveredconditionals="1" methods="5" coveredmethods="4"/>
-        <line num="59" count="1" type="stmt"/>
->>>>>>> feature/tests
         <line num="65" count="1" type="stmt"/>
         <line num="69" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="75" count="0" type="cond" truecount="0" falsecount="2"/>

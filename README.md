@@ -153,9 +153,10 @@ _To add an issue, start a new one [here.](https://github.com/bryce-mcmath/trader
 ### Planned
 
 - General robustness, more consistent patterns and clean up
+- Use GZip with requests that recieve text-based JSON payload
 - Market close and open
 - Order duration algorithm, enable option
-- Limit orders, and associated algorithm
+- Limit orders, and associated algorithm, enable option
 - Portfolio settings toggles are permanently changed on save
 - Limit on number of accounts per user
 - Push notifications

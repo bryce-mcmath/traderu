@@ -5,6 +5,7 @@ static
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 *.zip
+coverage
 
 
 # local env files
