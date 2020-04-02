@@ -176,8 +176,10 @@ export default Vue.extend({
         });
     }
   },
-  mounted() {
-    this.getLocation();
+  watch: {
+    registerDialog: function() {
+      if (this.registerDialog) this.getLocation();
+    }
   }
 });
 </script>
