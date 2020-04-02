@@ -1,7 +1,7 @@
 {
   "name": "TraderU",
   "short_name": "TraderU",
-  "start_url": "http://www.traderu.io",
+  "start_url": "http://traderu-env.eba-uq3iu5wt.us-east-2.elasticbeanstalk.com/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
