@@ -1,53 +1,41 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
-import Vuetify from 'vuetify';
+import { shallowMount } from '@vue/test-utils';
+import Vue from 'vue';
 import FooterNav from '@/components/footer_nav/FooterNav.vue';
-const localVue = createLocalVue()
 
-localVue.use(Vuex);
-
-//Commenting out localVue.use(Vuetify) and commenting in below stops error, but ignores the vuetify component.
-//@TODO: figure out why vuetify components not registering correctly
-localVue.use(Vuetify);
-// Vue.config.ignoredElements = [
-//   'v-bottom-navigation'
-// ];
+//vuetify components throw 'unrecognized component' warnings since they think they are unimported custom components
+// This clears warnings
+Vue.config.ignoredElements = [
+  'v-bottom-navigation'
+];
 
 
 describe('FooterNav.vue', () => {
-  let store, vuetify;
-
+  let store, mocks;
   beforeEach(() => {
-    vuetify = new Vuetify();
-    store = new Vuex.Store({
-      state: {
-        ui: {
-          dark: true
+    mocks = {
+      $store: {
+        state: {
+          ui: {
+            dark: true
+          }
         }
       }
-    })
+    }
   });
 
-	it('Sets only the trade button active when at the trade route', () => {
-    //computed property tabSelected requires a mocked $route 
+	it('Sets only the assets button active when at the assets route', () => {
     const $route = {
       path: '/assets'
     }
-
 		const wrapper = shallowMount(FooterNav, {
-      localVue,
-      vuetify,
-      store,
-      mocks: {
-        $route
-      }
+      mocks: {...mocks, $route}
     });
 
     //Get buttons
     const assetsButton = wrapper.find('[label="Assets"]');
     const infoButton = wrapper.find('[label="Info"]');
-    const leaderboardButton = wrapper.find('[label="Portfolios"]');
-    const portfolioButton = wrapper.find('[label="Leaderboard"]');
+    const leaderboardButton = wrapper.find('[label="Leaderboard"]');
+    const portfolioButton = wrapper.find('[label="Portfolios"]');
     
     //Check trade button active, all others inactive
     expect(assetsButton.html()).toContain('active');
@@ -55,22 +43,78 @@ describe('FooterNav.vue', () => {
 		expect(leaderboardButton.html()).not.toContain('active');
 		expect(portfolioButton.html()).not.toContain('active');
   });
-  
-	it('Applies dark mode when dark set true in state', () => { 
-    //computed property tabSelected requires a mocked $route 
-    const $route = {
-      path: '/assets'
-    }
 
-    const wrapper = shallowMount(FooterNav, {
-      localVue,
-      vuetify,
-      store,
-      mocks: {
-        $route
-      }
+	it('Sets only the info button active when at the info route', () => {
+    const $route = {
+      path: '/'
+    }
+		const wrapper = shallowMount(FooterNav, {
+      mocks: {...mocks, $route}
     });
 
+    //Get buttons
+    const assetsButton = wrapper.find('[label="Assets"]');
+    const infoButton = wrapper.find('[label="Info"]');
+    const leaderboardButton = wrapper.find('[label="Leaderboard"]');
+    const portfolioButton = wrapper.find('[label="Portfolios"]');
+    
+    //Check trade button active, all others inactive
+    expect(assetsButton.html()).not.toContain('active');
+		expect(infoButton.html()).toContain('active');
+		expect(leaderboardButton.html()).not.toContain('active');
+		expect(portfolioButton.html()).not.toContain('active');
+  });
+
+	it('Sets only the portfolios button active when at the portfolios route', () => {
+    const $route = {
+      path: '/portfolios'
+    }
+    const wrapper = shallowMount(FooterNav, {
+      mocks: {...mocks, $route}
+    });
+
+    //Get buttons
+    const assetsButton = wrapper.find('[label="Assets"]');
+    const infoButton = wrapper.find('[label="Info"]');
+    const leaderboardButton = wrapper.find('[label="Leaderboard"]');
+    const portfolioButton = wrapper.find('[label="Portfolios"]');
+    
+    //Check trade button active, all others inactive
+    expect(assetsButton.html()).not.toContain('active');
+		expect(infoButton.html()).not.toContain('active');
+		expect(leaderboardButton.html()).not.toContain('active');
+		expect(portfolioButton.html()).toContain('active');
+  });
+
+	it('Sets only the leaderboard button active when at the leaderboard route', () => {
+    const $route = {
+      path: '/leaderboard'
+    }
+    const wrapper = shallowMount(FooterNav, {
+      mocks: {...mocks, $route}
+    });
+
+    //Get buttons
+    const assetsButton = wrapper.find('[label="Assets"]');
+    const infoButton = wrapper.find('[label="Info"]');
+    const leaderboardButton = wrapper.find('[label="Leaderboard"]');
+    const portfolioButton = wrapper.find('[label="Portfolios"]');
+    
+    //Check trade button active, all others inactive
+    expect(assetsButton.html()).not.toContain('active');
+		expect(infoButton.html()).not.toContain('active');
+		expect(leaderboardButton.html()).toContain('active');
+		expect(portfolioButton.html()).not.toContain('active');
+  });
+  
+	it('Applies dark mode when dark set true in state', () => {
+    const $route = {
+      path: '/leaderboard'
+    } 
+    const wrapper = shallowMount(FooterNav, {
+      store,
+      mocks: {...mocks, $route}
+    });
     expect(wrapper.classes()).toContain('v-bottom-navigation--dark')
   });
 });
