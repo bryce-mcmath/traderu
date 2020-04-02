@@ -1,6 +1,7 @@
 {
   "name": "TraderU",
   "short_name": "TraderU",
+  "start_url": "http://www.traderu.io",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
