@@ -6,12 +6,14 @@
       :type="'icon'"
       :active="dark"
       :options="{ left: 'fas fa-moon', right: 'fas fa-sun' }"
+      data-cy="toggle-dark-mode"
     ></VuemorphicToggle>
     <img class="brand" alt="traderu" v-if="!dark" src="@/assets/logo.png" />
     <img class="brand" alt="traderu" v-if="dark" src="@/assets/logo--dark-mode.png" />
     <v-app-bar-nav-icon
       @click="this.toggleDrawer"
       v-bind:class="{ 'v-btn--icon--active': pressed }"
+      data-cy="toggle-nav-drawer"
       aria-label="navigation-drawer"
     ></v-app-bar-nav-icon>
   </nav>

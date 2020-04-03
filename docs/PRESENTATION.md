@@ -7,7 +7,11 @@
 ### Bryce
 
 Hello everyone. We'll talk about our project in a minute here but first we'll introduce ourselves.
-I'm Bryce, I started programming while I was in engineering at UVic, and I've found it more fulfilling than the jobs I've had since, so this program seemed like a good next step for me.
+<<<<<<< HEAD
+=======
+
+> > > > > > > d85448b14a0e53eed600ff0c7e0813a8def3762c
+> > > > > > > I'm Bryce, I started programming while I was in engineering at UVic, and I've found it more fulfilling than the jobs I've had since, so this program seemed like a good next step for me.
 
 ### Jon
 
@@ -64,7 +68,9 @@ On the front end we used...
 
 ### API Interaction, Back End
 
-On our backend we used node, express and postgres, and learned typescript to code in. For our data we integrated a stock and cryptocurrency API called alpha vantage, and learned a lot about pstgres and jsonb for storing the large amounts of data.
+On our backend we used node, express, and postgress, and learned typescript to code it in. For our data, we utilized
+a stock and cryptocurrency API called alpha vantage. We learned a lot about postgres and using jsonb to handle the large amounts of
+data we needed efficiently. Next Bryce can tell you about our project structure and deployment
 
 <!-- Bryce -->
 

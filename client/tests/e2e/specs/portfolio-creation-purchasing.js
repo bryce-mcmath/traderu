@@ -5,16 +5,16 @@ describe('FooterNav', () => {
 		
 		cy.visit('/');
 		
-		cy.contains('span', 'View Stocks');
+		cy.contains('h1', 'Lose all your money.');
 		
-		cy.get('.fa-balance-scale-left').click();
-		cy.contains('h3', 'Assets');
+		cy.get('.v-btn__content>.fa-balance-scale-left').click();
+		cy.get('input[placeholder="Filter by symbol or name..."]');
 
-		cy.get('.fa-chart-line').click();
+		cy.get('.v-btn__content>.fa-chart-line').click();
 		cy.contains('h2', 'Portfolios');
 
-		cy.get('.fa-trophy.footer-nav-button__icon').click();
-		cy.contains('h1', 'Leaderboard');
+		cy.get('.v-btn__content>.fa-trophy.footer-nav-button__icon').click();
+		cy.contains('h2', 'Leaderboard');
 	});
 });
 
@@ -46,14 +46,3 @@ describe('Add a portfolio', () => {
 
 	});
 });
-
-//This should be a unit test, just keeping as example of cypress functions for now
-// describe('Light mode toggle', () => {
-// 	it("Defaults to light mode and toggles to dark when clicked", () => {
-// 		cy.visit('/');
-// 		cy.get('#app').should('have.class', 'app--light')
-
-// 		cy.get('.vuemorphic-toggle__bar').click();
-// 		cy.get('#app').should('have.class', 'app--dark')
-// 	});
-// });
