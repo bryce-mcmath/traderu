@@ -7,11 +7,7 @@
 ### Bryce
 
 Hello everyone. We'll talk about our project in a minute here but first we'll introduce ourselves.
-<<<<<<< HEAD
-=======
-
-> > > > > > > d85448b14a0e53eed600ff0c7e0813a8def3762c
-> > > > > > > I'm Bryce, I started programming while I was in engineering at UVic, and I've found it more fulfilling than the jobs I've had since, so this program seemed like a good next step for me.
+I'm Bryce, I started programming while I was in engineering at UVic, and I've found it more fulfilling than the jobs I've had since, so this program seemed like a good next step for me.
 
 ### Jon
 
