@@ -1,4 +1,4 @@
-# TraderU
+# ![TraderU](https://github.com/bryce-mcmath/traderu/blob/master/docs/img/logo.png?raw=true)
 
 > Stock and cryptocurrency trading simulator
 
@@ -181,5 +181,3 @@ For being Vue gurus:
 
 - Gary Jipp
 - LinusBorg on the Vue forums
-
-## ![TraderU](https://github.com/bryce-mcmath/traderu/blob/master/docs/img/logo.png?raw=true)
