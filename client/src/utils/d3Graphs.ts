@@ -6,24 +6,44 @@ const MIN_DATA_POINTS = 4;
 //Minimum value to truncate y-axis values
 const LARGE_VALUES = 10000;
 
-function formattedValue(val, large=false) {
+interface Data {
+  date: string,
+  value: number
+}
+
+interface Margins {
+  top: number,
+  left: number,
+  right: number,
+  bottom: number
+}
+
+interface ChartDimensions {
+  width: number, 
+  height: number, 
+  margins: Margins
+}
+
+interface DataOptions {
+  sort: boolean, 
+  timeParseString: string
+}
+
+function formattedValue(val: number, large = false) {
   //remove trailing zeros
   val = parseFloat(val.toString().replace(/(\.\d*?[1-9])0+$/g, '$1'));
+  let valString = '';
   if(large){
-    return Math.round(val / 1000);
+    return String(Math.round(val / 1000));
   }
-  switch (val) {
-    case val > 0.1:
-      val = val.toFixed(2);
-      break;
-    case val > 0.01:
-      val = val.toFixed(3);
-      break;
-    case val > 0.001:
-      val = val.toFixed(4);
-      break;
+  if(val > 0.1){
+    valString = val.toFixed(2);
+  } else if(val > 0.01){
+    valString = val.toFixed(3);
+  } else if(val > 0.001){
+    valString = val.toFixed(4);
   }
-  return formatCurrency(val, 'USD', 'en').replace(/(\.\d*?[1-9])0+$/g, '$1');
+  return formatCurrency(Number(valString), 'USD', 'en').replace(/(\.\d*?[1-9])0+$/g, '$1');
 }
 
 function setXAxisTicks(xTickInterval, data) {
@@ -38,9 +58,12 @@ function setXAxisTicks(xTickInterval, data) {
     xAxisTickInterval = d3.timeHour.every(2);
     tickFormat = d3.timeFormat('%H:%M');
   } else {
+    //Find the day range data covers
     const dates = data.map(data => new Date(data.date).valueOf())
     const dayRange = Math.max(...dates) - Math.min(...dates);
+    //Convert from milliseconds to days
     const days = dayRange / 86400000;
+    //Have approx. 4 ticks on x axis
     const every = Math.round(days / 4);
     xAxisTickInterval = d3.timeDay.every(every);
     tickFormat = d3.timeFormat('%d %b');
@@ -49,28 +72,28 @@ function setXAxisTicks(xTickInterval, data) {
 }
 
 export const makeLineChart = (
-  dimensions,
-  chartId,
-  data,
-  dataOptions
+  dimensions: ChartDimensions,
+  chartId: string,
+  data: Data[],
+  dataOptions: DataOptions
 ) => {
   if (data.length < MIN_DATA_POINTS) return;
 
   const hasLargeValues = data.some(data => Number(data.value) > LARGE_VALUES)
   const [tickFormat, xAxisTickInterval] = setXAxisTicks(dataOptions.xTickInterval, data)
   const parseTime = d3.timeParse(dataOptions.timeParseString);
-
+  console.log(data)
   const vis = d3.select(chartId)
   const xScale = d3
       .scaleTime()
       .range([dimensions.margins.left, dimensions.width - dimensions.margins.right])
-      .domain(d3.extent(data, d => parseTime(d.date)))
+      .domain(d3.extent(data, (d: Data) => parseTime(d.date)))
   const yScale = d3
       .scaleLinear()
       .range([dimensions.height - dimensions.margins.top, dimensions.margins.bottom])
       .domain([
-        d3.min(data, d => Number(d.value)) * 0.9,
-        d3.max(data, d => Number(d.value)) * 1.1
+      d3.min(data, (d: Data) => Number(d.value)) * 0.9,
+      d3.max(data, (d: Data) => Number(d.value)) * 1.1
       ])
   const xAxis = d3
       .axisBottom(xScale)
@@ -80,7 +103,10 @@ export const makeLineChart = (
   const yAxis = d3
       .axisLeft(yScale)
       .ticks(5)
-      .tickFormat((d) => formattedValue(d, hasLargeValues))
+      .tickFormat((d) => {
+        const numberic = Number(d);
+        return formattedValue(numberic, hasLargeValues)
+      })
       .tickSizeOuter(0);
 
   function makeXGridlines() {
@@ -125,7 +151,7 @@ export const makeLineChart = (
     .call(
       makeXGridlines()
         .tickSize(-(dimensions.height - dimensions.margins.bottom - dimensions.margins.top))
-        .tickFormat('')
+        .tickFormat(() => '')
         .tickSizeOuter(0)
     );
 
@@ -137,24 +163,26 @@ export const makeLineChart = (
     .call(
       makeYGridlines()
         .tickSize(-(dimensions.width - dimensions.margins.left - dimensions.margins.right))
-        .tickFormat('')
+        .tickFormat(() => '')
         .tickSizeOuter(0)
     );
   //Make line
   const lineGen = d3
     .line()
+    //@ts-ignore
     .x(d => xScale(parseTime(d.date)))
     .y(d => {
+      //@ts-ignore
       return yScale(d.value);
     });
 
   let strokeColour;
   if (dataOptions.sort) {
     const earliest = data.reduce((a, b) =>
-      new Date(a.date) - new Date(b.date) < 0 ? a : b
+      new Date(a.date).valueOf() - new Date(b.date).valueOf() < 0 ? a : b
     );
     const latest = data.reduce((a, b) =>
-      new Date(b.date) - new Date(a.date) < 0 ? a : b
+      new Date(b.date).valueOf() - new Date(a.date).valueOf() < 0 ? a : b
     );
 
     strokeColour = latest.value - earliest.value < 0 ? '#ff073a' : '#75ff83';

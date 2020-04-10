@@ -25,7 +25,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/utils/d3Graphs.js"
+    "src/utils/d3Graphs.ts"
   ],
   "exclude": ["node_modules"]
 }
