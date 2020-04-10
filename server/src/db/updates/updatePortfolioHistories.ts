@@ -1,5 +1,4 @@
 import db from '../index';
-import updatePortfolios from './updatePortfolios';
 
 const updatePortfolioHistories = () => {
 	db.query(`

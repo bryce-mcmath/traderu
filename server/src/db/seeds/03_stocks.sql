@@ -1,3 +1,4 @@
+--
 INSERT INTO stocks (name, symbol)
   VALUES ('Disney', 'DIS'),
       ('Aurora Cannabis', 'ACB'),

@@ -1,3 +1,4 @@
+--
 DROP TABLE IF EXISTS stock_transactions CASCADE;
 
 CREATE TABLE stock_transactions (
