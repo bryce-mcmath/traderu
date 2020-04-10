@@ -112,18 +112,12 @@ export default {
         value: dataPoint.value
       }))
       .sort((a, b) => new Date(a.date) - new Date(b.date));
-    const dataOptions = {
-      timeParseString: '%Y-%m-%d',
-      data
-    };
+
     makeLineChart(
-      this.width,
-      this.width * 1.1,
-      { top: 55, left: 70, bottom: 55, right: 10 },
-      dataOptions,
+      {width: this.width * 1.1, height: this.width, margins: { top: 55, left: 70, bottom: 55, right: 10 }},
       `#line-chart-${this.portfolio.id}`,
-      'value',
-      true
+      data,
+      {sort:true, timeParseString: '%Y-%m-%d'}
     );
   },
   props: {
