@@ -61,7 +61,13 @@
         <v-row v-if="portfolio.id">
           <v-col>
             <label>Funds Available:</label>
-            <v-text-field class="left-row" :dark="dark" readonly :value="format(portfolio.cash)" data-cy="funds-available"></v-text-field>
+            <v-text-field
+              class="left-row"
+              :dark="dark"
+              readonly
+              :value="format(portfolio.cash)"
+              data-cy="funds-available"
+            ></v-text-field>
           </v-col>
           <v-col>
             <label class="right-row">Quantity Owned:</label>
@@ -151,7 +157,12 @@
         </v-row>
         <v-row>
           <v-col class="right-row">
-            <v-btn class="order-btn" :dark="dark" @click="submitTransaction" data-cy="place-order-btn">Place Order</v-btn>
+            <v-btn
+              class="order-btn"
+              :dark="dark"
+              @click="submitTransaction"
+              data-cy="place-order-btn"
+            >Place Order</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -471,7 +482,7 @@ export default {
             }
             this.setUserPortfolios();
           })
-          .catch(err => {
+          .catch(() => {
             this.transactionNotification(false);
           });
       } else if (this.assetSelected.isCrypto && !this.assetSelected.isStock) {
@@ -494,7 +505,7 @@ export default {
             }
             this.setUserPortfolios();
           })
-          .catch(err => {
+          .catch(() => {
             this.transactionNotification(false);
           });
       }
@@ -540,9 +551,8 @@ export default {
     },
     transactionNotification(transactionSuccess, transactionMessage = '') {
       if (transactionSuccess) {
-        //WORKING HERE
         if (this.assetSelected.isStock) {
-          const stocks = this.portfolio.stocks.map(stock => {
+          this.portfolio.stocks.forEach(stock => {
             if (stock.name === this.assetSelected.name) {
               if (this.transactionSelected === 'sell')
                 stock.quantity = Number(stock.quantity) - Number(this.quantity);
@@ -552,7 +562,7 @@ export default {
             return stock;
           });
         } else if (this.assetSelected.isCrypto) {
-          const cryptos = this.portfolio.cryptos.map(crypto => {
+          this.portfolio.cryptos.forEach(crypto => {
             if (crypto.name === this.assetSelected.name) {
               if (this.transactionSelected === 'sell')
                 crypto.quantity =

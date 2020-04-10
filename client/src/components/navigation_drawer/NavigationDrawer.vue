@@ -104,7 +104,6 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
 import LoginDialog from '@/components/login_dialog/LoginDialog.vue';
 import RegisterDialog from '@/components/register_dialog/RegisterDialog.vue';
 

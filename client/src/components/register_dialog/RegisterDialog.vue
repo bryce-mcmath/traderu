@@ -59,7 +59,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Dialog from '@/components/dialog/Dialog.vue';
 
 export default Vue.extend({
   name: 'RegisterDialog',
@@ -139,7 +138,7 @@ export default Vue.extend({
           this.gettingLocation = false;
           return;
         },
-        err => {
+        () => {
           this.gettingLocation = false;
           window.console.log('Geolocation refused');
           return;
