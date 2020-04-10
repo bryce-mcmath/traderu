@@ -126,9 +126,9 @@ There are more commands than is necessary to list here, refer to package.json fi
 2. Create your feature branch (`git checkout -b feature/fooBar`) or issue branch (`git checkout -b issue/brokenThing`)
 3. Commit your changes (`git commit -m 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new PR
+5. Create a new PR and follow the template
 
-**NOTE: We have a preferred commit message template in docs/NOTES.md if you'd like to use that as well. For tiny changes, don't worry about it**
+**NOTE: We have a preferred commit message template in docs/commit_templates.md if you'd like to use that as well. For tiny changes, don't worry about it**
 
 ## Meta
 
