@@ -181,41 +181,27 @@ export default {
       let data = this.assetSelected.prices;
       //grab most recent date from the time string
       const date = data[0].time.split(' ')[0];
-      data = data.filter(dataPoint => dataPoint.time.split(' ')[0] === date);
-      const dataOptions = {
-        //Grab just the time portion of the datetime
-        data: data.map(dataPoint => ({
-          value: dataPoint.price,
-          date: dataPoint.time.split(' ')[1]
-        })),
-        timeParseString: '%H:%M:%S'
-      };
+      data = data.filter(dataPoint => dataPoint.time.split(' ')[0] === date).map(dataPoint => ({
+        value: dataPoint.price,
+        date: dataPoint.time.split(' ')[1]
+      }));
       makeLineChart(
-        this.chartHeight,
-        this.chartWidth,
-        { top: 30, left: 70, bottom: 30, right: 40 },
-        dataOptions,
-        `#assetChart3`,
-        'Day'
+        {width: this.chartWidth, height: this.chartHeight, margins: { top: 30, left: 70, bottom: 30, right: 40 }},
+        `#assetChart3`, 
+        data,
+        {sort:false, timeParseString: '%H:%M:%S', xTickInterval: 'Day'}
       );
     } else if (this.assetSelected.isCrypto) {
       //Use 1 yr of data
-      const data = this.assetSelected.prices.slice(0, 90);
-      const dataOptions = {
-        //Grab just the time portion of the datetime
-        data: data.map(dataPoint => ({
+      const data = this.assetSelected.prices.slice(0, 90).map(dataPoint => ({
           value: dataPoint.price,
           date: dataPoint.time
-        })),
-        timeParseString: '%Y-%m-%d'
-      };
+        }));
       makeLineChart(
-        this.chartHeight,
-        this.chartWidth,
-        { top: 30, left: 70, bottom: 30, right: 40 },
-        dataOptions,
+        {width: this.chartWidth, height: this.chartHeight, margins: { top: 30, left: 70, bottom: 30, right: 40 }},
         `#assetChart3`,
-        '3month'
+        data,
+        {sort:false, timeParseString: '%Y-%m-%d', xTickInterval: '3month'}
       );
     }
   },

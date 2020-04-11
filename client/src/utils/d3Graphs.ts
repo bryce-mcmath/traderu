@@ -31,20 +31,19 @@ interface LineChartDataOptions {
 }
 
 function formattedValue(val: number, large = false) {
-  //remove trailing zeros
-  val = parseFloat(val.toString().replace(/(\.\d*?[1-9])0+$/g, '$1'));
-  let valString = '';
+  let digits: number;
   if(large){
     return String(Math.round(val / 1000));
   }
   if(val > 0.1){
-    valString = val.toFixed(2);
+    digits = 2;
   } else if(val > 0.01){
-    valString = val.toFixed(3);
+    digits = 3;
   } else if(val > 0.001){
-    valString = val.toFixed(4);
+    digits = 4;
   }
-  return formatCurrency(Number(valString), 'USD', 'en').replace(/(\.\d*?[1-9])0+$/g, '$1');
+  const formattedValue = formatCurrency(val, 'USD', 'en');
+  return formattedValue.slice(0, formattedValue.lastIndexOf('.') + (digits + 1) );
 }
 
 function getStrokeColour(sort, parsedData: [number, number][]){
@@ -60,29 +59,33 @@ function getStrokeColour(sort, parsedData: [number, number][]){
   }
 }
 
-function setXAxisTicks(xTickInterval: string, data: LineChartData[]) {
-  let tickFormat, xAxisTickInterval;
+function setXAxisTicks(xTickInterval: string, data) {
+  let tickFormat, xAxisTickInterval, xGridTickInterval;
   if (xTickInterval === '1year') {
     xAxisTickInterval = d3.timeMonth.every(4);
+    xGridTickInterval = d3.timeMonth.every(1)
     tickFormat = d3.timeFormat('%b');
   } else if (xTickInterval === '3month') {
-    xAxisTickInterval = d3.timeMonth.every(1);
-    tickFormat = d3.timeFormat('%b');
+    xAxisTickInterval = d3.timeWeek.every(4);
+    xGridTickInterval = d3.timeWeek.every(1);
+    tickFormat = d3.timeFormat('%b %d');
   } else if (xTickInterval === 'Day') {
     xAxisTickInterval = d3.timeHour.every(2);
+    xGridTickInterval = d3.timeMinute.every(30);
     tickFormat = d3.timeFormat('%H:%M');
   } else {
     //Find the day range data covers
     const dates = data.map(data => new Date(data.date).valueOf())
     const dayRange = Math.max(...dates) - Math.min(...dates);
-    //Convert from milliseconds to days
+    //Convert fr milomliseconds to days
     const days = dayRange / 86400000;
     //Have approx. 4 ticks on x axis
     const every = Math.round(days / 4);
     xAxisTickInterval = d3.timeDay.every(every);
+    xGridTickInterval = d3.timeDay.every(Math.round(every / 4));
     tickFormat = d3.timeFormat('%d %b');
   }
-  return [tickFormat, xAxisTickInterval];
+  return [tickFormat, xAxisTickInterval, xGridTickInterval];
 }
 
 export const makeLineChart = (
@@ -92,15 +95,13 @@ export const makeLineChart = (
   dataOptions: LineChartDataOptions
 ) => {
   if (data.length < MIN_DATA_POINTS) return;
-
+  const [tickFormat, xAxisTickInterval, xGridTickInterval] = setXAxisTicks(dataOptions.xTickInterval, data);
   const hasLargeValues = data.some(data => Number(data.value) > LARGE_VALUES);
-  const [tickFormat, xAxisTickInterval] = setXAxisTicks(dataOptions.xTickInterval, data);
   const parseTime = d3.timeParse(dataOptions.timeParseString);
   const parsedData = data.map(datapoint => {
     const parsedDataPoint: [number, number] = [Number(parseTime(datapoint.date)), datapoint.value]
     return parsedDataPoint;
   });
-
   const chart = d3.select(chartId);
   const xScale = d3
       .scaleTime()
@@ -158,17 +159,18 @@ export const makeLineChart = (
       .attr('x', 0 - dimensions.height / 2)
       .attr('dy', '1em')
       .style('text-anchor', 'middle')
+      .style('font-size', '0.6em')
       .text('Value (Thousands USD)');
   }
 
   //Add x gridlines
   chart
     .append('g')
-    .attr('class', 'grid')
     .attr('transform', 'translate(0,' + (dimensions.height - dimensions.margins.bottom) + ')')
     .call(
       makeXGridlines()
         .tickSize(-(dimensions.height - dimensions.margins.bottom - dimensions.margins.top))
+        .ticks(xGridTickInterval)
         .tickFormat(() => '')
         .tickSizeOuter(0)
     );
@@ -176,7 +178,6 @@ export const makeLineChart = (
   // add the Y gridlines
   chart
     .append('g')
-    .attr('class', 'grid')
     .attr('transform', 'translate(' + dimensions.margins.left + ', 0)')
     .call(
       makeYGridlines()
@@ -201,33 +202,23 @@ export const makeLineChart = (
     .attr('fill', 'none');
 
   d3.selectAll('.tick line').style('opacity', '0.45');
+
+  d3.select(window).on('resize', function() {
+    if (document.getElementById('chart-container')) {
+      const parent = d3.select('#chart-container');
+      const aspect = dimensions.width / dimensions.height;
+      const targetWidth = Math.round(Number(parent.style('width').slice(0, -2)));
+      const targetHeight = targetWidth / aspect;
+      chart.attr('width', targetWidth)
+      chart.attr('height', targetHeight)
+      dimensions = {...dimensions, width: targetWidth, height: targetHeight}
+      chart.html('');
+      makeLineChart(
+        dimensions,
+        chartId,
+        data,
+        dataOptions
+      );
+    }
+  });
 };
-
-
-
-
-//NOTE: needs a rewrite to match refactor of makelinechart
-// function setResponsiveness(){
-//     // @TODO: The below was the source of the "cannot read property style of null" error
-//   // Adding the if statement stopped the error from being thrown, but their are still
-//   // graph resizing issues. Easiest to notice when you open a d3 line chart, and then
-//   // click the nav drawer. Triggers resize and messes dimensions up
-//   const aspect = dimensions.width / dimensions.height;
-//   d3.select(window).on('resize', function() {
-//     const parent = d3.select('#chart-container');
-//     if (parent && parent._groups[0][0] !== null) {
-//       const targetWidth = Math.round(parent.style('width').slice(0, -2));
-//       vis.attr('width', targetWidth);
-//       vis.attr('height', targetWidth / aspect);
-//       vis.html('');
-//       makeLineChart(
-//         targetWidth / aspect,
-//         targetWidth,
-//         dimensions.margins,
-//         dataOptions,
-//         chartId,
-//         dataOptions.xTickInterval
-//       );
-//     }
-//   });
-// }

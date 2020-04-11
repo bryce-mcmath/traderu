@@ -12,18 +12,20 @@
         <p>{{ assetPercent }}</p>
       </div>
     </v-card>
-    <v-card class="value-card" id="chart-container">
+    <v-card class="value-card">
       <h2>Value Trajectory</h2>
       <p v-if="portfolio.values.length < 4">
         More data will be shown here after you purchase some assets and time has
         passed!
       </p>
-      <svg
-        :id="`line-chart-${portfolio.id}`"
-        :width="width * 1.1"
-        :height="width"
-        v-if="portfolio.values.length > 3"
-      />
+      <div id="chart-container">
+        <svg
+          :id="`line-chart-${portfolio.id}`"
+          :width="width * 1.1"
+          :height="width"
+          v-if="portfolio.values.length > 3"
+        />
+      </div>
     </v-card>
     <v-card class="ranking-card">
       <h2>Rank and Percentile</h2>
