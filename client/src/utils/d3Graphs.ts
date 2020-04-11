@@ -211,7 +211,7 @@ export const makeLineChart = (
       const targetHeight = targetWidth / aspect;
       chart.attr('width', targetWidth)
       chart.attr('height', targetHeight)
-      dimensions = {...dimensions, width: targetWidth, height: targetHeight}
+      dimensions = {margins: {top: targetHeight / 6, bottom: targetHeight / 6, left: targetWidth / 8, right: targetWidth / 16}, width: targetWidth, height: targetHeight}
       chart.html('');
       makeLineChart(
         dimensions,

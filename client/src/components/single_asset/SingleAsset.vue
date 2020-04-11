@@ -186,7 +186,7 @@ export default {
         date: dataPoint.time.split(' ')[1]
       }));
       makeLineChart(
-        {width: this.chartWidth, height: this.chartHeight, margins: { top: 30, left: 70, bottom: 30, right: 40 }},
+        {width: this.chartWidth, height: this.chartHeight, margins: { top: this.chartHeight / 8, left: this.chartWidth / 8, bottom: this.chartHeight / 8, right: this.chartWidth / 16 }},
         `#assetChart3`, 
         data,
         {sort:false, timeParseString: '%H:%M:%S', xTickInterval: 'Day'}
@@ -349,61 +349,51 @@ export default {
         if (this.assetSelected.isStock) {
           data = data.daily.stockData
             .map(stock => ({ ...stock, data: stock.data['4. close'] }))
-            .slice(0, 90);
+            .slice(0, 90).map(dataPoint => ({
+            value: dataPoint.data,
+            date: dataPoint.time
+          }));
         } else {
           data = data.daily.cryptoData
             .map(crypto => ({
               ...crypto,
               data: crypto.data['4b. close (USD)']
             }))
-            .slice(0, 90);
-        }
-        const dataOptions = {
-          //Grab just the time portion of the datetime
-          data: data.map(dataPoint => ({
+            .slice(0, 90).map(dataPoint => ({
             value: dataPoint.data,
             date: dataPoint.time
-          })),
-          timeParseString: '%Y-%m-%d'
-        };
+          }));
+        }
         makeLineChart(
-          this.chartHeight,
-          this.chartWidth,
-          { top: 30, left: 70, bottom: 30, right: 40 },
-          dataOptions,
-          `#assetChart3`,
-          '3month'
-        );
+        {width: this.chartWidth, height: this.chartHeight, margins: { top: this.chartHeight / 8, left: this.chartWidth / 8, bottom: this.chartHeight / 8, right: this.chartWidth / 16 }},
+        `#assetChart3`, 
+        data,
+        {sort:false, timeParseString: '%Y-%m-%d', xTickInterval: '3month'});
       }
       if (e === '1-year') {
         if (this.assetSelected.isStock) {
           data = data.weekly.stockData
             .map(stock => ({ ...stock, data: stock.data['4. close'] }))
-            .slice(0, 52);
+            .slice(0, 52).map(dataPoint => ({
+            value: dataPoint.data,
+            date: dataPoint.time
+          }));;
         } else {
           data = data.weekly.cryptoData
             .map(crypto => ({
               ...crypto,
               data: crypto.data['4b. close (USD)']
             }))
-            .slice(0, 52);
-        }
-        const dataOptions = {
-          //Grab just the time portion of the datetime
-          data: data.map(dataPoint => ({
+            .slice(0, 52).map(dataPoint => ({
             value: dataPoint.data,
             date: dataPoint.time
-          })),
-          timeParseString: '%Y-%m-%d'
-        };
+          }));
+        }
         makeLineChart(
-          this.chartHeight,
-          this.chartWidth,
-          { top: 30, left: 70, bottom: 30, right: 40 },
-          dataOptions,
-          `#assetChart3`,
-          '1year'
-        );
+        {width: this.chartWidth, height: this.chartHeight, margins: { top: this.chartHeight / 8, left: this.chartWidth / 8, bottom: this.chartHeight / 8, right: this.chartWidth / 16 }},
+        `#assetChart3`, 
+        data,
+        {sort:false, timeParseString: '%Y-%m-%d', xTickInterval: '1year'});
       }
       if (e === 'Day') {
         data = data.intraday.stockData.map(stock => ({
@@ -411,23 +401,15 @@ export default {
           data: stock.data['4. close']
         }));
         const date = data[0].time.split(' ')[0];
-        data = data.filter(dataPoint => dataPoint.time.split(' ')[0] === date);
-        const dataOptions = {
-          //Grab just the time portion of the datetime
-          data: data.map(dataPoint => ({
+        data = data.filter(dataPoint => dataPoint.time.split(' ')[0] === date).map(dataPoint => ({
             value: dataPoint.data,
             date: dataPoint.time.split(' ')[1]
-          })),
-          timeParseString: '%H:%M:%S'
-        };
+          }));
         makeLineChart(
-          this.chartHeight,
-          this.chartWidth,
-          { top: 30, left: 70, bottom: 30, right: 40 },
-          dataOptions,
-          `#assetChart3`,
-          'Day'
-        );
+        {width: this.chartWidth, height: this.chartHeight, margins: { top: this.chartHeight / 8, left: this.chartWidth / 8, bottom: this.chartHeight / 8, right: this.chartWidth / 16 }},
+        `#assetChart3`, 
+        data,
+        {sort:false, timeParseString: '%H:%M:%S', xTickInterval: 'Day'});
       }
     },
     handleSymbolInput() {
