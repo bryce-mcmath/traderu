@@ -6,7 +6,7 @@ const MIN_DATA_POINTS = 4;
 //Minimum value to truncate y-axis values
 const LARGE_VALUES = 10000;
 
-interface Data {
+interface LineChartData {
   date: string,
   value: number
 }
@@ -18,15 +18,16 @@ interface Margins {
   bottom: number
 }
 
-interface ChartDimensions {
+interface LineChartDimensions {
   width: number, 
   height: number, 
   margins: Margins
 }
 
-interface DataOptions {
+interface LineChartDataOptions {
   sort: boolean, 
-  timeParseString: string
+  timeParseString: string,
+  xTickInterval: string
 }
 
 function formattedValue(val: number, large = false) {
@@ -46,7 +47,20 @@ function formattedValue(val: number, large = false) {
   return formatCurrency(Number(valString), 'USD', 'en').replace(/(\.\d*?[1-9])0+$/g, '$1');
 }
 
-function setXAxisTicks(xTickInterval, data) {
+function getStrokeColour(sort, parsedData: [number, number][]){
+  if (sort) {
+    //Note: date is at 0 index on parsedData entries
+    const earliest:number = parsedData.reduce((a, b) => a[0] - b[0] < 0 ? a[0] : b[0], parsedData[0][0]);
+    const latest = parsedData.reduce((a, b) => b[0] - a[0] < 0 ? a[0] : b[0], parsedData[0][0]);
+    return latest[1] - earliest[1] < 0 ? '#ff073a' : '#75ff83';
+  } else {
+    const earliest = parsedData[0][0]
+    const latest = parsedData[parsedData.length - 1][0]
+    return   earliest - latest < 0 ? '#ff073a': '#75ff83';
+  }
+}
+
+function setXAxisTicks(xTickInterval: string, data: LineChartData[]) {
   let tickFormat, xAxisTickInterval;
   if (xTickInterval === '1year') {
     xAxisTickInterval = d3.timeMonth.every(4);
@@ -72,28 +86,32 @@ function setXAxisTicks(xTickInterval, data) {
 }
 
 export const makeLineChart = (
-  dimensions: ChartDimensions,
+  dimensions: LineChartDimensions,
   chartId: string,
-  data: Data[],
-  dataOptions: DataOptions
+  data: LineChartData[],
+  dataOptions: LineChartDataOptions
 ) => {
   if (data.length < MIN_DATA_POINTS) return;
 
-  const hasLargeValues = data.some(data => Number(data.value) > LARGE_VALUES)
-  const [tickFormat, xAxisTickInterval] = setXAxisTicks(dataOptions.xTickInterval, data)
+  const hasLargeValues = data.some(data => Number(data.value) > LARGE_VALUES);
+  const [tickFormat, xAxisTickInterval] = setXAxisTicks(dataOptions.xTickInterval, data);
   const parseTime = d3.timeParse(dataOptions.timeParseString);
-  console.log(data)
-  const vis = d3.select(chartId)
+  const parsedData = data.map(datapoint => {
+    const parsedDataPoint: [number, number] = [Number(parseTime(datapoint.date)), datapoint.value]
+    return parsedDataPoint;
+  });
+
+  const chart = d3.select(chartId);
   const xScale = d3
       .scaleTime()
       .range([dimensions.margins.left, dimensions.width - dimensions.margins.right])
-      .domain(d3.extent(data, (d: Data) => parseTime(d.date)))
+      .domain(d3.extent(parsedData, d => d[0]));
   const yScale = d3
       .scaleLinear()
       .range([dimensions.height - dimensions.margins.top, dimensions.margins.bottom])
       .domain([
-      d3.min(data, (d: Data) => Number(d.value)) * 0.9,
-      d3.max(data, (d: Data) => Number(d.value)) * 1.1
+      d3.min(data, (d: LineChartData) => d.value) * 0.9,
+      d3.max(data, (d: LineChartData) => d.value) * 1.1
       ])
   const xAxis = d3
       .axisBottom(xScale)
@@ -119,20 +137,20 @@ export const makeLineChart = (
   }
 
   //Append and move down x axis
-  vis
+  chart
     .append('svg:g')
     .attr('transform', 'translate(0,' + (dimensions.height - dimensions.margins.top) + ')')
     .call(xAxis);
 
   //Append and move y axis past margin
-  vis
+  chart
     .append('svg:g')
     .attr('transform', 'translate(' + dimensions.margins.left + ',0)')
     .call(yAxis);
 
   //Y-axis label for values over 10000
   if(hasLargeValues){
-    vis
+    chart
       .append('text')
       .attr('class', 'axis-label')
       .attr('transform', 'rotate(-90)')
@@ -144,7 +162,7 @@ export const makeLineChart = (
   }
 
   //Add x gridlines
-  vis
+  chart
     .append('g')
     .attr('class', 'grid')
     .attr('transform', 'translate(0,' + (dimensions.height - dimensions.margins.bottom) + ')')
@@ -156,7 +174,7 @@ export const makeLineChart = (
     );
 
   // add the Y gridlines
-  vis
+  chart
     .append('g')
     .attr('class', 'grid')
     .attr('transform', 'translate(' + dimensions.margins.left + ', 0)')
@@ -166,38 +184,18 @@ export const makeLineChart = (
         .tickFormat(() => '')
         .tickSizeOuter(0)
     );
-  //Make line
+
+  //Make and append line
   const lineGen = d3
     .line()
-    //@ts-ignore
-    .x(d => xScale(parseTime(d.date)))
-    .y(d => {
-      //@ts-ignore
-      return yScale(d.value);
-    });
+    .x(d => xScale(d[0]))
+    .y(d => yScale(d[1]));
 
-  let strokeColour;
-  if (dataOptions.sort) {
-    const earliest = data.reduce((a, b) =>
-      new Date(a.date).valueOf() - new Date(b.date).valueOf() < 0 ? a : b
-    );
-    const latest = data.reduce((a, b) =>
-      new Date(b.date).valueOf() - new Date(a.date).valueOf() < 0 ? a : b
-    );
+  const strokeColour = getStrokeColour(dataOptions.sort, parsedData);
 
-    strokeColour = latest.value - earliest.value < 0 ? '#ff073a' : '#75ff83';
-  } else {
-    strokeColour =
-      data[data.length - 1].value -
-        data[0].value >
-      0
-        ? '#ff073a'
-        : '#75ff83';
-  }
-
-  vis
+  chart
     .append('svg:path')
-    .attr('d', lineGen(data))
+    .attr('d', lineGen(parsedData))
     .attr('stroke', strokeColour)
     .attr('stroke-dimensions.width', 4)
     .attr('fill', 'none');
