@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <coverage generated="1585875484743" clover="3.2.0">
   <project timestamp="1585875484743" name="All files">
     <metrics statements="435" coveredstatements="157" conditionals="113" coveredconditionals="3" methods="99" coveredmethods="1" elements="647" coveredelements="161" complexity="0" loc="435" ncloc="435" packages="7" files="27" classes="27"/>
@@ -23,6 +24,15 @@
         <line num="36" count="1" type="stmt"/>
         <line num="37" count="1" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
+=======
+<coverage generated="1585875233391" clover="3.2.0">
+  <project timestamp="1585875233391" name="All files">
+    <metrics statements="19" coveredstatements="18" conditionals="10" coveredconditionals="7" methods="9" coveredmethods="8" elements="38" coveredelements="33" complexity="0" loc="19" ncloc="19" packages="3" files="3" classes="3"/>
+    <package name="footer_nav">
+      <metrics statements="7" coveredstatements="7" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
+      <file name="FooterNav.vue" path="/home/jon/lighthouse/projects/traderu/client/src/components/footer_nav/FooterNav.vue">
+        <metrics statements="7" coveredstatements="7" conditionals="6" coveredconditionals="6" methods="2" coveredmethods="2"/>
+>>>>>>> cleanupD3
         <line num="39" count="1" type="stmt"/>
         <line num="40" count="1" type="stmt"/>
         <line num="43" count="1" type="stmt"/>
