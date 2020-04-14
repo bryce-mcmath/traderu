@@ -23,7 +23,7 @@
             : '#ff073a'
       }"
       >{{ percentDifference(assetSelected.prices[0].price, assetSelected.prices[1].price) }}%</h5>
-      <div id="chart-container" :width="chartWidth" :height="chartHeight">
+      <div id="linechart-container" :width="chartWidth" :height="chartHeight">
         <div class="spinner-container" v-if="waiting">
           <v-progress-circular size="120" :indeterminate="true"></v-progress-circular>
         </div>
@@ -199,6 +199,7 @@ export default {
       makeLineChart(
         {width: this.chartWidth, height: this.chartHeight, margins: { top: this.chartHeight / 8, left: this.chartWidth / 8, bottom: this.chartHeight / 8, right: this.chartWidth / 16 }},
         `#assetChart3`, 
+        `#linechart-container`,
         data,
         {sort:false, timeParseString: '%H:%M:%S', xTickInterval: 'Day'}
       );
@@ -211,6 +212,7 @@ export default {
       makeLineChart(
         {width: this.chartWidth, height: this.chartHeight, margins: { top: 30, left: 70, bottom: 30, right: 40 }},
         `#assetChart3`,
+        `#linechart-container`,
         data,
         {sort:false, timeParseString: '%Y-%m-%d', xTickInterval: '3month'}
       );
@@ -378,6 +380,7 @@ export default {
         makeLineChart(
         {width: this.chartWidth, height: this.chartHeight, margins: { top: this.chartHeight / 8, left: this.chartWidth / 8, bottom: this.chartHeight / 8, right: this.chartWidth / 16 }},
         `#assetChart3`, 
+        `#linechart-container`,
         data,
         {sort:false, timeParseString: '%Y-%m-%d', xTickInterval: '3month'});
       }
@@ -403,6 +406,7 @@ export default {
         makeLineChart(
         {width: this.chartWidth, height: this.chartHeight, margins: { top: this.chartHeight / 8, left: this.chartWidth / 8, bottom: this.chartHeight / 8, right: this.chartWidth / 16 }},
         `#assetChart3`, 
+        `#linechart-container`,
         data,
         {sort:false, timeParseString: '%Y-%m-%d', xTickInterval: '1year'});
       }
@@ -419,6 +423,7 @@ export default {
         makeLineChart(
         {width: this.chartWidth, height: this.chartHeight, margins: { top: this.chartHeight / 8, left: this.chartWidth / 8, bottom: this.chartHeight / 8, right: this.chartWidth / 16 }},
         `#assetChart3`, 
+        `#linechart-container`,
         data,
         {sort:false, timeParseString: '%H:%M:%S', xTickInterval: 'Day'});
       }

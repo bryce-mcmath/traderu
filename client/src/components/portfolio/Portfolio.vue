@@ -18,7 +18,7 @@
         More data will be shown here after you purchase some assets and time has
         passed!
       </p>
-      <div id="chart-container">
+      <div id="value-chart-container">
         <svg
           :id="`line-chart-${portfolio.id}`"
           :width="width * 1.1"

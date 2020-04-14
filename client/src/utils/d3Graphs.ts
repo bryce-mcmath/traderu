@@ -91,6 +91,7 @@ function setXAxisTicks(xTickInterval: string, data) {
 export const makeLineChart = (
   dimensions: LineChartDimensions,
   chartId: string,
+  parentId: string,
   data: LineChartData[],
   dataOptions: LineChartDataOptions
 ) => {
@@ -204,8 +205,8 @@ export const makeLineChart = (
   d3.selectAll('.tick line').style('opacity', '0.45');
 
   d3.select(window).on('resize', function() {
-    if (document.getElementById('chart-container')) {
-      const parent = d3.select('#chart-container');
+    if (document.getElementById(parentId.replace('#', ''))) {
+      const parent = d3.select(parentId);
       const aspect = dimensions.width / dimensions.height;
       const targetWidth = Math.round(Number(parent.style('width').slice(0, -2)));
       const targetHeight = targetWidth / aspect;
@@ -216,6 +217,7 @@ export const makeLineChart = (
       makeLineChart(
         dimensions,
         chartId,
+        parentId,
         data,
         dataOptions
       );
