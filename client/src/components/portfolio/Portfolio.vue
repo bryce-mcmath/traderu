@@ -12,18 +12,20 @@
         <p>{{ assetPercent }}</p>
       </div>
     </v-card>
-    <v-card class="value-card" id="chart-container">
+    <v-card class="value-card">
       <h2>Value Trajectory</h2>
       <p v-if="portfolio.values.length < 4">
         More data will be shown here after you purchase some assets and time has
         passed!
       </p>
-      <svg
-        :id="`line-chart-${portfolio.id}`"
-        :width="width * 1.1"
-        :height="width"
-        v-if="portfolio.values.length > 3"
-      />
+      <div id="value-chart-container">
+        <svg
+          :id="`line-chart-${portfolio.id}`"
+          :width="width * 1.1"
+          :height="width"
+          v-if="portfolio.values.length > 3"
+        />
+      </div>
     </v-card>
     <v-card class="ranking-card">
       <h2>Rank and Percentile</h2>
@@ -112,18 +114,12 @@ export default {
         value: dataPoint.value
       }))
       .sort((a, b) => new Date(a.date) - new Date(b.date));
-    const dataOptions = {
-      timeParseString: '%Y-%m-%d',
-      data
-    };
+
     makeLineChart(
-      this.width,
-      this.width * 1.1,
-      { top: 55, left: 70, bottom: 55, right: 10 },
-      dataOptions,
+      {width: this.width * 1.1, height: this.width, margins: { top: this.width / 10, left: this.width / 7, bottom: this.width / 10, right: this.width / 16 }},
       `#line-chart-${this.portfolio.id}`,
-      'value',
-      true
+      data,
+      {sort:true, timeParseString: '%Y-%m-%d'}
     );
   },
   props: {
