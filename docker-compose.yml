@@ -1,0 +1,47 @@
+version: '3'
+services: 
+  frontend: 
+    container_name: traderu-front-end
+    restart: always
+    build: ./client/
+    links:
+      - backend
+    ports: 
+      - 8000:8080
+      - 49153:49153
+    volumes:
+      - ./client/src:/usr/src/app/client/src
+  backend:
+    container_name: traderu-back-end
+    restart: always
+    build: ./server/
+    links:
+      - db
+    environment:
+      - TEST_DATABASE_URL=postgresql://user:password@db/db1
+      - JWT_SECRET=jonisthebomb
+      - SALT=11
+      - BUILD_ENV=test
+    ports: 
+      - 8080:8080
+    volumes:
+      - ./server/src:/usr/src/app/server/src
+  db: 
+    container_name: pg
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: db1
+    volumes:
+      - ./docker-entrypoint-initdb.d/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 3000:8080
+    depends_on:
+      - db

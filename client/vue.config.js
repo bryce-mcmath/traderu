@@ -12,5 +12,8 @@ module.exports = {
         prependData: `@import "@/assets/global_scss/app.scss";`
       }
     }
+  },
+  devServer: {
+    proxy: 'http://backend:8000'
   }
 };

@@ -8,7 +8,10 @@
 		"build": "tsc -p .",
 		"ts": "tsc -p .",
 		"jsdoc": "./node_modules/.bin/jsdoc . -c ./jsdocs.json -R ../README.md",
-		"test": "jest"
+		"test": "jest",
+		"dev": "BUILD_ENV=test nodemon ./dist/server.js",
+		"compile": "tsc && node dist/server.js",
+		"docker": "./node_modules/nodemon/bin/nodemon.js -e ts  --exec \"npm run compile\""
 	},
 	"repository": {
 		"type": "git",
