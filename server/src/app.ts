@@ -53,7 +53,7 @@ app.use(express.static('./server/static'));
  * @param {Function} middleware Callback function used as middleware
  */
 app.get('/', (_: Request, res: Response) => {
-	res.render('./server/static/index.html');
+	res.sendFile('/static/index.html');
 });
 
 /**
@@ -63,8 +63,8 @@ app.get('/', (_: Request, res: Response) => {
  * @param {String} path Express path
  * @param {Function} middleware Callback function used as middleware
  */
-app.get('/*', (_: Request, res: Response) => {
-	res.redirect('/');
-});
+// app.get('/*', (_: Request, res: Response) => {
+// 	res.redirect('/');
+// });
 
 export default app;

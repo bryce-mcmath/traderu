@@ -1,0 +1,66 @@
+version: '3'
+services: 
+  frontend: 
+    container_name: traderu-front-end
+    restart: always
+    build: ./client/
+    links:
+      - backend
+    ports: 
+      - 8000:8080
+      - 49153:49153
+    volumes:
+      - ./client/src:/usr/src/app/client/src
+  backend:
+    container_name: traderu-back-end
+    restart: always
+    build: ./server/
+    links:
+      - db
+    environment:
+      - TEST_DATABASE_URL=postgresql://user:password@db/db1
+      - JWT_SECRET=secret
+      - SALT=11
+      - BUILD_ENV=test
+    ports: 
+      - 8080:8080
+    volumes:
+      - ./server/src:/usr/src/app/server/src
+  db: 
+    container_name: pg
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: db1
+    volumes:
+      - ./server/src/db/schema/01_Users.sql:/docker-entrypoint-initdb.d/01_Users.sql
+      - ./server/src/db/schema/02_Portfolios.sql:/docker-entrypoint-initdb.d/02_Portfolios.sql
+      - ./server/src/db/schema/03_Stocks.sql:/docker-entrypoint-initdb.d/03_Stocks.sql
+      - ./server/src/db/schema/04_Portfolios_Stocks.sql:/docker-entrypoint-initdb.d/04_Portfolios_Stocks.sql
+      - ./server/src/db/schema/05_Stock_Histories.sql:/docker-entrypoint-initdb.d/05_Stock_Histories.sql
+      - ./server/src/db/schema/06_Stock_Transactions.sql:/docker-entrypoint-initdb.d/06_Stock_Transactions.sql
+      - ./server/src/db/schema/07_Portfolio_Histories.sql:/docker-entrypoint-initdb.d/07_Portfolio_Histories.sql
+      - ./server/src/db/schema/08_Cryptos.sql:/docker-entrypoint-initdb.d/08_Cryptos.sql
+      - ./server/src/db/schema/09_Portfolios_Cryptos.sql:/docker-entrypoint-initdb.d/09_Portfolios_Cryptos.sql
+      - ./server/src/db/schema/10_Crypto_Histories.sql:/docker-entrypoint-initdb.d/10_Crypto_Histories.sql
+      - ./server/src/db/schema/11_Crypto_Transactions.sql:/docker-entrypoint-initdb.d/11_Crypto_Transactions.sql
+      - ./server/src/db/seeds/01_Users.sql:/docker-entrypoint-initdb.d/21_Users.sql
+      - ./server/src/db/seeds/02_Portfolios.sql:/docker-entrypoint-initdb.d/22_Portfolios.sql
+      - ./server/src/db/seeds/03_Stocks.sql:/docker-entrypoint-initdb.d/23_Stocks.sql
+      - ./server/src/db/seeds/04_Cryptos.sql:/docker-entrypoint-initdb.d/24_Cryptos.sql
+      - ./server/src/db/seeds/05_Portfolios_Stocks.sql:/docker-entrypoint-initdb.d/25_Portfolios_Stocks.sql
+      - ./server/src/db/seeds/06_Portfolios_Cryptos.sql:/docker-entrypoint-initdb.d/26_Portfolios_Cryptos.sql
+      - ./server/src/db/seeds/07_Portfolio_Histories.sql:/docker-entrypoint-initdb.d/27_Portfolio_Histories.sql
+      - ./server/src/db/seeds/08_Crypto_Histories.sql:/docker-entrypoint-initdb.d/28_Cryptos_Histories.sql
+      - ./server/src/db/seeds/09_Stock_Histories.sql:/docker-entrypoint-initdb.d/29_Stocks_Histories.sql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 3000:8080
+    depends_on:
+      - db
