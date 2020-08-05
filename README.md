@@ -41,6 +41,21 @@ The above gif demonstrates our basic app flow. For more screenshots and other do
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
+### Using Docker
+
+If you have docker and docker-compose installed, clone this repo and run docker-compose up from the root. 
+
+This will set up the front-end application at localhost:8000, the backend api on localhost:8080, and adminer for browsing the database on localhost:3000.
+
+To log into adminer, set system to PostgreSQL, server to db, username to user, password to password, and database to db1.
+
+The database will initialize with 3 cryptocurrencies, 3 stocks, and 3 users with sample portfolios. Sample users have email addresses
+test1@gmail.com, test2@gmail.com, test3@gmail.com, and the password for each account is password.
+
+This will setup hot-reloading for the server and client directories so you can get developing right away.
+
+### Local installation
+
 ### Prerequisites
 
 If you don't have Nodejs and npm installed, install them from [here.](https://nodejs.org/en/). You'll also want the Vue CLI tool, which you can install after you install Node like this:
