@@ -118,6 +118,7 @@ export default {
     makeLineChart(
       {width: this.width * 1.1, height: this.width, margins: { top: this.width / 10, left: this.width / 7, bottom: this.width / 10, right: this.width / 16 }},
       `#line-chart-${this.portfolio.id}`,
+      "value-chart-container",
       data,
       {sort:true, timeParseString: '%Y-%m-%d'}
     );
