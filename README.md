@@ -10,7 +10,7 @@
 
 **NOTE: To be used on mobile and tablet only, we have not yet added support for desktop**
 
-TraderU is a progressive web app (PWA) made to simulate stock and cryptocurrency trading. It utilizes several publicly available APIs to do so, most notably [AlphaVantage.](https://www.alphavantage.co/documentation/) It's a full stack application designed using a mobile-first approach, deployed with an AWS Pipeline to a live site [here.](http://traderu.io)
+TraderU is a progressive web app (PWA) made to simulate stock and cryptocurrency trading. It utilizes several publicly available APIs to do so, most notably [AlphaVantage.](https://www.alphavantage.co/documentation/) It's a full stack application designed using a mobile-first approach, deployed with an AWS Pipeline (no longer in service unfortunately)
 
 ## Table of contents
 
