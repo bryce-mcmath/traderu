@@ -15,7 +15,7 @@
   "dependencies": {
     "@coingecko/cryptoformat": "^0.3.4",
     "@types/d3": "^5.7.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "d3": "^5.15.0",
     "lodash": "^4.17.15",
